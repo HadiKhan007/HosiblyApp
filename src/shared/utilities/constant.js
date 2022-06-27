@@ -1,7 +1,6 @@
 import {appIcons} from '../exporter';
 import {appImages} from '../theme/assets';
 import {colors} from '../theme/colors';
-import {size} from '../theme/sizes';
 
 const ANDROID = Platform.OS === 'android';
 const IOS = Platform.OS === 'ios';
