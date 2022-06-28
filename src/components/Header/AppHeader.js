@@ -1,59 +1,33 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-import {WP, size, colors, family, appIcons} from '../../shared/exporter';
+import {WP, size, colors, family, appLogos} from '../../shared/exporter';
+import {MyStatusBar} from '..';
 
-export const AppHeader = ({
-  rightText = '',
-  leftIcon = false,
-  rightIcon = true,
-  screen = '',
-  onPressText,
-}) => {
+export const AppHeader = ({rightIcon = false}) => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.mainContainer}>
-      {leftIcon && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.iconContainer}
-          onPress={() => navigation.goBack()}>
-          <Icon
-            name={'arrow-back-outline'}
-            type={'ionicon'}
-            size={22}
-            color={colors.g2}
-          />
-        </TouchableOpacity>
-      )}
-      {rightIcon && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() =>
-            screen === '' ? navigation.goBack() : navigation.navigate(screen)
-          }>
+    <>
+      <MyStatusBar />
+      <View style={styles.mainContainer}>
+        <View style={styles.rowContainer}>
           <Image
             resizeMode="contain"
-            source={appIcons.crossIcon}
-            style={{width: 30, height: 30}}
+            source={appLogos.appLogo}
+            style={styles.logoIconStyle}
           />
-        </TouchableOpacity>
-      )}
-      {rightText !== '' && (
-        <TouchableOpacity onPress={onPressText}>
-          <Text
-            style={
-              rightText === 'Skip'
-                ? styles.skipTxtStyle
-                : styles.continueTxtStyle
-            }>
-            {rightText}
-          </Text>
-        </TouchableOpacity>
-      )}
-    </View>
+          <Text style={styles.logoTxtStyle}>Housibly</Text>
+        </View>
+        {rightIcon && (
+          <Image
+            resizeMode="contain"
+            source={appLogos.appLogo}
+            style={styles.logoIconStyle}
+          />
+        )}
+      </View>
+    </>
   );
 };
 
@@ -61,26 +35,23 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: WP('5'),
+    paddingVertical: WP('1.5'),
+    paddingHorizontal: WP('3.85'),
     justifyContent: 'space-between',
+    backgroundColor: colors.white,
   },
-  iconContainer: {
-    borderWidth: 1,
-    borderRadius: 20,
-    width: WP('10.3'),
-    height: WP('9.2'),
+  rowContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderColor: colors.g3,
-    justifyContent: 'center',
   },
-  skipTxtStyle: {
-    color: colors.b3,
-    fontSize: size.normal,
-    fontFamily: family.SourceSansPro_Regular,
+  logoIconStyle: {
+    width: WP('6.4'),
+    height: WP('6'),
   },
-  continueTxtStyle: {
-    color: colors.p2,
-    fontSize: size.normal,
+  logoTxtStyle: {
+    left: WP('2.3'),
+    color: colors.b1,
+    fontSize: size.xxlarge,
     fontFamily: family.Gilroy_Bold,
   },
 });

@@ -5,6 +5,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import {Spacer, AppButton} from '../../components';
 import {slidesData} from '../../shared/utilities/constant';
+import {colors} from '../../shared/exporter';
 
 const Walkthrough = ({navigation}) => {
   let slider = AppIntroSlider;
@@ -46,6 +47,7 @@ const Walkthrough = ({navigation}) => {
             </Text>
             <Spacer androidVal={54} iOSVal={54} />
             <AppButton
+              shadowColor={colors.btn_shadow}
               title="Get Started"
               onPress={() => navigation.navigate('Auth')}
             />
