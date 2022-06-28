@@ -8,10 +8,13 @@ export const colors = {
 
   // Black Color
   b1: '#000000',
+  b2: '#15141F',
 
   //Gray Color
   g1: '#E2E2E2',
   g2: '#9A9A9A',
+  g3: '#767676',
+  g4: '#CCCCCC',
 
   //White colors
   white: '#ffffff',

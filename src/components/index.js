@@ -1,6 +1,6 @@
 //Header
 export * from './Header/AppHeader';
-export * from './Header/HomeHeader';
+export * from './Header/BackHeader';
 
 //Button
 export * from './AppButton/AppButton';

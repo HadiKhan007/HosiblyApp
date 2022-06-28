@@ -30,6 +30,24 @@ const slidesData = [
   },
 ];
 
+const privacyPolicy = [
+  {
+    id: 1,
+    ques: 'Welcome to housibly!',
+    ans: 'We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.',
+  },
+  {
+    id: 2,
+    ques: 'Please read Privacy Policy',
+    ans: 'Reservation of Rights\nWe reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it’s linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.',
+  },
+  {
+    id: 3,
+    ques: 'Removal of links from our website',
+    ans: 'If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but.',
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -38,4 +56,5 @@ export {
   web_client_id,
   stripe_publishableKey,
   slidesData,
+  privacyPolicy,
 };
