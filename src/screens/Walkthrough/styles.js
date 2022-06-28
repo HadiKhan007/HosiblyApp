@@ -64,15 +64,15 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     color: colors.b1,
     fontSize: size.h3,
-    marginTop: platformOrientedCode(WP('14'), WP('17')),
-    // fontFamily: family.SamsungSans_Bold,
+    fontFamily: family.SamsungSans_Bold,
     paddingTop: platformOrientedCode(20, 0),
+    marginTop: platformOrientedCode(WP('14'), WP('17')),
   },
   descTextStyle: {
     color: colors.g2,
     marginTop: WP('3.2'),
     fontSize: size.xsmall,
-    // fontFamily: family.Gilroy_Medium,
+    fontFamily: family.Gilroy_Medium,
   },
   haveAccTxtStyle: {
     color: colors.b1,
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: WP('4.6'),
     marginBottom: WP('4.6'),
-    // fontFamily: family.Gilroy_Medium,
+    fontFamily: family.Gilroy_Medium,
   },
   underlineTxtStyle: {
     textDecorationLine: 'underline',
-    // fontFamily: family.Gilroy_SemiBold,
+    fontFamily: family.Gilroy_SemiBold,
   },
 });
 

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     color: colors.b1,
     marginTop: WP('8'),
     fontSize: size.huge - 2,
-    // fontFamily: family.Gilroy_Bold
+    fontFamily: family.Gilroy_Bold,
   },
 });
 

@@ -12,6 +12,17 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18FF1FD1286B7CB8001336BA /* Gilroy-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FC6286B7CB7001336BA /* Gilroy-Medium.ttf */; };
+		18FF1FD2286B7CB8001336BA /* SamsungSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FC7286B7CB7001336BA /* SamsungSans-Regular.ttf */; };
+		18FF1FD3286B7CB8001336BA /* SamsungSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FC8286B7CB8001336BA /* SamsungSans-Light.ttf */; };
+		18FF1FD4286B7CB8001336BA /* Gilroy-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FC9286B7CB8001336BA /* Gilroy-Bold.ttf */; };
+		18FF1FD5286B7CB8001336BA /* Gilroy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCA286B7CB8001336BA /* Gilroy-Regular.ttf */; };
+		18FF1FD6286B7CB8001336BA /* SamsungSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCB286B7CB8001336BA /* SamsungSans-Thin.ttf */; };
+		18FF1FD7286B7CB8001336BA /* Gilroy-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCC286B7CB8001336BA /* Gilroy-ExtraBold.ttf */; };
+		18FF1FD8286B7CB8001336BA /* Gilroy-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCD286B7CB8001336BA /* Gilroy-SemiBold.ttf */; };
+		18FF1FD9286B7CB8001336BA /* SamsungSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCE286B7CB8001336BA /* SamsungSans-Medium.ttf */; };
+		18FF1FDA286B7CB8001336BA /* Gilroy-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FCF286B7CB8001336BA /* Gilroy-Light.ttf */; };
+		18FF1FDB286B7CB8001336BA /* SamsungSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18FF1FD0286B7CB8001336BA /* SamsungSans-Bold.ttf */; };
 		2C2EBFCA1B009B8FE30AE7F1 /* libPods-Housibly-HousiblyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B74BB8D84741B56A46899F /* libPods-Housibly-HousiblyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -31,18 +42,45 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HousiblyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HousiblyTests.m; sourceTree = "<group>"; };
 		013463AEC3CA224E62A5F500 /* Pods-Housibly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Housibly.debug.xcconfig"; path = "Target Support Files/Pods-Housibly/Pods-Housibly.debug.xcconfig"; sourceTree = "<group>"; };
+		082F300D21654009BFEC338E /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		09303FE97DEA45578A449A76 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Housibly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Housibly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Housibly/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Housibly/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Housibly/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Housibly/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Housibly/main.m; sourceTree = "<group>"; };
+		18FF1FC6286B7CB7001336BA /* Gilroy-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Medium.ttf"; path = "assets/Gilroy-Medium.ttf"; sourceTree = "<group>"; };
+		18FF1FC7286B7CB7001336BA /* SamsungSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SamsungSans-Regular.ttf"; path = "assets/SamsungSans-Regular.ttf"; sourceTree = "<group>"; };
+		18FF1FC8286B7CB8001336BA /* SamsungSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SamsungSans-Light.ttf"; path = "assets/SamsungSans-Light.ttf"; sourceTree = "<group>"; };
+		18FF1FC9286B7CB8001336BA /* Gilroy-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Bold.ttf"; path = "assets/Gilroy-Bold.ttf"; sourceTree = "<group>"; };
+		18FF1FCA286B7CB8001336BA /* Gilroy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Regular.ttf"; path = "assets/Gilroy-Regular.ttf"; sourceTree = "<group>"; };
+		18FF1FCB286B7CB8001336BA /* SamsungSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SamsungSans-Thin.ttf"; path = "assets/SamsungSans-Thin.ttf"; sourceTree = "<group>"; };
+		18FF1FCC286B7CB8001336BA /* Gilroy-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-ExtraBold.ttf"; path = "assets/Gilroy-ExtraBold.ttf"; sourceTree = "<group>"; };
+		18FF1FCD286B7CB8001336BA /* Gilroy-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-SemiBold.ttf"; path = "assets/Gilroy-SemiBold.ttf"; sourceTree = "<group>"; };
+		18FF1FCE286B7CB8001336BA /* SamsungSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SamsungSans-Medium.ttf"; path = "assets/SamsungSans-Medium.ttf"; sourceTree = "<group>"; };
+		18FF1FCF286B7CB8001336BA /* Gilroy-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gilroy-Light.ttf"; path = "assets/Gilroy-Light.ttf"; sourceTree = "<group>"; };
+		18FF1FD0286B7CB8001336BA /* SamsungSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SamsungSans-Bold.ttf"; path = "assets/SamsungSans-Bold.ttf"; sourceTree = "<group>"; };
+		21C7DCB472A14494BF70CD03 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		24B74BB8D84741B56A46899F /* libPods-Housibly-HousiblyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Housibly-HousiblyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A9808439E5534DD3CEF3E3E /* Pods-Housibly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Housibly.release.xcconfig"; path = "Target Support Files/Pods-Housibly/Pods-Housibly.release.xcconfig"; sourceTree = "<group>"; };
+		2B7CA0DBD3E845C2AF913798 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		2CB37411BC51A720C96FAC83 /* libPods-Housibly.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Housibly.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		301C9DC10F1E620D38E3E75A /* Pods-Housibly-HousiblyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Housibly-HousiblyTests.release.xcconfig"; path = "Target Support Files/Pods-Housibly-HousiblyTests/Pods-Housibly-HousiblyTests.release.xcconfig"; sourceTree = "<group>"; };
+		45576B02235A438FB3BBB6C5 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		5CCD7481FBD54F119029745F /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		691E61C540004E77AFEFE52F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		6BB691105536441DAEE1BF48 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		79216647A76E4384A617210C /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Housibly/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		884F0CAD0A2443E1AAEB9735 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		9060461E2E0843CE9E59835D /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		93A24800D0F14FAD86642238 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		9789E6FB59DE4FA5A5C64AB9 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		9A82A81AF64F47CE8FD54634 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		B692C18928731A2C8ACAAF1C /* Pods-Housibly-HousiblyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Housibly-HousiblyTests.debug.xcconfig"; path = "Target Support Files/Pods-Housibly-HousiblyTests/Pods-Housibly-HousiblyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D2356532CC704C0F8D9ABA1F /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		E6AC8552883F4258BBFC0D30 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -104,7 +142,6 @@
 				B692C18928731A2C8ACAAF1C /* Pods-Housibly-HousiblyTests.debug.xcconfig */,
 				301C9DC10F1E620D38E3E75A /* Pods-Housibly-HousiblyTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -134,6 +171,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				238074C54494D8F92C68ACBF /* Pods */,
+				E21F71B1F2A94AEB8A69C029 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +185,40 @@
 				00E356EE1AD99517003FC87E /* HousiblyTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E21F71B1F2A94AEB8A69C029 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2B7CA0DBD3E845C2AF913798 /* AntDesign.ttf */,
+				E6AC8552883F4258BBFC0D30 /* Entypo.ttf */,
+				691E61C540004E77AFEFE52F /* EvilIcons.ttf */,
+				082F300D21654009BFEC338E /* Feather.ttf */,
+				09303FE97DEA45578A449A76 /* FontAwesome.ttf */,
+				D2356532CC704C0F8D9ABA1F /* FontAwesome5_Brands.ttf */,
+				9A82A81AF64F47CE8FD54634 /* FontAwesome5_Regular.ttf */,
+				5CCD7481FBD54F119029745F /* FontAwesome5_Solid.ttf */,
+				9060461E2E0843CE9E59835D /* Fontisto.ttf */,
+				45576B02235A438FB3BBB6C5 /* Foundation.ttf */,
+				9789E6FB59DE4FA5A5C64AB9 /* Ionicons.ttf */,
+				6BB691105536441DAEE1BF48 /* MaterialCommunityIcons.ttf */,
+				21C7DCB472A14494BF70CD03 /* MaterialIcons.ttf */,
+				79216647A76E4384A617210C /* Octicons.ttf */,
+				884F0CAD0A2443E1AAEB9735 /* SimpleLineIcons.ttf */,
+				93A24800D0F14FAD86642238 /* Zocial.ttf */,
+				18FF1FC9286B7CB8001336BA /* Gilroy-Bold.ttf */,
+				18FF1FCC286B7CB8001336BA /* Gilroy-ExtraBold.ttf */,
+				18FF1FCF286B7CB8001336BA /* Gilroy-Light.ttf */,
+				18FF1FC6286B7CB7001336BA /* Gilroy-Medium.ttf */,
+				18FF1FCA286B7CB8001336BA /* Gilroy-Regular.ttf */,
+				18FF1FCD286B7CB8001336BA /* Gilroy-SemiBold.ttf */,
+				18FF1FD0286B7CB8001336BA /* SamsungSans-Bold.ttf */,
+				18FF1FC8286B7CB8001336BA /* SamsungSans-Light.ttf */,
+				18FF1FCE286B7CB8001336BA /* SamsungSans-Medium.ttf */,
+				18FF1FC7286B7CB7001336BA /* SamsungSans-Regular.ttf */,
+				18FF1FCB286B7CB8001336BA /* SamsungSans-Thin.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,7 +316,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				18FF1FD5286B7CB8001336BA /* Gilroy-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				18FF1FD4286B7CB8001336BA /* Gilroy-Bold.ttf in Resources */,
+				18FF1FDB286B7CB8001336BA /* SamsungSans-Bold.ttf in Resources */,
+				18FF1FD6286B7CB8001336BA /* SamsungSans-Thin.ttf in Resources */,
+				18FF1FD9286B7CB8001336BA /* SamsungSans-Medium.ttf in Resources */,
+				18FF1FD7286B7CB8001336BA /* Gilroy-ExtraBold.ttf in Resources */,
+				18FF1FDA286B7CB8001336BA /* Gilroy-Light.ttf in Resources */,
+				18FF1FD1286B7CB8001336BA /* Gilroy-Medium.ttf in Resources */,
+				18FF1FD2286B7CB8001336BA /* SamsungSans-Regular.ttf in Resources */,
+				18FF1FD8286B7CB8001336BA /* Gilroy-SemiBold.ttf in Resources */,
+				18FF1FD3286B7CB8001336BA /* SamsungSans-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

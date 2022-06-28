@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     return {
       color: textColor,
       fontSize: size.large,
-      // fontFamily: family.Gilroy_SemiBold,
+      fontFamily: family.Gilroy_SemiBold,
     };
   },
 });
