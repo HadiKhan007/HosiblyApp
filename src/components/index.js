@@ -20,3 +20,7 @@ export * from './Inputs/AppInput';
 
 //Modals
 export * from './Modal/ImagePickerModal';
+//Box
+export * from './Box/DividerBox';
+//Footer
+export * from './Footer/AuthText';

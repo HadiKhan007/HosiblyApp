@@ -11,8 +11,10 @@ export const appImages = {
 };
 
 export const appIcons = {
-  arrowBack: require('../../assets/icons/arrow_back.png'),
   box: require('../../assets/icons/box.png'),
+  google: require('../../assets/icons/google.png'),
+  apple: require('../../assets/icons/apple.png'),
+  backArrow: require('../../assets/icons/back_arrow.png'),
 };
 
 export const appSvgs = {

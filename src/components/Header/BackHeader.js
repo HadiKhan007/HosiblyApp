@@ -14,7 +14,7 @@ export const BackHeader = ({title}) => {
         onPress={() => navigation.goBack()}>
         <Image
           resizeMode="contain"
-          source={appIcons.arrowBack}
+          source={appIcons.backArrow}
           style={styles.iconStyle}
         />
         <Text style={styles.titleTxtStyle}>{title}</Text>
