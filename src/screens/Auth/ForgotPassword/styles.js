@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   contentContainer: {
-    paddingHorizontal: WP('5'),
+    paddingHorizontal: WP('3.85'),
     flex: 1,
   },
   textStyle: {
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   },
   btnCon: {
     marginVertical: WP('20'),
+    marginHorizontal: 10,
   },
   footText: {
     color: colors.p2,

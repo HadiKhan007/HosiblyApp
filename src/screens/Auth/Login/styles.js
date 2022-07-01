@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   contentContainer: {
-    paddingHorizontal: WP('5'),
+    paddingHorizontal: WP('3.85'),
     flex: 1,
   },
   imageCon: {

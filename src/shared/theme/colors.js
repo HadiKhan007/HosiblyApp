@@ -18,6 +18,9 @@ export const colors = {
   g5: '#F6F6F6',
   g6: '#B3B3B3',
   g7: '#E9E9E9',
+  g8: '#F8F8F8',
+  g9: '#E8E8E8',
+  g10: '#F7F7F7',
 
   //White colors
   white: '#ffffff',

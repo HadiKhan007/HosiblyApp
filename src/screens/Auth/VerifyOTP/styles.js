@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   contentContainer: {
-    paddingHorizontal: WP('5'),
+    paddingHorizontal: WP('3.85'),
     flex: 1,
   },
   inputContainer: {
@@ -56,9 +56,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP('2'),
   },
   resendText: {
-    fontSize: size.normal,
-    color: colors.p2,
-    fontFamily: family.Gilroy_Bold,
+    color: colors.b1,
+    textAlign: 'center',
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
   },
   digitStyle: {
     backgroundColor: 'transparent',
@@ -70,19 +71,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timerText: {
-    fontSize: size.normal,
-    color: colors.p2,
-    fontFamily: family.Gilroy_Bold,
+    color: colors.b1,
+    textAlign: 'center',
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
   },
   btnCon: {
     marginVertical: WP('20'),
+    marginHorizontal: 10,
   },
   footText: {
     color: colors.b1,
     textAlign: 'center',
     fontSize: size.tiny,
-    marginVertical: 20,
     fontFamily: family.Gilroy_Medium,
+    marginTop: 8,
+  },
+  aiRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 });
 

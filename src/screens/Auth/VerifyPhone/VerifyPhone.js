@@ -1,23 +1,30 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {AppButton, AppInput} from '../../../components';
+import {Image, SafeAreaView, Text, View} from 'react-native';
+import {AppButton, AppHeader, AppInput, BackHeader} from '../../../components';
 import {
+  appIcons,
   colors,
   forgotFormFields,
   ForgotPasswordVS,
+  PhoneAuthFields,
+  PhoneAuthFieldsVS,
 } from '../../../shared/exporter';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 
-const VerifyPhone = () => {
+const VerifyPhone = ({navigation}) => {
   return (
-    <>
-      <View style={styles.rootContainer}>
+    <SafeAreaView style={styles.rootContainer}>
+      <AppHeader />
+      <BackHeader title={'Enter Phone Number'} />
+      <View style={styles.contentContainer}>
         <Formik
-          initialValues={forgotFormFields}
-          onSubmit={values => {}}
-          validationSchema={ForgotPasswordVS}>
+          initialValues={PhoneAuthFields}
+          onSubmit={values => {
+            navigation?.navigate('VerifyOTP');
+          }}
+          validationSchema={PhoneAuthFieldsVS}>
           {({
             values,
             handleChange,
@@ -28,39 +35,50 @@ const VerifyPhone = () => {
             handleSubmit,
             handleReset,
           }) => (
-            <KeyboardAwareScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.contentContainer}>
-              <AppInput
-                onChangeText={handleChange('email')}
-                renderErrorMessage={true}
-                placeholder="Email"
-                value={values.email}
-                onBlur={() => setFieldTouched('email')}
-                blurOnSubmit={false}
-                disableFullscreenUI={true}
-                autoCapitalize="none"
-                touched={touched.email}
-                errorMessage={errors.email}
-                title={'Email Address'}
-              />
-              <Text style={styles.textStyle}>
-                Enter your email address and we’ll send an verification code to
-                reset your password.
-              </Text>
-              <View style={styles.btnCon}>
-                <AppButton
-                  title={'Verify Account'}
-                  bgColor={colors.p2}
-                  shadowColor={colors.btn_shadow}
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.inputContainer}>
+                <AppInput
+                  onChangeText={handleChange('contact')}
+                  renderErrorMessage={true}
+                  placeholder="+123 456 789"
+                  value={values.contact}
+                  onBlur={() => setFieldTouched('contact')}
+                  blurOnSubmit={false}
+                  disableFullscreenUI={true}
+                  autoCapitalize="none"
+                  touched={touched.contact}
+                  errorMessage={errors.contact}
+                  title={'Phone Number'}
+                  keyboardType={'phone-pad'}
+                  rightIcon={
+                    <Image source={appIcons.america} style={styles.iconStyle} />
+                  }
                 />
-                <Text style={styles.footText}>Use phone number instead</Text>
+                <Text style={styles.textStyle}>
+                  Enter your phone number and we’ll send an verification code to
+                  your phone number to reset your password.
+                </Text>
+                <View style={styles.btnCon}>
+                  <AppButton
+                    onPress={handleSubmit}
+                    title={'Verify Account'}
+                    bgColor={colors.p2}
+                    shadowColor={colors.btn_shadow}
+                  />
+                  <Text
+                    onPress={() => {
+                      navigation?.navigate('ForgotPassword');
+                    }}
+                    style={styles.footText}>
+                    Use email address instead
+                  </Text>
+                </View>
               </View>
             </KeyboardAwareScrollView>
           )}
         </Formik>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 

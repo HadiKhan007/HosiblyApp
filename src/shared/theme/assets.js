@@ -15,6 +15,10 @@ export const appIcons = {
   google: require('../../assets/icons/google.png'),
   apple: require('../../assets/icons/apple.png'),
   backArrow: require('../../assets/icons/back_arrow.png'),
+  america: require('../../assets/icons/america.png'),
+  gallery_1: require('../../assets/icons/gallery_1.png'),
+  themeCamera: require('../../assets/icons/themeCamera.png'),
+  gallery: require('../../assets/icons/gallery.png'),
 };
 
 export const appSvgs = {

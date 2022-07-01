@@ -18,7 +18,7 @@ const ForgotPassword = ({navigation}) => {
       <Formik
         initialValues={forgotFormFields}
         onSubmit={values => {
-          onSubmitLogin(values);
+          navigation?.navigate('VerifyOTP');
         }}
         validationSchema={ForgotPasswordVS}>
         {({
@@ -47,6 +47,7 @@ const ForgotPassword = ({navigation}) => {
                 touched={touched.email}
                 errorMessage={errors.email}
                 title={'Email Address'}
+                keyboardType={'email-address'}
               />
               <Text style={styles.textStyle}>
                 Enter your email address and we’ll send an verification code to
@@ -57,11 +58,15 @@ const ForgotPassword = ({navigation}) => {
                   title={'Verify Account'}
                   bgColor={colors.p2}
                   shadowColor={colors.btn_shadow}
-                  onPress={() => {
-                    navigation?.navigate('VerifyOTP');
-                  }}
+                  onPress={handleSubmit}
                 />
-                <Text style={styles.footText}>Use phone number instead</Text>
+                <Text
+                  onPress={() => {
+                    navigation?.navigate('VerifyPhone');
+                  }}
+                  style={styles.footText}>
+                  Use phone number instead
+                </Text>
               </View>
             </View>
           </KeyboardAwareScrollView>

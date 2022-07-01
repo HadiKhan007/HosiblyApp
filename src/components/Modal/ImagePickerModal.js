@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: WP('4'),
     fontWeight: '700',
-    color: colors.g6,
+    color: colors.b1,
     paddingVertical: WP('5'),
     textAlign: 'left',
   },

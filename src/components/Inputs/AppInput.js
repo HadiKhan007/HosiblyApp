@@ -21,6 +21,7 @@ const AppInput = ({
   onSubmitEditing,
   editable,
   title,
+  keyboardType,
 }) => {
   const [showPass, setShowPass] = React.useState(secureTextEntry);
 
@@ -40,6 +41,7 @@ const AppInput = ({
         autoCapitalize={autoCapitalize}
         blurOnSubmit={blurOnSubmit}
         editable={editable}
+        keyboardType={keyboardType}
         rightIcon={
           secureTextEntry ? (
             <Icon
@@ -56,7 +58,7 @@ const AppInput = ({
             rightIcon
           )
         }
-        errorMessage={errorMessage}
+        errorMessage={touched && errorMessage}
         renderErrorMessage={renderErrorMessage}
         autoCompleteType={undefined}
         onSubmitEditing={onSubmitEditing}

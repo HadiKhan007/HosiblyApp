@@ -22,5 +22,7 @@ export * from './Inputs/AppInput';
 export * from './Modal/ImagePickerModal';
 //Box
 export * from './Box/DividerBox';
+export * from './Box/TextBox';
+
 //Footer
 export * from './Footer/AuthText';

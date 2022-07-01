@@ -109,7 +109,9 @@ const Login = ({navigation}) => {
                     <Text style={styles.footerText}>
                       By creating account, you agree to our{' '}
                       <Text
-                        onPress={() => {}}
+                        onPress={() => {
+                          navigation.navigate('TermsConditions');
+                        }}
                         style={[
                           styles.footerText,
                           {
@@ -122,7 +124,9 @@ const Login = ({navigation}) => {
                       </Text>{' '}
                       &{' '}
                       <Text
-                        onPress={() => {}}
+                        onPress={() => {
+                          navigation.navigate('PrivacyPolicy');
+                        }}
                         style={[
                           styles.footerText,
                           {
@@ -144,6 +148,9 @@ const Login = ({navigation}) => {
                       <AuthFooter
                         title={'Don’t have an account?'}
                         subtitle={'Create One'}
+                        onPress={() => {
+                          navigation?.navigate('Signup');
+                        }}
                       />
                     </View>
                   </View>
