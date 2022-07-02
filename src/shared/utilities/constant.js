@@ -47,7 +47,89 @@ const privacyPolicy = [
     ans: 'If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but.',
   },
 ];
+const property_type_list = [
+  {
+    id: 1,
+    text: 'Vacant Land',
+  },
+  {
+    id: 2,
+    text: 'House',
+  },
+  {
+    id: 3,
+    text: 'Condo',
+  },
+];
 
+const beds_list = [
+  {
+    id: 1,
+    text: '1',
+  },
+  {
+    id: 2,
+    text: '2',
+  },
+  {
+    id: 3,
+    text: '3',
+  },
+  {
+    id: 4,
+    text: '4',
+  },
+  {
+    id: 5,
+    text: '5',
+  },
+  {
+    id: 6,
+    text: '6',
+  },
+];
+
+const bath_list = [
+  {
+    id: 1,
+    text: '1',
+  },
+  {
+    id: 2,
+    text: '1+ Power Room',
+  },
+  {
+    id: 3,
+    text: '3',
+  },
+  {
+    id: 4,
+    text: '4',
+  },
+  {
+    id: 5,
+    text: '5',
+  },
+  {
+    id: 6,
+    text: '6',
+  },
+];
+
+const lat_frontage_list = [
+  {
+    id: 1,
+    text: '10ft',
+  },
+  {
+    id: 2,
+    text: '15ft',
+  },
+  {
+    id: 3,
+    text: '20ft',
+  },
+];
 export {
   IOS,
   ANDROID,
@@ -57,4 +139,8 @@ export {
   stripe_publishableKey,
   slidesData,
   privacyPolicy,
+  property_type_list,
+  beds_list,
+  bath_list,
+  lat_frontage_list,
 };

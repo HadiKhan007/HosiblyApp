@@ -149,7 +149,7 @@ const Login = ({navigation}) => {
                         title={'Don’t have an account?'}
                         subtitle={'Create One'}
                         onPress={() => {
-                          navigation?.navigate('Signup');
+                          navigation?.navigate('FilterScreen');
                         }}
                       />
                     </View>

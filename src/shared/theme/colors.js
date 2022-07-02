@@ -9,6 +9,7 @@ export const colors = {
   // Black Color
   b1: '#000000',
   b2: '#15141F',
+  b3: '#252525',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -21,7 +22,11 @@ export const colors = {
   g8: '#F8F8F8',
   g9: '#E8E8E8',
   g10: '#F7F7F7',
-
+  g11: '#7D7D7D',
+  g12: '#DEDEDE',
+  g13: '#F4F4F4',
+  g14: 'rgba(222, 222, 222, 0.33)',
+  g15: '#B8BDC0',
   //White colors
   white: '#ffffff',
 
@@ -31,6 +36,8 @@ export const colors = {
   p_gradient: ['#FF8F8E', '#E79069'],
   input_shadow: 'rgba(233,233,233,0.25)',
   btn_shadow: 'rgba(76, 187, 255, 0.4)',
+  drop_shadow: 'rgba(0, 0, 0, 0.1)',
+  item_shadow: 'rgba(255, 255, 255, 0.8)',
 
   // red
   red: 'red',
