@@ -5,20 +5,22 @@ import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 const AppButton = ({
   title,
   onPress,
+  height = WP('11.7'),
   bgColor = colors.p2,
   textColor = colors.white,
   style,
   icon,
   textStyle,
-  borderRadius,
+  borderRadius = 40,
   borderColor,
-  shadowColor,
+  shadowColor = colors.p1,
 }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
       style={styles.buttonStyle(
+        height,
         bgColor,
         borderRadius,
         borderColor,
@@ -33,11 +35,11 @@ const AppButton = ({
 };
 
 const styles = StyleSheet.create({
-  buttonStyle: (bgColor, borderRadius, borderColor, shadowColor) => {
+  buttonStyle: (height, bgColor, borderRadius, borderColor, shadowColor) => {
     return {
       width: '100%',
       borderRadius: borderRadius || 40,
-      height: WP('11.7'),
+      height: height,
       alignSelf: 'center',
       alignItems: 'center',
       flexDirection: 'row',
@@ -52,12 +54,12 @@ const styles = StyleSheet.create({
       shadowRadius: 6.27,
       elevation: 10,
       borderWidth: 1,
-      borderColor: borderColor || colors.p1,
       marginVertical: 5,
+      borderColor: borderColor || colors.p1,
     };
   },
   imgStyle: {
-    marginRight: 10,
+    marginRight: 15,
   },
   buttonTextStyle: textColor => {
     return {

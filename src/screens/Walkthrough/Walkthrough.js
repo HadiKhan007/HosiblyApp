@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, ScrollView, StatusBar} from 'react-native';
+import {View, Text, Image, StatusBar} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';

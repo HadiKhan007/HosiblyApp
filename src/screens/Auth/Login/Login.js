@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import {
   AppButton,
@@ -6,6 +6,7 @@ import {
   AuthFooter,
   DividerBox,
   MyStatusBar,
+  SignUpModal,
 } from '../../../components';
 import {
   appIcons,
@@ -22,6 +23,9 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 
 const Login = ({navigation}) => {
+  const [show, setShow] = useState(false);
+  const [showSlide, setShowSlide] = useState(0);
+
   return (
     <>
       <MyStatusBar />
@@ -148,9 +152,7 @@ const Login = ({navigation}) => {
                       <AuthFooter
                         title={'Don’t have an account?'}
                         subtitle={'Create One'}
-                        onPress={() => {
-                          navigation?.navigate('Signup');
-                        }}
+                        onPress={() => setShow(true)}
                       />
                     </View>
                   </View>
@@ -158,6 +160,12 @@ const Login = ({navigation}) => {
               </KeyboardAwareScrollView>
             )}
           </Formik>
+          <SignUpModal
+            show={show}
+            activeIndex={showSlide}
+            onPressHide={() => setShow(false)}
+            buttonClick={() => setShowSlide(showSlide + 1)}
+          />
         </View>
       </View>
     </>

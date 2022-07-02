@@ -19,7 +19,9 @@ export * from './Loaders/SmallLoader';
 export * from './Inputs/AppInput';
 
 //Modals
+export * from './Modal/SignUpModal';
 export * from './Modal/ImagePickerModal';
+
 //Box
 export * from './Box/DividerBox';
 export * from './Box/TextBox';

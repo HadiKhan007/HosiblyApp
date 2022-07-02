@@ -48,6 +48,77 @@ const privacyPolicy = [
   },
 ];
 
+const modalData = [
+  {
+    id: 1,
+    img: appIcons.person,
+    title: 'Are you a Seller or Buyer?',
+    desc: '',
+    selected: '',
+    isYesNo: false,
+  },
+  {
+    id: 2,
+    img: appIcons.home,
+    title: 'Are you a Licensed Realtor™ or represent one?',
+    desc: `Warning!\n\nIf you misrepresent yourself  a report may be sent to your Licensing Board / Authority.`,
+    selected: 'yes',
+    isYesNo: true,
+  },
+  {
+    id: 3,
+    img: appIcons.contractor,
+    title: 'Do you want to be contacted by a real estate professional?',
+    desc: `Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.`,
+    selected: 'yes',
+    isYesNo: true,
+  },
+];
+
+const slide1BoxData = [
+  {
+    id: 1,
+    title: 'Seller',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'Buyer',
+    isChecked: false,
+  },
+  {
+    id: 3,
+    title: 'Neither',
+    isChecked: false,
+  },
+];
+
+const slide2BoxData = [
+  {
+    id: 1,
+    title: 'Yes',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'No',
+    isChecked: false,
+  },
+];
+
+const slide3BoxData = [
+  {
+    id: 1,
+    title: 'Yes',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'No',
+    isChecked: false,
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -57,4 +128,8 @@ export {
   stripe_publishableKey,
   slidesData,
   privacyPolicy,
+  modalData,
+  slide1BoxData,
+  slide2BoxData,
+  slide3BoxData,
 };

@@ -2,9 +2,11 @@ export const colors = {
   // Primary Color
   p1: '#1AA8FF',
   p2: '#4CBBFF',
+  p3: '#BAE5FF',
 
   // Secondary Color
   s1: '#FF2C2C',
+  s2: '#622690',
 
   // Black Color
   b1: '#000000',
@@ -21,6 +23,8 @@ export const colors = {
   g8: '#F8F8F8',
   g9: '#E8E8E8',
   g10: '#F7F7F7',
+  g11: '#3C3C3C',
+  g12: '#F4F4F4',
 
   //White colors
   white: '#ffffff',
