@@ -1,7 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-import {WP, size, colors, family, appLogos} from '../../shared/exporter';
+import {
+  WP,
+  size,
+  colors,
+  family,
+  appLogos,
+  appImages,
+} from '../../shared/exporter';
 import {MyStatusBar} from '..';
 
 export const AppHeader = ({rightIcon = false}) => {
@@ -22,8 +29,8 @@ export const AppHeader = ({rightIcon = false}) => {
         {rightIcon && (
           <Image
             resizeMode="contain"
-            source={appLogos.appLogo}
-            style={styles.logoIconStyle}
+            source={appImages.personPh}
+            style={styles.personImgStyle}
           />
         )}
       </View>
@@ -53,5 +60,10 @@ const styles = StyleSheet.create({
     color: colors.b1,
     fontSize: size.xxlarge,
     fontFamily: family.Gilroy_Bold,
+  },
+  personImgStyle: {
+    width: 44,
+    height: 44,
+    borderRadius: 8,
   },
 });

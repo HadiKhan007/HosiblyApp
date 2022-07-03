@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 function AuthStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="SignUpPurpose"
+      initialRouteName="Login"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />

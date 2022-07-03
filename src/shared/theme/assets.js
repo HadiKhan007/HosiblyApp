@@ -9,6 +9,8 @@ export const appImages = {
   slider2: require('../../assets/images/slider2.png'),
   slider3: require('../../assets/images/slider3.png'),
   homeImg: require('../../assets/images/home_img.png'),
+  personPh: require('../../assets/images/person_ph.png'),
+  personPh1: require('../../assets/images/person_ph1.png'),
 };
 
 export const appIcons = {
@@ -27,6 +29,11 @@ export const appIcons = {
   sellHome: require('../../assets/icons/sell_home.png'),
   buyHome: require('../../assets/icons/buy_home.png'),
   contractorHome: require('../../assets/icons/contractor_home.png'),
+  homeIcon: require('../../assets/icons/home_icon.png'),
+  bookmarksIcon: require('../../assets/icons/bookmarks_icon.png'),
+  searchIcon: require('../../assets/icons/search_icon.png'),
+  messageIcon: require('../../assets/icons/message_icon.png'),
+  locIcon: require('../../assets/icons/loc_icon.png'),
 };
 
 export const appSvgs = {
