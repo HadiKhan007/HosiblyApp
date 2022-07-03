@@ -5,6 +5,7 @@ import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 const AppButton = ({
   title,
   onPress,
+  width = '100%',
   height = WP('11.7'),
   bgColor = colors.p2,
   textColor = colors.white,
@@ -20,6 +21,7 @@ const AppButton = ({
       activeOpacity={0.7}
       onPress={onPress}
       style={styles.buttonStyle(
+        width,
         height,
         bgColor,
         borderRadius,
@@ -35,9 +37,16 @@ const AppButton = ({
 };
 
 const styles = StyleSheet.create({
-  buttonStyle: (height, bgColor, borderRadius, borderColor, shadowColor) => {
+  buttonStyle: (
+    width,
+    height,
+    bgColor,
+    borderRadius,
+    borderColor,
+    shadowColor,
+  ) => {
     return {
-      width: '100%',
+      width: width,
       borderRadius: borderRadius || 40,
       height: height,
       alignSelf: 'center',

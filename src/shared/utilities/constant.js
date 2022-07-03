@@ -119,6 +119,87 @@ const slide3BoxData = [
   },
 ];
 
+const buyerRef = [
+  {
+    id: 1,
+    title: 'Property Type',
+    property: 'House',
+  },
+  {
+    id: 2,
+    title: 'Price',
+    property: '$1,000,000 to 1,500,000',
+  },
+  {
+    id: 3,
+    title: 'Bedrooms',
+    property: '4',
+  },
+  {
+    id: 4,
+    title: 'Bathrooms',
+    property: '2 Bath + Powder Room',
+  },
+];
+
+const buyerRefAdvance = [
+  {
+    id: 1,
+    title: 'Property Types',
+    property: 'Multi-Family',
+  },
+  {
+    id: 2,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+  },
+  {
+    id: 3,
+    title: 'Min Lot Forntage',
+    property: '30',
+  },
+  {
+    id: 4,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+  },
+  {
+    id: 5,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+  },
+  {
+    id: 6,
+    title: 'Parking Spots Req.',
+    property: '2',
+  },
+  {
+    id: 7,
+    title: 'Garage Spots Req.',
+    property: 'Doesn’t matter',
+  },
+  {
+    id: 8,
+    title: 'Max Age',
+    property: '10',
+  },
+];
+
+const addresses = [
+  {
+    id: 1,
+    address: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+  },
+  {
+    id: 2,
+    address: '3517 W. Gray St. Utica, Pennsylvania 57867',
+  },
+  {
+    id: 3,
+    address: '2972 Westheimer Rd. Santa Ana, Illinois 85486 ',
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -132,4 +213,7 @@ export {
   slide1BoxData,
   slide2BoxData,
   slide3BoxData,
+  buyerRef,
+  buyerRefAdvance,
+  addresses,
 };

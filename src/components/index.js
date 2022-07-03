@@ -20,7 +20,9 @@ export * from './Inputs/AppInput';
 
 //Modals
 export * from './Modal/SignUpModal';
+export * from './Modal/AddressModal';
 export * from './Modal/ImagePickerModal';
+export * from './Modal/PersonDetailsModal';
 
 //Box
 export * from './Box/DividerBox';

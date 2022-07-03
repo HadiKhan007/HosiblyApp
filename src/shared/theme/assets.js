@@ -11,6 +11,8 @@ export const appImages = {
   homeImg: require('../../assets/images/home_img.png'),
   personPh: require('../../assets/images/person_ph.png'),
   personPh1: require('../../assets/images/person_ph1.png'),
+  personImg: require('../../assets/images/person_img.png'),
+  map: require('../../assets/images/map.png'),
 };
 
 export const appIcons = {
@@ -34,6 +36,12 @@ export const appIcons = {
   searchIcon: require('../../assets/icons/search_icon.png'),
   messageIcon: require('../../assets/icons/message_icon.png'),
   locIcon: require('../../assets/icons/loc_icon.png'),
+  mapIcon: require('../../assets/icons/map_icon.png'),
+  crossIcon: require('../../assets/icons/cross_icon.png'),
+  starIcon: require('../../assets/icons/star_icon.png'),
+  addressIcon: require('../../assets/icons/address_icon.png'),
+  infoIcon: require('../../assets/icons/info_icon.png'),
+  cross: require('../../assets/icons/cross.png'),
 };
 
 export const appSvgs = {
