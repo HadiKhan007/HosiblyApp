@@ -22,11 +22,18 @@ export const colors = {
   g8: '#F8F8F8',
   g9: '#E8E8E8',
   g10: '#F7F7F7',
-  g11: '#7D7D7D',
-  g12: '#DEDEDE',
-  g13: '#F4F4F4',
-  g14: 'rgba(222, 222, 222, 0.33)',
-  g15: '#B8BDC0',
+  g11: '#3C3C3C',
+  g12: '#F4F4F4',
+  g13: '#D8D9D9',
+  g14: '#rgba(0, 0, 0, 0.15)',
+  g15: '#B2B2B2',
+  g16: '#464646',
+  g17: '#A7A7A7',
+  g18: '#DEDEDE',
+  g19: '#7D7D7D',
+  g20: 'rgba(222, 222, 222, 0.33)',
+  g21: '#B8BDC0',
+
   //White colors
   white: '#ffffff',
 

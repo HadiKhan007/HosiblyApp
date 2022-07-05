@@ -57,14 +57,14 @@ const FilterScreen = ({navigation}) => {
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           <View style={styles.inputCon}>
-            <Divider color={colors.g12} />
+            <Divider color={colors.g18} />
             <FilterButton
               onPress={() => {
                 propertyTypeRef?.current?.open();
               }}
               title={propertyType?.text}
             />
-            <Divider color={colors.g12} />
+            <Divider color={colors.g18} />
             <PriceInput
               onSelect={val => {
                 setCurrency(val);
@@ -74,21 +74,21 @@ const FilterScreen = ({navigation}) => {
               onFocus={() => setIsPickerOpen(true)}
               onBlur={() => setIsPickerOpen(false)}
             />
-            <Divider color={colors.g12} />
+            <Divider color={colors.g18} />
             <FilterButton
               onPress={() => {
                 bedRoomRef?.current?.open();
               }}
               title={minBedRooms?.text || 'Min Bedrooms'}
             />
-            <Divider color={colors.g12} />
+            <Divider color={colors.g18} />
             <FilterButton
               onPress={() => {
                 bathRoomRef?.current?.open();
               }}
               title={minBathRooms?.text || 'Min Bathrooms'}
             />
-            <Divider color={colors.g12} />
+            <Divider color={colors.g18} />
             <TouchableOpacity
               onPress={() => {
                 setshowMore(!showMore);
@@ -107,33 +107,33 @@ const FilterScreen = ({navigation}) => {
               <>
                 {propertyType.text != 'Vacant Land' ? (
                   <>
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Any Specific Property Types?'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Any Specific Property Styles?'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <LivingSpaceInput />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Parking Spots Required'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Balcony'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Security'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Laundry'} />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton title={'Max Age'} />
                   </>
                 ) : (
                   <>
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <FilterButton
                       onPress={() => {
                         latForntageRef?.current?.open();
                       }}
                       title={latFrontage.text || 'Min Lot Forntage'}
                     />
-                    <Divider color={colors.g12} />
+                    <Divider color={colors.g18} />
                     <LivingSpaceInput
                       h1={'Lot Size'}
                       h2={'(ft)'}
@@ -147,10 +147,10 @@ const FilterScreen = ({navigation}) => {
           <View style={styles.spacRow}>
             <AppButton
               width={'45%'}
-              bgColor={colors.g15}
+              bgColor={colors.g21}
               title={'Save'}
               fontSize={size.tiny}
-              borderColor={colors.g15}
+              borderColor={colors.g21}
               onPress={() => {
                 navigation?.goBack();
               }}

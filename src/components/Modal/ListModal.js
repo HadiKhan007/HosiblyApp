@@ -55,7 +55,7 @@ export const ListModal = ({
                   styles.buttonContainer,
                   {
                     backgroundColor:
-                      selected?.text == item?.text ? colors.g14 : colors.white,
+                      selected?.text == item?.text ? colors.g20 : colors.white,
                   },
                 ]}
                 onPress={() => StoreList(item, index)}>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.g13,
+    backgroundColor: colors.g12,
     height: 50,
     width: '100%',
     paddingHorizontal: 10,

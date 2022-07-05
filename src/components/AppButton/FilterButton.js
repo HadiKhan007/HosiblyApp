@@ -8,7 +8,7 @@ export const FilterButton = ({title, onPress}) => {
     <View style={styles.continer}>
       <TouchableOpacity onPress={onPress} style={styles.btnCon}>
         <Text style={styles.title}>{title}</Text>
-        <Icon name={'right'} type={'antdesign'} color={colors.g11} size={15} />
+        <Icon name={'right'} type={'antdesign'} color={colors.g19} size={15} />
       </TouchableOpacity>
     </View>
   );
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: size.xsmall,
-    color: colors.g11,
+    color: colors.g19,
     fontFamily: family.Gilroy_Medium,
   },
   btnCon: {

@@ -63,14 +63,14 @@ export const PriceInput = ({
       <View style={styles.aiRow1}>
         <TextInput
           placeholder={placeholder1 || '1,000,000'}
-          placeholderTextColor={colors.g11}
+          placeholderTextColor={colors.g19}
           style={styles.inputStyle}
           keyboardType={'decimal-pad'}
         />
         <Text style={styles.to}>to</Text>
         <TextInput
           style={styles.inputStyle}
-          placeholderTextColor={colors.g11}
+          placeholderTextColor={colors.g19}
           placeholder={placeholder2 || '1,500,000'}
           keyboardType={'decimal-pad'}
         />
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
     width: '40%',
     borderLeftWidth: 1,
     borderLeftColor: colors.p2,
-    color: colors.g11,
+    color: colors.g19,
     padding: 0,
   },
   to: {
     paddingHorizontal: 10,
-    color: colors.g11,
+    color: colors.g19,
     fontFamily: family.Gilroy_Medium,
     fontSize: size.xsmall,
   },
