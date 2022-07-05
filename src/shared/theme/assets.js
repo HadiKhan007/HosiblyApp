@@ -26,6 +26,7 @@ export const appIcons = {
   themeCamera: require('../../assets/icons/themeCamera.png'),
   gallery: require('../../assets/icons/gallery.png'),
   person: require('../../assets/icons/person.png'),
+  bgPencil: require('../../assets/icons/bgPencil.png'),
   home: require('../../assets/icons/home.png'),
   contractor: require('../../assets/icons/contractor.png'),
   sellHome: require('../../assets/icons/sell_home.png'),

@@ -14,7 +14,7 @@ import {
   LivingSpaceInput,
   MyStatusBar,
   PriceInput,
-} from '../../../../components';
+} from '../../../components';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {
@@ -26,7 +26,7 @@ import {
   size,
   spacing,
   WP,
-} from '../../../../shared/exporter';
+} from '../../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -117,7 +117,12 @@ const FilterScreen = ({navigation}) => {
                     <Divider color={colors.g18} />
                     <LivingSpaceInput />
                     <Divider color={colors.g18} />
-                    <FilterButton title={'Parking Spots Required'} />
+                    <FilterButton
+                      title={'Parking Spots Required'}
+                      onPress={() => {
+                        navigation.navigate('SubFilterScreen');
+                      }}
+                    />
                     <Divider color={colors.g18} />
                     <FilterButton title={'Balcony'} />
                     <Divider color={colors.g18} />

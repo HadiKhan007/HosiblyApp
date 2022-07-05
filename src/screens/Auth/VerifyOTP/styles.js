@@ -92,6 +92,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
+  errorStyle: {
+    color: 'red',
+    fontFamily: family.Gilroy_Medium,
+    fontSize: size.xtiny,
+    marginBottom: 10,
+  },
 });
 
 export default styles;

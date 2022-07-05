@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 
-export const BackHeader = ({title, subtitle}) => {
+export const BackHeader = ({title, subtitle, rightIcon}) => {
   const navigation = useNavigation();
 
   return (
@@ -23,7 +23,7 @@ export const BackHeader = ({title, subtitle}) => {
         <View style={styles.center}>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
         </View>
-        <View></View>
+        <View>{rightIcon}</View>
       </View>
     </View>
   );

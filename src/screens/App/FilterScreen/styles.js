@@ -6,7 +6,7 @@ import {
   platformOrientedCode,
   size,
   family,
-} from '../../../../shared/exporter';
+} from '../../../shared/exporter';
 
 const styles = StyleSheet.create({
   rootContainer: {

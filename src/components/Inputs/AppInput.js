@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     fontFamily: family.Gilroy_Medium,
     fontSize: size.tiny,
     borderBottomWidth: 0,
-    color: colors.g6,
+    color: colors.b1,
   },
   inputContainerStyle: {
     borderRadius: 24,

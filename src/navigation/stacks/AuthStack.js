@@ -8,8 +8,8 @@ import ForgotPassword from '../../screens/Auth/ForgotPassword';
 import ResetPassword from '../../screens/Auth/ResetPassword';
 import VerifyOTP from '../../screens/Auth/VerifyOTP';
 import VerifyPhone from '../../screens/Auth/VerifyPhone';
-import SignUp from '../../screens/Auth/SignUp';
 import SignUpPurpose from '../../screens/Auth/SignUpPurpose';
+import SignUp from '../../screens/Auth/Signup/Signup';
 import AddPersonalInfo from '../../screens/Auth/AddPersonalInfo';
 
 const Stack = createNativeStackNavigator();

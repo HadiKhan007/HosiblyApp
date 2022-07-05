@@ -41,6 +41,12 @@ export const codeFormFields = {
   code: '',
 };
 
+export const editFormFields = {
+  email: '',
+  phone: '',
+  bio: '',
+};
+
 export const LoginVS = yup.object().shape({
   email: yup
     .string()
@@ -81,9 +87,30 @@ export const PhoneAuthFieldsVS = yup.object().shape({
     .typeError('Invalid phone number')
     .required('Phone number Required'),
 });
+
+export const editProfileFieldsVS = yup.object().shape({
+  phone: yup
+    .number()
+    .typeError('Invalid phone number')
+    .required('Phone number Required'),
+  email: yup
+    .string()
+    .required('Email Required')
+    .email('Please provide a valid email address'),
+  bio: yup.string().required('Bio data Required'),
+});
+
 export const AddPersonalInfoVS = yup.object().shape({
-  image: yup.string().required('Image Required'),
+  image: yup.object().shape().required('Image Required'),
   desc: yup.string().required('Description Required'),
+});
+export const CodeVS = yup.object().shape({
+  code: yup
+    .string()
+    .required('OTP Required')
+    .matches(/^[0-9]+$/, 'OTP must be only digits')
+    .min(6, 'OTP must be exactly 6 digits')
+    .max(6, 'OTP must be exactly 6 digits'),
 });
 
 export const ResetPasswordVS = yup.object().shape({

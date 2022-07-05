@@ -13,39 +13,33 @@ const styles = StyleSheet.create({
   inputContainer: {
     paddingVertical: WP('10'),
   },
-  imgCon: {
-    height: 122,
-    width: 122,
-    borderRadius: 15,
-    backgroundColor: colors.g8,
-    borderWidth: 1,
-    alignSelf: 'center',
-    borderStyle: 'dashed',
-    borderColor: colors.g9,
-  },
-  imgStyle: {
-    height: '100%',
-    width: '100%',
-    borderRadius: 12,
+  iconCon: {
+    backgroundColor: colors.s2,
+    height: 43,
+    width: 43,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'absolute',
+    top: 20,
   },
   iconStyle: {
-    height: 46,
-    width: 46,
+    width: 22,
+    height: 22,
     resizeMode: 'contain',
   },
-  h1Style: {
-    marginTop: 20,
+  h1: {
+    fontSize: size.h6,
     color: colors.b1,
-    fontSize: size.xsmall,
-    fontFamily: family.Gilroy_Medium,
-  },
-  error: {
+    fontFamily: family.Gilroy_SemiBold,
     textAlign: 'center',
-    color: 'red',
-    fontSize: size.tiny,
-    marginTop: 5,
+    marginTop: 10,
+  },
+  desc: {
+    color: colors.g22,
+    fontFamily: family.Gilroy_Medium,
+    fontSize: size.xsmall,
+    lineHeight: 18,
   },
 });
 

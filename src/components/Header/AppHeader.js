@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {
   WP,
@@ -11,7 +11,7 @@ import {
 } from '../../shared/exporter';
 import {MyStatusBar} from '..';
 
-export const AppHeader = ({rightIcon = false}) => {
+export const AppHeader = ({rightIcon = false, onPressIcon}) => {
   const navigation = useNavigation();
 
   return (
@@ -27,11 +27,13 @@ export const AppHeader = ({rightIcon = false}) => {
           <Text style={styles.logoTxtStyle}>Housibly</Text>
         </View>
         {rightIcon && (
-          <Image
-            resizeMode="contain"
-            source={appImages.personPh}
-            style={styles.personImgStyle}
-          />
+          <TouchableOpacity onPress={onPressIcon}>
+            <Image
+              resizeMode="contain"
+              source={appImages.personPh}
+              style={styles.personImgStyle}
+            />
+          </TouchableOpacity>
         )}
       </View>
     </>

@@ -105,7 +105,12 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <AppHeader rightIcon />
+      <AppHeader
+        onPressIcon={() => {
+          navigation.navigate('Profile');
+        }}
+        rightIcon
+      />
       <Spacer androidVal={WP('4')} iOSVal={WP('4')} />
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}

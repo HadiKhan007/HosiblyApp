@@ -31,6 +31,10 @@ export * from './Modal/ListModal';
 //Box
 export * from './Box/DividerBox';
 export * from './Box/TextBox';
+export * from './Box/ProfileImageBox';
 
 //Footer
 export * from './Footer/AuthText';
+
+//TextFields
+export * from './TextFields/ProfileField';
