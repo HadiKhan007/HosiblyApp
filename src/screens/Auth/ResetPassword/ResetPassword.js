@@ -10,7 +10,11 @@ import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 
-const ResetPassword = () => {
+const ResetPassword = ({navigation}) => {
+  const onSubmitLogin = values => {
+    navigation.navigate('Login');
+  };
+
   return (
     <View style={styles.rootContainer}>
       <AppHeader />

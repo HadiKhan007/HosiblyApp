@@ -15,6 +15,7 @@ const AppButton = ({
   borderRadius = 40,
   borderColor,
   shadowColor = colors.p1,
+  fontSize = size.large,
 }) => {
   return (
     <TouchableOpacity
@@ -29,7 +30,7 @@ const AppButton = ({
         shadowColor,
       )}>
       {icon && <Image source={icon} style={[styles.imgStyle, style]} />}
-      <Text style={[styles.buttonTextStyle(textColor), textStyle]}>
+      <Text style={[styles.buttonTextStyle(textColor, fontSize), textStyle]}>
         {title}
       </Text>
     </TouchableOpacity>
@@ -70,10 +71,10 @@ const styles = StyleSheet.create({
   imgStyle: {
     marginRight: 15,
   },
-  buttonTextStyle: textColor => {
+  buttonTextStyle: (textColor, fontSize) => {
     return {
       color: textColor,
-      fontSize: size.large,
+      fontSize: fontSize,
       fontFamily: family.Gilroy_SemiBold,
     };
   },

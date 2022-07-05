@@ -34,7 +34,7 @@ const Login = ({navigation}) => {
           <Formik
             initialValues={loginFormFields}
             onSubmit={values => {
-              onSubmitLogin(values);
+              navigation.navigate('App');
             }}
             validationSchema={LoginVS}>
             {({

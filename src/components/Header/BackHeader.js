@@ -3,22 +3,28 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 
-export const BackHeader = ({title}) => {
+export const BackHeader = ({title, subtitle}) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.rowContainer}
-        onPress={() => navigation.goBack()}>
-        <Image
-          resizeMode="contain"
-          source={appIcons.backArrow}
-          style={styles.iconStyle}
-        />
-        <Text style={styles.titleTxtStyle}>{title}</Text>
-      </TouchableOpacity>
+      <View style={styles.mainRowContainer}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+          style={styles.rowContainer}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.backArrow}
+            style={styles.iconStyle}
+          />
+          {title && <Text style={styles.titleTxtStyle}>{title}</Text>}
+        </TouchableOpacity>
+        <View style={styles.center}>
+          {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
+        </View>
+        <View></View>
+      </View>
     </View>
   );
 };
@@ -29,6 +35,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: WP('1.5'),
     paddingHorizontal: WP('3.85'),
+  },
+  mainRowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -43,5 +55,13 @@ const styles = StyleSheet.create({
     color: colors.b1,
     fontSize: size.h6,
     fontFamily: family.Gilroy_Bold,
+  },
+  center: {
+    paddingRight: 20,
+  },
+  subStyle: {
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_SemiBold,
+    color: colors.b1,
   },
 });

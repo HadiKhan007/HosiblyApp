@@ -6,6 +6,7 @@ import Splash from '../screens/Splash';
 import Walkthrough from '../screens/Walkthrough';
 import AuthStack from '../navigation/stacks/AuthStack';
 import BottomTabs from '../navigation/tabs/BottomTabs';
+import FilterScreen from '../screens/App/Dashboard/FilterScreen';
 
 const AppStack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'Walkthrough'} component={Walkthrough} />
         <AppStack.Screen name={'Auth'} component={AuthStack} />
         <AppStack.Screen name={'App'} component={BottomTabs} />
+        <AppStack.Screen name={'FilterScreen'} component={FilterScreen} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

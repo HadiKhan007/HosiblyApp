@@ -35,7 +35,7 @@ import {
 } from '../../../shared/utilities/constant';
 import styles from './styles';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [address, setAddress] = useState('');
   const [hideAds, setHideAds] = useState(false);
@@ -243,6 +243,7 @@ const Home = () => {
             width={'43%'}
             title="Edit Buyer Preference"
             textStyle={{fontSize: size.tiny}}
+            onPress={() => navigation.navigate('FilterScreen')}
           />
         </View>
         <PersonDetailsModal
