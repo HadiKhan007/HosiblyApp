@@ -1,5 +1,5 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {SafeAreaView, Text, View} from 'react-native';
 import styles from './styles';
 import {
   colors,
@@ -19,7 +19,7 @@ import {
 import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const signup = ({navigation}) => {
+const SignUp = ({navigation}) => {
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />
@@ -158,4 +158,4 @@ const signup = ({navigation}) => {
   );
 };
 
-export default signup;
+export default SignUp;

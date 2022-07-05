@@ -5,15 +5,16 @@ import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 const AppButton = ({
   title,
   onPress,
+  width = '100%',
+  height = WP('11.7'),
   bgColor = colors.p2,
   textColor = colors.white,
   style,
   icon,
   textStyle,
-  borderRadius,
+  borderRadius = 40,
   borderColor,
-  shadowColor,
-  width = '100%',
+  shadowColor = colors.p1,
   fontSize = size.large,
 }) => {
   return (
@@ -21,11 +22,12 @@ const AppButton = ({
       activeOpacity={0.7}
       onPress={onPress}
       style={styles.buttonStyle(
+        width,
+        height,
         bgColor,
         borderRadius,
         borderColor,
         shadowColor,
-        width,
       )}>
       {icon && <Image source={icon} style={[styles.imgStyle, style]} />}
       <Text style={[styles.buttonTextStyle(textColor, fontSize), textStyle]}>
@@ -36,11 +38,18 @@ const AppButton = ({
 };
 
 const styles = StyleSheet.create({
-  buttonStyle: (bgColor, borderRadius, borderColor, shadowColor, width) => {
+  buttonStyle: (
+    width,
+    height,
+    bgColor,
+    borderRadius,
+    borderColor,
+    shadowColor,
+  ) => {
     return {
       width: width,
       borderRadius: borderRadius || 40,
-      height: WP('11.7'),
+      height: height,
       alignSelf: 'center',
       alignItems: 'center',
       flexDirection: 'row',
@@ -55,12 +64,12 @@ const styles = StyleSheet.create({
       shadowRadius: 6.27,
       elevation: 10,
       borderWidth: 1,
-      borderColor: borderColor || colors.p1,
       marginVertical: 5,
+      borderColor: borderColor || colors.p1,
     };
   },
   imgStyle: {
-    marginRight: 10,
+    marginRight: 15,
   },
   buttonTextStyle: (textColor, fontSize) => {
     return {

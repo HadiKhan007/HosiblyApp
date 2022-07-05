@@ -25,6 +25,7 @@ import {
   property_type_list,
   size,
   spacing,
+  WP,
 } from '../../../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -54,7 +55,9 @@ const FilterScreen = ({navigation}) => {
       <View style={spacing.my2}>
         <BackHeader subtitle={'Filter'} />
       </View>
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: WP('2')}}>
         <View style={styles.contentContainer}>
           <View style={styles.inputCon}>
             <Divider color={colors.g18} />
@@ -154,6 +157,7 @@ const FilterScreen = ({navigation}) => {
               onPress={() => {
                 navigation?.goBack();
               }}
+              shadowColor={colors.white}
             />
 
             <AppButton

@@ -2,9 +2,13 @@ export const colors = {
   // Primary Color
   p1: '#1AA8FF',
   p2: '#4CBBFF',
+  p3: '#BAE5FF',
 
   // Secondary Color
   s1: '#FF2C2C',
+  s2: '#622690',
+  s3: '#9C69DD',
+  s4: '#B88BF0',
 
   // Black Color
   b1: '#000000',

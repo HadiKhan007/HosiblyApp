@@ -89,6 +89,158 @@ const beds_list = [
   },
 ];
 
+const modalData = [
+  {
+    id: 1,
+    img: appIcons.person,
+    title: 'Are you a Seller or Buyer?',
+    desc: '',
+    selected: '',
+    isYesNo: false,
+  },
+  {
+    id: 2,
+    img: appIcons.home,
+    title: 'Are you a Licensed Realtor™ or represent one?',
+    desc: `Warning!\n\nIf you misrepresent yourself  a report may be sent to your Licensing Board / Authority.`,
+    selected: 'yes',
+    isYesNo: true,
+  },
+  {
+    id: 3,
+    img: appIcons.contractor,
+    title: 'Do you want to be contacted by a real estate professional?',
+    desc: `Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.`,
+    selected: 'yes',
+    isYesNo: true,
+  },
+];
+
+const slide1BoxData = [
+  {
+    id: 1,
+    title: 'Seller',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'Buyer',
+    isChecked: false,
+  },
+  {
+    id: 3,
+    title: 'Neither',
+    isChecked: false,
+  },
+];
+
+const slide2BoxData = [
+  {
+    id: 1,
+    title: 'Yes',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'No',
+    isChecked: false,
+  },
+];
+
+const slide3BoxData = [
+  {
+    id: 1,
+    title: 'Yes',
+    isChecked: true,
+  },
+  {
+    id: 2,
+    title: 'No',
+    isChecked: false,
+  },
+];
+
+const buyerRef = [
+  {
+    id: 1,
+    title: 'Property Type',
+    property: 'House',
+  },
+  {
+    id: 2,
+    title: 'Price',
+    property: '$1,000,000 to 1,500,000',
+  },
+  {
+    id: 3,
+    title: 'Bedrooms',
+    property: '4',
+  },
+  {
+    id: 4,
+    title: 'Bathrooms',
+    property: '2 Bath + Powder Room',
+  },
+];
+
+const buyerRefAdvance = [
+  {
+    id: 1,
+    title: 'Property Types',
+    property: 'Multi-Family',
+  },
+  {
+    id: 2,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+  },
+  {
+    id: 3,
+    title: 'Min Lot Forntage',
+    property: '30',
+  },
+  {
+    id: 4,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+  },
+  {
+    id: 5,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+  },
+  {
+    id: 6,
+    title: 'Parking Spots Req.',
+    property: '2',
+  },
+  {
+    id: 7,
+    title: 'Garage Spots Req.',
+    property: 'Doesn’t matter',
+  },
+  {
+    id: 8,
+    title: 'Max Age',
+    property: '10',
+  },
+];
+
+const addresses = [
+  {
+    id: 1,
+    address: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+  },
+  {
+    id: 2,
+    address: '3517 W. Gray St. Utica, Pennsylvania 57867',
+  },
+  {
+    id: 3,
+    address: '2972 Westheimer Rd. Santa Ana, Illinois 85486 ',
+  },
+];
+
 const bath_list = [
   {
     id: 1,
@@ -139,6 +291,13 @@ export {
   stripe_publishableKey,
   slidesData,
   privacyPolicy,
+  modalData,
+  slide1BoxData,
+  slide2BoxData,
+  slide3BoxData,
+  buyerRef,
+  buyerRefAdvance,
+  addresses,
   property_type_list,
   beds_list,
   bath_list,

@@ -8,7 +8,8 @@ import ForgotPassword from '../../screens/Auth/ForgotPassword';
 import ResetPassword from '../../screens/Auth/ResetPassword';
 import VerifyOTP from '../../screens/Auth/VerifyOTP';
 import VerifyPhone from '../../screens/Auth/VerifyPhone';
-import Signup from '../../screens/Auth/Signup';
+import SignUp from '../../screens/Auth/SignUp';
+import SignUpPurpose from '../../screens/Auth/SignUpPurpose';
 import AddPersonalInfo from '../../screens/Auth/AddPersonalInfo';
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,8 @@ function AuthStack(props) {
       initialRouteName="Login"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="SignUpPurpose" component={SignUpPurpose} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="TermsConditions" component={TermsConditions} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
