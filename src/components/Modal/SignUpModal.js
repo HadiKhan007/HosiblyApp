@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import {useNavigation} from '@react-navigation/core';
 import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 import {
   modalData,
@@ -10,13 +9,17 @@ import {
   slide3BoxData,
 } from '../../shared/utilities/constant';
 
-export const SignUpModal = ({show, buttonClick, onPressHide, activeIndex}) => {
+export const SignUpModal = ({
+  show,
+  buttonClick,
+  onPressHide,
+  activeIndex,
+  valueCallBack,
+}) => {
   const [item, setItem] = useState({});
   const [slide1Data, setSlide1Data] = useState(slide1BoxData);
   const [slide2Data, setSlide2Data] = useState(slide2BoxData);
   const [slide3Data, setSlide3Data] = useState(slide3BoxData);
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     if (activeIndex != undefined) setItem(modalData[activeIndex]);
@@ -48,9 +51,27 @@ export const SignUpModal = ({show, buttonClick, onPressHide, activeIndex}) => {
   };
 
   const handleNavigation = () => {
+    let userType = 'Seller';
+    let licensed = 'Yes';
+    let contacted = 'Yes';
+    slide1Data.forEach(element => {
+      if (element?.isChecked) {
+        userType = element?.title;
+      }
+    });
+    slide2Data.forEach(element => {
+      if (element?.isChecked) {
+        licensed = element?.title;
+      }
+    });
+    slide3Data.forEach(element => {
+      if (element?.isChecked) {
+        contacted = element?.title;
+      }
+    });
     onPressHide();
     setTimeout(() => {
-      navigation.navigate('SignUpPurpose');
+      valueCallBack(userType, licensed, contacted);
     }, 300);
   };
 
@@ -117,7 +138,6 @@ export const SignUpModal = ({show, buttonClick, onPressHide, activeIndex}) => {
                 />
               );
             })}
-
           <Text style={styles.descTxtStyle}>{item?.desc}</Text>
           <View style={styles.bottomRow(activeIndex)}>
             <View style={styles.innerRow}>

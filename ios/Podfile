@@ -12,6 +12,7 @@ target 'Housibly' do
     :hermes_enabled => false
   )
 
+  pod 'GoogleUtilities', :modular_headers => true
   target 'HousiblyTests' do
     inherit! :complete
     # Pods for testing

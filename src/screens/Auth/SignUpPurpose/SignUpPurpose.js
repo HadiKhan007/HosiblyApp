@@ -5,8 +5,15 @@ import {AppButton, Spacer} from '../../../components';
 import {appIcons, appImages, colors, WP} from '../../../shared/exporter';
 import styles from './styles';
 
-const SignUpPurpose = ({navigation}) => {
-  const [selected, setSelected] = useState('sell');
+const SignUpPurpose = ({navigation, route}) => {
+  const [selected, setSelected] = useState('want_sell');
+
+  const handleNavigation = () => {
+    navigation.navigate('SignUp', {
+      regPurpose: selected,
+      item: route?.params?.modelItem,
+    });
+  };
 
   return (
     <View style={styles.rootContainer}>
@@ -29,9 +36,9 @@ const SignUpPurpose = ({navigation}) => {
             style={styles.iconStyle}
             borderColor={colors.white}
             shadowColor={colors.white}
-            onPress={() => setSelected('sell')}
-            bgColor={selected === 'sell' ? colors.p1 : colors.g12}
-            textColor={selected === 'sell' ? colors.white : colors.b1}
+            onPress={() => setSelected('want_sell')}
+            bgColor={selected === 'want_sell' ? colors.p1 : colors.g12}
+            textColor={selected === 'want_sell' ? colors.white : colors.b1}
           />
           <AppButton
             borderRadius={32}
@@ -41,9 +48,9 @@ const SignUpPurpose = ({navigation}) => {
             style={styles.iconStyle}
             borderColor={colors.white}
             shadowColor={colors.white}
-            onPress={() => setSelected('buy')}
-            bgColor={selected === 'buy' ? colors.p1 : colors.g12}
-            textColor={selected === 'buy' ? colors.white : colors.b1}
+            onPress={() => setSelected('want_buy')}
+            bgColor={selected === 'want_buy' ? colors.p1 : colors.g12}
+            textColor={selected === 'want_buy' ? colors.white : colors.b1}
           />
           <AppButton
             borderRadius={32}
@@ -63,10 +70,7 @@ const SignUpPurpose = ({navigation}) => {
           />
         </View>
         <View style={styles.bottomView}>
-          <AppButton
-            title="Next"
-            onPress={() => navigation.navigate('SignUp')}
-          />
+          <AppButton title="Next" onPress={() => handleNavigation()} />
         </View>
       </KeyboardAwareScrollView>
     </View>

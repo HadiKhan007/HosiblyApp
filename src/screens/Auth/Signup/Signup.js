@@ -19,7 +19,27 @@ import {
 import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const SignUp = ({navigation}) => {
+const SignUp = ({navigation, route}) => {
+  console.log('Purpose is => ', route?.params?.item);
+  console.log('Item is => ', route?.params?.regPurpose);
+
+  const handleSignUp = values => {
+    let item = route?.params?.item;
+    let profileType = route?.params?.regPurpose;
+    const data = new FormData();
+    data.append('user[full_name]', values?.fullname);
+    data.append('user[email]', values?.email);
+    data.append('user[password]', values?.password);
+    data.append('user[phone_number]', values?.contact);
+    data.append('user[licensed_realtor]', item?.licensed === 'Yes');
+    data.append('user[contacted_by_real_estate]', item?.contacted === 'Yes');
+    data.append('user[user_type]', item?.userType);
+    data.append('user[profile_type]', profileType);
+
+    console.log('Params are ==> ', data);
+    // navigation?.navigate('VerifyOTP', {registeration: true});
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />
@@ -28,7 +48,7 @@ const SignUp = ({navigation}) => {
         <Formik
           initialValues={signupFormFields}
           onSubmit={values => {
-            navigation?.navigate('VerifyOTP', {registeration: true});
+            handleSignUp(values);
           }}
           validationSchema={SignupVS}>
           {({

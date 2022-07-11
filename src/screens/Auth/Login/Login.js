@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import {
   AppButton,
   AppInput,
+  AppLoader,
   AuthFooter,
   DividerBox,
   MyStatusBar,
@@ -18,6 +19,10 @@ import {
   LoginVS,
   spacing,
 } from '../../../shared/exporter';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
@@ -25,6 +30,50 @@ import {Formik} from 'formik';
 const Login = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [showSlide, setShowSlide] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    GoogleSignin.signOut();
+  }, []);
+
+  const handleGoogleLogin = async () => {
+    try {
+      setIsLoading(true);
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+      if (idToken) {
+        handleSocialLogin('google', idToken);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('cancel');
+        setIsLoading(false);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        setIsLoading(false);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleSocialLogin = (type, token) => {
+    console.log('Token is ==> ', token);
+  };
+
+  const handleNavigation = (userType, licensed, contacted) => {
+    navigation.navigate('SignUpPurpose', {
+      modelItem: {
+        userType,
+        licensed,
+        contacted,
+      },
+    });
+    setShowSlide(0);
+  };
 
   return (
     <>
@@ -61,6 +110,7 @@ const Login = ({navigation}) => {
                     bgColor={colors.white}
                     borderColor={colors.g3}
                     shadowColor={colors.white}
+                    onPress={() => handleGoogleLogin()}
                   />
                   <AppButton
                     title={'Sign up with Apple'}
@@ -165,6 +215,7 @@ const Login = ({navigation}) => {
             activeIndex={showSlide}
             onPressHide={() => setShow(false)}
             buttonClick={() => setShowSlide(showSlide + 1)}
+            valueCallBack={handleNavigation}
           />
         </View>
       </View>
