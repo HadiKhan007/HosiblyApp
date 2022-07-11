@@ -20,9 +20,6 @@ import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const SignUp = ({navigation, route}) => {
-  console.log('Purpose is => ', route?.params?.item);
-  console.log('Item is => ', route?.params?.regPurpose);
-
   const handleSignUp = values => {
     let item = route?.params?.item;
     let profileType = route?.params?.regPurpose;
