@@ -13,6 +13,12 @@ export const appImages = {
   personPh1: require('../../assets/images/person_ph1.png'),
   personImg: require('../../assets/images/person_img.png'),
   map: require('../../assets/images/map.png'),
+  home1: require('../../assets/images/home1.png'),
+  home2: require('../../assets/images/home2.png'),
+  home3: require('../../assets/images/home3.png'),
+  home4: require('../../assets/images/home4.png'),
+  home5: require('../../assets/images/home5.png'),
+  home6: require('../../assets/images/home6.png'),
 };
 
 export const appIcons = {
@@ -43,6 +49,13 @@ export const appIcons = {
   addressIcon: require('../../assets/icons/address_icon.png'),
   infoIcon: require('../../assets/icons/info_icon.png'),
   cross: require('../../assets/icons/cross.png'),
+  bedIcon: require('../../assets/icons/bed_icon.png'),
+  bathIcon: require('../../assets/icons/bath_icon.png'),
+  heartIcon: require('../../assets/icons/heart_icon.png'),
+  blueHome: require('../../assets/icons/blue_home.png'),
+  modelHome: require('../../assets/icons/model_home.png'),
+  condo: require('../../assets/icons/condo.png'),
+  vacant: require('../../assets/icons/vacant.png'),
 };
 
 export const appSvgs = {

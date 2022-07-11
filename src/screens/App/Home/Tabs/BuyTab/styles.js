@@ -1,33 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {
-  WP,
-  colors,
-  size,
-  family,
-  scrWidth,
-  platformOrientedCode,
-} from '../../../shared/exporter';
-import DeviceInfo from 'react-native-device-info';
-
-const isNotch = DeviceInfo.hasNotch();
+import {WP, colors, size, family, scrWidth} from '../../../../../shared/exporter';
 
 const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  scrollViewStyle: {
-    paddingBottom: platformOrientedCode(WP('20'), isNotch ? 15 : WP('20')),
-  },
-  innerViewStyle: {
-    paddingTop: WP('5'),
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: WP('4.1'),
-    justifyContent: 'space-between',
-  },
   propertyTxtStyle: {
     color: colors.b1,
     fontSize: size.h6,
@@ -247,20 +221,6 @@ const styles = StyleSheet.create({
   crossIconStyle: {
     width: 8,
     height: 8,
-  },
-  bottomView: {
-    bottom: 6,
-    width: '100%',
-    alignSelf: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    justifyContent: 'center',
-  },
-  btnTxtStyle: {
-    color: colors.white,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_SemiBold,
   },
 });
 

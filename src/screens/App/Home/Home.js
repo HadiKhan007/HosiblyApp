@@ -1,19 +1,10 @@
 import React, {useRef, useState} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TextInput,
-  SafeAreaView,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
+import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
-  AddressModal,
   AppButton,
   AppHeader,
   PersonDetailsModal,
@@ -26,42 +17,19 @@ import {
   appIcons,
   appImages,
   scrHeight,
-  size,
 } from '../../../shared/exporter';
-import {
-  addresses,
-  buyerRef,
-  buyerRefAdvance,
-} from '../../../shared/utilities/constant';
 import styles from './styles';
+// Tabs
+import BuyTab from './Tabs/BuyTab/BuyTab';
+import MatchesTab from './Tabs/MatchesTab/MatchesTab';
+import SellTab from './Tabs/SellTab/SellTab';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
-  const [address, setAddress] = useState('');
   const [hideAds, setHideAds] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [selected, setSelected] = useState('buy');
   const [showModal, setShowModal] = useState(false);
-  const [showAdvance, setShowAdvance] = useState(false);
-  const [showAddressModal, setShowAddressModal] = useState(false);
-
-  const RenderRow = ({item, index}) => {
-    return (
-      <View style={styles.itemRow(index)}>
-        <Text style={styles.titleTxtStyle}>{item?.title}</Text>
-        <Text style={styles.valTxtStyle}>{item?.property}</Text>
-      </View>
-    );
-  };
-
-  const AddressesRow = ({item, index}) => {
-    return (
-      <View style={styles.addressItemRow(index)}>
-        <Text style={styles.addrsTxtStyle}>{item?.address}</Text>
-        <Image source={appIcons.cross} style={styles.crossIconStyle} />
-      </View>
-    );
-  };
 
   const hideItemClick = () => {
     setShowMenu(false);
@@ -190,76 +158,38 @@ const Home = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <Text style={styles.propertyTxtStyle}>
-              Your Current Buyer Preference
-            </Text>
-            {buyerRef.map((item, index) => {
-              return <RenderRow item={item} index={index} />;
-            })}
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.iconRow}
-              onPress={() => setShowAdvance(!showAdvance)}>
-              <Text style={styles.advanceTxtStyle}>Show Advance Options</Text>
-              <Icon
-                type={'antdesign'}
-                name={showAdvance ? 'caretup' : 'caretdown'}
-                size={10}
-                color={colors.p1}
-              />
-            </TouchableOpacity>
-            {showAdvance &&
-              buyerRefAdvance.map((item, index) => {
-                return <RenderRow item={item} index={index} />;
-              })}
-            <ImageBackground
-              source={appImages.map}
-              style={styles.mapImgStyle}
-              imageStyle={{borderRadius: 7}}>
-              <Image source={appIcons.addressIcon} style={styles.iconStyle} />
-              <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
-            </ImageBackground>
-            <View style={styles.infoRowContainer}>
-              <Text style={styles.propertyTxtStyle}>Dream Addresses</Text>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setShowAddressModal(true)}>
-                <Image
-                  source={appIcons.infoIcon}
-                  style={styles.infoIconStyle}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dividerView} />
-            <TextInput
-              value={address}
-              style={styles.inputStyle}
-              placeholder="Start typing..."
-              placeholderTextColor={colors.g19}
-              onChangeText={txt => setAddress(txt)}
-            />
-            <View style={[styles.dividerView, {marginBottom: WP('4')}]} />
-            {addresses.map((item, index) => {
-              return <AddressesRow item={item} index={index} />;
-            })}
           </View>
-          <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
-          <AppButton
-            width={'43%'}
-            title="Edit Buyer Preference"
-            textStyle={{fontSize: size.tiny}}
-            onPress={() => navigation.navigate('FilterScreen')}
-          />
+          {selected === 'buy' && <BuyTab navigation={navigation} />}
+          {selected === 'matches' && <MatchesTab navigation={navigation} />}
+          {selected === 'sell' && <SellTab navigation={navigation} />}
         </View>
         <PersonDetailsModal
           show={showModal}
           onPressHide={() => setShowModal(false)}
         />
-        <AddressModal
-          show={showAddressModal}
-          onPressHide={() => setShowAddressModal(false)}
-        />
       </KeyboardAwareScrollView>
+      {selected === 'sell' && (
+        <>
+          <View style={styles.bottomView}>
+            <AppButton
+              width="38.5%"
+              height={WP('10.3')}
+              title="Enter Address"
+              borderColor={colors.p2}
+              shadowColor={colors.white}
+              textStyle={styles.btnTxtStyle}
+            />
+            <View style={{width: WP('3')}} />
+            <AppButton
+              width="38.5%"
+              height={WP('10.3')}
+              borderColor={colors.p2}
+              title="List A New Property"
+              textStyle={styles.btnTxtStyle}
+            />
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };

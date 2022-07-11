@@ -3,7 +3,14 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {WP, size, colors, family, appIcons} from '../../shared/exporter';
 
-export const BackHeader = ({title, subtitle, rightIcon}) => {
+export const BackHeader = ({
+  title,
+  subtitle,
+  rightIcon,
+  txtCenter = false,
+  txtSize = size.h6,
+  txtFamily = family.Gilroy_Bold,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -18,7 +25,11 @@ export const BackHeader = ({title, subtitle, rightIcon}) => {
             source={appIcons.backArrow}
             style={styles.iconStyle}
           />
-          {title && <Text style={styles.titleTxtStyle}>{title}</Text>}
+          {title && (
+            <Text style={styles.titleTxtStyle(txtCenter, txtSize, txtFamily)}>
+              {title}
+            </Text>
+          )}
         </TouchableOpacity>
         <View style={styles.center}>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
@@ -50,11 +61,15 @@ const styles = StyleSheet.create({
     width: WP('5'),
     height: WP('5'),
   },
-  titleTxtStyle: {
-    left: WP('3.6'),
-    color: colors.b1,
-    fontSize: size.h6,
-    fontFamily: family.Gilroy_Bold,
+  titleTxtStyle: (isCenter, txtSize, txtFamily) => {
+    return {
+      width: '88%',
+      left: WP('3.6'),
+      color: colors.b1,
+      fontSize: txtSize,
+      fontFamily: txtFamily,
+      textAlign: isCenter ? 'center' : 'left',
+    };
   },
   center: {
     paddingRight: 20,

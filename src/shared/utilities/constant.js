@@ -282,6 +282,119 @@ const lat_frontage_list = [
     text: '20ft',
   },
 ];
+
+const myMatches = [
+  {
+    id: 1,
+    name: 'Luxury House',
+    img: appImages.home1,
+  },
+  {
+    id: 2,
+    name: 'Minimal House',
+    img: appImages.home2,
+  },
+  {
+    id: 3,
+    name: 'Suburban House',
+    img: appImages.home3,
+  },
+];
+
+const allMatches = [
+  {
+    id: 1,
+    isNew: true,
+    name: 'Luxury House',
+    img: appImages.home1,
+  },
+  {
+    id: 2,
+    isNew: true,
+    name: 'Minimal House',
+    img: appImages.home2,
+  },
+  {
+    id: 3,
+    isNew: true,
+    name: 'Suburban House',
+    img: appImages.home3,
+  },
+  {
+    id: 4,
+    isNew: false,
+    name: 'Compact Condo',
+    img: appImages.home4,
+  },
+  {
+    id: 5,
+    isNew: true,
+    name: 'White 2Storyey House',
+    img: appImages.home5,
+  },
+  {
+    id: 6,
+    isNew: false,
+    name: 'Mini House Suv',
+    img: appImages.home6,
+  },
+];
+
+const recentSales = [
+  {
+    id: 1,
+    saleNum: '8',
+    name: 'White Modern House',
+    img: appImages.home3,
+    imges: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
+  {
+    id: 2,
+    saleNum: '3',
+    name: 'Compact Condo',
+    img: appImages.home4,
+    imges: [1, 2, 3],
+  },
+  {
+    id: 3,
+    saleNum: '4',
+    name: 'Clean Land',
+    img: appImages.home6,
+    imges: [1, 2, 3, 4],
+  },
+];
+
+const allSales = [
+  {
+    id: 1,
+    saleNum: '8',
+    name: 'White Modern House',
+    img: appImages.home3,
+    imges: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
+  {
+    id: 2,
+    saleNum: '3',
+    name: 'Compact Condo',
+    img: appImages.home4,
+    imges: [1, 2, 3],
+  },
+  {
+    id: 3,
+    saleNum: '5',
+    name: 'Clean Land',
+    img: appImages.home6,
+    imges: [1, 2, 3, 4, 5],
+  },
+  {
+    id: 3,
+    saleNum: '3',
+    name: 'Condo Bright',
+    img: appImages.home2,
+    imges: [1, 2, 3],
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -302,4 +415,8 @@ export {
   beds_list,
   bath_list,
   lat_frontage_list,
+  myMatches,
+  allMatches,
+  recentSales,
+  allSales,
 };

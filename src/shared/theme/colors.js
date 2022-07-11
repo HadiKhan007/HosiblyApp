@@ -38,6 +38,9 @@ export const colors = {
   g20: 'rgba(222, 222, 222, 0.33)',
   g21: '#B8BDC0',
   g22: '#A2A2A2',
+  g23: '#2D2D2D',
+  g24: '#EEEEEE',
+  g25: '#DDDDDD',
 
   //White colors
   white: '#ffffff',
@@ -54,4 +57,5 @@ export const colors = {
   // red
   red: 'red',
   r1: '#FF2C2C',
+  r2: '#F9595F',
 };
