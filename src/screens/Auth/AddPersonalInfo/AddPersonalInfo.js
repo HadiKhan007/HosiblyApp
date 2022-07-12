@@ -46,7 +46,6 @@ const AddPersonalInfo = ({navigation}) => {
           touched,
           isValid,
           handleSubmit,
-          handleReset,
           setFieldValue,
         }) => {
           //Gallery Handlers

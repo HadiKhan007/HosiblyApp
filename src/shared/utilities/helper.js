@@ -63,6 +63,7 @@ export const responseValidator = (response, errorMsg) => {
       return 'Internal Server Error Please Try Again!';
     }
   } else {
+    return 'Something went wrong!';
   }
 };
 

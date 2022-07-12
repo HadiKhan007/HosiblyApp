@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {Alert, SafeAreaView, Text, View} from 'react-native';
 import styles from './styles';
 import {
+  checkConnected,
   colors,
   commonStyles,
   family,
+  networkText,
   signupFormFields,
   SignupVS,
   spacing,
@@ -13,28 +15,55 @@ import {
   AppButton,
   AppHeader,
   AppInput,
+  AppLoader,
   AuthFooter,
   BackHeader,
 } from '../../../components';
 import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useDispatch} from 'react-redux';
+import {signUpRequest} from '../../../redux/actions';
 
 const Signup = ({navigation, route}) => {
-  const handleSignUp = values => {
-    let item = route?.params?.item;
-    let profileType = route?.params?.regPurpose;
-    const data = new FormData();
-    data.append('user[full_name]', values?.fullname);
-    data.append('user[email]', values?.email);
-    data.append('user[password]', values?.password);
-    data.append('user[phone_number]', values?.contact);
-    data.append('user[licensed_realtor]', item?.licensed === 'Yes');
-    data.append('user[contacted_by_real_estate]', item?.contacted === 'Yes');
-    data.append('user[user_type]', item?.userType);
-    data.append('user[profile_type]', profileType);
-
-    console.log('Params are ==> ', data);
-    // navigation?.navigate('VerifyOTP', {registeration: true});
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch(null);
+  const handleSignUp = async values => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setIsLoading(true);
+        let item = route?.params?.item;
+        let profileType = route?.params?.regPurpose;
+        const data = new FormData();
+        data.append('user[full_name]', values?.fullname);
+        data.append('user[email]', values?.email);
+        data.append('user[password]', values?.password);
+        data.append('user[phone_number]', values?.contact);
+        data.append('user[licensed_realtor]', item?.licensed === 'Yes');
+        data.append(
+          'user[contacted_by_real_estate]',
+          item?.contacted === 'Yes',
+        );
+        data.append('user[user_type]', item?.userType.toLowerCase());
+        data.append('user[profile_type]', profileType);
+        const signUpSuccess = async res => {
+          navigation?.navigate('VerifyOTP', {
+            registeration: true,
+            email: values?.email,
+          });
+          setIsLoading(false);
+        };
+        const signUpFailure = async res => {
+          Alert.alert('Error', res);
+          setIsLoading(false);
+        };
+        dispatch(signUpRequest(data, signUpSuccess, signUpFailure));
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Alert.alert('Error', networkText);
+    }
   };
 
   return (
@@ -171,6 +200,7 @@ const Signup = ({navigation, route}) => {
           )}
         </Formik>
       </View>
+      <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
 };

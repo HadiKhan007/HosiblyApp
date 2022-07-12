@@ -40,10 +40,10 @@ const VerifyOTP = ({navigation, route}) => {
       setLoading(true);
       const form = new FormData();
       form.append('user[email]', route?.params?.email);
-      form.append('otp', values?.otp);
+      form.append('otp', values?.code);
 
       const otpSuccess = async res => {
-        if (res?.error == 'Incorrect Email or OTP') {
+        if (res?.error != 'Incorrect Email or OTP') {
           if (route?.params?.registeration) {
             navigation?.replace('AddPersonalInfo');
           } else {
@@ -63,10 +63,12 @@ const VerifyOTP = ({navigation, route}) => {
         }
         setLoading(false);
       };
+
       const otpFailure = async res => {
         setLoading(false);
         Alert.alert('Error', res);
       };
+
       dispatch(verifyOTPRequest(form, otpSuccess, otpFailure));
     } else {
       Alert.alert('Error', networkText);

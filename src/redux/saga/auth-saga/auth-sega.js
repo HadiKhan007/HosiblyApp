@@ -73,14 +73,10 @@ export function* signUpRequest() {
 
 function* signUp(params) {
   try {
-    registerUser(params?.params)
-      .then(res => {
-        console.log(res?.data);
-        params?.cbSuccess(res.data);
-      })
-      .catch(error => {
-        params?.cbFailure(error);
-      });
+    const res = yield registerUser(params?.params);
+    if (res) {
+      params?.cbSuccess(res.data);
+    }
   } catch (error) {
     let msg = responseValidator(error?.response?.status, error?.response?.data);
     params?.cbFailure(msg);
