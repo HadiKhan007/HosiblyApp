@@ -395,6 +395,8 @@ const allSales = [
   },
 ];
 
+const networkText = 'Check Internet Connection';
+
 export {
   IOS,
   ANDROID,
@@ -419,4 +421,5 @@ export {
   allMatches,
   recentSales,
   allSales,
+  networkText,
 };

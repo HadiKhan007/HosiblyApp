@@ -1,18 +1,55 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-import {AppButton, AppHeader, AppInput, BackHeader} from '../../../components';
+import React, {useState} from 'react';
+import {Alert, Text, View} from 'react-native';
 import {
+  AppButton,
+  AppHeader,
+  AppInput,
+  AppLoader,
+  BackHeader,
+} from '../../../components';
+import {
+  checkConnected,
   colors,
+  networkText,
   resetFormFields,
   ResetPasswordVS,
 } from '../../../shared/exporter';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {resetPassRequest} from '../../../redux/actions';
 
-const ResetPassword = ({navigation}) => {
-  const onSubmitLogin = values => {
-    navigation.navigate('Login');
+const ResetPassword = ({navigation, route}) => {
+  const [loading, setLoading] = useState(false);
+  const {forgotPassRes} = useSelector(state => state.auth);
+
+  const dispatch = useDispatch(null);
+
+  //On Submit
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setLoading(true);
+      const form = new FormData();
+      form.append(
+        route?.params?.email ? 'user[email]' : 'user[phone_number]',
+        route?.params?.email ? route?.params?.email : route?.params?.phone,
+      );
+      form.append('user[password]', values?.password);
+      form.append('user[otp]', forgotPassRes?.otp);
+      const resetSuccess = async res => {
+        navigation?.replace('Login');
+        setLoading(false);
+      };
+      const resetFailure = async res => {
+        setLoading(false);
+        Alert.alert('Error', res);
+      };
+      dispatch(resetPassRequest(form, resetSuccess, resetFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
   };
 
   return (
@@ -23,7 +60,7 @@ const ResetPassword = ({navigation}) => {
         <Formik
           initialValues={resetFormFields}
           onSubmit={values => {
-            onSubmitLogin(values);
+            onSubmit(values);
           }}
           validationSchema={ResetPasswordVS}>
           {({
@@ -85,6 +122,7 @@ const ResetPassword = ({navigation}) => {
           )}
         </Formik>
       </View>
+      <AppLoader loading={loading} />
     </View>
   );
 };

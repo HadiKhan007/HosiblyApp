@@ -1,19 +1,69 @@
-import React from 'react';
-import {Image, SafeAreaView, Text, View} from 'react-native';
-import {AppButton, AppHeader, AppInput, BackHeader} from '../../../components';
+import React, {useState} from 'react';
+import {Alert, Image, SafeAreaView, Text, View} from 'react-native';
+import {
+  AppButton,
+  AppHeader,
+  AppInput,
+  AppLoader,
+  BackHeader,
+} from '../../../components';
 import {
   appIcons,
+  checkConnected,
   colors,
-  forgotFormFields,
-  ForgotPasswordVS,
+  networkText,
   PhoneAuthFields,
   PhoneAuthFieldsVS,
 } from '../../../shared/exporter';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
+import {useDispatch} from 'react-redux';
+import {forgotPassRequest} from '../../../redux/actions';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const VerifyPhone = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+  const [country, setcountry] = useState({
+    name: 'United States',
+    callingCode: ['1'],
+  });
+  const [cca2, setcca2] = useState('US');
+
+  const dispatch = useDispatch(null);
+
+  const setCountryValue = val => {
+    setcca2(val.cca2);
+    setcountry(val);
+  };
+
+  //On Submit
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setLoading(true);
+      const form = new FormData();
+      form.append('user[phone_number]', values.contact);
+
+      dispatch(
+        forgotPassRequest(
+          'phone',
+          form,
+          res => {
+            setLoading(false);
+            navigation?.navigate('VerifyOTP', {phone: values?.contact});
+          },
+          res => {
+            Alert.alert('Error', res);
+            setLoading(false);
+          },
+        ),
+      );
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />
@@ -22,7 +72,7 @@ const VerifyPhone = ({navigation}) => {
         <Formik
           initialValues={PhoneAuthFields}
           onSubmit={values => {
-            navigation?.navigate('VerifyOTP');
+            onSubmit(values);
           }}
           validationSchema={PhoneAuthFieldsVS}>
           {({
@@ -40,7 +90,7 @@ const VerifyPhone = ({navigation}) => {
                 <AppInput
                   onChangeText={handleChange('contact')}
                   renderErrorMessage={true}
-                  placeholder="+123 456 789"
+                  placeholder={`+${country?.callingCode[0]}23 456 789`}
                   value={values.contact}
                   onBlur={() => setFieldTouched('contact')}
                   blurOnSubmit={false}
@@ -51,7 +101,17 @@ const VerifyPhone = ({navigation}) => {
                   title={'Phone Number'}
                   keyboardType={'phone-pad'}
                   rightIcon={
-                    <Image source={appIcons.america} style={styles.iconStyle} />
+                    <CountryPicker
+                      onSelect={setCountryValue}
+                      translation="eng"
+                      withFlag={true}
+                      withEmoji={true}
+                      countryCode={cca2}
+                      withFilter={true}
+                      withAlphaFilter={true}
+                    />
+
+                    // <Image source={appIcons.america} style={styles.iconStyle} />
                   }
                 />
                 <Text style={styles.textStyle}>
@@ -78,6 +138,7 @@ const VerifyPhone = ({navigation}) => {
           )}
         </Formik>
       </View>
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

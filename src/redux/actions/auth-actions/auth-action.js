@@ -35,9 +35,10 @@ export const signUpRequest = (params, cbSuccess, cbFailure) => {
 };
 
 //Forgot Password Action
-export const forgotPassRequest = (params, cbSuccess, cbFailure) => {
+export const forgotPassRequest = (route, params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.FORGOT_PASSWORD_REQUEST,
+    route,
     params,
     cbSuccess,
     cbFailure,

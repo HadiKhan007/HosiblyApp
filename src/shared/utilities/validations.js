@@ -32,7 +32,6 @@ export const forgotFormFields = {
 };
 
 export const resetFormFields = {
-  old_password: '',
   password: '',
   confirmPassword: '',
 };
@@ -114,11 +113,6 @@ export const CodeVS = yup.object().shape({
 });
 
 export const ResetPasswordVS = yup.object().shape({
-  old_password: yup
-    .string()
-    .min(6, 'Old Password must be at least 6 characters')
-    .required('Old Password Required'),
-
   password: yup
     .string()
     .min(6, 'Password must be at least 6 characters')

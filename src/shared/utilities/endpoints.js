@@ -1,17 +1,15 @@
-// const BASE_URL = 'https://billion-pound.herokuapp.com/api/v1/';
-// const BASE_URL = 'http://192.168.11.164:3000/api/v1/';
-const BASE_URL = 'http://18.212.50.13/api/v1/';
+const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
 
 const ENDPOINTS = {
   REGISTER: 'signup',
-  LOGIN: 'signin',
+  LOGIN: 'login',
   GOOGLE_SIGN_IN: 'google_login',
   APPLE_SIGN_IN: 'apple_login',
-  FORGOT_PASS: 'password/forgot',
-  RESET_PASS: 'password/reset',
+  FORGOT_PASS: 'forgot_password',
+  RESET_PASS: 'reset_password',
   LOGOUT: 'logout',
   ACCESS_TOKEN: 'get_access_token',
-  VERIFY_OTP: 'password/check_otp',
+  VERIFY_OTP: 'verify_otp',
   EXERCISES: 'exercises',
   USER_EXERCISES: 'user_exercises',
   EVENTS: 'events',

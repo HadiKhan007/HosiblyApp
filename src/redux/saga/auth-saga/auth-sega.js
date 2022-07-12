@@ -17,28 +17,15 @@ export function* loginRequest() {
 function* login(params) {
   try {
     const res = yield loginUser(params?.params);
-    if (res.data) {
+    if (res) {
       yield put({
         type: types.LOGIN_REQUEST_SUCCESS,
         payload: res.data,
       });
-      yield put({
-        type: types.GET_PROFILE_SUCCESS,
-        payload: res.data?.user,
-      });
-
       params?.cbSuccess(res.data);
-    } else {
-      yield put({
-        type: types.LOGIN_REQUEST_FAILURE,
-        payload: null,
-      });
-      params?.cbFailure(res?.data);
-      console.log('==============login failed======================');
-      console.log(res?.data);
-      console.log('====================================');
     }
   } catch (error) {
+    console.log(error);
     yield put({
       type: types.LOGIN_REQUEST_FAILURE,
       payload: null,
@@ -107,22 +94,15 @@ export function* forgotPassRequest() {
 
 function* forgot(params) {
   try {
-    const res = yield forgotPassword(params?.params);
+    const res = yield forgotPassword(params?.route, params?.params);
     if (res.data) {
       yield put({
         type: types.FORGOT_PASSWORD_SUCCESS,
-        payload: {...params?.params, ...res?.data},
+        payload: res.data,
       });
       params?.cbSuccess(res.data);
-    } else {
-      yield put({
-        type: types.FORGOT_PASSWORD_FAILURE,
-        payload: null,
-      });
-      params?.cbFailure(res?.data);
     }
   } catch (error) {
-    console.log(error);
     yield put({
       type: types.FORGOT_PASSWORD_FAILURE,
       payload: null,
@@ -146,14 +126,9 @@ function* verifyOTP(params) {
         payload: res?.data,
       });
       params?.cbSuccess(res.data);
-    } else {
-      yield put({
-        type: types.OTP_VERIFY_FAILURE,
-        payload: null,
-      });
-      params?.cbFailure(res?.data);
     }
   } catch (error) {
+    console.log(error);
     yield put({
       type: types.OTP_VERIFY_FAILURE,
       payload: null,

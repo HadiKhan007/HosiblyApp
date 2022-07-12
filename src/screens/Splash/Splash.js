@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {View, Text, Image, StatusBar} from 'react-native';
 import {appLogos} from '../../shared/theme/assets';
@@ -8,9 +9,15 @@ const Splash = ({navigation}) => {
     handleAppEntry();
   }, []);
 
-  const handleAppEntry = () => {
+  const handleAppEntry = async () => {
+    const isnotWalkthrough = await AsyncStorage.getItem('walkthrough');
+
     setTimeout(() => {
-      navigation.replace('App');
+      if (isnotWalkthrough) {
+        navigation.replace('App');
+      } else {
+        navigation.replace('Walkthrough');
+      }
     }, 2500);
   };
 

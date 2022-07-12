@@ -1,24 +1,64 @@
-import React from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
-import {AppButton, AppInput, AppHeader, BackHeader} from '../../../components';
+import React, {useState} from 'react';
+import {Text, View, SafeAreaView, Alert} from 'react-native';
 import {
+  AppButton,
+  AppInput,
+  AppHeader,
+  BackHeader,
+  AppLoader,
+} from '../../../components';
+import {
+  checkConnected,
   colors,
   forgotFormFields,
   ForgotPasswordVS,
+  networkText,
 } from '../../../shared/exporter';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
+import {useDispatch} from 'react-redux';
+import {forgotPassRequest} from '../../../redux/actions';
 
 const ForgotPassword = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch(null);
+
+  //On Submit
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setLoading(true);
+      const form = new FormData();
+      form.append('user[email]', values.email);
+
+      dispatch(
+        forgotPassRequest(
+          'email',
+          form,
+          res => {
+            setLoading(false);
+            navigation?.navigate('VerifyOTP', {email: values?.email});
+          },
+          () => {
+            setLoading(false);
+          },
+        ),
+      );
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />
       <BackHeader title={'Enter Email Address'} />
       <Formik
         initialValues={forgotFormFields}
-        onSubmit={values => {
-          navigation?.navigate('VerifyOTP');
+        onSubmit={(values, {resetForm}) => {
+          onSubmit(values);
+          resetForm();
         }}
         validationSchema={ForgotPasswordVS}>
         {({
@@ -72,6 +112,7 @@ const ForgotPassword = ({navigation}) => {
           </KeyboardAwareScrollView>
         )}
       </Formik>
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

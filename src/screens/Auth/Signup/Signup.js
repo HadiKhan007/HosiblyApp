@@ -19,7 +19,7 @@ import {
 import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const SignUp = ({navigation, route}) => {
+const Signup = ({navigation, route}) => {
   const handleSignUp = values => {
     let item = route?.params?.item;
     let profileType = route?.params?.regPurpose;
@@ -175,4 +175,4 @@ const SignUp = ({navigation, route}) => {
   );
 };
 
-export default SignUp;
+export default Signup;

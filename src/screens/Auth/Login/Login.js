@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
 import {
   AppButton,
   AppInput,
@@ -12,11 +12,13 @@ import {
 import {
   appIcons,
   appLogos,
+  checkConnected,
   colors,
   commonStyles,
   family,
   loginFormFields,
   LoginVS,
+  networkText,
   spacing,
 } from '../../../shared/exporter';
 import {
@@ -26,12 +28,14 @@ import {
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
+import {useDispatch} from 'react-redux';
+import {loginRequest} from '../../../redux/actions';
 
 const Login = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [showSlide, setShowSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
+  const dispatch = useDispatch(null);
   useEffect(() => {
     GoogleSignin.signOut();
   }, []);
@@ -75,6 +79,26 @@ const Login = ({navigation}) => {
     setShowSlide(0);
   };
 
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setIsLoading(true);
+      const form = new FormData();
+      form.append('user[email]', values.email);
+      form.append('user[password]', values.password);
+      const loginSuccess = async res => {
+        navigation?.replace('App');
+        setIsLoading(false);
+      };
+      const loginFailure = async res => {
+        Alert.alert('Error', res);
+        setIsLoading(false);
+      };
+      dispatch(loginRequest(form, loginSuccess, loginFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
   return (
     <>
       <MyStatusBar />
@@ -83,7 +107,7 @@ const Login = ({navigation}) => {
           <Formik
             initialValues={loginFormFields}
             onSubmit={values => {
-              navigation.navigate('App');
+              onSubmit(values);
             }}
             validationSchema={LoginVS}>
             {({
@@ -219,6 +243,7 @@ const Login = ({navigation}) => {
           />
         </View>
       </View>
+      <AppLoader loading={isLoading} />
     </>
   );
 };

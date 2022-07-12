@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, SafeAreaView, Text, View} from 'react-native';
 import {
   AppButton,
@@ -18,8 +18,18 @@ import {
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const EditProfile = ({navigation}) => {
+  const [country, setcountry] = useState({
+    name: 'United States',
+    callingCode: ['1'],
+  });
+  const [cca2, setcca2] = useState('US');
+  const setCountryValue = val => {
+    setcca2(val.cca2);
+    setcountry(val);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />
@@ -63,7 +73,7 @@ const EditProfile = ({navigation}) => {
                 <AppInput
                   onChangeText={handleChange('phone')}
                   renderErrorMessage={true}
-                  placeholder="+123 456 789"
+                  placeholder={`+${country?.callingCode[0]}23 456 789`}
                   value={values.phone}
                   onBlur={() => setFieldTouched('phone')}
                   blurOnSubmit={false}
@@ -74,7 +84,16 @@ const EditProfile = ({navigation}) => {
                   title={'Phone Number'}
                   keyboardType={'phone-pad'}
                   rightIcon={
-                    <Image source={appIcons.america} style={styles.iconStyle} />
+                    <CountryPicker
+                      onSelect={setCountryValue}
+                      translation="eng"
+                      withFlag={true}
+                      withEmoji={true}
+                      countryCode={cca2}
+                      withFilter={true}
+                      withAlphaFilter={true}
+                    />
+                    // <Image source={appIcons.america} style={styles.iconStyle} />
                   }
                 />
                 <Text style={styles.textStyle}>Edit Bio</Text>

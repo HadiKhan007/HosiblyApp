@@ -1,12 +1,14 @@
 import React, {useRef, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {AppButton, AppHeader, BackHeader} from '../../../components';
+import {AppButton, AppHeader, AppLoader, BackHeader} from '../../../components';
 import {
+  checkConnected,
   codeFormFields,
   CodeVS,
   colors,
   family,
+  networkText,
   spacing,
 } from '../../../shared/exporter';
 import styles from './styles';
@@ -17,6 +19,8 @@ import {
 } from 'react-native-confirmation-code-field';
 import CountDown from 'react-native-countdown-component';
 import {Formik} from 'formik';
+import {verifyOTPRequest} from '../../../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const VerifyOTP = ({navigation, route}) => {
   const [value, setValue] = useState('');
@@ -25,15 +29,50 @@ const VerifyOTP = ({navigation, route}) => {
     setValue,
   });
   const [resendCode, setResendCode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch(null);
   //Reference Declraration
   const ref = useRef();
-  const onSubmit = () => {
-    if (route?.params?.registeration) {
-      navigation?.navigate('AddPersonalInfo');
+
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setLoading(true);
+      const form = new FormData();
+      form.append('user[email]', route?.params?.email);
+      form.append('otp', values?.otp);
+
+      const otpSuccess = async res => {
+        if (res?.error == 'Incorrect Email or OTP') {
+          if (route?.params?.registeration) {
+            navigation?.replace('AddPersonalInfo');
+          } else {
+            navigation?.replace(
+              'ResetPassword',
+              route?.params?.email
+                ? {
+                    email: route?.params?.email,
+                  }
+                : {
+                    phone: route?.params?.phone,
+                  },
+            );
+          }
+        } else {
+          Alert.alert('Error', res?.error);
+        }
+        setLoading(false);
+      };
+      const otpFailure = async res => {
+        setLoading(false);
+        Alert.alert('Error', res);
+      };
+      dispatch(verifyOTPRequest(form, otpSuccess, otpFailure));
     } else {
-      navigation?.navigate('ResetPassword');
+      Alert.alert('Error', networkText);
     }
   };
+
   return (
     <View style={styles.rootContainer}>
       <AppHeader />
@@ -42,7 +81,7 @@ const VerifyOTP = ({navigation, route}) => {
         <Formik
           initialValues={codeFormFields}
           onSubmit={values => {
-            onSubmit();
+            onSubmit(values);
           }}
           validationSchema={CodeVS}>
           {({
@@ -166,6 +205,7 @@ const VerifyOTP = ({navigation, route}) => {
             </KeyboardAwareScrollView>
           )}
         </Formik>
+        <AppLoader loading={loading} />
       </View>
     </View>
   );

@@ -51,6 +51,7 @@ export {
   beds_list,
   bath_list,
   lat_frontage_list,
+  networkText,
 } from './utilities/constant';
 export {header, authHeader} from './utilities/headers';
 export {
