@@ -9,11 +9,13 @@ export const colors = {
   s2: '#622690',
   s3: '#9C69DD',
   s4: '#B88BF0',
+  s5: '#12B07E',
 
   // Black Color
   b1: '#000000',
   b2: '#15141F',
   b3: '#252525',
+  b4: '#1E1E1E',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -41,6 +43,7 @@ export const colors = {
   g23: '#2D2D2D',
   g24: '#EEEEEE',
   g25: '#DDDDDD',
+  g26: '#E6E6E6',
 
   //White colors
   white: '#ffffff',

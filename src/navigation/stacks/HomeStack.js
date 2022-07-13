@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 function HomeStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="AllSales"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AllMatches" component={AllMatches} />

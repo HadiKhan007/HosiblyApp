@@ -56,6 +56,9 @@ export const appIcons = {
   modelHome: require('../../assets/icons/model_home.png'),
   condo: require('../../assets/icons/condo.png'),
   vacant: require('../../assets/icons/vacant.png'),
+  editIcon: require('../../assets/icons/edit_icon.png'),
+  delIcon: require('../../assets/icons/del_icon.png'),
+  markedIcon: require('../../assets/icons/marked_icon.png'),
 };
 
 export const appSvgs = {

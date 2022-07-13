@@ -14,7 +14,7 @@ const Splash = ({navigation}) => {
 
     setTimeout(() => {
       if (isnotWalkthrough) {
-        navigation.replace('Auth');
+        navigation.replace('App');
       } else {
         navigation.replace('Walkthrough');
       }

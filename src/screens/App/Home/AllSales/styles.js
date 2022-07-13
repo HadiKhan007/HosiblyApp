@@ -82,9 +82,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.g24,
   },
   itemContainer: {
+    paddingTop: WP('1'),
+    alignItems: 'center',
     flexDirection: 'row',
-    paddingBottom: WP('4.2'),
-    paddingHorizontal: WP('4'),
+    paddingBottom: WP('2'),
+    justifyContent: 'center',
+    paddingHorizontal: WP('12'),
+    backgroundColor: colors.white,
   },
   flStyle: {
     paddingBottom: platformOrientedCode(WP('13'), hasNotch ? 0 : WP('13')),
@@ -163,6 +167,74 @@ const styles = StyleSheet.create({
   },
   countTxtStyle: {
     color: colors.b1,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
+  },
+  // swipeable list
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  backTextWhite: {
+    color: '#FFF',
+  },
+  backBtnsContainer: {
+    flex: 1,
+    paddingLeft: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  backLeftBtn: {
+    top: 0,
+    bottom: 0,
+    width: 85,
+    alignItems: 'center',
+    position: 'absolute',
+    justifyContent: 'center',
+  },
+  backLeftBtnLeft: {
+    left: 0,
+    backgroundColor: colors.g26,
+  },
+  backLeftBtnRight: {
+    left: 85,
+    width: 90,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    backgroundColor: colors.s5,
+  },
+  backRightBtn: {
+    top: 0,
+    bottom: 0,
+    width: 85,
+    alignItems: 'center',
+    position: 'absolute',
+    justifyContent: 'center',
+  },
+  backRightBtnLeft: {
+    right: 85,
+    width: 90,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+    backgroundColor: colors.g26,
+  },
+  backRightBtnRight: {
+    right: 0,
+    backgroundColor: colors.r1,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+    marginBottom: 9,
+  },
+  editBtnTxtStyle: {
+    color: colors.b4,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
+  },
+  btnTxtStyle: {
+    color: colors.white,
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Medium,
   },

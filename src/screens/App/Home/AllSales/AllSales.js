@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import {BackHeader} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
@@ -26,7 +20,10 @@ const AllSales = () => {
 
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.itemContainer}>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.itemContainer}
+        onPress={() => console.log('You touched me')}>
         <Image source={item?.img} style={styles.imgStyle} />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
@@ -70,6 +67,65 @@ const AllSales = () => {
             )}
           </View>
         </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const closeRow = (map, key) => {
+    map && map[key] && map[key].closeRow();
+  };
+
+  const onRowDidOpen = rowKey => {
+    console.log('This row opened', rowKey);
+  };
+
+  const renderHiddenItem = (data, rowMap) => {
+    return (
+      <View style={styles.backBtnsContainer}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={[styles.backLeftBtn, styles.backLeftBtnLeft]}
+          onPress={() => closeRow(rowMap, data?.index)}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.editIcon}
+            style={styles.iconStyle}
+          />
+          <Text style={styles.editBtnTxtStyle}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={[styles.backLeftBtn, styles.backLeftBtnRight]}
+          onPress={() => closeRow(rowMap, data?.index)}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.markedIcon}
+            style={styles.iconStyle}
+          />
+          <Text style={styles.btnTxtStyle}>Mark as Sold</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={[styles.backRightBtn, styles.backRightBtnLeft]}
+          onPress={() => closeRow(rowMap, data?.index)}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.editIcon}
+            style={styles.iconStyle}
+          />
+          <Text style={styles.editBtnTxtStyle}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={[styles.backRightBtn, styles.backRightBtnRight]}
+          onPress={() => closeRow(rowMap, data?.index)}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.delIcon}
+            style={styles.iconStyle}
+          />
+          <Text style={styles.btnTxtStyle}>Delete</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -150,13 +206,30 @@ const AllSales = () => {
           </MenuItem>
         </Menu>
       </View>
-      <FlatList
-        data={allSales}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.flStyle}
-      />
+      <View style={styles.container}>
+        <SwipeListView
+          useFlatList
+          data={allSales}
+          renderItem={renderItem}
+          renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
+          leftOpenValue={180}
+          rightOpenValue={-180}
+          // previewRowKey={'0'}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          closeOnScroll
+          onRowDidOpen={onRowDidOpen}
+          onRowOpen={(rowKey, rowMap) => {
+            let key = rowKey;
+            if (key === rowKey) return;
+            setTimeout(() => {
+              rowMap[rowKey].closeRow();
+            }, 2000);
+          }}
+          // closeOnRowPress
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
     </SafeAreaView>
   );
 };
