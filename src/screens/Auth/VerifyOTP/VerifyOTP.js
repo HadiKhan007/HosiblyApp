@@ -19,7 +19,7 @@ import {
 } from 'react-native-confirmation-code-field';
 import CountDown from 'react-native-countdown-component';
 import {Formik} from 'formik';
-import {verifyOTPRequest} from '../../../redux/actions';
+import {resendOTPRequest, verifyOTPRequest} from '../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 const VerifyOTP = ({navigation, route}) => {
@@ -43,23 +43,20 @@ const VerifyOTP = ({navigation, route}) => {
       form.append('otp', values?.code);
 
       const otpSuccess = async res => {
-        if (res?.error != 'Incorrect Email or OTP') {
-          if (route?.params?.registeration) {
-            navigation?.replace('AddPersonalInfo');
-          } else {
-            navigation?.replace(
-              'ResetPassword',
-              route?.params?.email
-                ? {
-                    email: route?.params?.email,
-                  }
-                : {
-                    phone: route?.params?.phone,
-                  },
-            );
-          }
+        console.log('Data', res);
+        if (route?.params?.registeration) {
+          navigation?.replace('AddPersonalInfo');
         } else {
-          Alert.alert('Error', res?.error);
+          navigation?.replace(
+            'ResetPassword',
+            route?.params?.email
+              ? {
+                  email: route?.params?.email,
+                }
+              : {
+                  phone: route?.params?.phone,
+                },
+          );
         }
         setLoading(false);
       };
@@ -70,6 +67,32 @@ const VerifyOTP = ({navigation, route}) => {
       };
 
       dispatch(verifyOTPRequest(form, otpSuccess, otpFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  //Resend OTP
+  const resendOtp = async () => {
+    const check = await checkConnected();
+    if (check) {
+      setLoading(true);
+      const resendForm = new FormData();
+      resendForm.append('user[email]', route?.params?.email);
+      dispatch(
+        resendOTPRequest(
+          resendForm,
+          res => {
+            console.log('OTP RESEND', res);
+            setLoading(false);
+            Alert.alert('Success', 'OTP send Successfully');
+          },
+          res => {
+            setLoading(false);
+            Alert.alert('Error', res);
+          },
+        ),
+      );
     } else {
       Alert.alert('Error', networkText);
     }
@@ -105,9 +128,6 @@ const VerifyOTP = ({navigation, route}) => {
                   onChangeText={val => {
                     handleChange('code')(val);
                     setValue(val);
-                    if (val.length == 6) {
-                      onSubmit();
-                    }
                   }}
                   cellCount={6}
                   onBlur={() => setFieldTouched('code')}
@@ -152,6 +172,7 @@ const VerifyOTP = ({navigation, route}) => {
                   disabled={resendCode}
                   onPress={() => {
                     setResendCode(true);
+                    resendOtp();
                   }}
                   activeOpacity={0.7}>
                   {resendCode ? (

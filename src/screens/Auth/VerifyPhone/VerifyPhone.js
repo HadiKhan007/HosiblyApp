@@ -50,6 +50,7 @@ const VerifyPhone = ({navigation}) => {
           'phone',
           form,
           res => {
+            console.log('phone forgot otp', res);
             setLoading(false);
             navigation?.navigate('VerifyOTP', {phone: values?.contact});
           },

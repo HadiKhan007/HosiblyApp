@@ -25,7 +25,7 @@ const ForgotPassword = ({navigation}) => {
   const dispatch = useDispatch(null);
 
   //On Submit
-  const onSubmit = async values => {
+  const onSubmit = async (values, resetForm) => {
     const check = await checkConnected();
     if (check) {
       setLoading(true);
@@ -37,10 +37,13 @@ const ForgotPassword = ({navigation}) => {
           'email',
           form,
           res => {
+            console.log('Forgot otp', res);
             setLoading(false);
+            resetForm();
             navigation?.navigate('VerifyOTP', {email: values?.email});
           },
-          () => {
+          res => {
+            // Alert.alert('Error', res);
             setLoading(false);
           },
         ),
@@ -57,8 +60,7 @@ const ForgotPassword = ({navigation}) => {
       <Formik
         initialValues={forgotFormFields}
         onSubmit={(values, {resetForm}) => {
-          onSubmit(values);
-          resetForm();
+          onSubmit(values, resetForm);
         }}
         validationSchema={ForgotPasswordVS}>
         {({
