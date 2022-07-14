@@ -1,25 +1,49 @@
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {
+  AppLoader,
   BackHeader,
   MyStatusBar,
   ProfileField,
-  ProfileImageBox,
 } from '../../../components';
-import {appIcons, colors, spacing} from '../../../shared/exporter';
+import {useDispatch} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {getProfileRequest} from '../../../redux/actions';
+import {appIcons, colors, profile_uri, spacing} from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 
 const Profile = ({navigation}) => {
+  const dispatch = useDispatch(null);
+  const [data, setData] = useState([]);
+  const [userImage, setUserImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isFocus = useIsFocused(null);
+
+  useEffect(() => {
+    getUserProfile();
+  }, [isFocus, navigation]);
+
+  const getUserProfile = () => {
+    setIsLoading(true);
+    const getProfileSuccess = async res => {
+      setData(res?.user);
+      setUserImage(res?.user?.image);
+      console.log('Profile image ==> ', res?.user?.image);
+      setIsLoading(false);
+    };
+    const getProfileFailure = async err => {
+      console.log('Err is ==> ', err);
+      Alert.alert('Error', err);
+      setIsLoading(false);
+    };
+    dispatch(getProfileRequest(getProfileSuccess, getProfileFailure));
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <AppLoader loading={isLoading} />
       <MyStatusBar />
       <View style={spacing.my2}>
         <BackHeader
@@ -29,32 +53,30 @@ const Profile = ({navigation}) => {
       </View>
       <View style={styles.contentContainer}>
         <View style={spacing.py4}>
-          <ProfileImageBox />
-          <Text style={styles.h1}>Davis Vaccaro</Text>
+          <View style={styles.imgCon}>
+            <Image
+              style={styles.imgStyle}
+              source={{
+                uri: 'http://res.cloudinary.com/dsoaq1rmb/image/upload/5wdphiadwv8anyrln77iufqjzx36.JPG',
+              }}
+            />
+          </View>
+          <Text style={styles.h1}>{data?.full_name}</Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('EditProfile');
+              navigation.navigate('EditProfile', {item: data});
             }}
             style={styles.iconCon}>
             <Image style={styles.iconStyle} source={appIcons.bgPencil} />
           </TouchableOpacity>
         </View>
         <View style={spacing.my4}>
-          <Text style={styles.desc}>
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit. Exercitation
-            veniam consequat sunt nostrud amet. Amet minim mollit non deserunt
-            ullamco est sit aliqua dolor do amet sint. Velit officia consequat
-            duis enim velit mollit. Exercitation. More...
-          </Text>
+          <Text style={styles.desc}>{data?.description}</Text>
         </View>
         <Divider color={colors.g18} />
         <View style={spacing.py4}>
-          <ProfileField
-            title={'Email Address'}
-            subtitle={'hardenausaff@gmail.com'}
-          />
-          <ProfileField title={'Phone Number'} subtitle={'+123 456 789'} />
+          <ProfileField title={'Email Address'} subtitle={data?.email} />
+          <ProfileField title={'Phone Number'} subtitle={data?.phone_number} />
         </View>
       </View>
     </SafeAreaView>

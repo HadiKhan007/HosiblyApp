@@ -42,10 +42,10 @@ const Login = ({navigation}) => {
 
   const handleGoogleLogin = async () => {
     try {
-      setIsLoading(true);
       // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
       if (idToken) {
+        setIsLoading(true);
         handleSocialLogin('google', idToken);
       } else {
         setIsLoading(false);
@@ -66,9 +66,10 @@ const Login = ({navigation}) => {
 
   const handleSocialLogin = (provider, token) => {
     const socialLoginSuccess = async res => {
-      console.log('Res is ==> ', res);
       setIsLoading(false);
-      navigation?.replace('App');
+      setTimeout(() => {
+        navigation?.replace('App');
+      }, 500);
     };
     const socialLoginFailure = async err => {
       console.log('Err is ==> ', err);
@@ -80,6 +81,7 @@ const Login = ({navigation}) => {
     form.append('provider', provider);
     form.append('token', token);
 
+    console.log('Token is => ', token);
     dispatch(socialLoginRequest(form, socialLoginSuccess, socialLoginFailure));
   };
 

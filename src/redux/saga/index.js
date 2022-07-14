@@ -13,6 +13,11 @@ import {
   addInfoRequestSega,
 } from './auth-saga/auth-sega';
 
+import {
+  getProfileRequest,
+  updateProfileRequest,
+} from './settings-saga/settings-saga';
+
 export function* rootSaga() {
   yield fork(loginRequest);
   yield fork(signUpRequest);
@@ -24,4 +29,6 @@ export function* rootSaga() {
   yield fork(OTPVerifyRequest);
   yield fork(resendOTPRequestSega);
   yield fork(addInfoRequestSega);
+  yield fork(getProfileRequest);
+  yield fork(updateProfileRequest);
 }

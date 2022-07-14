@@ -20,8 +20,13 @@ export const loginUser = async params => {
   return res.data;
 };
 
-export const socialLogin = params => {
-  return HTTP_CLIENT.post(`${BASE_URL}${ENDPOINTS?.SOCIAL_LOGIN}`, params);
+export const socialLogin = async params => {
+  const res = await axios.post(`${BASE_URL}${ENDPOINTS.SOCIAL_LOGIN}`, params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
 };
 
 export const forgotPassword = async (route, params) => {

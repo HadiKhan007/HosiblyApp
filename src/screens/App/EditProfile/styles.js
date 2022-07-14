@@ -29,6 +29,23 @@ const styles = StyleSheet.create({
   inputContainer: {
     // paddingVertical: WP('5'),
   },
+  imgCon: {
+    height: 122,
+    width: 122,
+    borderRadius: 15,
+    backgroundColor: colors.g8,
+    borderWidth: 1,
+    alignSelf: 'center',
+    borderStyle: 'dashed',
+    borderColor: colors.g9,
+  },
+  imgStyle: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   iconStyle: {
     height: 30,
     width: 30,

@@ -48,12 +48,13 @@ export function* socialLoginRequest() {
 function* socialLoginUser(params) {
   try {
     const res = yield socialLogin(params?.params);
-    if (res.data) {
+    if (res) {
       yield put({
         type: types.SOCIAL_LOGIN_REQUEST_SUCCESS,
-        payload: res.data,
+        payload: res,
       });
-      params?.cbSuccess(res.data);
+      AsyncStorage.setItem('usertoken', res?.user?.auth_token);
+      params?.cbSuccess(res);
     } else {
       yield put({
         type: types.SOCIAL_LOGIN_REQUEST_FAILURE,

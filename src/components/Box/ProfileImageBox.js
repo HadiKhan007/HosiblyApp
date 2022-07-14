@@ -1,11 +1,22 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {colors, profile_uri} from '../../shared/exporter';
+import {Image, StyleSheet, View} from 'react-native';
+import {colors, platformOrientedCode, profile_uri} from '../../shared/exporter';
 
-export const ProfileImageBox = () => {
+export const ProfileImageBox = ({imageUrl, onlyImg = false}) => {
+  console.log('Image URL is ==> ', imageUrl);
   return (
     <View style={styles.imgCon}>
-      <Image style={styles.imgStyle} source={{uri: profile_uri}} />
+      <Image
+        style={styles.imgStyle}
+        source={{
+          uri:
+            imageUrl === ''
+              ? profile_uri
+              : onlyImg
+              ? imageUrl
+              : platformOrientedCode(imageUrl?.path, imageUrl?.sourceURL),
+        }}
+      />
     </View>
   );
 };

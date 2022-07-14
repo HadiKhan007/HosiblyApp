@@ -10,6 +10,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP('3.85'),
     flex: 1,
   },
+  imgCon: {
+    height: 122,
+    width: 122,
+    borderRadius: 15,
+    backgroundColor: colors.g8,
+    borderWidth: 1,
+    alignSelf: 'center',
+    borderStyle: 'dashed',
+    borderColor: colors.g9,
+  },
+  imgStyle: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inputContainer: {
     paddingVertical: WP('10'),
   },

@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 import authReducer from './auth-reducers/auth-reducer';
+import settingsReducers from './settings-reducers/settings-reducers';
 import * as types from '../actions/types';
 
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   auth: authReducer,
+  settings: settingsReducers,
 });
 
 const rootReducer = (state, action) => {

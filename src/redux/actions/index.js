@@ -1,3 +1,4 @@
+// login actions
 export {
   loginRequest,
   signUpRequest,
@@ -10,3 +11,8 @@ export {
   resendOTPRequest,
   addInfoRequest,
 } from './auth-actions/auth-action';
+// settings actions
+export {
+  getProfileRequest,
+  updateProfileRequest,
+} from './settings-actions/settings-actions';
