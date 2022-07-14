@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   innerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
+    justifyContent: 'space-between',
   },
   nameTxtStyle: {
     width: '78%',
@@ -173,8 +173,9 @@ const styles = StyleSheet.create({
   },
   // swipeable list
   container: {
-    backgroundColor: 'white',
     flex: 1,
+    backgroundColor: 'white',
+    paddingBottom: platformOrientedCode(WP('16'), hasNotch ? 0 : WP('16')),
   },
   backTextWhite: {
     color: '#FFF',

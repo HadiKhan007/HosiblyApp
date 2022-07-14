@@ -30,7 +30,6 @@ const Profile = ({navigation}) => {
     const getProfileSuccess = async res => {
       setData(res?.user);
       setUserImage(res?.user?.image);
-      console.log('Profile image ==> ', res?.user?.image);
       setIsLoading(false);
     };
     const getProfileFailure = async err => {
@@ -64,9 +63,7 @@ const Profile = ({navigation}) => {
           <View style={styles.imgCon}>
             <Image
               style={styles.imgStyle}
-              source={{
-                uri: 'http://res.cloudinary.com/dsoaq1rmb/image/upload/5wdphiadwv8anyrln77iufqjzx36.JPG',
-              }}
+              source={{uri: userImage === '' ? profile_uri : userImage}}
             />
           </View>
           <Text style={styles.h1}>{data?.full_name}</Text>

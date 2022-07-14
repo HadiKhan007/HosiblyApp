@@ -228,6 +228,7 @@ const AllSales = () => {
           }}
           // closeOnRowPress
           keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </SafeAreaView>
