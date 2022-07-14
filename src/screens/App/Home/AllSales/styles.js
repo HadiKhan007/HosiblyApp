@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
   innerRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'space-between'
   },
   nameTxtStyle: {
     width: '78%',
