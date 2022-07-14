@@ -38,6 +38,7 @@ const ResetPassword = ({navigation, route}) => {
       );
       form.append('user[password]', values?.password);
       const resetSuccess = async res => {
+        console.log(res);
         navigation?.replace('Login');
         setLoading(false);
       };

@@ -26,10 +26,12 @@ const EditProfile = ({navigation}) => {
     callingCode: ['1'],
   });
   const [cca2, setcca2] = useState('US');
+
   const setCountryValue = val => {
     setcca2(val.cca2);
     setcountry(val);
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader />

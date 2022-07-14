@@ -11,7 +11,7 @@ const ENDPOINTS = {
   ACCESS_TOKEN: 'get_access_token',
   VERIFY_OTP: 'verify_otp',
   INFO_CONST: 'register_user',
-  RESEND_OTP: 'verify_otp/email_resend_otp',
+  RESEND_OTP: 'verify_otp/resend_otp',
 };
 
 export {BASE_URL, ENDPOINTS};

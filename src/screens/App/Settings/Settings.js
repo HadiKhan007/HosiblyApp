@@ -6,17 +6,21 @@ import styles from './styles';
 import {useDispatch} from 'react-redux';
 import {logoutRequset} from '../../../redux/actions';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = ({navigation}) => {
   const dispatch = useDispatch(null);
+
   const logout = async () => {
     dispatch(
       logoutRequset(null, () => {
         navigation?.replace('Auth');
         GoogleSignin.signOut();
+        AsyncStorage.removeItem('usertoken');
       }),
     );
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
