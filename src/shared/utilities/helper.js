@@ -35,29 +35,36 @@ export const capitalizeFirstLetter = string => {
 export const responseValidator = (response, errorMsg) => {
   let errorCode = response;
   if (errorCode == 401) {
-    if (errorMsg?.error) {
-      const msg = errorMsg?.error[0];
+    if (errorMsg) {
+      const msg = errorMsg?.message;
       return msg;
     } else {
       return 'Something went wrong!';
     }
   } else if (errorCode == 400) {
-    if (errorMsg?.error) {
-      const msg = errorMsg?.error[0];
+    if (errorMsg) {
+      const msg = errorMsg?.message;
       return msg;
     } else {
       return 'Something went wrong!';
     }
   } else if (errorCode == 404) {
-    if (errorMsg?.error) {
-      const msg = errorMsg?.error[0];
+    if (errorMsg) {
+      const msg = errorMsg?.message;
+      return msg;
+    } else {
+      return 'Something went wrong!';
+    }
+  } else if (errorCode == 422) {
+    if (errorMsg) {
+      const msg = errorMsg?.message;
       return msg;
     } else {
       return 'Something went wrong!';
     }
   } else if (errorCode == 500) {
-    if (errorMsg?.error) {
-      const msg = errorMsg?.error[0];
+    if (errorMsg) {
+      const msg = errorMsg?.message;
       return msg;
     } else {
       return 'Internal Server Error Please Try Again!';
@@ -66,7 +73,6 @@ export const responseValidator = (response, errorMsg) => {
     return 'Something went wrong!';
   }
 };
-
 export const checkBrand = name => {
   if (name == 'Visa') {
     return appIcons.blueBg;

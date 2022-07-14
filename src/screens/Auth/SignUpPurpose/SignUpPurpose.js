@@ -17,7 +17,7 @@ const SignupPurpose = ({navigation, route}) => {
 
   return (
     <View style={styles.rootContainer}>
-      <StatusBar hidden />
+      <StatusBar backgroundColor={'transparent'} translucent={true} />
       <ImageBackground source={appImages.homeImg} style={styles.bgImgStyle}>
         <Text style={styles.helloTxtStyle}>Hello, roberto</Text>
         <Text style={styles.chooseTxtStyle}>

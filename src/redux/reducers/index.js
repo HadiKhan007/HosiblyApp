@@ -1,19 +1,10 @@
 import {combineReducers} from 'redux';
-import activityReducer from './activity-reducer/activity-reducer';
-
 import authReducer from './auth-reducers/auth-reducer';
-import eventReducer from './event-reducer/event-reducer';
-import exerciseReducer from './exercise-reducer/exercise-reducer';
-import profileReducer from './profile-reducers/profile-reducer';
 import * as types from '../actions/types';
 
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   auth: authReducer,
-  profile: profileReducer,
-  exercise: exerciseReducer,
-  event: eventReducer,
-  activity: activityReducer,
 });
 
 const rootReducer = (state, action) => {

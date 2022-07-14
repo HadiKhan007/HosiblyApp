@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {
   AppButton,
@@ -19,14 +20,62 @@ import {
   AddPersonalInfoField,
   AddPersonalInfoVS,
   appIcons,
+  checkConnected,
+  networkText,
 } from '../../../shared/exporter';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {addInfoRequest} from '../../../redux/actions';
 
 const AddPersonalInfo = ({navigation}) => {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const {userInfo} = useSelector(state => state?.auth);
+  const dispatch = useDispatch(null);
+  const onSubmit = async values => {
+    const check = await checkConnected();
+    if (check) {
+      const imgObj = {
+        uri: values?.image?.path,
+        type: values?.image?.mime,
+        name: values?.image?.fileName,
+      };
+      setLoading(true);
+      const form = new FormData();
+      form.append('user[description]', values?.desc);
+      form.append('user[avatar]', imgObj);
+      const addInfoSuccess = async res => {
+        console.log('updated', res);
+        // if (route?.params?.registeration) {
+        //   navigation?.replace('AddPersonalInfo');
+        // } else {
+        //   navigation?.replace(
+        //     'ResetPassword',
+        //     route?.params?.email
+        //       ? {
+        //           email: route?.params?.email,
+        //         }
+        //       : {
+        //           phone: route?.params?.phone,
+        //         },
+        //   );
+        // }
+        setLoading(false);
+      };
+
+      const addInfoFailure = async res => {
+        setLoading(false);
+        Alert.alert('Error', res);
+      };
+
+      dispatch(addInfoRequest(form, addInfoSuccess, addInfoFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -35,7 +84,7 @@ const AddPersonalInfo = ({navigation}) => {
       <Formik
         initialValues={AddPersonalInfoField}
         onSubmit={values => {
-          navigation?.navigate('Login');
+          onSubmit(values);
         }}
         validationSchema={AddPersonalInfoVS}>
         {({

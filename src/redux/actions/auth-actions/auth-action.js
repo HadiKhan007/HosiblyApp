@@ -44,6 +44,17 @@ export const forgotPassRequest = (route, params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+//Resend OTP Action
+export const resendOTPRequest = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.RESEND_OTP_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
 //Reset Password Action
 export const resetPassRequest = (params, cbSuccess, cbFailure) => {
   return {
@@ -57,6 +68,16 @@ export const resetPassRequest = (params, cbSuccess, cbFailure) => {
 export const verifyOTPRequest = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.OTP_VERIFY_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+//Verify OTP Action
+export const addInfoRequest = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.ADD_ADDITIONAL_INFO_REQUEST,
     params,
     cbSuccess,
     cbFailure,

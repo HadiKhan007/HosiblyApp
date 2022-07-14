@@ -87,7 +87,15 @@ const Login = ({navigation}) => {
       form.append('user[email]', values.email);
       form.append('user[password]', values.password);
       const loginSuccess = async res => {
-        navigation?.replace('App');
+        if (res?.user?.is_confirmed && res?.user?.is_otp_verified) {
+          navigation?.replace('App');
+        } else {
+          if (res?.user?.is_otp_verified) {
+            navigation?.navigate('AddPersonalInfo');
+          } else {
+            navigation?.navigate('VerifyOTP');
+          }
+        }
         setIsLoading(false);
       };
       const loginFailure = async res => {
