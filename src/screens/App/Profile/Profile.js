@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import styles from './styles';
 import {
   AppLoader,
