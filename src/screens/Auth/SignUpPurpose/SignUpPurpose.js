@@ -59,11 +59,15 @@ const SignupPurpose = ({navigation, route}) => {
             style={styles.iconStyle}
             borderColor={colors.white}
             shadowColor={colors.white}
-            onPress={() => setSelected('contractor')}
-            bgColor={selected === 'contractor' ? colors.s2 : colors.g12}
-            textColor={selected === 'contractor' ? colors.white : colors.b1}
+            onPress={() => setSelected('want_support_closer')}
+            bgColor={
+              selected === 'want_support_closer' ? colors.s2 : colors.g12
+            }
+            textColor={
+              selected === 'want_support_closer' ? colors.white : colors.b1
+            }
             icon={
-              selected === 'contractor'
+              selected === 'want_support_closer'
                 ? appIcons.buyHome
                 : appIcons.contractorHome
             }

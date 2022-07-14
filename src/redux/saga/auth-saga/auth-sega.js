@@ -149,7 +149,7 @@ export function* resetPassRequest() {
 
 function* resetPass(params) {
   try {
-    const res = yield resetPassword(params?.params);
+    const res = yield resetPassword(params?.route, params?.params);
     if (res) {
       yield put({
         type: types.RESET_PASSWORD_SUCCESS,
@@ -191,6 +191,7 @@ function* logout(params) {
       type: types.LOGOUT_REQUEST_SUCCESS,
       payload: params,
     });
+    params?.callBack();
   } catch (error) {
     console.log(error);
   }

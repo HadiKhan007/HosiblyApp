@@ -47,7 +47,7 @@ const Signup = ({navigation, route}) => {
         data.append('user[user_type]', item?.userType.toLowerCase());
         data.append('user[profile_type]', profileType);
         const signUpSuccess = async res => {
-          navigation?.navigate('VerifyOTP', {
+          navigation?.replace('VerifyOTP', {
             registeration: true,
             email: values?.email,
           });

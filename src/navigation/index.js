@@ -10,6 +10,7 @@ import FilterScreen from '../screens/App/FilterScreen';
 import SubFilterScreen from '../screens/App/SubFilterScreen';
 import Profile from '../screens/App/Profile';
 import EditProfile from '../screens/App/EditProfile';
+import Settings from '../screens/App/Settings';
 
 const AppStack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'SubFilterScreen'} component={SubFilterScreen} />
         <AppStack.Screen name={'Profile'} component={Profile} />
         <AppStack.Screen name={'EditProfile'} component={EditProfile} />
+        <AppStack.Screen name={'Settings'} component={Settings} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

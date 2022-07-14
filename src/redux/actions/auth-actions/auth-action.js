@@ -56,9 +56,10 @@ export const resendOTPRequest = (params, cbSuccess, cbFailure) => {
 };
 
 //Reset Password Action
-export const resetPassRequest = (params, cbSuccess, cbFailure) => {
+export const resetPassRequest = (route, params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.RESET_PASSWORD_REQUEST,
+    route,
     params,
     cbSuccess,
     cbFailure,
@@ -94,9 +95,10 @@ export const set_user_type_request = (params, cbSuccess) => {
 };
 
 //Set Walkthrough Action
-export const logoutRequset = params => {
+export const logoutRequset = (params, callBack) => {
   return {
     type: TYPES.LOGOUT_REQUEST_REQUEST,
     params,
+    callBack,
   };
 };

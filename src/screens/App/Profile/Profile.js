@@ -24,7 +24,15 @@ const Profile = ({navigation}) => {
       <View style={spacing.my2}>
         <BackHeader
           subtitle={'Your Profile'}
-          rightIcon={<Icon type={'ionicons'} name={'settings'} />}
+          rightIcon={
+            <Icon
+              type={'ionicons'}
+              name={'settings'}
+              onPress={() => {
+                navigation?.navigate('Settings');
+              }}
+            />
+          }
         />
       </View>
       <View style={styles.contentContainer}>

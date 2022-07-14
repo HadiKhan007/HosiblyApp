@@ -39,7 +39,10 @@ const VerifyOTP = ({navigation, route}) => {
     if (check) {
       setLoading(true);
       const form = new FormData();
-      form.append('user[email]', route?.params?.email);
+      form.append(
+        route?.params?.email ? 'user[email]' : 'user[phone_number]',
+        route?.params?.email ? route?.params?.email : route?.params?.phone,
+      );
       form.append('otp', values?.code);
 
       const otpSuccess = async res => {

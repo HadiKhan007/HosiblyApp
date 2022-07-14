@@ -37,7 +37,6 @@ const ResetPassword = ({navigation, route}) => {
         route?.params?.email ? route?.params?.email : route?.params?.phone,
       );
       form.append('user[password]', values?.password);
-      form.append('user[otp]', forgotPassRes?.otp);
       const resetSuccess = async res => {
         navigation?.replace('Login');
         setLoading(false);
@@ -46,7 +45,14 @@ const ResetPassword = ({navigation, route}) => {
         setLoading(false);
         Alert.alert('Error', res);
       };
-      dispatch(resetPassRequest(form, resetSuccess, resetFailure));
+      dispatch(
+        resetPassRequest(
+          route?.params?.email ? 'email' : 'phone',
+          form,
+          resetSuccess,
+          resetFailure,
+        ),
+      );
     } else {
       Alert.alert('Error', networkText);
     }
