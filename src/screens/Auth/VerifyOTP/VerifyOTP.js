@@ -155,7 +155,9 @@ const VerifyOTP = ({navigation, route}) => {
                   <Text style={styles.errorStyle}>{errors.code}</Text>
                 )}
                 <Text style={styles.paraTextStyle}>
-                  Please enter your verification code sent to your email account
+                  {`Please enter your verification code sent to your ${
+                    route?.params?.email ? 'email account' : 'phone number'
+                  }`}
                 </Text>
               </View>
               <View style={styles.btnCon}>
