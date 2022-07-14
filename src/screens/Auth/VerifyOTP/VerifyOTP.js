@@ -43,7 +43,6 @@ const VerifyOTP = ({navigation, route}) => {
       form.append('otp', values?.code);
 
       const otpSuccess = async res => {
-        console.log('Data', res);
         if (route?.params?.registeration) {
           navigation?.replace('AddPersonalInfo');
         } else {

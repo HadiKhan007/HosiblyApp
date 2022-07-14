@@ -93,7 +93,10 @@ const Login = ({navigation}) => {
           if (res?.user?.is_otp_verified) {
             navigation?.navigate('AddPersonalInfo');
           } else {
-            navigation?.navigate('VerifyOTP');
+            navigation?.navigate('VerifyOTP', {
+              email: values?.email,
+              registeration: true,
+            });
           }
         }
         setIsLoading(false);
