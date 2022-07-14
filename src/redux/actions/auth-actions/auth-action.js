@@ -9,21 +9,17 @@ export const loginRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
 //Social Login Action
-export const socialLoginRequest = (
-  login_type,
-  params,
-  cbSuccess,
-  cbFailure,
-) => {
+export const socialLoginRequest = (params, cbSuccess, cbFailure) => {
   return {
-    type: TYPES.SOCIAL_LOGIN_REQUEST_REQUEST,
-    login_type,
+    type: TYPES.SOCIAL_LOGIN_REQUEST,
     params,
     cbSuccess,
     cbFailure,
   };
 };
+
 //Sign up obj Action
 export const signUpRequest = (params, cbSuccess, cbFailure) => {
   return {

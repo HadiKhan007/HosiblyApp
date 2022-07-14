@@ -3,7 +3,7 @@ const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
 const ENDPOINTS = {
   REGISTER: 'signup.json',
   LOGIN: 'login',
-  GOOGLE_SIGN_IN: 'google_login',
+  SOCIAL_LOGIN: 'social_login',
   APPLE_SIGN_IN: 'apple_login',
   FORGOT_PASS: 'forgot_password',
   RESET_PASS: 'reset_password',

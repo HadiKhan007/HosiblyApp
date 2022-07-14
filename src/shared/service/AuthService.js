@@ -20,15 +20,8 @@ export const loginUser = async params => {
   return res.data;
 };
 
-export const socialLogin = (logintype, params) => {
-  return HTTP_CLIENT.post(
-    `${
-      logintype == 'google'
-        ? ENDPOINTS.GOOGLE_SIGN_IN
-        : ENDPOINTS?.APPLE_SIGN_IN
-    }`,
-    params,
-  );
+export const socialLogin = params => {
+  return HTTP_CLIENT.post(`${BASE_URL}${ENDPOINTS?.SOCIAL_LOGIN}`, params);
 };
 
 export const forgotPassword = async (route, params) => {

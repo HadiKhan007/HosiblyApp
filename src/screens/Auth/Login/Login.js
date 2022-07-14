@@ -29,7 +29,7 @@ import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import {useDispatch} from 'react-redux';
-import {loginRequest} from '../../../redux/actions';
+import {loginRequest, socialLoginRequest} from '../../../redux/actions';
 
 const Login = ({navigation}) => {
   const [show, setShow] = useState(false);
@@ -64,8 +64,23 @@ const Login = ({navigation}) => {
     }
   };
 
-  const handleSocialLogin = (type, token) => {
-    console.log('Token is ==> ', token);
+  const handleSocialLogin = (provider, token) => {
+    const socialLoginSuccess = async res => {
+      console.log('Res is ==> ', res);
+      setIsLoading(false);
+      navigation?.replace('App');
+    };
+    const socialLoginFailure = async err => {
+      console.log('Err is ==> ', err);
+      Alert.alert('Error', err);
+      setIsLoading(false);
+    };
+
+    const form = new FormData();
+    form.append('provider', provider);
+    form.append('token', token);
+
+    dispatch(socialLoginRequest(form, socialLoginSuccess, socialLoginFailure));
   };
 
   const handleNavigation = (userType, licensed, contacted) => {

@@ -42,11 +42,12 @@ function* login(params) {
 
 // *************Social Login Login Sega**************
 export function* socialLoginRequest() {
-  yield takeLatest(types.SOCIAL_LOGIN_REQUEST_REQUEST, socialLoginUser);
+  yield takeLatest(types.SOCIAL_LOGIN_REQUEST, socialLoginUser);
 }
+
 function* socialLoginUser(params) {
   try {
-    const res = yield socialLogin(params?.login_type, params?.params);
+    const res = yield socialLogin(params?.params);
     if (res.data) {
       yield put({
         type: types.SOCIAL_LOGIN_REQUEST_SUCCESS,
