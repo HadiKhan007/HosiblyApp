@@ -102,16 +102,22 @@ const Login = ({navigation}) => {
       form.append('user[email]', values.email);
       form.append('user[password]', values.password);
       const loginSuccess = async res => {
+        setIsLoading(false);
+
         if (res?.user?.is_confirmed && res?.user?.is_otp_verified) {
-          navigation?.replace('App');
+          setTimeout(() => {
+            navigation?.replace('App');
+          }, 500);
         } else {
           if (res?.user?.is_otp_verified) {
             navigation?.navigate('AddPersonalInfo');
           } else {
-            navigation?.navigate('VerifyOTP');
+            navigation?.navigate('VerifyOTP', {
+              email: values?.email,
+              registeration: true,
+            });
           }
         }
-        setIsLoading(false);
       };
       const loginFailure = async res => {
         Alert.alert('Error', res);

@@ -79,7 +79,7 @@ export const addInfo = async params => {
     {
       headers: {
         'Content-Type': 'multipart/form-data',
-        auth_token: `${await GetToken()}`,
+        auth_token: await GetToken(),
       },
     },
   );

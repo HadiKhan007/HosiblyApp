@@ -12,6 +12,7 @@ import {
   AppButton,
   AppHeader,
   AppInput,
+  AppLoader,
   BackHeader,
   ImagePickerModal,
   TextBox,
@@ -38,39 +39,25 @@ const AddPersonalInfo = ({navigation}) => {
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
+      setLoading(true);
       const imgObj = {
         uri: values?.image?.path,
         type: values?.image?.mime,
-        name: values?.image?.fileName,
+        name: values?.image?.fileName || 'image',
       };
-      setLoading(true);
       const form = new FormData();
       form.append('user[description]', values?.desc);
       form.append('user[avatar]', imgObj);
       const addInfoSuccess = async res => {
-        console.log('updated', res);
-        // if (route?.params?.registeration) {
-        //   navigation?.replace('AddPersonalInfo');
-        // } else {
-        //   navigation?.replace(
-        //     'ResetPassword',
-        //     route?.params?.email
-        //       ? {
-        //           email: route?.params?.email,
-        //         }
-        //       : {
-        //           phone: route?.params?.phone,
-        //         },
-        //   );
-        // }
         setLoading(false);
+        setTimeout(() => {
+          navigation?.replace('App');
+        }, 500);
       };
-
       const addInfoFailure = async res => {
         setLoading(false);
         Alert.alert('Error', res);
       };
-
       dispatch(addInfoRequest(form, addInfoSuccess, addInfoFailure));
     } else {
       Alert.alert('Error', networkText);
@@ -78,112 +65,115 @@ const AddPersonalInfo = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.rootContainer}>
-      <AppHeader />
-      <BackHeader title={'Your Information'} />
-      <Formik
-        initialValues={AddPersonalInfoField}
-        onSubmit={values => {
-          onSubmit(values);
-        }}
-        validationSchema={AddPersonalInfoVS}>
-        {({
-          values,
-          handleChange,
-          errors,
-          setFieldTouched,
-          touched,
-          isValid,
-          handleSubmit,
-          setFieldValue,
-        }) => {
-          //Gallery Handlers
-          const showGallery = () => {
-            setShow(false);
-            setTimeout(() => {
-              ImagePicker.openPicker({
-                width: 300,
-                height: 400,
-              }).then(image => {
-                setFieldValue('image', image);
-                setShow(false);
-              });
-            }, 400);
-          };
-          //Camra Handlers
-          const showCamera = () => {
-            setShow(false);
-            setTimeout(() => {
-              ImagePicker.openCamera({
-                width: 300,
-                height: 400,
-              }).then(image => {
-                setFieldValue('image', image);
+    <>
+      <SafeAreaView style={styles.rootContainer}>
+        <AppHeader />
+        <BackHeader title={'Your Information'} />
+        <Formik
+          initialValues={AddPersonalInfoField}
+          onSubmit={values => {
+            onSubmit(values);
+          }}
+          validationSchema={AddPersonalInfoVS}>
+          {({
+            values,
+            handleChange,
+            errors,
+            setFieldTouched,
+            touched,
+            isValid,
+            handleSubmit,
+            setFieldValue,
+          }) => {
+            //Gallery Handlers
+            const showGallery = () => {
+              setShow(false);
+              setTimeout(() => {
+                ImagePicker.openPicker({
+                  width: 300,
+                  height: 400,
+                }).then(image => {
+                  setFieldValue('image', image);
+                  setShow(false);
+                });
+              }, 400);
+            };
+            //Camra Handlers
+            const showCamera = () => {
+              setShow(false);
+              setTimeout(() => {
+                ImagePicker.openCamera({
+                  width: 300,
+                  height: 400,
+                }).then(image => {
+                  setFieldValue('image', image);
 
-                setShow(false);
-              });
-            }, 400);
-          };
-          return (
-            <View style={styles.contentContainer}>
-              <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.inputContainer}>
-                  <View style={styles.imgCon}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShow(true);
-                      }}>
-                      <ImageBackground
-                        style={[styles.imgStyle]}
-                        imageStyle={{
-                          borderRadius: 15,
-                        }}
-                        source={{
-                          uri: values.image?.path,
+                  setShow(false);
+                });
+              }, 400);
+            };
+            return (
+              <View style={styles.contentContainer}>
+                <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+                  <View style={styles.inputContainer}>
+                    <View style={styles.imgCon}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setShow(true);
                         }}>
-                        <Image
-                          style={styles.iconStyle}
-                          source={appIcons.gallery_1}
-                        />
-                      </ImageBackground>
-                    </TouchableOpacity>
-                    {errors.image && touched.image && (
-                      <Text style={styles.error}>{errors.image}</Text>
-                    )}
+                        <ImageBackground
+                          style={[styles.imgStyle]}
+                          imageStyle={{
+                            borderRadius: 15,
+                          }}
+                          source={{
+                            uri: values.image?.path,
+                          }}>
+                          <Image
+                            style={styles.iconStyle}
+                            source={appIcons.gallery_1}
+                          />
+                        </ImageBackground>
+                      </TouchableOpacity>
+                      {errors.image && touched.image && (
+                        <Text style={styles.error}>{errors.image}</Text>
+                      )}
+                    </View>
+                    <Text style={styles.h1Style}>Tell something about you</Text>
+                    <TextBox
+                      onChangeText={handleChange('desc')}
+                      value={values.desc}
+                      error={errors.desc}
+                      touched={touched.desc}
+                      placeholder={'Add here'}
+                    />
                   </View>
-                  <Text style={styles.h1Style}>Tell something about you</Text>
-                  <TextBox
-                    onChangeText={handleChange('desc')}
-                    value={values.desc}
-                    error={errors.desc}
-                    touched={touched.desc}
-                    placeholder={'Add here'}
-                  />
-                </View>
-                <View>
-                  <AppButton title={'Done'} onPress={handleSubmit} />
-                </View>
-              </KeyboardAwareScrollView>
+                  <View>
+                    <AppButton title={'Done'} onPress={handleSubmit} />
+                  </View>
+                </KeyboardAwareScrollView>
 
-              {show && (
-                <ImagePickerModal
-                  show={show}
-                  onPressCamera={() => {
-                    showCamera();
-                  }}
-                  onPressGallery={() => {
-                    showGallery();
-                  }}
-                  onPressHide={() => {
-                    setShow(false);
-                  }}
-                />
-              )}
-            </View>
-          );
-        }}
-      </Formik>
-    </SafeAreaView>
+                {show && (
+                  <ImagePickerModal
+                    show={show}
+                    onPressCamera={() => {
+                      showCamera();
+                    }}
+                    onPressGallery={() => {
+                      showGallery();
+                    }}
+                    onPressHide={() => {
+                      setShow(false);
+                    }}
+                  />
+                )}
+              </View>
+            );
+          }}
+        </Formik>
+      </SafeAreaView>
+      <AppLoader loading={loading} />
+    </>
   );
 };
 

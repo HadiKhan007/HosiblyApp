@@ -43,7 +43,6 @@ const VerifyOTP = ({navigation, route}) => {
       form.append('otp', values?.code);
 
       const otpSuccess = async res => {
-        console.log('Data', res);
         if (route?.params?.registeration) {
           navigation?.replace('AddPersonalInfo');
         } else {
@@ -156,7 +155,9 @@ const VerifyOTP = ({navigation, route}) => {
                   <Text style={styles.errorStyle}>{errors.code}</Text>
                 )}
                 <Text style={styles.paraTextStyle}>
-                  Please enter your verification code sent to your email account
+                  {`Please enter your verification code sent to your ${
+                    route?.params?.email ? 'email account' : 'phone number'
+                  }`}
                 </Text>
               </View>
               <View style={styles.btnCon}>
