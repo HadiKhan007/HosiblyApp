@@ -43,7 +43,8 @@ const ForgotPassword = ({navigation}) => {
             navigation?.navigate('VerifyOTP', {email: values?.email});
           },
           res => {
-            // Alert.alert('Error', res);
+            console.log(res);
+            Alert.alert('Error', res);
             setLoading(false);
           },
         ),

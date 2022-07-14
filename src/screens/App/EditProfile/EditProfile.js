@@ -40,6 +40,7 @@ const EditProfile = ({navigation, route}) => {
     callingCode: ['1'],
   });
   const [cca2, setcca2] = useState('US');
+
   const setCountryValue = val => {
     setcca2(val.cca2);
     setcountry(val);

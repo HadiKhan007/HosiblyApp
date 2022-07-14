@@ -14,6 +14,7 @@ const ENDPOINTS = {
   RESEND_OTP: 'verify_otp/email_resend_otp',
   GET_PROFILE: 'get_profile.json',
   UPDATE_PROFILE: 'update_profile.json',
+  RESEND_OTP: 'verify_otp/resend_otp',
 };
 
 export {BASE_URL, ENDPOINTS};

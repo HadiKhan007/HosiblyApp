@@ -55,12 +55,16 @@ export const OTPVerify = async params => {
   return res.data;
 };
 
-export const resetPassword = async params => {
-  const res = await axios.post(`${BASE_URL}${ENDPOINTS.RESET_PASS}`, params, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
+export const resetPassword = async (route, params) => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.RESET_PASS}/${route}`,
+    params,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     },
-  });
+  );
   return res.data;
 };
 
