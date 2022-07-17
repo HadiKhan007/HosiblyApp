@@ -51,7 +51,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Housibly used for camera permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Housibly use google maps</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used for microphone access</string>
 	<key>NSPhotoLibraryUsageDescription</key>

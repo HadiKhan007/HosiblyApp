@@ -4,13 +4,13 @@ import {colors} from '../../shared/exporter';
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
-const MyStatusBar = ({backgroundColor = colors.white, ...props}) => (
+const MyStatusBar = ({barStyle, backgroundColor = colors.white, ...props}) => (
   <View style={[styles.statusBar, {backgroundColor}]}>
     <SafeAreaView>
       <StatusBar
         {...props}
         translucent={true}
-        barStyle={'dark-content'}
+        barStyle={barStyle || 'dark-content'}
         backgroundColor={backgroundColor}
       />
     </SafeAreaView>

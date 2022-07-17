@@ -10,6 +10,7 @@ export const BackHeader = ({
   txtCenter = false,
   txtSize = size.h6,
   txtFamily = family.Gilroy_Bold,
+  tintColor = colors.b1,
 }) => {
   const navigation = useNavigation();
 
@@ -23,7 +24,7 @@ export const BackHeader = ({
           <Image
             resizeMode="contain"
             source={appIcons.backArrow}
-            style={styles.iconStyle}
+            style={[styles.iconStyle, {tintColor: tintColor}]}
           />
           {title && (
             <Text style={styles.titleTxtStyle(txtCenter, txtSize, txtFamily)}>

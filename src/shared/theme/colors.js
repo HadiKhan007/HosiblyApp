@@ -16,6 +16,7 @@ export const colors = {
   b2: '#15141F',
   b3: '#252525',
   b4: '#1E1E1E',
+  b5: '#222222',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -44,6 +45,8 @@ export const colors = {
   g24: '#EEEEEE',
   g25: '#DDDDDD',
   g26: '#E6E6E6',
+  g27: 'rgba(21, 20, 31, 0.4)',
+  g28: '#95999B',
 
   //White colors
   white: '#ffffff',
@@ -61,4 +64,6 @@ export const colors = {
   red: 'red',
   r1: '#FF2C2C',
   r2: '#F9595F',
+
+  over1: 'rgba(0,0,0,0.7)',
 };

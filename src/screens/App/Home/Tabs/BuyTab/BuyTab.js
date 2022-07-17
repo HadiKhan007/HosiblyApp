@@ -71,11 +71,17 @@ const BuyTab = ({navigation}) => {
           buyerRefAdvance.map((item, index) => {
             return <RenderRow item={item} index={index} />;
           })}
+
         <ImageBackground
           source={appImages.map}
           style={styles.mapImgStyle}
           imageStyle={{borderRadius: 7}}>
-          <Image source={appIcons.addressIcon} style={styles.iconStyle} />
+          <TouchableOpacity
+            onPress={() => {
+              navigation?.navigate('MapScreen');
+            }}>
+            <Image source={appIcons.addressIcon} style={styles.iconStyle} />
+          </TouchableOpacity>
           <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
         </ImageBackground>
         <View style={styles.infoRowContainer}>

@@ -38,3 +38,6 @@ export * from './Footer/AuthText';
 
 //TextFields
 export * from './TextFields/ProfileField';
+
+//Components
+export * from './MapComponent/MapComponent';
