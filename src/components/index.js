@@ -20,6 +20,7 @@ export * from './Loaders/SmallLoader';
 export * from './Inputs/AppInput';
 export * from './Inputs/PriceInput';
 export * from './Inputs/LivingSpaceInput';
+export * from './Inputs/FilterInput';
 
 //Modals
 export * from './Modal/SignUpModal';
@@ -32,6 +33,7 @@ export * from './Modal/ListModal';
 export * from './Box/DividerBox';
 export * from './Box/TextBox';
 export * from './Box/ProfileImageBox';
+export * from './Box/GalleryCard';
 
 //Footer
 export * from './Footer/AuthText';

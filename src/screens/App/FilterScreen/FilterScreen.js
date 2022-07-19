@@ -29,6 +29,7 @@ import {
 } from '../../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+const currency_list = ['CA$', 'PKR', 'INR', 'EUR'];
 
 const FilterScreen = ({navigation}) => {
   const [currency, setCurrency] = useState('USD');
@@ -69,6 +70,7 @@ const FilterScreen = ({navigation}) => {
             />
             <Divider color={colors.g18} />
             <PriceInput
+              inputs={true}
               onSelect={val => {
                 setCurrency(val);
               }}
@@ -76,6 +78,9 @@ const FilterScreen = ({navigation}) => {
               value={currency}
               onFocus={() => setIsPickerOpen(true)}
               onBlur={() => setIsPickerOpen(false)}
+              list={currency_list}
+              title={'Price'}
+              defaultValue={'USD'}
             />
             <Divider color={colors.g18} />
             <FilterButton

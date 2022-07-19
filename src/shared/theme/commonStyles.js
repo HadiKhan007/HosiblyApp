@@ -10,4 +10,8 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
+  aiRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
 });

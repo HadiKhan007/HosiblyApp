@@ -12,69 +12,90 @@ export const PriceInput = ({
   onBlur,
   placeholder1,
   placeholder2,
+  inputs,
+  text,
+  title,
+  list,
+  defaultValue,
+  dropDown,
+  subtitle,
 }) => {
-  const currency = ['CA$', 'PKR', 'INR', 'EUR'];
-
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, {justifyContent: !inputs && 'space-between'}]}>
       <View style={styles.aiRow}>
-        <Text style={[styles.h1]}>Price</Text>
-        <SelectDropdown
-          defaultValue={value}
-          onSelect={onSelect}
-          data={currency}
-          dropdownOverlayColor={'transparent'}
-          rowStyle={styles.rowStyle}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          renderCustomizedButtonChild={item => {
-            return (
-              <View>
-                <Text style={styles.rowTextStyle}>({item || 'USD'})</Text>
-              </View>
-            );
-          }}
-          buttonStyle={styles.btnStyle}
-          dropdownStyle={styles.dropdownStyle}
-          renderCustomizedRowChild={item => {
-            return (
-              <View style={styles.btnCon}>
-                <Text
-                  style={[styles.rowTextStyle, {textDecorationLine: 'none'}]}>
-                  {item}
-                </Text>
-              </View>
-            );
-          }}
-          buttonTextAfterSelection={selectedItem => selectedItem}
-          rowTextForSelection={item => item}
-          renderDropdownIcon={() => {
-            return (
-              <Icon
-                name={isPickerOpen ? 'caretup' : 'caretdown'}
-                type={'antdesign'}
-                size={10}
-                color={colors.b3}
-              />
-            );
-          }}
-        />
+        <View style={styles.headStyle}>
+          <Text style={[styles.h1]}>{title || 'Price'}</Text>
+          {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
+        </View>
+        {dropDown && (
+          <SelectDropdown
+            defaultValue={value}
+            onSelect={onSelect}
+            data={list}
+            dropdownOverlayColor={'transparent'}
+            rowStyle={styles.rowStyle}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            renderCustomizedButtonChild={item => {
+              return (
+                <View>
+                  <Text style={styles.rowTextStyle}>
+                    ({item || defaultValue})
+                  </Text>
+                </View>
+              );
+            }}
+            buttonStyle={styles.btnStyle}
+            dropdownStyle={styles.dropdownStyle}
+            renderCustomizedRowChild={item => {
+              return (
+                <View style={styles.btnCon}>
+                  <Text
+                    style={[styles.rowTextStyle, {textDecorationLine: 'none'}]}>
+                    {item}
+                  </Text>
+                </View>
+              );
+            }}
+            buttonTextAfterSelection={selectedItem => selectedItem}
+            rowTextForSelection={item => item}
+            renderDropdownIcon={() => {
+              return (
+                <Icon
+                  name={isPickerOpen ? 'caretup' : 'caretdown'}
+                  type={'antdesign'}
+                  size={10}
+                  color={colors.b3}
+                />
+              );
+            }}
+          />
+        )}
       </View>
-      <View style={styles.aiRow1}>
+      {inputs ? (
+        <View style={styles.aiRow1}>
+          <TextInput
+            placeholder={placeholder1 || '1,000,000'}
+            placeholderTextColor={colors.g19}
+            style={styles.inputStyle}
+            keyboardType={'decimal-pad'}
+          />
+          <Text style={styles.to}>to</Text>
+          <TextInput
+            style={styles.inputStyle}
+            placeholderTextColor={colors.g19}
+            placeholder={placeholder2 || '1,500,000'}
+            keyboardType={'decimal-pad'}
+          />
+        </View>
+      ) : (
         <TextInput
-          placeholder={placeholder1 || '1,000,000'}
+          placeholder={text}
           placeholderTextColor={colors.g19}
-          style={styles.inputStyle}
-          keyboardType={'decimal-pad'}
+          style={styles.simpleInputStyle}
         />
-        <Text style={styles.to}>to</Text>
-        <TextInput
-          style={styles.inputStyle}
-          placeholderTextColor={colors.g19}
-          placeholder={placeholder2 || '1,500,000'}
-          keyboardType={'decimal-pad'}
-        />
-      </View>
+      )}
     </View>
   );
 };
@@ -85,11 +106,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 60,
   },
+  subStyle: {
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_Medium,
+    color: colors.g19,
+  },
   aiRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
+  headStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   h1: {
     color: colors.b1,
     fontSize: size.xsmall,
@@ -132,6 +161,11 @@ const styles = StyleSheet.create({
     width: '40%',
     borderLeftWidth: 1,
     borderLeftColor: colors.p2,
+    color: colors.g19,
+    padding: 0,
+  },
+  simpleInputStyle: {
+    height: 50,
     color: colors.g19,
     padding: 0,
   },

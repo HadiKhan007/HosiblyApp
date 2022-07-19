@@ -181,6 +181,9 @@ const Home = ({navigation}) => {
             />
             <View style={{width: WP('3')}} />
             <AppButton
+              onPress={() => {
+                navigation?.navigate('AddPropertyDetails');
+              }}
               width="38.5%"
               height={WP('10.3')}
               borderColor={colors.p2}

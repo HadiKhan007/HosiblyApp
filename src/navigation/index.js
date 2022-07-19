@@ -12,6 +12,7 @@ import Profile from '../screens/App/Profile';
 import EditProfile from '../screens/App/EditProfile';
 import Settings from '../screens/App/Settings';
 import MapScreen from '../screens/App/Home/MapScreen';
+import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
 
 const AppStack = createNativeStackNavigator();
 
@@ -31,6 +32,10 @@ const MainAppNav = () => {
         <AppStack.Screen name={'EditProfile'} component={EditProfile} />
         <AppStack.Screen name={'Settings'} component={Settings} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
+        <AppStack.Screen
+          name={'AddPropertyDetails'}
+          component={AddPropertyDetails}
+        />
       </AppStack.Navigator>
     </NavigationContainer>
   );

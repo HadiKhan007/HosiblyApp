@@ -47,6 +47,7 @@ export const colors = {
   g26: '#E6E6E6',
   g27: 'rgba(21, 20, 31, 0.4)',
   g28: '#95999B',
+  g29: 'rgba(0, 0, 0, 0.16)',
 
   //White colors
   white: '#ffffff',
