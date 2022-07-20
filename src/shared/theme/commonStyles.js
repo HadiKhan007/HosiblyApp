@@ -6,4 +6,12 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  aiEnd: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  aiRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
 });

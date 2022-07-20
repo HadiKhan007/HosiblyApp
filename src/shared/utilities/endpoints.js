@@ -1,28 +1,20 @@
-// const BASE_URL = 'https://billion-pound.herokuapp.com/api/v1/';
-// const BASE_URL = 'http://192.168.11.164:3000/api/v1/';
-const BASE_URL = 'http://18.212.50.13/api/v1/';
+const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
 
 const ENDPOINTS = {
-  REGISTER: 'signup',
-  LOGIN: 'signin',
-  GOOGLE_SIGN_IN: 'google_login',
+  REGISTER: 'signup.json',
+  LOGIN: 'login',
+  SOCIAL_LOGIN: 'social_login.json',
   APPLE_SIGN_IN: 'apple_login',
-  FORGOT_PASS: 'password/forgot',
-  RESET_PASS: 'password/reset',
+  FORGOT_PASS: 'forgot_password',
+  RESET_PASS: 'reset_password',
   LOGOUT: 'logout',
   ACCESS_TOKEN: 'get_access_token',
-  VERIFY_OTP: 'password/check_otp',
-  EXERCISES: 'exercises',
-  USER_EXERCISES: 'user_exercises',
-  EVENTS: 'events',
-  USER_EVENTS: 'user_events',
-  USERS_TEAM: 'user_teams',
-  PROFILE: `users`,
-  FAQ: 'faqs',
-  TERMS_CONDITION: 'term_and_conditions',
-  PRIVACY_POLICY: 'privacy_policies',
-  ACTIVITY: 'exercises',
-  CHECKOUT: 'checkout',
+  VERIFY_OTP: 'verify_otp',
+  INFO_CONST: 'register_user',
+  RESEND_OTP: 'verify_otp/email_resend_otp',
+  GET_PROFILE: 'get_profile.json',
+  UPDATE_PROFILE: 'update_profile.json',
+  RESEND_OTP: 'verify_otp/resend_otp',
 };
 
 export {BASE_URL, ENDPOINTS};

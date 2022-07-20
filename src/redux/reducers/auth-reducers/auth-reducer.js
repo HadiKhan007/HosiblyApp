@@ -9,6 +9,7 @@ const initialState = {
   forgotPassRes: null,
   resetPassRes: null,
   otp_verify: null,
+  resendData: null,
 };
 const authReducer = (state = initialState, actions) => {
   const {type, payload} = actions;
@@ -40,6 +41,7 @@ const authReducer = (state = initialState, actions) => {
         isSuccess: true,
         isFailure: false,
         otp_verify: payload,
+        userInfo: payload,
       };
 
     case TYPES.OTP_VERIFY_FAILURE:
@@ -49,7 +51,28 @@ const authReducer = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
         otp_verify: null,
+        userInfo: null,
       };
+
+    //************Resend OTP  Sates*************
+
+    case TYPES.RESEND_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: true,
+        isSuccess: true,
+        isFailure: false,
+        resendData: payload,
+      };
+    case TYPES.RESEND_OTP_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: false,
+        isFailure: true,
+        resendData: null,
+      };
+
     //************Social Login Sates*************
 
     case TYPES.SOCIAL_LOGIN_REQUEST_SUCCESS:
@@ -156,4 +179,5 @@ const authReducer = (state = initialState, actions) => {
       return state;
   }
 };
+
 export default authReducer;

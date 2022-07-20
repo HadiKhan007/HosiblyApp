@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Text, Image, ScrollView, StatusBar} from 'react-native';
+import {View, Text, Image, StatusBar} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import {Spacer, AppButton} from '../../components';
 import {slidesData} from '../../shared/utilities/constant';
+import {colors} from '../../shared/exporter';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Walkthrough = ({navigation}) => {
   let slider = AppIntroSlider;
@@ -46,14 +48,23 @@ const Walkthrough = ({navigation}) => {
             </Text>
             <Spacer androidVal={54} iOSVal={54} />
             <AppButton
+              shadowColor={colors.btn_shadow}
               title="Get Started"
-              onPress={() => navigation.navigate('Auth')}
+              onPress={() => {
+                AsyncStorage.setItem('walkthrough', 'true').then(res => {
+                  navigation.replace('Auth');
+                });
+              }}
             />
             <Text style={styles.haveAccTxtStyle}>
               If you have an account,{' '}
               <Text
                 style={styles.underlineTxtStyle}
-                onPress={() => navigation.navigate('Auth')}>
+                onPress={() => {
+                  AsyncStorage.setItem('walkthrough', 'true').then(res => {
+                    navigation.replace('Auth');
+                  });
+                }}>
                 Sign in
               </Text>
             </Text>

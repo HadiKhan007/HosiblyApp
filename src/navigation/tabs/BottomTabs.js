@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, Platform, StyleSheet} from 'react-native';
+import {View, Image, Platform, StyleSheet} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {appIcons, colors, WP} from '../../shared/exporter';
 
-import HomeStack from '../stacks/Fighter/HomeStack';
-import EventStack from '../stacks/Fighter/EventStack';
-import StreamingStack from '../stacks/Fighter/StreamingStack';
-import ChatStack from '../stacks/Fighter/ChatStack';
+import HomeStack from '../stacks/HomeStack';
+import SearchStack from '../stacks/SearchStack';
+import BookMarksStack from '../stacks/BookMarksStack';
+import ChatStack from '../stacks/ChatStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +22,10 @@ export default BottomTabs = ({}) => {
           android: styles.barStyle,
           ios: hasNotch ? styles.notchBarStyle : styles.barStyle,
         }),
+        borderTopColor: 'transparent',
+        shadowColor: 'transparent',
+        borderTopWidth: 0,
+        elevation: 0,
       }}
       tabBarOptions={{
         showLabel: false,
@@ -32,50 +36,46 @@ export default BottomTabs = ({}) => {
         component={HomeStack}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              resizeMode="contain"
-              source={focused ? appIcons.fistSelIcon : appIcons.fistIcon}
-              style={styles.fistIconStyle}
-            />
+            <>
+              <Image
+                resizeMode="contain"
+                source={appIcons.homeIcon}
+                style={styles.iconStyle(focused)}
+              />
+              <View style={styles.barViewStyle(focused)} />
+            </>
           ),
         }}
       />
       <Tab.Screen
-        name="Event"
-        component={EventStack}
+        name="Search"
+        component={SearchStack}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              resizeMode="contain"
-              source={focused ? appIcons.eventsSelIcon : appIcons.eventsIcon}
-              style={styles.eventIconStyle}
-            />
+            <>
+              <Image
+                resizeMode="contain"
+                source={appIcons.searchIcon}
+                style={styles.iconStyle(focused)}
+              />
+              <View style={styles.barViewStyle(focused)} />
+            </>
           ),
         }}
       />
       <Tab.Screen
-        name="AddEvent"
-        component={EventStack}
+        name="BookMarks"
+        component={BookMarksStack}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              resizeMode="contain"
-              source={appIcons.addIcon}
-              style={styles.addIconStyle}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Streaming"
-        component={StreamingStack}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <Image
-              resizeMode="contain"
-              source={focused ? appIcons.videoSelIcon : appIcons.videoIcon}
-              style={styles.videoIconStyle}
-            />
+            <>
+              <Image
+                resizeMode="contain"
+                source={appIcons.bookmarksIcon}
+                style={styles.bookmarksIconStyle(focused)}
+              />
+              <View style={styles.barViewStyle(focused)} />
+            </>
           ),
         }}
       />
@@ -84,11 +84,14 @@ export default BottomTabs = ({}) => {
         component={ChatStack}
         options={{
           tabBarIcon: ({focused}) => (
-            <Image
-              resizeMode="contain"
-              source={focused ? appIcons.chatSelIcon : appIcons.chatIcon}
-              style={styles.chatIconStyle}
-            />
+            <>
+              <Image
+                resizeMode="contain"
+                source={appIcons.messageIcon}
+                style={styles.iconStyle(focused)}
+              />
+              <View style={styles.barViewStyle(focused)} />
+            </>
           ),
         }}
       />
@@ -98,44 +101,40 @@ export default BottomTabs = ({}) => {
 
 const styles = StyleSheet.create({
   barStyle: {
-    height: WP('20'),
-    borderWidth: 0.5,
+    height: WP('17'),
+    borderTopWidth: 0,
     position: 'absolute',
     paddingHorizontal: 5,
-    borderColor: colors.g22,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     backgroundColor: colors.white,
   },
   notchBarStyle: {
     paddingTop: 20,
-    height: WP('23'),
-    borderWidth: 0.5,
-    position: 'absolute',
+    borderTopWidth: 0,
+    height: WP('20.5'),
     paddingHorizontal: 5,
-    borderColor: colors.g22,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     backgroundColor: colors.white,
   },
-  addIconStyle: {
-    width: WP('14.5'),
-    height: WP('14.5'),
+  iconStyle: isFocused => {
+    return {
+      width: 24,
+      height: 24,
+      tintColor: isFocused ? colors.p2 : colors.g13,
+    };
   },
-  fistIconStyle: {
-    width: WP('6'),
-    height: WP('6'),
+  bookmarksIconStyle: isFocused => {
+    return {
+      width: 21,
+      height: 24,
+      tintColor: isFocused ? colors.p2 : colors.g13,
+    };
   },
-  eventIconStyle: {
-    width: WP('7.2'),
-    height: WP('7.2'),
-  },
-  videoIconStyle: {
-    width: WP('7'),
-    height: WP('7.5'),
-  },
-  chatIconStyle: {
-    width: WP('5.2'),
-    height: WP('5.2'),
+  barViewStyle: isFocused => {
+    return {
+      width: 14,
+      height: 3,
+      marginTop: 6,
+      borderRadius: 1.5,
+      backgroundColor: isFocused ? colors.p1 : colors.white,
+    };
   },
 });
