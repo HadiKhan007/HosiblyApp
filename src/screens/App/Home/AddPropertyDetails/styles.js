@@ -37,6 +37,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  textareaContainer: {
+    paddingVertical: 5,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  textarea: {
+    textAlignVertical: 'top', // hack android
+    fontSize: size.xsmall,
+    color: colors.b1,
+    fontFamily: family.Gilroy_Medium,
+  },
 });
 
 export default styles;

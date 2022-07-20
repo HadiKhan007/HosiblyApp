@@ -21,6 +21,7 @@ export * from './Inputs/AppInput';
 export * from './Inputs/PriceInput';
 export * from './Inputs/LivingSpaceInput';
 export * from './Inputs/FilterInput';
+export * from './Inputs/HomeInput';
 
 //Modals
 export * from './Modal/SignUpModal';

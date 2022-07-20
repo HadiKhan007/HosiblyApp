@@ -134,12 +134,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     shadowRadius: 12,
     borderRadius: 12,
-    height: '100%',
+    height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
     width: '80%',
-    alignSelf: 'center',
-    marginVertical: 10,
+    alignSelf: 'flex-end',
+    marginBottom: 5,
+    borderWidth: 1,
+    borderColor: colors.g29,
   },
   btnStyle: {
     width: '40%',
@@ -148,8 +150,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dropdownStyle: {
-    marginVertical: Platform.select({android: -25}),
+    marginVertical: Platform.select({android: -25, ios: -15}),
     width: '20%',
+    backgroundColor: colors.white,
   },
   rowStyle: {
     borderBottomWidth: 0,
