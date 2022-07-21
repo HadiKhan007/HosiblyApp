@@ -226,20 +226,12 @@ const AddPropertyDetails = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => {
-                setshowMore(!showMore);
+                // setshowMore(!showMore);
+                navigation?.navigate('AddMorePropertyDetails');
               }}
               style={styles.aiRow}>
               <Text style={styles.textStyle}>Show advanced options</Text>
-              <Icon
-                name={showMore ? 'caretup' : 'caretdown'}
-                type={'antdesign'}
-                size={10}
-                color={colors.p1}
-                style={{marginLeft: 5}}
-              />
             </TouchableOpacity>
-            {/* {showMore && (
-            )} */}
           </View>
           <View style={styles.spacRow}>
             <AppButton

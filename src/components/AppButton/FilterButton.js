@@ -7,7 +7,7 @@ export const FilterButton = ({title, onPress}) => {
   return (
     <View style={styles.continer}>
       <TouchableOpacity onPress={onPress} style={styles.btnCon}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title]}>{title}</Text>
         <Icon name={'right'} type={'antdesign'} color={colors.g19} size={15} />
       </TouchableOpacity>
     </View>
