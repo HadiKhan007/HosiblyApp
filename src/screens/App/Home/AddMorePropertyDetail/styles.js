@@ -22,31 +22,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: WP('5'),
   },
-  aiRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: WP('6'),
-  },
-  textStyle: {
-    color: colors.p1,
-    fontSize: size.xsmall,
-    fontFamily: family.Gilroy_Medium,
-  },
+
   spacRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  textareaContainer: {
-    paddingVertical: 5,
-    borderRadius: 10,
-    marginVertical: 10,
-  },
-  textarea: {
-    textAlignVertical: 'top', // hack android
-    fontSize: size.xsmall,
-    color: colors.b1,
-    fontFamily: family.Gilroy_Medium,
   },
 });
 

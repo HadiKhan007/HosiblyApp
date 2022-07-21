@@ -10,6 +10,7 @@ import React, {useRef, useState} from 'react';
 import {
   AppButton,
   BackHeader,
+  DetailButton,
   FilterButton,
   FilterInput,
   GalleryCard,
@@ -22,23 +23,27 @@ import {
   TextBox,
 } from '../../../../components';
 import styles from './styles';
-import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {
   colors,
-  property_type_list,
+  home_items,
+  inputItems,
   size,
   spacing,
   WP,
 } from '../../../../shared/exporter';
-import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import ImagePicker from 'react-native-image-crop-picker';
-import Textarea from 'react-native-textarea';
-import {Data, newItem} from '../../../../components/DetailsLIst.js/DetailList';
-import {DetailButton} from '../../../../components/AppButton/DetailButton';
 
 const AddMorePropertyDetails = ({navigation}) => {
-  console.log('hhh-----', Data);
+  const onFinish = () => {
+    const selectedItems = home_items.filter(
+      item => item != undefined && item?.value != '',
+    );
+    const selectedInputs = inputItems.filter(
+      item => item != undefined && item?.value != '0',
+    );
+    const finalArray = selectedInputs.concat(home_items);
+    console.log(finalArray);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -50,32 +55,59 @@ const AddMorePropertyDetails = ({navigation}) => {
         contentContainerStyle={{paddingBottom: WP('2')}}>
         <View style={styles.contentContainer}>
           <FlatList
-            data={Data}
+            data={inputItems}
             renderItem={({item, index}) => {
               return (
-                <View>
-                  <PriceInput
-                    text={item.num}
-                    title={item.name}
-                    source={item.icon}
-                    marginRight={WP(3)}
-                  />
-                </View>
+                <PriceInput
+                  text={item?.value}
+                  title={item.name}
+                  source={item.icon}
+                  marginRight={WP('3')}
+                  onChangeText={text => {
+                    inputItems[index].value = text;
+                  }}
+                />
               );
             }}
           />
           <FlatList
-            data={newItem}
-            renderItem={({index, item}) => {
+            data={home_items}
+            renderItem={({item, index}) => {
               return (
-                <View>
-                  <DetailButton title={item.name} source={item.Img} />
-                </View>
+                <DetailButton
+                  onPress={() => {
+                    home_items[index].value = item?.title;
+                  }}
+                  title={item?.title}
+                  source={item.Img}
+                />
               );
             }}
           />
+          <View style={styles.spacRow}>
+            <AppButton
+              width={'45%'}
+              bgColor={colors.g21}
+              title={'Save'}
+              fontSize={size.tiny}
+              borderColor={colors.g21}
+              onPress={() => {
+                onFinish();
+              }}
+              shadowColor={colors.white}
+            />
+
+            <AppButton
+              onPress={() => {
+                onFinish();
+              }}
+              width={'45%'}
+              bgColor={colors.p2}
+              title={'Done'}
+              fontSize={size.tiny}
+            />
+          </View>
         </View>
-        <ListModal />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );

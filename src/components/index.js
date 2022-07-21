@@ -5,6 +5,7 @@ export * from './Header/BackHeader';
 //Button
 export * from './AppButton/AppButton';
 export * from './AppButton/FilterButton';
+export * from './AppButton/DetailButton';
 
 //StatusBar
 export * from './Bar/MyStatusBar';

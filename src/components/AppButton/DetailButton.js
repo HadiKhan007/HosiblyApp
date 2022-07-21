@@ -22,19 +22,18 @@ export const DetailButton = ({
             width: 40,
             justifyContent: 'center',
             marginRight: WP(1),
-            // backgroundColor: 'green',
           }}>
           <Image
             source={source}
-            style={{
-              height: 30,
-              width: 30,
-              marginRight: marginRight,
-              marginLeft: marginLeft,
-              marginBottom: marginBottom,
-              marginTop: marginTop,
-              tintColor: 'black',
-            }}
+            style={[
+              styles.imagStyle,
+              {
+                marginRight: marginRight,
+                marginLeft: marginLeft,
+                marginBottom: marginBottom,
+                marginTop: marginTop,
+              },
+            ]}
           />
         </View>
         <View
@@ -76,7 +75,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: '100%',
-    // justifyContent: 'space-between',
-    // backgroundColor: 'red',
+  },
+  imagStyle: {
+    tintColor: 'black',
+    resizeMode: 'contain',
+    height: 30,
+    width: 30,
   },
 });

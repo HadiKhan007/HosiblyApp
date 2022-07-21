@@ -29,6 +29,7 @@ export const PriceInput = ({
   source,
   width,
   height,
+  onChangeText,
 }) => {
   return (
     <View
@@ -111,11 +112,15 @@ export const PriceInput = ({
           />
         </View>
       ) : (
-        <TextInput
-          placeholder={text}
-          placeholderTextColor={colors.g19}
-          style={styles.simpleInputStyle}
-        />
+        <View style={{marginRight: marginRight}}>
+          <TextInput
+            onChangeText={onChangeText}
+            value={value}
+            placeholder={text}
+            placeholderTextColor={colors.g19}
+            style={styles.simpleInputStyle}
+          />
+        </View>
       )}
     </View>
   );

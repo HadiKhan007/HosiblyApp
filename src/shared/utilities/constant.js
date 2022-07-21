@@ -368,34 +368,174 @@ const allSales = [
   {
     id: 1,
     saleNum: '8',
-    name: 'White Modern House',
+    value: 'White Modern House',
     img: appImages.home3,
     imges: [1, 2, 3, 4, 5, 6, 7, 8],
   },
   {
     id: 2,
     saleNum: '3',
-    name: 'Compact Condo',
+    value: 'Compact Condo',
     img: appImages.home4,
     imges: [1, 2, 3],
   },
   {
     id: 3,
     saleNum: '5',
-    name: 'Clean Land',
+    value: 'Clean Land',
     img: appImages.home6,
     imges: [1, 2, 3, 4, 5],
   },
   {
     id: 3,
     saleNum: '3',
-    name: 'Condo Bright',
+    value: 'Condo Bright',
     img: appImages.home2,
     imges: [1, 2, 3],
   },
 ];
 
 const networkText = 'Check Internet Connection';
+
+const home_items = [
+  {
+    id: 1,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
+  },
+  {
+    id: 2,
+    title: 'Driveway',
+    value: '',
+    Img: appIcons.driveway,
+  },
+  {
+    id: 3,
+    title: 'House Type',
+    value: '',
+    Img: appIcons.HouseType,
+  },
+  {
+    id: 4,
+    title: 'House Style',
+    value: '',
+    Img: appIcons.HouseType,
+  },
+  {
+    id: 5,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
+  },
+
+  {
+    id: 7,
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+  },
+  {
+    id: 8,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+  },
+  {
+    id: 9,
+    heat_source: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+  },
+  {
+    id: 10,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+  },
+  {
+    id: 11,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+  },
+  {
+    id: 13,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+  },
+  {
+    id: 14,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+  },
+  {
+    id: 15,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+  },
+
+  {
+    id: 16,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+  },
+];
+const inputItems = [
+  {
+    id: 1,
+    name: 'Bath Rooms',
+    value: '0',
+    icon: appIcons.bath,
+  },
+  {
+    id: 2,
+    name: 'Bed Rooms',
+    value: '0',
+    icon: appIcons.bed,
+  },
+  {
+    id: 3,
+    name: 'Living Space',
+    value: '0',
+    icon: appIcons.living_space,
+  },
+  {
+    id: 4,
+    name: 'Parking Spaces',
+    value: '0',
+    icon: appIcons.parking,
+  },
+  {
+    id: 5,
+    name: 'Garage Spaces',
+    value: '0',
+    icon: appIcons.garage_space,
+  },
+  {
+    id: 6,
+    name: 'Property Taxes',
+    value: '0',
+    icon: appIcons.garage_space,
+  },
+
+  {
+    id: 7,
+    name: 'Tax Year',
+    value: '0',
+    icon: appIcons.garage_space,
+  },
+];
 
 export {
   IOS,
@@ -422,4 +562,6 @@ export {
   recentSales,
   allSales,
   networkText,
+  inputItems,
+  home_items,
 };
