@@ -111,7 +111,7 @@ const BuyTab = ({navigation}) => {
         borderColor={colors.p2}
         title="Edit Buyer Preference"
         textStyle={{fontSize: size.tiny}}
-        onPress={() => navigation.navigate('FilterScreen')}
+        onPress={() => navigation.navigate('AddMorePropertyDetails')}
       />
       <AddressModal
         show={showAddressModal}

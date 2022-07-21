@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput, View, Image} from 'react-native';
 import React from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import {colors, family, size} from '../../shared/exporter';
@@ -19,12 +19,33 @@ export const PriceInput = ({
   defaultValue,
   dropDown,
   subtitle,
+  name,
+  size,
+  color,
+  marginRight,
+  marginLeft,
+  marginBottom,
+  marginTop,
+  source,
+  width,
+  height,
 }) => {
   return (
     <View
       style={[styles.container, {justifyContent: !inputs && 'space-between'}]}>
       <View style={styles.aiRow}>
-        <View style={styles.headStyle}>
+        <View style={[styles.headStyle]}>
+          <Image
+            source={source}
+            style={{
+              height: 30,
+              width: 30,
+              marginRight: marginRight,
+              marginLeft: marginLeft,
+              marginBottom: marginBottom,
+              marginTop: marginTop,
+            }}
+          />
           <Text style={[styles.h1]}>{title || 'Price'}</Text>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
         </View>
@@ -105,6 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: 60,
+    // backgroundColor: 'red',
   },
   subStyle: {
     fontSize: size.xsmall,
