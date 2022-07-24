@@ -16,3 +16,5 @@ export {
   getProfileRequest,
   updateProfileRequest,
 } from './settings-actions/settings-actions';
+
+export {add_property_detail_request} from './app-actions/app-actions';

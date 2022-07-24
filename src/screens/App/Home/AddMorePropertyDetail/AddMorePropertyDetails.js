@@ -27,6 +27,7 @@ import {
 } from '../../../../shared/exporter';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddMorePropertyDetails = ({navigation, route}) => {
   const onFinish = () => {
@@ -37,7 +38,8 @@ const AddMorePropertyDetails = ({navigation, route}) => {
       item => item != undefined && item?.value != '0',
     );
     const finalArray = selectedInputs.concat(home_items);
-    console.log(finalArray);
+    AsyncStorage.setItem('filter_list', JSON.stringify(finalArray));
+    navigation?.goBack();
   };
   return (
     <SafeAreaView style={styles.rootContainer}>

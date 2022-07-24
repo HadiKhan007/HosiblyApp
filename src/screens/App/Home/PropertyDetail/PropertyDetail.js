@@ -30,11 +30,18 @@ import {
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
+import {useSelector} from 'react-redux';
 
 const PropertyDetail = ({navigation}) => {
+  const {add_property_detail} = useSelector(state => state?.appReducer);
   const [previewImg, setPreviewImg] = useState(
-    'https://wallpaperaccess.com/full/1700222.jpg',
+    add_property_detail?.images[0].uri,
   );
+
+  //On Post
+  const onPost = () => {
+    console.log(add_property_detail);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -46,17 +53,20 @@ const PropertyDetail = ({navigation}) => {
           <PreviewImageCover uri={previewImg} />
           <View>
             <FlatList
-              data={[
-                'https://wallpaperaccess.com/full/1700222.jpg',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc7E729KFGnU7PHF1gtIWPK17A00TcIBc1EQ&usqp=CAU',
-              ]}
+              data={add_property_detail?.images}
               renderItem={({item}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setPreviewImg(item);
+                      setPreviewImg(item?.uri);
                     }}>
-                    <PreviewImageBox onPress={() => {}} uri={item} />
+                    <PreviewImageBox
+                      onPress={() => {}}
+                      uri={
+                        item?.uri ||
+                        'https://wallpaperaccess.com/full/1700222.jpg'
+                      }
+                    />
                   </TouchableOpacity>
                 );
               }}
@@ -66,46 +76,59 @@ const PropertyDetail = ({navigation}) => {
           </View>
           <View style={spacing.my2}>
             <Text style={styles.header}>Information</Text>
-            <FlatList
-              data={[
-                {id: 0, h1: 'Price', h2: '$25,000', icon: appIcons.priceTag},
-                {id: 0, h1: 'Year Built', h2: '2012', icon: appIcons.built},
-              ]}
-              renderItem={({item}) => {
-                return <PreviewInfoCard item={item} />;
-              }}
-              numColumns={2}
-            />
+            <View style={styles.spacRow}>
+              <PreviewInfoCard
+                item={{h1: 'Price', h2: '$25,000', icon: appIcons.priceTag}}
+              />
+              <PreviewInfoCard
+                item={{
+                  h1: 'Year Built',
+                  h2: '2012',
+                  icon: appIcons.built,
+                }}
+              />
+            </View>
             <Text numberOfLines={6} style={styles.desc}>
-              Luxurious and upgraded, this 4 bedroom, 4.5 bathroom home of 5,281
-              sq. ft. (including poolhouse, per independent third-party
-              measurement) rests on a lot of 1.23 acres (per county) on a
-              peaceful cul-de-sac in the Lakeside neighborhood. Richly-appointed
-              spaces include large gathering areas. More...
+              {add_property_detail?.lot_description}
             </Text>
             <Divider color={colors.g13} />
             <PreviewField
               title={'Street Address'}
-              subtitle={'4517 New York Ave. Manchester, Kentucky 39495'}
+              subtitle={
+                add_property_detail?.address ||
+                '4517 New York Ave. Manchester, Kentucky 39495'
+              }
             />
-            <PreviewField title={'Unit'} subtitle={'23'} />
-            <PreviewField title={'Lot Frontage (sqm)'} subtitle={'23'} />
-            <PreviewField title={'Lot Depth (sqm)'} subtitle={'23'} />
+            <PreviewField
+              title={'Unit'}
+              subtitle={add_property_detail?.unit || '23'}
+            />
+            <PreviewField
+              title={'Lot Frontage (sqm)'}
+              subtitle={add_property_detail?.lot_frontage || '23'}
+            />
+            <PreviewField
+              title={'Lot Depth (sqm)'}
+              subtitle={add_property_detail?.lot_depth || '23'}
+            />
             <PreviewField title={'Lot Size (feet)'} subtitle={'23'} />
-            <PreviewField title={'Is This Lot Irregular?'} subtitle={'23'} />
+            <PreviewField
+              title={'Is This Lot Irregular?'}
+              subtitle={add_property_detail?.is_lot_irregular || 'Yes'}
+            />
             <PreviewField title={'Property Taxes'} subtitle={'23'} />
             <PreviewField title={'Tax Year'} subtitle={'23'} />
             <View style={spacing.my4}>
               <Divider color={colors.g13} />
               <FlatList
-                data={[...inputItems, ...condo_items]}
+                data={add_property_detail?.opition_data}
                 renderItem={({item}) => {
                   return (
                     <View>
                       <PreviewField
                         source={item?.Img}
                         title={item?.title}
-                        subtitle={'value'}
+                        subtitle={item?.value || 'N/A'}
                       />
                     </View>
                   );
@@ -117,12 +140,13 @@ const PropertyDetail = ({navigation}) => {
               <SmallHeading title={'Property Description'} />
               <SmallHeading
                 textColor={colors.g22}
-                title={
-                  'Luxurious and upgraded, this 4 bedroom, 4.5 bathroom home of 5,281 sq. ft. (including poolhouse, per independent third-party measurement) rests on a lot of 1.23 acres (per county) on a peaceful cul-de-sac in the Lakeside neighborhood. Richly-appointed spaces include large gathering areas.x'
-                }
+                title={add_property_detail?.property_desc || 'N/A'}
               />
               <SmallHeading title={'Appliances and other Items'} />
-              <SmallHeading textColor={colors.g22} title={'N/A'} />
+              <SmallHeading
+                textColor={colors.g22}
+                title={add_property_detail?.other_desc || 'N/A'}
+              />
             </View>
           </View>
           <View style={styles.spacRow}>
@@ -139,7 +163,7 @@ const PropertyDetail = ({navigation}) => {
             />
             <AppButton
               onPress={() => {
-                // navigation?.navigate('PropertyDetail');
+                onPost();
               }}
               width={'45%'}
               bgColor={colors.p2}

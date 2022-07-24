@@ -1,4 +1,5 @@
 import {fork} from 'redux-saga/effects';
+import {addPropertyDetailRequest} from './app-sega/app-sega';
 
 import {
   forgotPassRequest,
@@ -31,4 +32,5 @@ export function* rootSaga() {
   yield fork(addInfoRequestSega);
   yield fork(getProfileRequest);
   yield fork(updateProfileRequest);
+  yield fork(addPropertyDetailRequest);
 }

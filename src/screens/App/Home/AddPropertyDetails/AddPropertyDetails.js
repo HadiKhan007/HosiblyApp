@@ -33,6 +33,9 @@ import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
 import Textarea from 'react-native-textarea';
+import {useDispatch} from 'react-redux';
+import {add_property_detail_request} from '../../../../redux/actions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const currency_list = ['CA$'];
 const lot_list = ['meter'];
@@ -40,27 +43,34 @@ const depth_list = ['meter'];
 const size_list = ['meter'];
 
 const AddPropertyDetails = ({navigation}) => {
+  //States for form
+  const [propertyType, setPropertyType] = useState({text: 'House'});
+  const [title, setTitle] = useState('');
+  const [imageArray, setimageArray] = useState([]);
+  const [price, setPrice] = useState('');
+  const [yeardBuild, setYearBuilt] = useState('');
+  const [unit, setUnit] = useState('');
+  const [address, setAddress] = useState('');
+  const [lot, setLot] = useState('');
+  const [depth, setDepth] = useState('');
+  const [propertySize, setPropertySize] = useState('');
+  const [description, setDescription] = useState('');
+  const [lotRegular, setlotRegular] = useState(null);
+
   const [currency, setCurrency] = useState('USD');
   const [lotFrontage, setLotFrontage] = useState('feet');
   const [lotDepth, setLotDepth] = useState('feet');
   const [propsize, setpropSize] = useState('feet');
-  const [price, setPrice] = useState('0');
-  const [lot, setLot] = useState('0');
-  const [depth, setDepth] = useState('0');
-  const [propertySize, setPropertySize] = useState('0');
-  const [description, setDescription] = useState('');
 
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [propertyType, setPropertyType] = useState({text: 'House'});
   const [propertyData, setPropertyData] = useState({text: 'House'});
-  const [lotRegular, setlotRegular] = useState(null);
   const [lotRegularData, setlotRegularData] = useState(null);
 
   const [show, setShow] = useState(false);
-  const [imageArray, setimageArray] = useState([]);
   //References
   const propertyTypeRef = useRef(null);
   const lotRef = useRef(null);
+  const dispatch = useDispatch(null);
 
   //Gallery Handlers
   const showGallery = () => {
@@ -107,6 +117,36 @@ const AddPropertyDetails = ({navigation}) => {
     );
   };
 
+  const onPressNext = async () => {
+    const filter_list = await AsyncStorage.getItem('filter_list');
+    const requestBody = {
+      property_type: propertyType?.text,
+      title: title,
+      images: imageArray.map(item => {
+        return {
+          uri: item?.path,
+          name: item?.filename,
+          type: item?.mime,
+        };
+      }),
+      price: price,
+      year_built: yeardBuild,
+      address: address,
+      unit: unit,
+      lot_frontage: lot,
+      lot_depth: depth,
+      lot_size: propertySize,
+      is_lot_irregular: lotRegular?.text,
+      lot_description: description,
+      opition_data: JSON.parse(filter_list),
+    };
+    const onSuccess = res => {
+      console.log('ok');
+      navigation?.navigate('AddPropertyDesc');
+    };
+    dispatch(add_property_detail_request(requestBody, onSuccess));
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -138,7 +178,13 @@ const AddPropertyDetails = ({navigation}) => {
               subtitle={'Max 30 images'}
             />
             <Divider color={colors.g18} />
-            <FilterInput placeholder={'Title'} />
+            <FilterInput
+              placeholder={'Title'}
+              onChangeText={text => {
+                setTitle(text);
+              }}
+              value={title}
+            />
             <Divider color={colors.g18} />
             <PriceInput
               onSelect={val => {
@@ -164,19 +210,36 @@ const AddPropertyDetails = ({navigation}) => {
                   text={'e.g 21.00'}
                   title={'Years Built'}
                   subtitle={' (e.g 1994)'}
+                  onChangeText={text => {
+                    setYearBuilt(text);
+                  }}
+                  value={yeardBuild}
                 />
               </>
             )}
             {propertyType?.text != 'House' && (
               <>
                 <Divider color={colors.g18} />
-                <FilterInput placeholder={'Street Address'} />
+                <FilterInput
+                  placeholder={'Street Address'}
+                  onChangeText={text => {
+                    setAddress(text);
+                  }}
+                  value={address}
+                />
               </>
             )}
             {propertyType?.text != 'Vacant Land' && (
               <>
                 <Divider color={colors.g18} />
-                <HomeInput h1={'Unit'} h2={'(if applicable)'} />
+                <HomeInput
+                  onChangeText={text => {
+                    setUnit(text);
+                  }}
+                  value={unit}
+                  h1={'Unit'}
+                  h2={'(if applicable)'}
+                />
               </>
             )}
             {propertyType?.text != 'Condo' && (
@@ -272,6 +335,7 @@ const AddPropertyDetails = ({navigation}) => {
                   placeholder={'Describe Your Lot'}
                   placeholderTextColor={colors.g19}
                   underlineColorAndroid={'transparent'}
+                  value={description}
                   onChangeText={text => {
                     setDescription(text);
                   }}
@@ -322,7 +386,7 @@ const AddPropertyDetails = ({navigation}) => {
 
             <AppButton
               onPress={() => {
-                navigation?.navigate('AddPropertyDesc');
+                onPressNext();
               }}
               width={'45%'}
               bgColor={colors.p2}

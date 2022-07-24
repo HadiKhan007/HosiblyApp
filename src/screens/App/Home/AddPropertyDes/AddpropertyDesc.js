@@ -6,9 +6,23 @@ import {AppButton, BackHeader, MyStatusBar} from '../../../../components';
 import {colors, size, spacing, WP} from '../../../../shared/exporter';
 import Textarea from 'react-native-textarea';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
+import {useDispatch, useSelector} from 'react-redux';
+import {add_property_detail_request} from '../../../../redux/actions';
 
 const AddpropertyDesc = ({navigation}) => {
   const [propertyDesc, setpropertyDesc] = useState('');
+  const [otherDesc, setOtherDesc] = useState('');
+  const dispatch = useDispatch();
+  const {add_property_detail} = useSelector(state => state?.appReducer);
+  const onPressNext = async () => {
+    add_property_detail['property_desc'] = propertyDesc;
+    add_property_detail['other_desc'] = otherDesc;
+    const onSuccess = res => {
+      console.log('ok');
+      navigation?.navigate('PropertyDetail');
+    };
+    dispatch(add_property_detail_request(add_property_detail, onSuccess));
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -29,6 +43,7 @@ const AddpropertyDesc = ({navigation}) => {
             onChangeText={text => {
               setpropertyDesc(text);
             }}
+            value={propertyDesc}
           />
           <Divider color={colors.g18} />
           <Textarea
@@ -38,8 +53,9 @@ const AddpropertyDesc = ({navigation}) => {
             placeholderTextColor={colors.g19}
             underlineColorAndroid={'transparent'}
             onChangeText={text => {
-              setpropertyDesc(text);
+              setOtherDesc(text);
             }}
+            value={otherDesc}
           />
         </View>
         <View style={styles.spacRow}>
@@ -56,7 +72,7 @@ const AddpropertyDesc = ({navigation}) => {
           />
           <AppButton
             onPress={() => {
-              navigation?.navigate('PropertyDetail');
+              onPressNext();
             }}
             width={'45%'}
             bgColor={colors.p2}
