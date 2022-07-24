@@ -8,6 +8,7 @@ import {
   family,
   appImages,
   appIcons,
+  platformOrientedCode,
 } from '../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {MyStatusBar} from '..';
@@ -53,10 +54,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: WP('1'),
+    paddingBottom: WP('1'),
     paddingHorizontal: WP('3.85'),
     backgroundColor: colors.white,
     justifyContent: 'space-between',
+    paddingTop: platformOrientedCode(WP('4'), WP('2')),
   },
   rowContainer: {
     flexDirection: 'row',

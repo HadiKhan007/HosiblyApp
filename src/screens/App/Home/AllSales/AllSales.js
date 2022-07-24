@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {BackHeader, DeleteModal} from '../../../../components';
+import {Spacer, BackHeader, DeleteModal} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
@@ -10,6 +10,7 @@ import {
   colors,
   family,
   size,
+  WP,
 } from '../../../../shared/exporter';
 import {allSales} from '../../../../shared/utilities/constant';
 import styles from './styles';
@@ -150,6 +151,7 @@ const AllSales = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <BackHeader
         title="My Property Lists"
         txtCenter

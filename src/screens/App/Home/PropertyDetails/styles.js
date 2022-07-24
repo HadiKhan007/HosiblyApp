@@ -65,14 +65,14 @@ const styles = StyleSheet.create({
     marginLeft: -5,
     borderRadius: 8,
     height: WP('21'),
-    width: scrWidth / 3.35,
+    width: scrWidth / 3.3,
   },
   menuStyle1: {
     marginTop: 5,
     marginLeft: -5,
     borderRadius: 8,
     height: WP('27'),
-    width: scrWidth / 3,
+    width: scrWidth / 2.9,
   },
   menuItemStyle: {
     height: WP('8'),

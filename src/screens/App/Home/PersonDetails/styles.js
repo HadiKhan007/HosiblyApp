@@ -198,8 +198,8 @@ const styles = StyleSheet.create({
     height: WP('4.2'),
   },
   bottomView: {
-    bottom: 6,
     width: '100%',
+    bottom: WP('5'),
     alignSelf: 'center',
     alignItems: 'center',
     flexDirection: 'row',

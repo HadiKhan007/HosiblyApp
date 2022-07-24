@@ -69,6 +69,13 @@ export const appIcons = {
   crossedIcon: require('../../assets/icons/crossed_icon.png'),
   galleryIcon: require('../../assets/icons/gallery_icon.png'),
   cameraIcon: require('../../assets/icons/camera_icon.png'),
+  share: require('../../assets/icons/share.png'),
+  notify: require('../../assets/icons/notify.png'),
+  payMethod: require('../../assets/icons/pay_method.png'),
+  privacy: require('../../assets/icons/privacy.png'),
+  support: require('../../assets/icons/support.png'),
+  terms: require('../../assets/icons/terms.png'),
+  faq: require('../../assets/icons/faq.png'),
 };
 
 export const appSvgs = {

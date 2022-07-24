@@ -4,19 +4,15 @@ import {
   View,
   Image,
   FlatList,
+  StatusBar,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import {BackHeader} from '../../../../components';
+import {useIsFocused} from '@react-navigation/core';
+import {Spacer, BackHeader} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
-import {
-  appIcons,
-  appImages,
-  colors,
-  family,
-  size,
-} from '../../../../shared/exporter';
+import {appIcons, colors, family, size, WP} from '../../../../shared/exporter';
 import {
   condoMatches,
   landMatches,
@@ -25,12 +21,18 @@ import {
 import styles from './styles';
 
 const PropertyDetails = ({navigation, route}) => {
+  const isFocus = useIsFocused();
   const [data, setData] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [matchFilter, setMatchFilter] = useState('Match');
   const [filterType, setFilterType] = useState('Top Match');
   const [showMatchMenu, setShowMatchMenu] = useState(false);
   const [item, setItem] = useState(route?.params?.item || []);
+
+  useLayoutEffect(() => {
+    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+    return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
+  }, [isFocus]);
 
   useLayoutEffect(() => {
     let type = route?.params?.item?.type;
@@ -119,6 +121,8 @@ const PropertyDetails = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <StatusBar backgroundColor={colors.g5} />
+      <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <BackHeader
         title="Potential Buyers"
         txtCenter

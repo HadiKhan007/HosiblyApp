@@ -723,6 +723,51 @@ const chat = [
   },
 ];
 
+const settings = [
+  {
+    id: 1,
+    title: 'Share App',
+    screen: 'share',
+    icon: appIcons.share,
+  },
+  {
+    id: 2,
+    title: 'Notifications',
+    screen: 'Notifications',
+    icon: appIcons.notify,
+  },
+  {
+    id: 3,
+    title: 'Payment Method',
+    screen: 'PaymentMethod',
+    icon: appIcons.payMethod,
+  },
+  {
+    id: 4,
+    title: 'Privacy Policy',
+    screen: 'PrivacyPolicy',
+    icon: appIcons.privacy,
+  },
+  {
+    id: 5,
+    title: 'Support',
+    screen: 'Support',
+    icon: appIcons.support,
+  },
+  {
+    id: 6,
+    title: 'Terms & Conditions',
+    screen: 'Terms',
+    icon: appIcons.terms,
+  },
+  {
+    id: 7,
+    title: 'FAQ',
+    screen: 'FAQ',
+    icon: appIcons.faq,
+  },
+];
+
 const networkText = 'Check Internet Connection';
 
 export {
@@ -757,4 +802,5 @@ export {
   landMatches,
   condoDetails,
   landDetails,
+  settings,
 };

@@ -1,17 +1,9 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  colors,
-  WP,
-  family,
-  size,
-  appIcons,
-  appImages,
-} from '../../shared/exporter';
+import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 
 export const DeleteModal = ({item, show, onPressHide}) => {
-  console.log('Item is ==> ', item);
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>

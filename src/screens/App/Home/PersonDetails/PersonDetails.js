@@ -1,7 +1,15 @@
 import React, {useState, useLayoutEffect} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {AppButton, BackHeader} from '../../../../components';
+import {useIsFocused} from '@react-navigation/core';
+import {AppButton, BackHeader, Spacer} from '../../../../components';
 import {
   appIcons,
   appImages,
@@ -19,7 +27,13 @@ import {
 import styles from './styles';
 
 const PersonDetails = ({navigation, route}) => {
+  const isFocus = useIsFocused();
   const [data, setData] = useState([]);
+
+  useLayoutEffect(() => {
+    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+    return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
+  }, [isFocus]);
 
   useLayoutEffect(() => {
     let type = route?.params?.itemType;
@@ -78,6 +92,8 @@ const PersonDetails = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <StatusBar backgroundColor={colors.g5} />
+      <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <BackHeader
         title="Buyer’s Preference"
         txtCenter
