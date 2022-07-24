@@ -443,7 +443,7 @@ const home_items = [
   },
   {
     id: 9,
-    heat_source: 'Heat Source',
+    title: 'Heat Source',
     value: '',
     Img: appIcons.source,
   },
@@ -491,49 +491,138 @@ const home_items = [
     Img: appIcons.pool,
   },
 ];
-const inputItems = [
+
+const condo_items = [
   {
     id: 1,
-    name: 'Bath Rooms',
-    value: '0',
-    icon: appIcons.bath,
+    title: 'Parking Type',
+    value: '',
+    Img: appIcons.parkingType,
   },
   {
     id: 2,
-    name: 'Bed Rooms',
-    value: '0',
-    icon: appIcons.bed,
+    title: 'Parking Ownership',
+    value: '',
+    Img: appIcons.ownership,
+  },
+  {
+    id: 1,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
   },
   {
     id: 3,
-    name: 'Living Space',
-    value: '0',
-    icon: appIcons.living_space,
+    title: 'House Type',
+    value: '',
+    Img: appIcons.HouseType,
   },
   {
     id: 4,
-    name: 'Parking Spaces',
-    value: '0',
-    icon: appIcons.parking,
+    title: 'House Style',
+    value: '',
+    Img: appIcons.HouseType,
   },
   {
     id: 5,
-    name: 'Garage Spaces',
-    value: '0',
-    icon: appIcons.garage_space,
-  },
-  {
-    id: 6,
-    name: 'Property Taxes',
-    value: '0',
-    icon: appIcons.garage_space,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
   },
 
   {
     id: 7,
-    name: 'Tax Year',
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+  },
+  {
+    id: 8,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+  },
+  {
+    id: 9,
+    title: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+  },
+  {
+    id: 10,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+  },
+  {
+    id: 11,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+  },
+  {
+    id: 13,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+  },
+  {
+    id: 14,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+  },
+  {
+    id: 15,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+  },
+
+  {
+    id: 16,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+  },
+];
+
+const inputItems = [
+  {
+    id: 1,
+    title: 'Bath Rooms',
     value: '0',
-    icon: appIcons.garage_space,
+    Img: appIcons.bath,
+  },
+  {
+    id: 2,
+    title: 'Bed Rooms',
+    value: '0',
+    Img: appIcons.bed,
+  },
+  {
+    id: 3,
+    title: 'Living Space',
+    value: '0',
+    Img: appIcons.living_space,
+  },
+  {
+    id: 4,
+    title: 'Parking Spaces',
+    value: '0',
+    Img: appIcons.parking,
+  },
+  {
+    id: 5,
+    title: 'Garage Spaces',
+    value: '0',
+    Img: appIcons.garage_space,
   },
 ];
 
@@ -564,4 +653,5 @@ export {
   networkText,
   inputItems,
   home_items,
+  condo_items,
 };

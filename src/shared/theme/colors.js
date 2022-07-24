@@ -48,9 +48,11 @@ export const colors = {
   g27: 'rgba(21, 20, 31, 0.4)',
   g28: '#95999B',
   g29: 'rgba(0, 0, 0, 0.16)',
+  g30: '#F2F4F5',
 
   //White colors
   white: '#ffffff',
+  app_color: '#F9FBFC',
 
   //******************- Gradients -*******************/
 

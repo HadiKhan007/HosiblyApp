@@ -43,12 +43,16 @@ const AddPropertyDetails = ({navigation}) => {
   const [currency, setCurrency] = useState('USD');
   const [lotFrontage, setLotFrontage] = useState('feet');
   const [lotDepth, setLotDepth] = useState('feet');
-  const [size, setSize] = useState('feet');
+  const [propsize, setpropSize] = useState('feet');
+  const [price, setPrice] = useState('0');
+  const [lot, setLot] = useState('0');
+  const [depth, setDepth] = useState('0');
+  const [propertySize, setPropertySize] = useState('0');
+  const [description, setDescription] = useState('');
 
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [showMore, setshowMore] = useState(false);
-  const [propertyType, setPropertyType] = useState({text: 'Home'});
-  const [propertyData, setPropertyData] = useState(null);
+  const [propertyType, setPropertyType] = useState({text: 'House'});
+  const [propertyData, setPropertyData] = useState({text: 'House'});
   const [lotRegular, setlotRegular] = useState(null);
   const [lotRegularData, setlotRegularData] = useState(null);
 
@@ -107,7 +111,7 @@ const AddPropertyDetails = ({navigation}) => {
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
       <View style={spacing.my2}>
-        <BackHeader subtitle={'Filter'} />
+        <BackHeader subtitle={'Add Details'} />
       </View>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
@@ -141,7 +145,7 @@ const AddPropertyDetails = ({navigation}) => {
                 setCurrency(val);
               }}
               isPickerOpen={isPickerOpen}
-              value={currency}
+              value={price}
               onFocus={() => setIsPickerOpen(true)}
               onBlur={() => setIsPickerOpen(false)}
               text={'e.g 21.00'}
@@ -149,85 +153,155 @@ const AddPropertyDetails = ({navigation}) => {
               list={currency_list}
               defaultValue={'USD'}
               dropDown={true}
-            />
-            <Divider color={colors.g18} />
-            <PriceInput
-              text={'e.g 21.00'}
-              title={'Years Built'}
-              subtitle={' (e.g 1994)'}
-            />
-            <Divider color={colors.g18} />
-            <HomeInput h1={'Unit'} h2={'(if applicable)'} />
-            <Divider color={colors.g18} />
-
-            <PriceInput
-              onSelect={val => {
-                setLotFrontage(val);
+              onChangeText={text => {
+                setPrice(text);
               }}
-              isPickerOpen={isPickerOpen}
-              value={lotFrontage}
-              onFocus={() => setIsPickerOpen(true)}
-              onBlur={() => setIsPickerOpen(false)}
-              text={'0'}
-              title={'Lot Frontage'}
-              list={lot_list}
-              defaultValue={'feet'}
-              dropDown={true}
             />
+            {propertyType?.text != 'Vacant Land' && (
+              <>
+                <Divider color={colors.g18} />
+                <PriceInput
+                  text={'e.g 21.00'}
+                  title={'Years Built'}
+                  subtitle={' (e.g 1994)'}
+                />
+              </>
+            )}
+            {propertyType?.text != 'House' && (
+              <>
+                <Divider color={colors.g18} />
+                <FilterInput placeholder={'Street Address'} />
+              </>
+            )}
+            {propertyType?.text != 'Vacant Land' && (
+              <>
+                <Divider color={colors.g18} />
+                <HomeInput h1={'Unit'} h2={'(if applicable)'} />
+              </>
+            )}
+            {propertyType?.text != 'Condo' && (
+              <>
+                <Divider color={colors.g18} />
+                <PriceInput
+                  onSelect={val => {
+                    setLotFrontage(val);
+                  }}
+                  isPickerOpen={isPickerOpen}
+                  value={lot}
+                  onFocus={() => setIsPickerOpen(true)}
+                  onBlur={() => setIsPickerOpen(false)}
+                  text={'0'}
+                  title={'Lot Frontage'}
+                  list={lot_list}
+                  defaultValue={'feet'}
+                  dropDown={true}
+                  onChangeText={text => {
+                    setLot(text);
+                  }}
+                />
 
-            <Divider color={colors.g18} />
+                <Divider color={colors.g18} />
 
-            <PriceInput
-              onSelect={val => {
-                setLotDepth(val);
-              }}
-              isPickerOpen={isPickerOpen}
-              value={lotDepth}
-              onFocus={() => setIsPickerOpen(true)}
-              onBlur={() => setIsPickerOpen(false)}
-              text={'0'}
-              title={'Lot Depth'}
-              list={depth_list}
-              defaultValue={'feet'}
-              dropDown={true}
-            />
-            <Divider color={colors.g18} />
+                <PriceInput
+                  onSelect={val => {
+                    setLotDepth(val);
+                  }}
+                  isPickerOpen={isPickerOpen}
+                  value={depth}
+                  onFocus={() => setIsPickerOpen(true)}
+                  onBlur={() => setIsPickerOpen(false)}
+                  text={'0'}
+                  title={'Lot Depth'}
+                  list={depth_list}
+                  defaultValue={'feet'}
+                  dropDown={true}
+                  onChangeText={text => {
+                    setDepth(text);
+                  }}
+                />
+                <Divider color={colors.g18} />
 
-            <PriceInput
-              onSelect={val => {
-                setSize(val);
-              }}
-              isPickerOpen={isPickerOpen}
-              value={size}
-              onFocus={() => setIsPickerOpen(true)}
-              onBlur={() => setIsPickerOpen(false)}
-              text={'0'}
-              title={'Lot Size'}
-              list={size_list}
-              defaultValue={'feet'}
-              dropDown={true}
-            />
-            <Divider color={colors.g18} />
-            <FilterButton
-              onPress={() => {
-                lotRef?.current?.open();
-              }}
-              title={lotRegular?.text || 'Is Your Lot Irregular?'}
-            />
-            <Divider color={colors.g18} />
-            <Textarea
-              containerStyle={[styles.textareaContainer]}
-              style={styles.textarea}
-              placeholder={'Describe Your Lot'}
-              placeholderTextColor={colors.g19}
-              underlineColorAndroid={'transparent'}
-            />
-            <Divider color={colors.g18} />
+                <PriceInput
+                  onSelect={val => {
+                    setpropSize(val);
+                  }}
+                  isPickerOpen={isPickerOpen}
+                  value={propertySize}
+                  onFocus={() => setIsPickerOpen(true)}
+                  onBlur={() => setIsPickerOpen(false)}
+                  text={'0'}
+                  title={'Lot Size'}
+                  list={size_list}
+                  defaultValue={'feet'}
+                  dropDown={true}
+                  onChangeText={text => {
+                    setPropertySize(text);
+                  }}
+                />
+                <Divider color={colors.g18} />
+                <FilterButton
+                  onPress={() => {
+                    lotRef?.current?.open();
+                  }}
+                  title={lotRegular?.text || 'Is Your Lot Irregular?'}
+                />
+                {propertyType?.text == 'Vacant Land' && (
+                  <>
+                    <Divider color={colors.g18} />
+                    <PriceInput
+                      text={'2006'}
+                      title={'Tax Year'}
+                      subtitle={'(e.g 2006)'}
+                    />
+                  </>
+                )}
+                {propertyType?.text == 'Vacant Land' && (
+                  <>
+                    <Divider color={colors.g18} />
+                    <PriceInput
+                      text={'00.00'}
+                      title={'Property Taxes'}
+                      subtitle={' (USD)'}
+                    />
+                  </>
+                )}
+                <Divider color={colors.g18} />
+                <Textarea
+                  containerStyle={[styles.textareaContainer]}
+                  style={styles.textarea}
+                  placeholder={'Describe Your Lot'}
+                  placeholderTextColor={colors.g19}
+                  underlineColorAndroid={'transparent'}
+                  onChangeText={text => {
+                    setDescription(text);
+                  }}
+                />
+                <Divider color={colors.g18} />
+              </>
+            )}
 
+            {propertyType?.text == 'Condo' && (
+              <>
+                <Divider color={colors.g18} />
+                <FilterButton
+                  onPress={() => {}}
+                  title={'Locker'}
+                  textColor={colors.b1}
+                />
+              </>
+            )}
+            {propertyType?.text == 'Condo' && (
+              <>
+                <Divider color={colors.g18} />
+                <FilterInput placeholder={'Condo Corporation / HOA'} />
+                <Divider color={colors.g18} />
+              </>
+            )}
             <TouchableOpacity
               onPress={() => {
-                // setshowMore(!showMore);
-                navigation?.navigate('AddMorePropertyDetails');
+                navigation?.navigate('AddMorePropertyDetails', {
+                  property_type: propertyType?.text,
+                });
               }}
               style={styles.aiRow}>
               <Text style={styles.textStyle}>Show advanced options</Text>
@@ -248,16 +322,17 @@ const AddPropertyDetails = ({navigation}) => {
 
             <AppButton
               onPress={() => {
-                navigation?.goBack();
+                navigation?.navigate('AddPropertyDesc');
               }}
               width={'45%'}
               bgColor={colors.p2}
-              title={'Done'}
+              title={'Next'}
               fontSize={size.tiny}
             />
           </View>
         </View>
       </KeyboardAwareScrollView>
+
       {/* Porperty modal */}
       <ListModal
         listRef={propertyTypeRef}

@@ -42,6 +42,14 @@ export * from './Footer/AuthText';
 
 //TextFields
 export * from './TextFields/ProfileField';
+export * from './TextFields/PreviewField';
 
 //Components
 export * from './MapComponent/MapComponent';
+//Cards
+export * from './Cards/PreviewImageCover';
+export * from './Cards/PreviewImageBox';
+export * from './Cards/PreviewInfoCard';
+
+//Headings
+export * from './Headings/SmallHeading';

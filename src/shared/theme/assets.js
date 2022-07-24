@@ -62,7 +62,7 @@ export const appIcons = {
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),
-  ownership: require('../../assets/icons/Ownership.png'),
+  ownership: require('../../assets/icons/ownership.png'),
   garage: require('../../assets/icons/Garages.png'),
   condo: require('../../assets/icons/Conodo.png'),
   condoStyle: require('../../assets/icons/ConodoStyle.png'),
@@ -89,6 +89,9 @@ export const appIcons = {
   garage_space: require('../../assets/icons/Garage.png'),
   driveway: require('../../assets/icons/driveway.png'),
   HouseType: require('../../assets/icons/HouseStyle.png'),
+  parkingType: require('../../assets/icons/parkingType.png'),
+  priceTag: require('../../assets/icons/priceTag.png'),
+  built: require('../../assets/icons/built.png'),
 };
 
 export const appSvgs = {

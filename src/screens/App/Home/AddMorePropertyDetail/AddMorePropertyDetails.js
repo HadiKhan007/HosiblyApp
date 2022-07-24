@@ -11,13 +11,6 @@ import {
   AppButton,
   BackHeader,
   DetailButton,
-  FilterButton,
-  FilterInput,
-  GalleryCard,
-  HomeInput,
-  ImagePickerModal,
-  ListModal,
-  LivingSpaceInput,
   MyStatusBar,
   PriceInput,
   TextBox,
@@ -25,6 +18,7 @@ import {
 import styles from './styles';
 import {
   colors,
+  condo_items,
   home_items,
   inputItems,
   size,
@@ -32,8 +26,9 @@ import {
   WP,
 } from '../../../../shared/exporter';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Divider} from 'react-native-elements/dist/divider/Divider';
 
-const AddMorePropertyDetails = ({navigation}) => {
+const AddMorePropertyDetails = ({navigation, route}) => {
   const onFinish = () => {
     const selectedItems = home_items.filter(
       item => item != undefined && item?.value != '',
@@ -60,8 +55,8 @@ const AddMorePropertyDetails = ({navigation}) => {
               return (
                 <PriceInput
                   text={item?.value}
-                  title={item.name}
-                  source={item.icon}
+                  title={item.title}
+                  source={item.Img}
                   marginRight={WP('3')}
                   onChangeText={text => {
                     inputItems[index].value = text;
@@ -69,9 +64,17 @@ const AddMorePropertyDetails = ({navigation}) => {
                 />
               );
             }}
+            ItemSeparatorComponent={() => {
+              return <Divider color={colors.g18} />;
+            }}
           />
+
+          <Divider color={colors.g18} />
+
           <FlatList
-            data={home_items}
+            data={
+              route?.params?.property_type == 'House' ? home_items : condo_items
+            }
             renderItem={({item, index}) => {
               return (
                 <DetailButton
@@ -83,7 +86,17 @@ const AddMorePropertyDetails = ({navigation}) => {
                 />
               );
             }}
+            ItemSeparatorComponent={() => {
+              return <Divider color={colors.g18} />;
+            }}
           />
+
+          <Divider color={colors.g18} />
+          <PriceInput text={'0'} title={'Property Taxes'} />
+          <Divider color={colors.g18} />
+          <PriceInput text={'0'} title={'Taxe Year'} />
+          <Divider color={colors.g18} />
+          {/*Buttons */}
           <View style={styles.spacRow}>
             <AppButton
               width={'45%'}

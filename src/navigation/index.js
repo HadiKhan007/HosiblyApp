@@ -14,6 +14,8 @@ import Settings from '../screens/App/Settings';
 import MapScreen from '../screens/App/Home/MapScreen';
 import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
 import AddMorePropertyDetail from '../screens/App/Home/AddMorePropertyDetail';
+import AddPropertyDes from '../screens/App/Home/AddPropertyDes';
+import PropertyDetail from '../screens/App/Home/PropertyDetail';
 
 const AppStack = createNativeStackNavigator();
 
@@ -33,6 +35,9 @@ const MainAppNav = () => {
         <AppStack.Screen name={'EditProfile'} component={EditProfile} />
         <AppStack.Screen name={'Settings'} component={Settings} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
+        <AppStack.Screen name={'AddPropertyDesc'} component={AddPropertyDes} />
+        <AppStack.Screen name={'PropertyDetail'} component={PropertyDetail} />
+
         <AppStack.Screen
           name={'AddPropertyDetails'}
           component={AddPropertyDetails}

@@ -11,22 +11,14 @@ export const FilterButton = ({
   marginLeft,
   marginBottom,
   marginTop,
+  textColor,
 }) => {
   return (
     <View style={styles.continer}>
       <TouchableOpacity onPress={onPress} style={styles.btnCon}>
-        <Image
-          source={source}
-          style={{
-            height: 30,
-            width: 30,
-            marginRight: marginRight,
-            marginLeft: marginLeft,
-            marginBottom: marginBottom,
-            marginTop: marginTop,
-          }}
-        />
-        <Text style={[styles.title]}>{title}</Text>
+        <Text style={[styles.title, {color: textColor || colors.g19}]}>
+          {title}
+        </Text>
         <Icon name={'right'} type={'antdesign'} color={colors.g19} size={15} />
       </TouchableOpacity>
     </View>
@@ -48,6 +40,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: '100%',
-    backgroundColor: 'red',
   },
 });
