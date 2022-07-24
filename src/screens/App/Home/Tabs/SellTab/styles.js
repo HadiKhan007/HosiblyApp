@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.r1,
   },
   newTxtStyle: {
-    left: 0.3,
     color: colors.white,
     fontSize: size.xxxtiny,
     fontFamily: family.Gilroy_Bold,

@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: WP('3'),
+    paddingBottom: WP('1.5'),
     paddingHorizontal: WP('4'),
   },
   titleTxtStyle: {

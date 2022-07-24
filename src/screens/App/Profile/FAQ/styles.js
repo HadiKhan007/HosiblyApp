@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   contentContainer: {
+    paddingBottom: WP('1.5'),
     paddingHorizontal: WP('4'),
   },
   titleTxtStyle: {

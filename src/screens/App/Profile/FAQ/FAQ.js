@@ -8,16 +8,16 @@ const FAQ = () => {
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader subtitle={'FAQ'} />
       <BackHeader title={'FAQ'} />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           <Text style={styles.titleTxtStyle}>Welcome to housibly!</Text>
           <Text style={styles.valuesTxtStyle}>
             The following organizations may link to our Website without prior
             written approval:{'\n'}
             {'\n'}• {'  '}Government agencies;{'\n•   '}Search engines;{' '}
-            {'\n•   '}News organizations;{'\n•   '}Online directory
-            distributors may link to our Website in the same manner as they
-            hyperlink to the Websites of other listed businesses; and{'\n•   '}
+            {'\n•   '}News organizations;{'\n•   '}Online directory distributors
+            may link to our Website in the same manner as they hyperlink to the
+            Websites of other listed businesses; and{'\n•   '}
             System wide Accredited Businesses except soliciting non-profit
             organizations, charity shopping malls, and charity fundraising
             groups which may not hyperlink to our Web site.{'\n'}
