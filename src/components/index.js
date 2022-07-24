@@ -1,6 +1,7 @@
 //Header
 export * from './Header/AppHeader';
 export * from './Header/BackHeader';
+export * from './Header/ChatHeader';
 
 //Button
 export * from './AppButton/AppButton';
@@ -28,6 +29,7 @@ export * from './Modal/SignUpModal';
 export * from './Modal/AddressModal';
 export * from './Modal/ImagePickerModal';
 export * from './Modal/PersonDetailsModal';
+export * from './Modal/DeleteModal';
 export * from './Modal/ListModal';
 
 //Box

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {BackHeader} from '../../../../components';
+import {BackHeader, DeleteModal} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
@@ -14,8 +14,11 @@ import {
 import {allSales} from '../../../../shared/utilities/constant';
 import styles from './styles';
 
-const AllSales = () => {
+const AllSales = ({navigation}) => {
+  const [item, setItem] = useState('');
+  const [data, setData] = useState(allSales);
   const [showMenu, setShowMenu] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState('All');
 
   const renderItem = ({item, index}) => {
@@ -23,7 +26,7 @@ const AllSales = () => {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.itemContainer}
-        onPress={() => console.log('You touched me')}>
+        onPress={() => navigation.navigate('PropertyDetails', {item: item})}>
         <Image source={item?.img} style={styles.imgStyle} />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
@@ -79,6 +82,13 @@ const AllSales = () => {
     console.log('This row opened', rowKey);
   };
 
+  const handleDelete = data => {
+    setItem(data?.item);
+    setTimeout(() => {
+      setShowModal(true);
+    }, 300);
+  };
+
   const renderHiddenItem = (data, rowMap) => {
     return (
       <View style={styles.backBtnsContainer}>
@@ -118,7 +128,10 @@ const AllSales = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={[styles.backRightBtn, styles.backRightBtnRight]}
-          onPress={() => closeRow(rowMap, data?.index)}>
+          onPress={() => {
+            closeRow(rowMap, data?.index);
+            handleDelete(data);
+          }}>
           <Image
             resizeMode="contain"
             source={appIcons.delIcon}
@@ -209,7 +222,7 @@ const AllSales = () => {
       <View style={styles.container}>
         <SwipeListView
           useFlatList
-          data={allSales}
+          data={data}
           renderItem={renderItem}
           renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
           leftOpenValue={180}
@@ -231,6 +244,11 @@ const AllSales = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <DeleteModal
+        item={item}
+        show={showModal}
+        onPressHide={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 };

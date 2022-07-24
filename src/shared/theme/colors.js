@@ -3,6 +3,7 @@ export const colors = {
   p1: '#1AA8FF',
   p2: '#4CBBFF',
   p3: '#BAE5FF',
+  p4: 'rgba(205, 236, 255, 0.4)',
 
   // Secondary Color
   s1: '#FF2C2C',
@@ -10,6 +11,7 @@ export const colors = {
   s3: '#9C69DD',
   s4: '#B88BF0',
   s5: '#12B07E',
+  s6: '#00A66C',
 
   // Black Color
   b1: '#000000',
@@ -51,6 +53,7 @@ export const colors = {
 
   //White colors
   white: '#ffffff',
+  w1: '#F0F0F0',
 
   //******************- Gradients -*******************/
 

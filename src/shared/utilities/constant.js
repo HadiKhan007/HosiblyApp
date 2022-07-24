@@ -1,5 +1,5 @@
 import {appIcons} from '../exporter';
-import {appImages} from '../theme/assets';
+import {appImages, appLogos} from '../theme/assets';
 import {colors} from '../theme/colors';
 
 const ANDROID = Platform.OS === 'android';
@@ -370,6 +370,7 @@ const allSales = [
     saleNum: '8',
     name: 'White Modern House',
     img: appImages.home3,
+    type: 'House',
     imges: [1, 2, 3, 4, 5, 6, 7, 8],
   },
   {
@@ -377,6 +378,7 @@ const allSales = [
     saleNum: '3',
     name: 'Compact Condo',
     img: appImages.home4,
+    type: 'Condo',
     imges: [1, 2, 3],
   },
   {
@@ -384,6 +386,7 @@ const allSales = [
     saleNum: '5',
     name: 'Clean Land',
     img: appImages.home6,
+    type: 'Vacant Land',
     imges: [1, 2, 3, 4, 5],
   },
   {
@@ -391,7 +394,332 @@ const allSales = [
     saleNum: '3',
     name: 'Condo Bright',
     img: appImages.home2,
+    type: 'Condo',
     imges: [1, 2, 3],
+  },
+];
+
+const propertyMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 4,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 5,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 6,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 7,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 8,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 9,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const condoMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const landMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 4,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 5,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const homeDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Bedrooms',
+    property: '4',
+    isHave: true,
+  },
+  {
+    id: 3,
+    title: 'Bathrooms',
+    property: '4 Bath + Powder Room',
+    isHave: true,
+  },
+  {
+    id: 4,
+    title: 'Property Types',
+    property: 'Multi-Family',
+    isHave: true,
+  },
+  {
+    id: 5,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+    isHave: true,
+  },
+  {
+    id: 6,
+    title: 'Min Lot Forntage',
+    property: '30',
+    isHave: true,
+  },
+  {
+    id: 7,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+    isHave: true,
+  },
+  {
+    id: 8,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+    isHave: false,
+  },
+  {
+    id: 9,
+    title: 'Parking Spots Req.',
+    property: '2',
+    isHave: true,
+  },
+  {
+    id: 10,
+    title: 'Garage Spots Req.',
+    property: 'Doesn’t matter',
+    isHave: true,
+  },
+  {
+    id: 11,
+    title: 'Max Age',
+    property: '10',
+    isHave: true,
+  },
+];
+
+const condoDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Bedrooms',
+    property: '4',
+    isHave: false,
+  },
+  {
+    id: 3,
+    title: 'Bathrooms',
+    property: '4 Bath + Powder Room',
+    isHave: true,
+  },
+  {
+    id: 4,
+    title: 'Property Types',
+    property: 'Multi-Family',
+    isHave: true,
+  },
+  {
+    id: 5,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+    isHave: false,
+  },
+  {
+    id: 6,
+    title: 'Min Lot Forntage',
+    property: '30',
+    isHave: true,
+  },
+  {
+    id: 7,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+    isHave: true,
+  },
+  {
+    id: 8,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+    isHave: false,
+  },
+  {
+    id: 9,
+    title: 'Parking Spots Req.',
+    property: '2',
+    isHave: true,
+  },
+  {
+    id: 10,
+    title: 'Balcony',
+    property: 'Yes',
+    isHave: true,
+  },
+  {
+    id: 11,
+    title: 'Security',
+    property: 'Cameras',
+    isHave: true,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    property: 'In Building',
+    isHave: false,
+  },
+  {
+    id: 13,
+    title: 'Max Age',
+    property: '10',
+    isHave: true,
+  },
+];
+
+const landDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Min Lot Forntage',
+    property: '200',
+    isHave: true,
+  },
+  {
+    id: 3,
+    title: 'Lot Size (sqm)',
+    property: '143',
+    isHave: true,
+  },
+];
+
+const chat = [
+  {
+    id: 1,
+    viewType: 'receiver',
+    message: 'Can I see your lot view?',
+  },
+  {
+    id: 2,
+    viewType: 'sender',
+    message:
+      'Amet minim mollit non deserunt ullamco 😄. Dolor do amet sint. Amet minim mollit non deserunt ullamco 😄. Dolor do amet sint.',
+  },
+  {
+    id: 3,
+    viewType: 'receiver',
+    message:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+  {
+    id: 4,
+    viewType: 'sender',
+    message: 'Hello 👋 Amet minim mollit non deserunt ullamco 😄',
   },
 ];
 
@@ -422,4 +750,11 @@ export {
   recentSales,
   allSales,
   networkText,
+  propertyMatches,
+  homeDetails,
+  chat,
+  condoMatches,
+  landMatches,
+  condoDetails,
+  landDetails,
 };

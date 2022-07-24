@@ -27,7 +27,7 @@ export const AppHeader = ({rightIcon = false, onPressIcon}) => {
           <Text style={styles.logoTxtStyle}>Housibly</Text>
         </View>
         {rightIcon && (
-          <TouchableOpacity onPress={onPressIcon}>
+          <TouchableOpacity activeOpacity={0.7} onPress={onPressIcon}>
             <Image
               resizeMode="contain"
               source={appImages.personPh}

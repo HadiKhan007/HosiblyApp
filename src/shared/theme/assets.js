@@ -2,6 +2,7 @@ import {svgIcons} from '../../assets/svgs/index';
 
 export const appLogos = {
   appLogo: require('../../assets/logos/app_logo.png'),
+  roundLogo: require('../../assets/logos/round_logo.png'),
 };
 
 export const appImages = {
@@ -19,6 +20,9 @@ export const appImages = {
   home4: require('../../assets/images/home4.png'),
   home5: require('../../assets/images/home5.png'),
   home6: require('../../assets/images/home6.png'),
+  person1: require('../../assets/images/person1.png'),
+  person2: require('../../assets/images/person2.png'),
+  person3: require('../../assets/images/person3.png'),
 };
 
 export const appIcons = {
@@ -59,6 +63,12 @@ export const appIcons = {
   editIcon: require('../../assets/icons/edit_icon.png'),
   delIcon: require('../../assets/icons/del_icon.png'),
   markedIcon: require('../../assets/icons/marked_icon.png'),
+  locMatch: require('../../assets/icons/loc_match.png'),
+  homeMatch: require('../../assets/icons/home_match.png'),
+  checkIcon: require('../../assets/icons/check_icon.png'),
+  crossedIcon: require('../../assets/icons/crossed_icon.png'),
+  galleryIcon: require('../../assets/icons/gallery_icon.png'),
+  cameraIcon: require('../../assets/icons/camera_icon.png'),
 };
 
 export const appSvgs = {
