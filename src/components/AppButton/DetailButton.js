@@ -32,6 +32,7 @@ export const DetailButton = ({
                 marginLeft: marginLeft,
                 marginBottom: marginBottom,
                 marginTop: marginTop,
+                tintColor: colors.b1,
               },
             ]}
           />

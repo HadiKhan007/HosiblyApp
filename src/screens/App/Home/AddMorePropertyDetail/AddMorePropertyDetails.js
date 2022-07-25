@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Alert,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {
@@ -13,7 +14,6 @@ import {
   DetailButton,
   MyStatusBar,
   PriceInput,
-  TextBox,
 } from '../../../../components';
 import styles from './styles';
 import {
@@ -27,9 +27,14 @@ import {
 } from '../../../../shared/exporter';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {add_property_detail_request} from '../../../../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const AddMorePropertyDetails = ({navigation, route}) => {
+  const {add_property_detail} = useSelector(state => state?.appReducer);
+  const dispatch = useDispatch(null);
+
+  //On Finish
   const onFinish = () => {
     const selectedItems = home_items.filter(
       item => item != undefined && item?.value != '',
@@ -37,10 +42,30 @@ const AddMorePropertyDetails = ({navigation, route}) => {
     const selectedInputs = inputItems.filter(
       item => item != undefined && item?.value != '0',
     );
-    const finalArray = selectedInputs.concat(home_items);
-    AsyncStorage.setItem('filter_list', JSON.stringify(finalArray));
-    navigation?.goBack();
+    const finalArray = selectedInputs.concat(selectedItems);
+    add_property_detail['opition_data'] = finalArray;
+    if (inputItems[0].value == '0') {
+      Alert.alert('Error', 'Number of Bath Rooms is Required');
+    } else if (inputItems[1].value == '0') {
+      Alert.alert('Error', 'Number of Bed Rooms is Required');
+    } else if (inputItems[3].value == '0') {
+      Alert.alert('Error', 'Parking Space is Required');
+    } else if (inputItems[4].value == '0') {
+      Alert.alert('Error', 'Garage Space is Required');
+    } else if (home_items[2].value == '') {
+      Alert.alert('Error', 'House Type is Required');
+    } else if (home_items[3].value == '') {
+      Alert.alert('Error', 'House Style is Required');
+    } else if (home_items[9].value == '') {
+      Alert.alert('Error', 'Air Conditioner is Required');
+    } else {
+      const onSuccess = res => {
+        navigation?.navigate('AddPropertyDesc');
+      };
+      dispatch(add_property_detail_request(add_property_detail, onSuccess));
+    }
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />

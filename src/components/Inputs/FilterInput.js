@@ -2,7 +2,14 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {colors} from '../../shared/exporter';
 
-export const FilterInput = ({placeholder, onChangeText, value}) => {
+export const FilterInput = ({
+  placeholder,
+  onChangeText,
+  value,
+  onPressIn,
+  editable,
+  keyboardType,
+}) => {
   return (
     <View>
       <TextInput
@@ -10,8 +17,10 @@ export const FilterInput = ({placeholder, onChangeText, value}) => {
         placeholderTextColor={colors.g19}
         style={styles.inputStyle}
         onChangeText={onChangeText}
-        keyboardType={'decimal-pad'}
+        keyboardType={keyboardType || 'decimal-pad'}
         value={value}
+        onPressIn={onPressIn}
+        editable={editable}
       />
     </View>
   );
@@ -22,7 +31,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
     borderLeftColor: colors.p2,
-    color: colors.g19,
+    color: colors.b1,
     padding: 0,
   },
 });

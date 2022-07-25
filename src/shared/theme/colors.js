@@ -50,6 +50,8 @@ export const colors = {
   g29: 'rgba(0, 0, 0, 0.16)',
   g30: '#F2F4F5',
 
+  //Green
+  gr1: '#00A66C',
   //White colors
   white: '#ffffff',
   app_color: '#F9FBFC',

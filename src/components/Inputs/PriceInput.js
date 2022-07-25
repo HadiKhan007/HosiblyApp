@@ -24,8 +24,11 @@ export const PriceInput = ({
   marginBottom,
   marginTop,
   source,
-
+  onSubmitEditing,
   onChangeText,
+  editable,
+  keyboardType,
+  returnKeyType,
 }) => {
   return (
     <View
@@ -112,11 +115,15 @@ export const PriceInput = ({
       ) : (
         <View style={{marginRight: marginRight}}>
           <TextInput
+            onSubmitEditing={onSubmitEditing}
             onChangeText={onChangeText}
             value={value}
             placeholder={text}
             placeholderTextColor={colors.g19}
             style={styles.simpleInputStyle}
+            editable={editable}
+            keyboardType={keyboardType}
+            returnKeyType={returnKeyType}
           />
         </View>
       )}
@@ -161,11 +168,11 @@ const styles = StyleSheet.create({
     height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '80%',
     alignSelf: 'flex-end',
-    marginBottom: 5,
+    width: '80%',
     borderWidth: 1,
     borderColor: colors.g29,
+    marginVertical: 0,
   },
   btnStyle: {
     width: '40%',
@@ -180,7 +187,6 @@ const styles = StyleSheet.create({
   },
   rowStyle: {
     borderBottomWidth: 0,
-    marginVertical: 5,
     height: 45,
   },
   inputStyle: {

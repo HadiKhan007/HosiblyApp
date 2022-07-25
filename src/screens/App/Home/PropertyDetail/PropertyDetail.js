@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   AppButton,
   BackHeader,
@@ -34,9 +34,14 @@ import {useSelector} from 'react-redux';
 
 const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
-  const [previewImg, setPreviewImg] = useState(
-    add_property_detail?.images[0].uri,
-  );
+  const [previewImg, setPreviewImg] = useState('');
+
+  useEffect(() => {
+    setPreviewImg(
+      add_property_detail?.images[0].uri ||
+        'https://wallpaperaccess.com/full/1700222.jpg',
+    );
+  }, []);
 
   //On Post
   const onPost = () => {
@@ -78,12 +83,16 @@ const PropertyDetail = ({navigation}) => {
             <Text style={styles.header}>Information</Text>
             <View style={styles.spacRow}>
               <PreviewInfoCard
-                item={{h1: 'Price', h2: '$25,000', icon: appIcons.priceTag}}
+                item={{
+                  h1: 'Price',
+                  h2: `$${add_property_detail?.price || 0}`,
+                  icon: appIcons.priceTag,
+                }}
               />
               <PreviewInfoCard
                 item={{
                   h1: 'Year Built',
-                  h2: '2012',
+                  h2: `${add_property_detail?.year_built || 0}`,
                   icon: appIcons.built,
                 }}
               />
@@ -111,10 +120,13 @@ const PropertyDetail = ({navigation}) => {
               title={'Lot Depth (sqm)'}
               subtitle={add_property_detail?.lot_depth || '23'}
             />
-            <PreviewField title={'Lot Size (feet)'} subtitle={'23'} />
+            <PreviewField
+              title={'Lot Size (feet)'}
+              subtitle={add_property_detail?.lot_size || '23'}
+            />
             <PreviewField
               title={'Is This Lot Irregular?'}
-              subtitle={add_property_detail?.is_lot_irregular || 'Yes'}
+              subtitle={add_property_detail?.is_lot_irregular || 'No'}
             />
             <PreviewField title={'Property Taxes'} subtitle={'23'} />
             <PreviewField title={'Tax Year'} subtitle={'23'} />
@@ -156,9 +168,7 @@ const PropertyDetail = ({navigation}) => {
               title={'Save'}
               fontSize={size.tiny}
               borderColor={colors.g21}
-              onPress={() => {
-                navigation?.goBack();
-              }}
+              onPress={() => {}}
               shadowColor={colors.white}
             />
             <AppButton

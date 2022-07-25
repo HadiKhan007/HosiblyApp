@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -38,9 +39,9 @@ import {add_property_detail_request} from '../../../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const currency_list = ['CA$'];
-const lot_list = ['meter'];
-const depth_list = ['meter'];
-const size_list = ['meter'];
+const lot_list = ['meter', 'feet'];
+const depth_list = ['meter', 'feet'];
+const size_list = ['sqm', 'sqft'];
 
 const AddPropertyDetails = ({navigation}) => {
   //States for form
@@ -51,16 +52,16 @@ const AddPropertyDetails = ({navigation}) => {
   const [yeardBuild, setYearBuilt] = useState('');
   const [unit, setUnit] = useState('');
   const [address, setAddress] = useState('');
-  const [lot, setLot] = useState('');
-  const [depth, setDepth] = useState('');
-  const [propertySize, setPropertySize] = useState('');
+  const [lot, setLot] = useState(0);
+  const [depth, setDepth] = useState(0);
+  const [propertySize, setPropertySize] = useState(0);
   const [description, setDescription] = useState('');
   const [lotRegular, setlotRegular] = useState(null);
 
   const [currency, setCurrency] = useState('USD');
   const [lotFrontage, setLotFrontage] = useState('feet');
   const [lotDepth, setLotDepth] = useState('feet');
-  const [propsize, setpropSize] = useState('feet');
+  const [propsize, setpropSize] = useState('sqft');
 
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [propertyData, setPropertyData] = useState({text: 'House'});
@@ -118,33 +119,43 @@ const AddPropertyDetails = ({navigation}) => {
   };
 
   const onPressNext = async () => {
-    const filter_list = await AsyncStorage.getItem('filter_list');
-    const requestBody = {
-      property_type: propertyType?.text,
-      title: title,
-      images: imageArray.map(item => {
-        return {
-          uri: item?.path,
-          name: item?.filename,
-          type: item?.mime,
-        };
-      }),
-      price: price,
-      year_built: yeardBuild,
-      address: address,
-      unit: unit,
-      lot_frontage: lot,
-      lot_depth: depth,
-      lot_size: propertySize,
-      is_lot_irregular: lotRegular?.text,
-      lot_description: description,
-      opition_data: JSON.parse(filter_list),
-    };
-    const onSuccess = res => {
-      console.log('ok');
-      navigation?.navigate('AddPropertyDesc');
-    };
-    dispatch(add_property_detail_request(requestBody, onSuccess));
+    if (price == '') {
+      Alert.alert('Error', 'Price is Required');
+    } else if (lot == '') {
+      Alert.alert('Error', 'Lot frontage is Required');
+    } else if (depth == '') {
+      Alert.alert('Error', 'Lot Depth is Required');
+    } else if (imageArray.length == 0) {
+      Alert.alert('Error', 'At least one image Required');
+    } else {
+      const requestBody = {
+        property_type: propertyType?.text,
+        title: title,
+        images: imageArray.map(item => {
+          return {
+            uri: item?.path,
+            name: item?.filename,
+            type: item?.mime,
+          };
+        }),
+        price: price,
+        year_built: yeardBuild,
+        address: address,
+        unit: unit,
+        lot_frontage: lot,
+        lot_depth: depth,
+        lot_size: propertySize,
+        is_lot_irregular: lotRegular?.text,
+        lot_description: description,
+      };
+      const onSuccess = res => {
+        console.log('ok');
+        navigation?.navigate('AddMorePropertyDetails', {
+          property_type: propertyType?.text,
+        });
+      };
+      dispatch(add_property_detail_request(requestBody, onSuccess));
+    }
   };
 
   return (
@@ -184,6 +195,7 @@ const AddPropertyDetails = ({navigation}) => {
                 setTitle(text);
               }}
               value={title}
+              keyboardType={'default'}
             />
             <Divider color={colors.g18} />
             <PriceInput
@@ -221,6 +233,11 @@ const AddPropertyDetails = ({navigation}) => {
               <>
                 <Divider color={colors.g18} />
                 <FilterInput
+                  onPressIn={() => {
+                    navigation?.navigate('AddAddress');
+                  }}
+                  editable={false}
+                  keyboardType={'default'}
                   placeholder={'Street Address'}
                   onChangeText={text => {
                     setAddress(text);
@@ -281,6 +298,11 @@ const AddPropertyDetails = ({navigation}) => {
                   onChangeText={text => {
                     setDepth(text);
                   }}
+                  onSubmitEditing={() => {
+                    setPropertySize(depth * lot);
+                  }}
+                  keyboardType={'decimal-pad'}
+                  returnKeyType={'done'}
                 />
                 <Divider color={colors.g18} />
 
@@ -292,14 +314,12 @@ const AddPropertyDetails = ({navigation}) => {
                   value={propertySize}
                   onFocus={() => setIsPickerOpen(true)}
                   onBlur={() => setIsPickerOpen(false)}
-                  text={'0'}
+                  text={propertySize.toString()}
                   title={'Lot Size'}
                   list={size_list}
-                  defaultValue={'feet'}
+                  defaultValue={'sqft'}
                   dropDown={true}
-                  onChangeText={text => {
-                    setPropertySize(text);
-                  }}
+                  editable={false}
                 />
                 <Divider color={colors.g18} />
                 <FilterButton
@@ -361,15 +381,13 @@ const AddPropertyDetails = ({navigation}) => {
                 <Divider color={colors.g18} />
               </>
             )}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
-                navigation?.navigate('AddMorePropertyDetails', {
-                  property_type: propertyType?.text,
-                });
+               
               }}
               style={styles.aiRow}>
               <Text style={styles.textStyle}>Show advanced options</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.spacRow}>
             <AppButton

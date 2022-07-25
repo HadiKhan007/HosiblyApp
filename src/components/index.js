@@ -50,6 +50,7 @@ export * from './MapComponent/MapComponent';
 export * from './Cards/PreviewImageCover';
 export * from './Cards/PreviewImageBox';
 export * from './Cards/PreviewInfoCard';
+export * from './Cards/AddressCard';
 
 //Headings
 export * from './Headings/SmallHeading';
