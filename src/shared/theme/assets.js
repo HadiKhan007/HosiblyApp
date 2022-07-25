@@ -23,6 +23,7 @@ export const appImages = {
   person1: require('../../assets/images/person1.png'),
   person2: require('../../assets/images/person2.png'),
   person3: require('../../assets/images/person3.png'),
+  cardBg: require('../../assets/images/card_bg.png'),
 };
 
 export const appIcons = {
@@ -76,6 +77,11 @@ export const appIcons = {
   support: require('../../assets/icons/support.png'),
   terms: require('../../assets/icons/terms.png'),
   faq: require('../../assets/icons/faq.png'),
+  cards: require('../../assets/icons/cards.png'),
+  googleWallet: require('../../assets/icons/google_wallet.png'),
+  checked: require('../../assets/icons/checked.png'),
+  unchecked: require('../../assets/icons/unchecked.png'),
+  visa: require('../../assets/icons/visa.png'),
 };
 
 export const appSvgs = {

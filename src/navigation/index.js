@@ -18,6 +18,9 @@ import PrivacyPolicy from '../screens/App/Profile/PrivacyPolicy';
 import FAQ from '../screens/App/Profile/FAQ';
 import MapScreen from '../screens/App/Home/MapScreen';
 import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
+import PayMethod from '../screens/App/Profile/PayMethod';
+import AllCards from '../screens/App/Profile/AllCards';
+import CardDetails from '../screens/App/Profile/CardDetails';
 
 const AppStack = createNativeStackNavigator();
 
@@ -46,6 +49,9 @@ const MainAppNav = () => {
           name={'AddPropertyDetails'}
           component={AddPropertyDetails}
         />
+        <AppStack.Screen name={'PayMethod'} component={PayMethod} />
+        <AppStack.Screen name={'AllCards'} component={AllCards} />
+        <AppStack.Screen name={'CardDetails'} component={CardDetails} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

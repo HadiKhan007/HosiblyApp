@@ -739,7 +739,7 @@ const settings = [
   {
     id: 3,
     title: 'Payment Method',
-    screen: 'PaymentMethod',
+    screen: 'PayMethod',
     icon: appIcons.payMethod,
   },
   {

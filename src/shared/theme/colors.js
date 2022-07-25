@@ -4,6 +4,8 @@ export const colors = {
   p2: '#4CBBFF',
   p3: '#BAE5FF',
   p4: 'rgba(205, 236, 255, 0.4)',
+  p5: '#F0F9FF',
+  p6: '#F1F9FE',
 
   // Secondary Color
   s1: '#FF2C2C',
@@ -51,6 +53,10 @@ export const colors = {
   g28: '#95999B',
   g29: 'rgba(0, 0, 0, 0.16)',
   g30: '#A2A0A8',
+  g31: '#9896A0',
+  g32: '#848484',
+  g33: '#64748B',
+  g34: '#676F7E',
 
   //White colors
   white: '#ffffff',

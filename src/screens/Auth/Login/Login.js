@@ -19,7 +19,6 @@ import {
   loginFormFields,
   LoginVS,
   networkText,
-  spacing,
 } from '../../../shared/exporter';
 import {
   GoogleSignin,
