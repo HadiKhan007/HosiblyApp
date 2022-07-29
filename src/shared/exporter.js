@@ -55,6 +55,7 @@ export {
   inputItems,
   home_items,
   condo_items,
+  image_options,
 } from './utilities/constant';
 export {header, authHeader} from './utilities/headers';
 export {

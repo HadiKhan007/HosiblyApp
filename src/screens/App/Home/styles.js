@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   WP,
   colors,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     height: 8,
   },
   bottomView: {
-    bottom: 6,
+    bottom: Platform.select({android: WP('20'), ios: WP('3')}),
     width: '100%',
     alignSelf: 'center',
     alignItems: 'center',

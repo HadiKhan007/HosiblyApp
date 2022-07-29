@@ -21,6 +21,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   appIcons,
+  BASE_URL,
   colors,
   condo_items,
   inputItems,
@@ -31,6 +32,8 @@ import {
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {GetToken} from '../../../../shared/utilities/headers';
 
 const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
@@ -38,14 +41,94 @@ const PropertyDetail = ({navigation}) => {
 
   useEffect(() => {
     setPreviewImg(
-      add_property_detail?.images[0].uri ||
+      add_property_detail?.images[0].path ||
         'https://wallpaperaccess.com/full/1700222.jpg',
     );
   }, []);
 
   //On Post
-  const onPost = () => {
+  const onPost = async () => {
+    const imgArr = add_property_detail?.images.map(item => {
+      return {
+        uri: item?.path,
+        type: item?.mime || 'image/jpeg',
+        name: item?.filename || 'image',
+      };
+    });
+    const filterArr = add_property_detail?.opition_data.map(item => {
+      return {
+        title: item?.title,
+        value: item?.value,
+      };
+    });
     console.log(add_property_detail);
+
+    var myHeaders = new Headers();
+    myHeaders.append('auth_token', await GetToken());
+    var formdata = new FormData();
+    formdata.append('property[title]', add_property_detail?.title || '');
+    formdata.append('property[price]', add_property_detail?.price);
+    formdata.append('property[year_built]', add_property_detail?.year_built);
+    formdata.append('property[address]', add_property_detail?.address);
+    formdata.append('property[unit]', add_property_detail?.unit);
+    formdata.append(
+      'property[lot_frontage]',
+      add_property_detail?.lot_frontage,
+    );
+    formdata.append(
+      'property[lot_frontage_unit]',
+      add_property_detail?.lot_frontage_unit || 'feet',
+    );
+    formdata.append('property[lot_depth]', add_property_detail?.lot_depth);
+    formdata.append(
+      'property[lot_depth_unit]',
+      add_property_detail?.lot_depth_unit || 'feet',
+    );
+    formdata.append('property[lot_size]', add_property_detail?.lot_size || '');
+    formdata.append('property[lot_size_unit]', 'feet');
+    formdata.append(
+      'property[is_lot_irregular]',
+      add_property_detail?.is_lot_irregular,
+    );
+    formdata.append(
+      'property[lot_description]',
+      add_property_detail?.property_desc || '',
+    );
+    formdata.append(
+      'property[property_tax]',
+      add_property_detail?.property_tax || '',
+    );
+    formdata.append('property[tax_year]', add_property_detail?.text_year || '');
+    formdata.append('property[locker]', add_property_detail?.locker || '');
+    formdata.append(
+      'property[condo_corporation_or_hqa]',
+      add_property_detail?.condo_corporation_or_hqa || '',
+    );
+    formdata.append('property[other_options]', JSON.stringify(filterArr));
+    // formdata.append('property[images]', imgArr);
+    formdata.append(
+      'property[property_type]',
+      add_property_detail?.property_type.toLowerCase() || 'house',
+    );
+    formdata.append(
+      'property[lot_depth]',
+      add_property_detail?.lot_depth || '',
+    );
+    formdata.append(
+      'property[lot_depth_unit]',
+      add_property_detail?.lot_depth_unit || 'feet',
+    );
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
+
+    fetch('https://housibly.herokuapp.com/api/v1/properties', requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   };
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -63,12 +146,12 @@ const PropertyDetail = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setPreviewImg(item?.uri);
+                      setPreviewImg(item?.path);
                     }}>
                     <PreviewImageBox
                       onPress={() => {}}
                       uri={
-                        item?.uri ||
+                        item?.path ||
                         'https://wallpaperaccess.com/full/1700222.jpg'
                       }
                     />

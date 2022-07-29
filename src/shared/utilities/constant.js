@@ -14,7 +14,12 @@ const stripe_publishableKey =
   'pk_test_51Jc5CWG5H9PTsJWTIZhYvdTTYfou0YKpZcDRJemqk83fnHQfRJoJJiHLK8AioyjhRa1XYAW9Q0NggRgAIumEaUgj00g64wGpS3';
 const profile_uri =
   'https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png';
-
+const image_options = {
+  width: 300,
+  height: 400,
+  multiple: true,
+  mediaType: 'photo',
+};
 const slidesData = [
   {
     key: 1,
@@ -403,30 +408,35 @@ const home_items = [
     title: 'Garage',
     value: '',
     Img: appIcons.garage,
+    selected: false,
   },
   {
     id: 2,
     title: 'Driveway',
     value: '',
     Img: appIcons.driveway,
+    selected: false,
   },
   {
     id: 3,
     title: 'House Type',
     value: '',
     Img: appIcons.HouseType,
+    selected: false,
   },
   {
     id: 4,
     title: 'House Style',
     value: '',
     Img: appIcons.HouseType,
+    selected: false,
   },
   {
     id: 5,
     title: 'Exterior',
     value: '',
     Img: appIcons.exterior,
+    selected: false,
   },
 
   {
@@ -434,54 +444,63 @@ const home_items = [
     title: 'Water',
     value: '',
     Img: appIcons.water,
+    selected: false,
   },
   {
     id: 8,
     title: 'Sewer',
     value: '',
     Img: appIcons.sware,
+    selected: false,
   },
   {
     id: 9,
     title: 'Heat Source',
     value: '',
     Img: appIcons.source,
+    selected: false,
   },
   {
     id: 10,
     title: 'Heat Type',
     value: '',
     Img: appIcons.heat,
+    selected: false,
   },
   {
     id: 11,
     title: 'Air Conditioner',
     value: '',
     Img: appIcons.airCon,
+    selected: false,
   },
   {
     id: 12,
     title: 'Laundry',
     value: '',
     Img: appIcons.loundry,
+    selected: false,
   },
   {
     id: 13,
     title: 'Fireplace',
     value: '',
     Img: appIcons.fire,
+    selected: false,
   },
   {
     id: 14,
     title: 'Central Vacuum',
     value: '',
     Img: appIcons.vacume,
+    selected: false,
   },
   {
     id: 15,
     title: 'Basement',
     value: '',
     Img: appIcons.bassement,
+    selected: false,
   },
 
   {
@@ -489,6 +508,7 @@ const home_items = [
     title: 'Pool',
     value: '',
     Img: appIcons.pool,
+    selected: false,
   },
 ];
 
@@ -498,36 +518,42 @@ const condo_items = [
     title: 'Parking Type',
     value: '',
     Img: appIcons.parkingType,
+    selected: false,
   },
   {
     id: 2,
     title: 'Parking Ownership',
     value: '',
     Img: appIcons.ownership,
+    selected: false,
   },
   {
     id: 1,
     title: 'Garage',
     value: '',
     Img: appIcons.garage,
+    selected: false,
   },
   {
     id: 3,
     title: 'House Type',
     value: '',
     Img: appIcons.HouseType,
+    selected: false,
   },
   {
     id: 4,
     title: 'House Style',
     value: '',
     Img: appIcons.HouseType,
+    selected: false,
   },
   {
     id: 5,
     title: 'Exterior',
     value: '',
     Img: appIcons.exterior,
+    selected: false,
   },
 
   {
@@ -535,54 +561,64 @@ const condo_items = [
     title: 'Water',
     value: '',
     Img: appIcons.water,
+    selected: false,
   },
   {
     id: 8,
     title: 'Sewer',
     value: '',
     Img: appIcons.sware,
+    selected: false,
   },
   {
     id: 9,
     title: 'Heat Source',
     value: '',
     Img: appIcons.source,
+    selected: false,
   },
   {
     id: 10,
     title: 'Heat Type',
     value: '',
     Img: appIcons.heat,
+    selected: false,
   },
   {
     id: 11,
     title: 'Air Conditioner',
     value: '',
     Img: appIcons.airCon,
+    selected: false,
   },
   {
     id: 12,
     title: 'Laundry',
     value: '',
     Img: appIcons.loundry,
+    selected: false,
   },
   {
     id: 13,
     title: 'Fireplace',
     value: '',
     Img: appIcons.fire,
+    selected: false,
   },
+
   {
     id: 14,
     title: 'Central Vacuum',
     value: '',
     Img: appIcons.vacume,
+    selected: false,
   },
   {
     id: 15,
     title: 'Basement',
     value: '',
     Img: appIcons.bassement,
+    selected: false,
   },
 
   {
@@ -590,6 +626,7 @@ const condo_items = [
     title: 'Pool',
     value: '',
     Img: appIcons.pool,
+    selected: false,
   },
 ];
 
@@ -597,31 +634,31 @@ const inputItems = [
   {
     id: 1,
     title: 'Bath Rooms',
-    value: '0',
+    value: '',
     Img: appIcons.bath,
   },
   {
     id: 2,
     title: 'Bed Rooms',
-    value: '0',
+    value: '',
     Img: appIcons.bed,
   },
   {
     id: 3,
     title: 'Living Space',
-    value: '0',
+    value: '',
     Img: appIcons.living_space,
   },
   {
     id: 4,
     title: 'Parking Spaces',
-    value: '0',
+    value: '',
     Img: appIcons.parking,
   },
   {
     id: 5,
     title: 'Garage Spaces',
-    value: '0',
+    value: '',
     Img: appIcons.garage_space,
   },
 ];
@@ -654,4 +691,5 @@ export {
   inputItems,
   home_items,
   condo_items,
+  image_options,
 };

@@ -11,7 +11,7 @@ export const DetailButton = ({
   marginLeft,
   marginBottom,
   marginTop,
-  color,
+  tintColor,
 }) => {
   return (
     <View style={styles.continer}>
@@ -32,7 +32,7 @@ export const DetailButton = ({
                 marginLeft: marginLeft,
                 marginBottom: marginBottom,
                 marginTop: marginTop,
-                tintColor: colors.b1,
+                tintColor: tintColor,
               },
             ]}
           />

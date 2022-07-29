@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     height: 25,
     color: colors.g19,
     padding: 0,
-    textAlign: 'center',
+    textAlign: 'right',
   },
 
   aiRow1: {

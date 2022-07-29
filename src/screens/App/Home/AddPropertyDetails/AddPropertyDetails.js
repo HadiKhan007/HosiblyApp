@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   AppButton,
   BackHeader,
@@ -25,6 +25,7 @@ import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {
   colors,
+  image_options,
   property_type_list,
   size,
   spacing,
@@ -34,9 +35,10 @@ import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
 import Textarea from 'react-native-textarea';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {add_property_detail_request} from '../../../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/core';
 
 const currency_list = ['CA$'];
 const lot_list = ['meter', 'feet'];
@@ -63,25 +65,29 @@ const AddPropertyDetails = ({navigation}) => {
   const [lotDepth, setLotDepth] = useState('feet');
   const [propsize, setpropSize] = useState('sqft');
 
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [propertyData, setPropertyData] = useState({text: 'House'});
   const [lotRegularData, setlotRegularData] = useState(null);
 
   const [show, setShow] = useState(false);
+
+  //Picker States
+  const [openPricePicker, setPricePicker] = useState(false);
+  const [openLotPicker, setOpenLotPicker] = useState(false);
+  const [opendepthPicker, setOpenDepthPicker] = useState(false);
+  const [openSizePicker, setOpenSizePicker] = useState(false);
+
   //References
   const propertyTypeRef = useRef(null);
   const lotRef = useRef(null);
   const dispatch = useDispatch(null);
+  const isFocus = useIsFocused(null);
+  const {add_property_detail} = useSelector(state => state?.appReducer);
 
   //Gallery Handlers
   const showGallery = () => {
     setShow(false);
     setTimeout(() => {
-      ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        multiple: true,
-      }).then(image => {
+      ImagePicker.openPicker(image_options).then(image => {
         var array3 = imageArray.concat(image);
         const distinctItems = [
           ...new Map(array3.map(item => [item['size'], item])).values(),
@@ -95,11 +101,7 @@ const AddPropertyDetails = ({navigation}) => {
   const showCamera = () => {
     setShow(false);
     setTimeout(() => {
-      ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        multiple: true,
-      }).then(image => {
+      ImagePicker.openCamera(image_options).then(image => {
         var array3 = imageArray.concat(image);
         const distinctItems = [
           ...new Map(array3.map(item => [item['size'], item])).values(),
@@ -109,6 +111,7 @@ const AddPropertyDetails = ({navigation}) => {
       });
     }, 400);
   };
+  // Remove Images
   const removeImage = (index, item) => {
     imageArray.splice(index, 1);
     setimageArray(
@@ -117,8 +120,54 @@ const AddPropertyDetails = ({navigation}) => {
       }),
     );
   };
-
+  //On Press Next
   const onPressNext = async () => {
+    if (price == '') {
+      Alert.alert('Error', 'Price is Required');
+    } else if (lot == '') {
+      Alert.alert('Error', 'Lot frontage is Required');
+    } else if (depth == '') {
+      Alert.alert('Error', 'Lot Depth is Required');
+    } else if (imageArray.length == 0) {
+      Alert.alert('Error', 'At least one image Required');
+    } else {
+      if (add_property_detail?.save_data) {
+        const onSuccess = res => {
+          navigation?.navigate('AddMorePropertyDetails', {
+            property_type: propertyType?.text,
+          });
+        };
+        dispatch(add_property_detail_request(add_property_detail, onSuccess));
+      } else {
+        const requestBody = {
+          property_type: propertyType?.text,
+          title: title,
+          images: imageArray,
+          price: price,
+          year_built: yeardBuild,
+          address: address,
+          unit: unit,
+          lot_frontage: lot,
+          lot_depth: depth,
+          lot_size: propertySize,
+          is_lot_irregular: lotRegular?.text,
+          lot_description: description,
+          input_data: add_property_detail?.input_data,
+          other_data: add_property_detail?.other_data,
+          save_list: add_property_detail?.save_list,
+        };
+        const onSuccess = res => {
+          console.log('ok');
+          navigation?.navigate('AddMorePropertyDetails', {
+            property_type: propertyType?.text,
+          });
+        };
+        dispatch(add_property_detail_request(requestBody, onSuccess));
+      }
+    }
+  };
+
+  const onPressSave = async () => {
     if (price == '') {
       Alert.alert('Error', 'Price is Required');
     } else if (lot == '') {
@@ -131,13 +180,7 @@ const AddPropertyDetails = ({navigation}) => {
       const requestBody = {
         property_type: propertyType?.text,
         title: title,
-        images: imageArray.map(item => {
-          return {
-            uri: item?.path,
-            name: item?.filename,
-            type: item?.mime,
-          };
-        }),
+        images: imageArray,
         price: price,
         year_built: yeardBuild,
         address: address,
@@ -147,16 +190,50 @@ const AddPropertyDetails = ({navigation}) => {
         lot_size: propertySize,
         is_lot_irregular: lotRegular?.text,
         lot_description: description,
+        save_data: true,
+        input_data: add_property_detail?.input_data,
+        other_data: add_property_detail?.other_data,
+        save_list: add_property_detail?.save_list,
+        property_desc: add_property_detail?.property_desc || '',
+        other_desc: add_property_detail?.other_desc || '',
+        save_desc: add_property_detail?.save_desc,
+        currency_type: currency,
+        lot_frontage_unit: lotFrontage,
+        lot_depth_unit: lotDepth,
+        lot_size: propsize,
       };
       const onSuccess = res => {
-        console.log('ok');
-        navigation?.navigate('AddMorePropertyDetails', {
-          property_type: propertyType?.text,
-        });
+        Alert.alert('Success', 'Information Saved Successfully');
       };
       dispatch(add_property_detail_request(requestBody, onSuccess));
     }
   };
+
+  //Set Property Detail
+  useEffect(() => {
+    if (isFocus) {
+      if (add_property_detail?.save_data) {
+        setPropertyType({text: add_property_detail?.property_type});
+        setPropertyData({text: add_property_detail?.property_type});
+        setTitle(add_property_detail?.title);
+        setimageArray(add_property_detail?.images || []);
+        setPrice(add_property_detail?.price || '0');
+        setYearBuilt(add_property_detail?.year_built || '0');
+        setUnit(add_property_detail?.unit || '0');
+        setLot(add_property_detail?.lot_frontage || '0');
+        setDepth(add_property_detail?.lot_depth || '0');
+        setPropertySize(add_property_detail?.lot_size || '0');
+        setlotRegular({text: add_property_detail?.is_lot_irregular});
+        setlotRegularData({text: add_property_detail?.is_lot_irregular});
+        setAddress(add_property_detail?.address || '');
+        setDescription(add_property_detail?.lot_description || '');
+        setCurrency(add_property_detail?.currency_type);
+        setLotFrontage(add_property_detail?.lot_frontage_unit);
+        setLotDepth(add_property_detail?.lot_depth_unit);
+        setpropSize(add_property_detail?.lot_size);
+      }
+    }
+  }, [isFocus]);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -202,14 +279,15 @@ const AddPropertyDetails = ({navigation}) => {
               onSelect={val => {
                 setCurrency(val);
               }}
-              isPickerOpen={isPickerOpen}
+              isPickerOpen={openPricePicker}
               value={price}
-              onFocus={() => setIsPickerOpen(true)}
-              onBlur={() => setIsPickerOpen(false)}
-              text={'e.g 21.00'}
+              onFocus={() => setPricePicker(true)}
+              onBlur={() => setPricePicker(false)}
+              simpleInputPlaceHolder={'e.g 21.00'}
               title={'Price'}
               list={currency_list}
               defaultValue={'USD'}
+              keyboardType={'decimal-pad'}
               dropDown={true}
               onChangeText={text => {
                 setPrice(text);
@@ -219,9 +297,10 @@ const AddPropertyDetails = ({navigation}) => {
               <>
                 <Divider color={colors.g18} />
                 <PriceInput
-                  text={'e.g 21.00'}
+                  simpleInputPlaceHolder={'e.g 21.00'}
                   title={'Years Built'}
                   subtitle={' (e.g 1994)'}
+                  keyboardType={'decimal-pad'}
                   onChangeText={text => {
                     setYearBuilt(text);
                   }}
@@ -266,17 +345,20 @@ const AddPropertyDetails = ({navigation}) => {
                   onSelect={val => {
                     setLotFrontage(val);
                   }}
-                  isPickerOpen={isPickerOpen}
+                  isPickerOpen={openLotPicker}
                   value={lot}
-                  onFocus={() => setIsPickerOpen(true)}
-                  onBlur={() => setIsPickerOpen(false)}
-                  text={'0'}
+                  onFocus={() => setOpenLotPicker(true)}
+                  onBlur={() => setOpenLotPicker(false)}
+                  simpleInputPlaceHolder={'0'}
                   title={'Lot Frontage'}
                   list={lot_list}
                   defaultValue={'feet'}
+                  keyboardType={'decimal-pad'}
                   dropDown={true}
+                  dropDownText={'feet'}
                   onChangeText={text => {
                     setLot(text);
+                    setPropertySize(text * depth);
                   }}
                 />
 
@@ -286,20 +368,18 @@ const AddPropertyDetails = ({navigation}) => {
                   onSelect={val => {
                     setLotDepth(val);
                   }}
-                  isPickerOpen={isPickerOpen}
+                  isPickerOpen={opendepthPicker}
                   value={depth}
-                  onFocus={() => setIsPickerOpen(true)}
-                  onBlur={() => setIsPickerOpen(false)}
-                  text={'0'}
+                  onFocus={() => setOpenDepthPicker(true)}
+                  onBlur={() => setOpenDepthPicker(false)}
+                  simpleInputPlaceHolder={'0'}
                   title={'Lot Depth'}
                   list={depth_list}
                   defaultValue={'feet'}
                   dropDown={true}
                   onChangeText={text => {
                     setDepth(text);
-                  }}
-                  onSubmitEditing={() => {
-                    setPropertySize(depth * lot);
+                    setPropertySize(text * lot);
                   }}
                   keyboardType={'decimal-pad'}
                   returnKeyType={'done'}
@@ -310,11 +390,11 @@ const AddPropertyDetails = ({navigation}) => {
                   onSelect={val => {
                     setpropSize(val);
                   }}
-                  isPickerOpen={isPickerOpen}
-                  value={propertySize}
-                  onFocus={() => setIsPickerOpen(true)}
-                  onBlur={() => setIsPickerOpen(false)}
-                  text={propertySize.toString()}
+                  isPickerOpen={openSizePicker}
+                  value={propertySize?.toString()}
+                  onFocus={() => setOpenSizePicker(true)}
+                  onBlur={() => setOpenSizePicker(false)}
+                  simpleInputPlaceHolder={propertySize.toString()}
                   title={'Lot Size'}
                   list={size_list}
                   defaultValue={'sqft'}
@@ -335,6 +415,7 @@ const AddPropertyDetails = ({navigation}) => {
                       text={'2006'}
                       title={'Tax Year'}
                       subtitle={'(e.g 2006)'}
+                      keyboardType={'decimal-pad'}
                     />
                   </>
                 )}
@@ -342,9 +423,10 @@ const AddPropertyDetails = ({navigation}) => {
                   <>
                     <Divider color={colors.g18} />
                     <PriceInput
-                      text={'00.00'}
+                      simpleInputPlaceHolder={'00.00'}
                       title={'Property Taxes'}
                       subtitle={' (USD)'}
+                      keyboardType={'decimal-pad'}
                     />
                   </>
                 )}
@@ -381,13 +463,6 @@ const AddPropertyDetails = ({navigation}) => {
                 <Divider color={colors.g18} />
               </>
             )}
-            {/* <TouchableOpacity
-              onPress={() => {
-               
-              }}
-              style={styles.aiRow}>
-              <Text style={styles.textStyle}>Show advanced options</Text>
-            </TouchableOpacity> */}
           </View>
           <View style={styles.spacRow}>
             <AppButton
@@ -397,7 +472,7 @@ const AddPropertyDetails = ({navigation}) => {
               fontSize={size.tiny}
               borderColor={colors.g21}
               onPress={() => {
-                navigation?.goBack();
+                onPressSave();
               }}
               shadowColor={colors.white}
             />

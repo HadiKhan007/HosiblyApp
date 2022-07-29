@@ -29,6 +29,8 @@ export const PriceInput = ({
   editable,
   keyboardType,
   returnKeyType,
+  tintColor,
+  simpleInputPlaceHolder,
 }) => {
   return (
     <View
@@ -45,6 +47,7 @@ export const PriceInput = ({
                 marginLeft: marginLeft,
                 marginBottom: marginBottom,
                 marginTop: marginTop,
+                tintColor: tintColor,
               }}
             />
           )}
@@ -69,6 +72,7 @@ export const PriceInput = ({
                 </View>
               );
             }}
+            statusBarTranslucent={true}
             buttonStyle={styles.btnStyle}
             dropdownStyle={styles.dropdownStyle}
             renderCustomizedRowChild={item => {
@@ -118,7 +122,7 @@ export const PriceInput = ({
             onSubmitEditing={onSubmitEditing}
             onChangeText={onChangeText}
             value={value}
-            placeholder={text}
+            placeholder={simpleInputPlaceHolder}
             placeholderTextColor={colors.g19}
             style={styles.simpleInputStyle}
             editable={editable}
@@ -168,20 +172,20 @@ const styles = StyleSheet.create({
     height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: '80%',
     borderWidth: 1,
     borderColor: colors.g29,
     marginVertical: 0,
   },
   btnStyle: {
-    width: '40%',
+    width: '38%',
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
   dropdownStyle: {
-    marginVertical: Platform.select({android: -25, ios: -15}),
+    marginVertical: -15,
     width: '20%',
     backgroundColor: colors.white,
   },
@@ -201,6 +205,7 @@ const styles = StyleSheet.create({
     height: 50,
     color: colors.g19,
     padding: 0,
+    textAlign: 'right',
   },
   to: {
     paddingHorizontal: 10,
