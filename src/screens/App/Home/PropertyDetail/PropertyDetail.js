@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -19,26 +20,17 @@ import {
   SmallHeading,
 } from '../../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {
-  appIcons,
-  BASE_URL,
-  colors,
-  condo_items,
-  inputItems,
-  size,
-  spacing,
-  WP,
-} from '../../../../shared/exporter';
+import {appIcons, colors, size, spacing, WP} from '../../../../shared/exporter';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
-import {useSelector} from 'react-redux';
-import axios from 'axios';
-import {GetToken} from '../../../../shared/utilities/headers';
+import {useDispatch, useSelector} from 'react-redux';
+import {addProperty} from '../../../../shared/service/PropertyService';
+import {add_property_detail_request} from '../../../../redux/actions';
 
 const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
   const [previewImg, setPreviewImg] = useState('');
-
+  const dispatch = useDispatch();
   useEffect(() => {
     setPreviewImg(
       add_property_detail?.images[0].path ||
@@ -55,19 +47,19 @@ const PropertyDetail = ({navigation}) => {
         name: item?.filename || 'image',
       };
     });
-    const filterArr = add_property_detail?.opition_data.map(item => {
+    const filterArr = add_property_detail?.option_data.map(item => {
       return {
         title: item?.title,
         value: item?.value,
       };
     });
-    console.log(add_property_detail);
-
-    var myHeaders = new Headers();
-    myHeaders.append('auth_token', await GetToken());
     var formdata = new FormData();
     formdata.append('property[title]', add_property_detail?.title || '');
     formdata.append('property[price]', add_property_detail?.price);
+    formdata.append(
+      'property[currency_type]',
+      add_property_detail?.currency_type,
+    );
     formdata.append('property[year_built]', add_property_detail?.year_built);
     formdata.append('property[address]', add_property_detail?.address);
     formdata.append('property[unit]', add_property_detail?.unit);
@@ -85,10 +77,13 @@ const PropertyDetail = ({navigation}) => {
       add_property_detail?.lot_depth_unit || 'feet',
     );
     formdata.append('property[lot_size]', add_property_detail?.lot_size || '');
-    formdata.append('property[lot_size_unit]', 'feet');
+    formdata.append(
+      'property[lot_size_unit]',
+      add_property_detail?.lot_size_unit || '',
+    );
     formdata.append(
       'property[is_lot_irregular]',
-      add_property_detail?.is_lot_irregular,
+      add_property_detail?.is_lot_irregular || 'No',
     );
     formdata.append(
       'property[lot_description]',
@@ -110,26 +105,27 @@ const PropertyDetail = ({navigation}) => {
       'property[property_type]',
       add_property_detail?.property_type.toLowerCase() || 'house',
     );
-    formdata.append(
-      'property[lot_depth]',
-      add_property_detail?.lot_depth || '',
-    );
-    formdata.append(
-      'property[lot_depth_unit]',
-      add_property_detail?.lot_depth_unit || 'feet',
-    );
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: formdata,
-      redirect: 'follow',
-    };
 
-    fetch('https://housibly.herokuapp.com/api/v1/properties', requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+    const res = await addProperty(formdata);
+    if (res) {
+      // const onSuccess = res => {
+      //   console.log('ok');
+      //   navigation?.navigate('Dashboard');
+      // };
+      // dispatch(add_property_detail_request(null, onSuccess));
+    }
   };
+  const onPressSave = async () => {
+    add_property_detail.save_desc = true;
+    add_property_detail.save_list = true;
+    add_property_detail.save_data = true;
+    dispatch(
+      add_property_detail_request(add_property_detail, () => {
+        Alert.alert('Success', 'Information Saved Successfully');
+      }),
+    );
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -138,7 +134,11 @@ const PropertyDetail = ({navigation}) => {
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
-          <PreviewImageCover uri={previewImg} />
+          <PreviewImageCover
+            h1={add_property_detail?.title}
+            h2={add_property_detail?.property_type}
+            uri={previewImg}
+          />
           <View>
             <FlatList
               data={add_property_detail?.images}
@@ -193,43 +193,73 @@ const PropertyDetail = ({navigation}) => {
             />
             <PreviewField
               title={'Unit'}
-              subtitle={add_property_detail?.unit || '23'}
+              subtitle={add_property_detail?.unit || '0'}
             />
-            <PreviewField
-              title={'Lot Frontage (sqm)'}
-              subtitle={add_property_detail?.lot_frontage || '23'}
-            />
-            <PreviewField
-              title={'Lot Depth (sqm)'}
-              subtitle={add_property_detail?.lot_depth || '23'}
-            />
-            <PreviewField
-              title={'Lot Size (feet)'}
-              subtitle={add_property_detail?.lot_size || '23'}
-            />
-            <PreviewField
-              title={'Is This Lot Irregular?'}
-              subtitle={add_property_detail?.is_lot_irregular || 'No'}
-            />
-            <PreviewField title={'Property Taxes'} subtitle={'23'} />
-            <PreviewField title={'Tax Year'} subtitle={'23'} />
-            <View style={spacing.my4}>
-              <Divider color={colors.g13} />
-              <FlatList
-                data={add_property_detail?.opition_data}
-                renderItem={({item}) => {
-                  return (
-                    <View>
-                      <PreviewField
-                        source={item?.Img}
-                        title={item?.title}
-                        subtitle={item?.value || 'N/A'}
-                      />
-                    </View>
-                  );
-                }}
-              />
-            </View>
+            {add_property_detail?.property_type != 'Condo' && (
+              <>
+                <PreviewField
+                  title={`Lot Frontage (${add_property_detail?.lot_frontage_unit})`}
+                  subtitle={add_property_detail?.lot_frontage || '0'}
+                />
+                <PreviewField
+                  title={`Lot Depth (${add_property_detail?.lot_depth_unit})`}
+                  subtitle={add_property_detail?.lot_depth || '0'}
+                />
+                <PreviewField
+                  title={`Lot Size (${add_property_detail?.lot_size_unit})`}
+                  subtitle={add_property_detail?.lot_size || '23'}
+                />
+                <PreviewField
+                  title={'Is This Lot Irregular?'}
+                  subtitle={add_property_detail?.is_lot_irregular || 'No'}
+                />
+                <PreviewField
+                  title={'Property Taxes'}
+                  subtitle={add_property_detail?.property_tax || ''}
+                />
+                <PreviewField
+                  title={'Tax Year'}
+                  subtitle={add_property_detail?.tax_year || ''}
+                />
+              </>
+            )}
+            {add_property_detail?.property_type == 'Condo' && (
+              <>
+                <PreviewField
+                  title={'Locker'}
+                  subtitle={add_property_detail?.locker || 'N/A'}
+                />
+                <PreviewField
+                  title={'Condo Corporation / HOA'}
+                  subtitle={
+                    add_property_detail?.condo_corporation_or_hqa || 'N/A'
+                  }
+                />
+                <PreviewField
+                  title={'Condo/HOA fees (per month)'}
+                  subtitle={add_property_detail?.condo_fees || 'N/A'}
+                />
+              </>
+            )}
+            {add_property_detail?.property_type != 'Vacant Land' && (
+              <View style={spacing.my4}>
+                <Divider color={colors.g13} />
+                <FlatList
+                  data={add_property_detail?.option_data}
+                  renderItem={({item}) => {
+                    return (
+                      <View>
+                        <PreviewField
+                          source={item?.Img}
+                          title={item?.title}
+                          subtitle={item?.value || 'N/A'}
+                        />
+                      </View>
+                    );
+                  }}
+                />
+              </View>
+            )}
 
             <View style={styles.descBox}>
               <SmallHeading title={'Property Description'} />
@@ -237,11 +267,15 @@ const PropertyDetail = ({navigation}) => {
                 textColor={colors.g22}
                 title={add_property_detail?.property_desc || 'N/A'}
               />
-              <SmallHeading title={'Appliances and other Items'} />
-              <SmallHeading
-                textColor={colors.g22}
-                title={add_property_detail?.other_desc || 'N/A'}
-              />
+              {add_property_detail?.property_type != 'Vacant Land' && (
+                <>
+                  <SmallHeading title={'Appliances and other Items'} />
+                  <SmallHeading
+                    textColor={colors.g22}
+                    title={add_property_detail?.other_desc || 'N/A'}
+                  />
+                </>
+              )}
             </View>
           </View>
           <View style={styles.spacRow}>
@@ -251,7 +285,9 @@ const PropertyDetail = ({navigation}) => {
               title={'Save'}
               fontSize={size.tiny}
               borderColor={colors.g21}
-              onPress={() => {}}
+              onPress={() => {
+                onPressSave();
+              }}
               shadowColor={colors.white}
             />
             <AppButton

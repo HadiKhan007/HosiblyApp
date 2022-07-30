@@ -54,7 +54,6 @@ export const appIcons = {
   heartIcon: require('../../assets/icons/heart_icon.png'),
   blueHome: require('../../assets/icons/blue_home.png'),
   modelHome: require('../../assets/icons/model_home.png'),
-  condo: require('../../assets/icons/condo.png'),
   vacant: require('../../assets/icons/vacant.png'),
   editIcon: require('../../assets/icons/edit_icon.png'),
   delIcon: require('../../assets/icons/del_icon.png'),
@@ -64,10 +63,8 @@ export const appIcons = {
   type: require('../../assets/icons/Type.png'),
   ownership: require('../../assets/icons/ownership.png'),
   garage: require('../../assets/icons/Garages.png'),
-  condo: require('../../assets/icons/Conodo.png'),
-  condoStyle: require('../../assets/icons/ConodoStyle.png'),
   exterior: require('../../assets/icons/Exterior.png'),
-  balcony: require('../../assets/icons/Balcony.png'),
+  balcony: require('../../assets/icons/balcony.png'),
   exposure: require('../../assets/icons/Exposure.png'),
   security: require('../../assets/icons/Security.png'),
   pets: require('../../assets/icons/Pets.png'),
@@ -92,6 +89,9 @@ export const appIcons = {
   parkingType: require('../../assets/icons/parkingType.png'),
   priceTag: require('../../assets/icons/priceTag.png'),
   built: require('../../assets/icons/built.png'),
+  condoType: require('../../assets/icons/condoType.png'),
+  condoStyle: require('../../assets/icons/condoStyle.png'),
+  settings: require('../../assets/icons/settings.png'),
 };
 
 export const appSvgs = {

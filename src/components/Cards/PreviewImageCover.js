@@ -1,8 +1,14 @@
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {colors, family, size, WP} from '../../shared/exporter';
+import {
+  capitalizeFirstLetter,
+  colors,
+  family,
+  size,
+  WP,
+} from '../../shared/exporter';
 
-export const PreviewImageCover = ({uri}) => {
+export const PreviewImageCover = ({uri, h1, h2}) => {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -11,8 +17,8 @@ export const PreviewImageCover = ({uri}) => {
         source={{
           uri: uri,
         }}>
-        <Text style={styles.imgh1}>White Modern House</Text>
-        <Text style={styles.imgh2}>White Modern House</Text>
+        <Text style={styles.imgh1}>{capitalizeFirstLetter(h1) || ''} </Text>
+        <Text style={styles.imgh2}>{capitalizeFirstLetter(h2) || ''}</Text>
       </ImageBackground>
     </View>
   );

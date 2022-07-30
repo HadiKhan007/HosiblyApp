@@ -31,13 +31,14 @@ import {
   spacing,
   WP,
 } from '../../../../shared/exporter';
-import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
 import Textarea from 'react-native-textarea';
 import {useDispatch, useSelector} from 'react-redux';
-import {add_property_detail_request} from '../../../../redux/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  add_property_detail_request,
+  set_address_request,
+} from '../../../../redux/actions';
 import {useIsFocused} from '@react-navigation/core';
 
 const currency_list = ['CA$'];
@@ -53,12 +54,16 @@ const AddPropertyDetails = ({navigation}) => {
   const [price, setPrice] = useState('');
   const [yeardBuild, setYearBuilt] = useState('');
   const [unit, setUnit] = useState('');
-  const [address, setAddress] = useState('');
   const [lot, setLot] = useState(0);
   const [depth, setDepth] = useState(0);
   const [propertySize, setPropertySize] = useState(0);
   const [description, setDescription] = useState('');
   const [lotRegular, setlotRegular] = useState(null);
+  const [propertyTax, setpropertyTax] = useState('');
+  const [taxYear, settaxYear] = useState('');
+  const [locker, setLocker] = useState('');
+  const [condo_corporation, setcondo_corporation] = useState('');
+  const [condo_fees, setCondoFees] = useState('');
 
   const [currency, setCurrency] = useState('USD');
   const [lotFrontage, setLotFrontage] = useState('feet');
@@ -81,7 +86,9 @@ const AddPropertyDetails = ({navigation}) => {
   const lotRef = useRef(null);
   const dispatch = useDispatch(null);
   const isFocus = useIsFocused(null);
-  const {add_property_detail} = useSelector(state => state?.appReducer);
+  const {add_property_detail, address} = useSelector(
+    state => state?.appReducer,
+  );
 
   //Gallery Handlers
   const showGallery = () => {
@@ -122,57 +129,69 @@ const AddPropertyDetails = ({navigation}) => {
   };
   //On Press Next
   const onPressNext = async () => {
-    if (price == '') {
+    if (title == '') {
+      Alert.alert('Error', 'Title is Required');
+    } else if (price == '') {
       Alert.alert('Error', 'Price is Required');
-    } else if (lot == '') {
+    } else if (lot == '' && propertyType?.text != 'Condo') {
       Alert.alert('Error', 'Lot frontage is Required');
-    } else if (depth == '') {
+    } else if (depth == '' && propertyType?.text != 'Condo') {
       Alert.alert('Error', 'Lot Depth is Required');
     } else if (imageArray.length == 0) {
       Alert.alert('Error', 'At least one image Required');
     } else {
-      if (add_property_detail?.save_data) {
-        const onSuccess = res => {
+      const requestBody = {
+        property_type: propertyType?.text,
+        title: title,
+        currency_type: currency,
+        images: imageArray,
+        price: price,
+        year_built: yeardBuild,
+        address: address,
+        unit: unit,
+        lot_frontage: lot,
+        lot_frontage_unit: lotFrontage,
+        lot_depth: depth,
+        lot_depth_unit: lotDepth,
+        lot_size: propertySize,
+        lot_size_unit: propsize,
+        is_lot_irregular: lotRegular?.text,
+        lot_description: description,
+        tax_year: taxYear,
+        property_tax: propertyTax,
+        locker: locker,
+        condo_fees: condo_fees,
+        condo_corporation_or_hqa: condo_corporation,
+        input_data: add_property_detail?.input_data,
+        property_desc: add_property_detail?.property_desc || '',
+        other_desc: add_property_detail?.other_desc || '',
+        save_list: add_property_detail?.save_list,
+        home_data: add_property_detail?.home_data,
+        condo_data: add_property_detail?.condo_data,
+        save_data: add_property_detail?.save_data,
+        save_desc: add_property_detail?.save_desc,
+      };
+      const onSuccess = res => {
+        if (propertyType?.text == 'Vacant Land') {
+          navigation?.navigate('AddPropertyDesc');
+        } else {
           navigation?.navigate('AddMorePropertyDetails', {
             property_type: propertyType?.text,
           });
-        };
-        dispatch(add_property_detail_request(add_property_detail, onSuccess));
-      } else {
-        const requestBody = {
-          property_type: propertyType?.text,
-          title: title,
-          images: imageArray,
-          price: price,
-          year_built: yeardBuild,
-          address: address,
-          unit: unit,
-          lot_frontage: lot,
-          lot_depth: depth,
-          lot_size: propertySize,
-          is_lot_irregular: lotRegular?.text,
-          lot_description: description,
-          input_data: add_property_detail?.input_data,
-          other_data: add_property_detail?.other_data,
-          save_list: add_property_detail?.save_list,
-        };
-        const onSuccess = res => {
-          console.log('ok');
-          navigation?.navigate('AddMorePropertyDetails', {
-            property_type: propertyType?.text,
-          });
-        };
-        dispatch(add_property_detail_request(requestBody, onSuccess));
-      }
+        }
+      };
+      dispatch(add_property_detail_request(requestBody, onSuccess));
     }
   };
 
   const onPressSave = async () => {
-    if (price == '') {
+    if (title == '') {
+      Alert.alert('Error', 'Title is Required');
+    } else if (price == '') {
       Alert.alert('Error', 'Price is Required');
-    } else if (lot == '') {
+    } else if (lot == '' && propertyType.text != 'Condo') {
       Alert.alert('Error', 'Lot frontage is Required');
-    } else if (depth == '') {
+    } else if (depth == '' && propertyType.text != 'Condo') {
       Alert.alert('Error', 'Lot Depth is Required');
     } else if (imageArray.length == 0) {
       Alert.alert('Error', 'At least one image Required');
@@ -190,9 +209,7 @@ const AddPropertyDetails = ({navigation}) => {
         lot_size: propertySize,
         is_lot_irregular: lotRegular?.text,
         lot_description: description,
-        save_data: true,
         input_data: add_property_detail?.input_data,
-        other_data: add_property_detail?.other_data,
         save_list: add_property_detail?.save_list,
         property_desc: add_property_detail?.property_desc || '',
         other_desc: add_property_detail?.other_desc || '',
@@ -200,7 +217,15 @@ const AddPropertyDetails = ({navigation}) => {
         currency_type: currency,
         lot_frontage_unit: lotFrontage,
         lot_depth_unit: lotDepth,
-        lot_size: propsize,
+        lot_size_unit: propsize,
+        tax_year: taxYear,
+        property_tax: propertyTax,
+        locker: locker,
+        condo_corporation_or_hqa: condo_corporation,
+        condo_fess: condo_fees,
+        home_data: add_property_detail?.home_data,
+        condo_data: add_property_detail?.condo_data,
+        save_data: true,
       };
       const onSuccess = res => {
         Alert.alert('Success', 'Information Saved Successfully');
@@ -211,29 +236,34 @@ const AddPropertyDetails = ({navigation}) => {
 
   //Set Property Detail
   useEffect(() => {
-    if (isFocus) {
-      if (add_property_detail?.save_data) {
-        setPropertyType({text: add_property_detail?.property_type});
-        setPropertyData({text: add_property_detail?.property_type});
-        setTitle(add_property_detail?.title);
-        setimageArray(add_property_detail?.images || []);
-        setPrice(add_property_detail?.price || '0');
-        setYearBuilt(add_property_detail?.year_built || '0');
-        setUnit(add_property_detail?.unit || '0');
-        setLot(add_property_detail?.lot_frontage || '0');
-        setDepth(add_property_detail?.lot_depth || '0');
-        setPropertySize(add_property_detail?.lot_size || '0');
-        setlotRegular({text: add_property_detail?.is_lot_irregular});
-        setlotRegularData({text: add_property_detail?.is_lot_irregular});
-        setAddress(add_property_detail?.address || '');
-        setDescription(add_property_detail?.lot_description || '');
-        setCurrency(add_property_detail?.currency_type);
-        setLotFrontage(add_property_detail?.lot_frontage_unit);
-        setLotDepth(add_property_detail?.lot_depth_unit);
-        setpropSize(add_property_detail?.lot_size);
-      }
+    if (add_property_detail?.save_data) {
+      setPropertyType({text: add_property_detail?.property_type});
+      setPropertyData({text: add_property_detail?.property_type});
+      setTitle(add_property_detail?.title);
+      setimageArray(add_property_detail?.images || []);
+      setPrice(add_property_detail?.price || '0');
+      setYearBuilt(add_property_detail?.year_built || '0');
+      setUnit(add_property_detail?.unit || '0');
+      setLot(add_property_detail?.lot_frontage || '0');
+      setDepth(add_property_detail?.lot_depth || '0');
+      setPropertySize(add_property_detail?.lot_size || '0');
+      setlotRegular({text: add_property_detail?.is_lot_irregular});
+      setlotRegularData({text: add_property_detail?.is_lot_irregular});
+      dispatch(
+        set_address_request(add_property_detail?.address || '', () => {}),
+      );
+      setDescription(add_property_detail?.lot_description || '');
+      setCurrency(add_property_detail?.currency_type);
+      setLotFrontage(add_property_detail?.lot_frontage_unit);
+      setLotDepth(add_property_detail?.lot_depth_unit);
+      setpropSize(add_property_detail?.lot_size_unit);
+      setLocker(add_property_detail?.locker);
+      settaxYear(add_property_detail?.tax_year);
+      setpropertyTax(add_property_detail?.property_tax);
+      setcondo_corporation(add_property_detail?.condo_corporation_or_hqa);
+      setCondoFees(add_property_detail?.condo_fees);
     }
-  }, [isFocus]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -286,7 +316,7 @@ const AddPropertyDetails = ({navigation}) => {
               simpleInputPlaceHolder={'e.g 21.00'}
               title={'Price'}
               list={currency_list}
-              defaultValue={'USD'}
+              defaultValue={currency || 'USD'}
               keyboardType={'decimal-pad'}
               dropDown={true}
               onChangeText={text => {
@@ -309,7 +339,10 @@ const AddPropertyDetails = ({navigation}) => {
               </>
             )}
             {propertyType?.text != 'House' && (
-              <>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation?.navigate('AddAddress');
+                }}>
                 <Divider color={colors.g18} />
                 <FilterInput
                   onPressIn={() => {
@@ -318,12 +351,9 @@ const AddPropertyDetails = ({navigation}) => {
                   editable={false}
                   keyboardType={'default'}
                   placeholder={'Street Address'}
-                  onChangeText={text => {
-                    setAddress(text);
-                  }}
                   value={address}
                 />
-              </>
+              </TouchableOpacity>
             )}
             {propertyType?.text != 'Vacant Land' && (
               <>
@@ -352,7 +382,7 @@ const AddPropertyDetails = ({navigation}) => {
                   simpleInputPlaceHolder={'0'}
                   title={'Lot Frontage'}
                   list={lot_list}
-                  defaultValue={'feet'}
+                  defaultValue={lotFrontage || 'feet'}
                   keyboardType={'decimal-pad'}
                   dropDown={true}
                   dropDownText={'feet'}
@@ -375,7 +405,7 @@ const AddPropertyDetails = ({navigation}) => {
                   simpleInputPlaceHolder={'0'}
                   title={'Lot Depth'}
                   list={depth_list}
-                  defaultValue={'feet'}
+                  defaultValue={lotDepth || 'feet'}
                   dropDown={true}
                   onChangeText={text => {
                     setDepth(text);
@@ -397,7 +427,7 @@ const AddPropertyDetails = ({navigation}) => {
                   simpleInputPlaceHolder={propertySize.toString()}
                   title={'Lot Size'}
                   list={size_list}
-                  defaultValue={'sqft'}
+                  defaultValue={propsize || 'sqft'}
                   dropDown={true}
                   editable={false}
                 />
@@ -408,61 +438,74 @@ const AddPropertyDetails = ({navigation}) => {
                   }}
                   title={lotRegular?.text || 'Is Your Lot Irregular?'}
                 />
-                {propertyType?.text == 'Vacant Land' && (
-                  <>
-                    <Divider color={colors.g18} />
-                    <PriceInput
-                      text={'2006'}
-                      title={'Tax Year'}
-                      subtitle={'(e.g 2006)'}
-                      keyboardType={'decimal-pad'}
-                    />
-                  </>
-                )}
-                {propertyType?.text == 'Vacant Land' && (
-                  <>
-                    <Divider color={colors.g18} />
-                    <PriceInput
-                      simpleInputPlaceHolder={'00.00'}
-                      title={'Property Taxes'}
-                      subtitle={' (USD)'}
-                      keyboardType={'decimal-pad'}
-                    />
-                  </>
-                )}
+
                 <Divider color={colors.g18} />
-                <Textarea
-                  containerStyle={[styles.textareaContainer]}
-                  style={styles.textarea}
-                  placeholder={'Describe Your Lot'}
-                  placeholderTextColor={colors.g19}
-                  underlineColorAndroid={'transparent'}
-                  value={description}
+                <PriceInput
                   onChangeText={text => {
-                    setDescription(text);
+                    settaxYear(text);
                   }}
+                  value={taxYear}
+                  simpleInputPlaceHolder={'2006'}
+                  title={'Tax Year'}
+                  subtitle={'(e.g 2006)'}
+                  keyboardType={'decimal-pad'}
                 />
+
                 <Divider color={colors.g18} />
+                <PriceInput
+                  onChangeText={text => {
+                    setpropertyTax(text);
+                  }}
+                  value={propertyTax}
+                  simpleInputPlaceHolder={'00.00'}
+                  title={'Property Taxes'}
+                  keyboardType={'decimal-pad'}
+                />
               </>
             )}
-
             {propertyType?.text == 'Condo' && (
               <>
+                <Divider color={colors.g18} />
+                <FilterInput
+                  onChangeText={text => {
+                    setcondo_corporation(text);
+                  }}
+                  keyboardType={'default'}
+                  value={condo_corporation}
+                  placeholder={'Condo Corporation / HOA'}
+                />
+                <Divider color={colors.g18} />
+                <FilterInput
+                  onChangeText={text => {
+                    setCondoFees(text);
+                  }}
+                  value={condo_fees}
+                  placeholder={'Condo/HOA fees (per month)'}
+                />
                 <Divider color={colors.g18} />
                 <FilterButton
-                  onPress={() => {}}
+                  onPress={() => {
+                    setLocker('Locker');
+                  }}
                   title={'Locker'}
-                  textColor={colors.b1}
+                  textColor={locker != '' ? colors.p1 : colors.b1}
                 />
               </>
             )}
-            {propertyType?.text == 'Condo' && (
-              <>
-                <Divider color={colors.g18} />
-                <FilterInput placeholder={'Condo Corporation / HOA'} />
-                <Divider color={colors.g18} />
-              </>
-            )}
+            <Divider color={colors.g18} />
+
+            <Textarea
+              containerStyle={[styles.textareaContainer]}
+              style={styles.textarea}
+              placeholder={'Describe Your Lot'}
+              placeholderTextColor={colors.g19}
+              underlineColorAndroid={'transparent'}
+              value={description}
+              onChangeText={text => {
+                setDescription(text);
+              }}
+            />
+            <Divider color={colors.g18} />
           </View>
           <View style={styles.spacRow}>
             <AppButton

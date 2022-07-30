@@ -5,6 +5,7 @@ const initialState = {
   isSuccess: false,
   isFailure: false,
   add_property_detail: null,
+  address: '',
 };
 
 const appReducers = (state = initialState, actions) => {
@@ -26,6 +27,14 @@ const appReducers = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
         add_property_detail: null,
+      };
+    case TYPES.SET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        address: payload,
       };
 
     default:

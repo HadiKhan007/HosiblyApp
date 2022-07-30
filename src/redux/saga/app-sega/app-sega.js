@@ -21,3 +21,19 @@ function* addPropertyDetail(params) {
     console.log(error);
   }
 }
+
+// *************SET ADDRESS Info**************
+export function* setAddressRequest() {
+  yield takeLatest(types.SET_ADDRESS_REQUEST, setAddress);
+}
+function* setAddress(params) {
+  try {
+    yield put({
+      type: types.SET_ADDRESS_SUCCESS,
+      payload: params?.params,
+    });
+    params?.cbSuccess(params.params);
+  } catch (error) {
+    console.log(error);
+  }
+}

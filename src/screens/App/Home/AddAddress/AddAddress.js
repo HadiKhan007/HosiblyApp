@@ -9,9 +9,12 @@ import {
 import {colors, spacing} from '../../../../shared/exporter';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
+import {useDispatch, useSelector} from 'react-redux';
+import {set_address_request} from '../../../../redux/actions';
 
 const AddAddress = ({navigation}) => {
-  const [address, setAddress] = useState('');
+  const {address} = useSelector(state => state?.appReducer);
+  const dispatch = useDispatch(null);
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -27,7 +30,7 @@ const AddAddress = ({navigation}) => {
           keyboardType={'default'}
           placeholder={'Street Address'}
           onChangeText={text => {
-            setAddress(text);
+            dispatch(set_address_request(text, () => {}));
           }}
           value={address}
         />

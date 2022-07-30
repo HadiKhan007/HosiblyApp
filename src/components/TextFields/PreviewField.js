@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   leftCon: {
     alignItems: 'center',
     flexDirection: 'row',
+    width: '50%',
   },
   imagStyle: {
     height: 25,

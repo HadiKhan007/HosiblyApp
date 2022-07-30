@@ -18,12 +18,22 @@ const AddpropertyDesc = ({navigation}) => {
   const onPressNext = async () => {
     add_property_detail.property_desc = propertyDesc;
     add_property_detail.other_desc = otherDesc;
+
     const selectedInputs = add_property_detail?.input_data?.filter(item => {
       return item?.value != '' || item?.value != undefined;
     });
-    const selectedItems = add_property_detail?.other_data?.filter(item => {
-      return item?.value != '' || item?.value != undefined;
-    });
+    let selectedItems = [];
+    if (add_property_detail?.property_type == 'House') {
+      selectedItems = add_property_detail?.home_data?.filter(item => {
+        return item?.value != '' || item?.value != undefined;
+      });
+    } else if (add_property_detail?.property_type == 'Condo') {
+      selectedItems = add_property_detail?.condo_data?.filter(item => {
+        return item?.value != '' || item?.value != undefined;
+      });
+    } else {
+      selectedItems = [];
+    }
 
     const finalArray = selectedInputs.concat(selectedItems);
     add_property_detail['option_data'] = finalArray;
@@ -75,18 +85,23 @@ const AddpropertyDesc = ({navigation}) => {
             }}
             value={propertyDesc}
           />
-          <Divider color={colors.g18} />
-          <Textarea
-            containerStyle={[styles.textareaContainer]}
-            style={styles.textarea}
-            placeholder={'Appliances & Other Items'}
-            placeholderTextColor={colors.g19}
-            underlineColorAndroid={'transparent'}
-            onChangeText={text => {
-              setOtherDesc(text);
-            }}
-            value={otherDesc}
-          />
+          {add_property_detail?.property_type != 'Vacant Land' && (
+            <>
+              <Divider color={colors.g18} />
+
+              <Textarea
+                containerStyle={[styles.textareaContainer]}
+                style={styles.textarea}
+                placeholder={'Appliances & Other Items'}
+                placeholderTextColor={colors.g19}
+                underlineColorAndroid={'transparent'}
+                onChangeText={text => {
+                  setOtherDesc(text);
+                }}
+                value={otherDesc}
+              />
+            </>
+          )}
         </View>
         <View style={styles.spacRow}>
           <AppButton
