@@ -46,6 +46,11 @@ export const editFormFields = {
   bio: '',
 };
 
+export const addCardFormFields = {
+  fullname: '',
+  country: '',
+};
+
 export const LoginVS = yup.object().shape({
   email: yup
     .string()
@@ -123,4 +128,9 @@ export const ResetPasswordVS = yup.object().shape({
     .min(6, 'Password must be at least 6 characters')
     .required('Confirm New Password Required')
     .oneOf([yup.ref('password'), null], 'New Passwords do not match'),
+});
+
+export const addCardVS = yup.object().shape({
+  fullname: yup.string().required('Full Name Required'),
+  country: yup.string().required('Country Required'),
 });

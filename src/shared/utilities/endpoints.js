@@ -15,6 +15,7 @@ const ENDPOINTS = {
   GET_PROFILE: 'get_profile.json',
   UPDATE_PROFILE: 'update_profile.json',
   RESEND_OTP: 'verify_otp/resend_otp',
+  CARD_CONST: 'card',
 };
 
 export {BASE_URL, ENDPOINTS};

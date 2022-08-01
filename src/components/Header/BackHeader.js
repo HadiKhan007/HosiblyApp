@@ -13,6 +13,7 @@ export const BackHeader = ({
   txtSize = size.h6,
   txtFamily = family.Gilroy_Bold,
   tintColor = colors.b1,
+  onPressRight,
 }) => {
   const navigation = useNavigation();
 
@@ -45,7 +46,10 @@ export const BackHeader = ({
         </View>
         <View>{rightIcon}</View>
         {isBox && (
-          <TouchableOpacity activeOpacity={0.7} style={styles.boxStyle}>
+          <TouchableOpacity
+            onPress={onPressRight}
+            activeOpacity={0.7}
+            style={styles.boxStyle}>
             {boxIcon}
           </TouchableOpacity>
         )}

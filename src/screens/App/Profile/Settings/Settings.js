@@ -1,14 +1,13 @@
 import React from 'react';
 import {SafeAreaView, Text, View, Image, TouchableOpacity} from 'react-native';
 import {AppButton, AppHeader, BackHeader, Spacer} from '../../../../components';
-import {colors, WP} from '../../../../shared/exporter';
+import {colors, settings, WP} from '../../../../shared/exporter';
 import styles from './styles';
 import {useDispatch} from 'react-redux';
 import {Icon} from 'react-native-elements';
 import {logoutRequset} from '../../../../redux/actions';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {settings} from '../../../../shared/utilities/constant';
 
 const Settings = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -28,7 +27,7 @@ const Settings = ({navigation}) => {
       <AppHeader subtitle={'Settings'} />
       <BackHeader title={'Settings'} />
       <Spacer androidVal={WP('12')} iOSVal={WP('12')} />
-      {settings.map(item => {
+      {settings?.map(item => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}

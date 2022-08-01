@@ -48,12 +48,16 @@ const AllCards = ({navigation}) => {
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader subtitle={'Manage Cards'} />
       <BackHeader
+        onPressRight={() => {
+          navigation?.navigate('AddCard');
+        }}
         isBox={true}
         title={'Manage Cards'}
         boxIcon={
           <Icon name={'plus'} type={'entypo'} size={22} color={colors.white} />
         }
       />
+
       <Spacer androidVal={WP('5.5')} iOSVal={WP('5.5')} />
       <FlatList
         data={[1, 2, 3]}
@@ -65,7 +69,7 @@ const AllCards = ({navigation}) => {
       <View style={styles.bottomView}>
         <AppButton
           title="Continue"
-          onPress={() => handleNavigation()}
+          onPress={() => {}}
           borderColor={colors.white}
           shadowColor={colors.white}
         />

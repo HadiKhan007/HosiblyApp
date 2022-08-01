@@ -26,3 +26,50 @@ export const updateUserData = async params => {
   );
   return res.data;
 };
+
+//Add Card Requests
+export const addDebitCard = async params => {
+  console.log(params);
+  const token = await GetToken();
+  const res = await axios.post(`${BASE_URL}${ENDPOINTS.CARD_CONST}`, params, {
+    headers: {
+      'Content-Type': 'application/json',
+      auth_token: token,
+    },
+  });
+  return res.data;
+};
+
+//Edit
+export const editDebitCard = params => {
+  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/edit_card`, params);
+};
+
+//Get Default Card
+export const getDefaultCard = () => {
+  return HTTP_CLIENT.get(`${ENDPOINTS.CARD_CONST}/current_user_default_card`);
+};
+
+//Del Card Requests
+export const delDebitCard = async params => {
+  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/delete_card`, params);
+};
+
+//Get Card Requests
+export const getAllPaymentCards = () => {
+  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/all_cards`);
+};
+
+//Pay With Social Card Requests
+export const payWithDebitCard = (route, params) => {
+  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/${route}`, params);
+};
+
+//Pay With Social Card Requests
+export const payWithSocialCard = (type, params) => {
+  console.log('Payment Type', type);
+  return HTTP_CLIENT.post(
+    `${ENDPOINTS.CARD_CONST}/${type == 'apple' ? 'apple_pay' : 'google_pay'}`,
+    params,
+  );
+};

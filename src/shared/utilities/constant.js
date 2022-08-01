@@ -11,7 +11,7 @@ export const video_url =
   'https://billionpound.s3.us-west-2.amazonaws.com/Public/walk_through.mp4';
 
 const stripe_publishableKey =
-  'pk_test_51Jc5CWG5H9PTsJWTIZhYvdTTYfou0YKpZcDRJemqk83fnHQfRJoJJiHLK8AioyjhRa1XYAW9Q0NggRgAIumEaUgj00g64wGpS3';
+  'pk_test_51LNZ3BAsady3KIaWJBkXxRdqVBYRpGA8FXT331sywLWwi4ML7XiphER14uQfrb4IoAVLXfKca0oaC3ZGul65nm5E00eFZKLOEa';
 const profile_uri =
   'https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png';
 

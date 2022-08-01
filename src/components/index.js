@@ -23,6 +23,7 @@ export * from './Inputs/PriceInput';
 export * from './Inputs/LivingSpaceInput';
 export * from './Inputs/FilterInput';
 export * from './Inputs/HomeInput';
+export * from './Inputs/PaymentInput';
 
 //Modals
 export * from './Modal/SignUpModal';
@@ -46,3 +47,6 @@ export * from './TextFields/ProfileField';
 
 //Components
 export * from './MapComponent/MapComponent';
+
+//Headings
+export * from './Headings/AppHeading';
