@@ -29,12 +29,12 @@ export const updateUserData = async params => {
 
 //Add Card Requests
 export const addDebitCard = async params => {
-  console.log(params);
   const token = await GetToken();
   const res = await axios.post(`${BASE_URL}${ENDPOINTS.CARD_CONST}`, params, {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
       auth_token: token,
+      Accept: 'application/json',
     },
   });
   return res.data;
