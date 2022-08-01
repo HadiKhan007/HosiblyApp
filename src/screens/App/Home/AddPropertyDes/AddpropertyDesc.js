@@ -35,7 +35,7 @@ const AddpropertyDesc = ({navigation}) => {
       selectedItems = [];
     }
 
-    const finalArray = selectedInputs.concat(selectedItems);
+    const finalArray = selectedInputs?.concat(selectedItems);
     add_property_detail['option_data'] = finalArray;
     const onSuccess = res => {
       console.log('ok');

@@ -15,6 +15,14 @@ export {
 export {
   getProfileRequest,
   updateProfileRequest,
+  edit_card_request,
+  pay_with_debit_request,
+  add_card_request,
+  default_card_request,
+  delete_card_request,
+  pay_with_social_request,
+  get_payment_cards_request,
+  get_default_card_request,
 } from './settings-actions/settings-actions';
 
 export {

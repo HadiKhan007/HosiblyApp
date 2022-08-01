@@ -10,6 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {
   AppButton,
+  AppLoader,
   BackHeader,
   MyStatusBar,
   PreviewField,
@@ -20,7 +21,15 @@ import {
   SmallHeading,
 } from '../../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {appIcons, colors, size, spacing, WP} from '../../../../shared/exporter';
+import {
+  appIcons,
+  checkConnected,
+  colors,
+  networkText,
+  size,
+  spacing,
+  WP,
+} from '../../../../shared/exporter';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,7 +39,10 @@ import {add_property_detail_request} from '../../../../redux/actions';
 const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
   const [previewImg, setPreviewImg] = useState('');
+  const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
+
+  // Set Preview Image
   useEffect(() => {
     setPreviewImg(
       add_property_detail?.images[0].path ||
@@ -40,81 +52,115 @@ const PropertyDetail = ({navigation}) => {
 
   //On Post
   const onPost = async () => {
-    const imgArr = add_property_detail?.images.map(item => {
-      return {
-        uri: item?.path,
-        type: item?.mime || 'image/jpeg',
-        name: item?.filename || 'image',
-      };
-    });
-    const filterArr = add_property_detail?.option_data.map(item => {
-      return {
-        title: item?.title,
-        value: item?.value,
-      };
-    });
-    var formdata = new FormData();
-    formdata.append('property[title]', add_property_detail?.title || '');
-    formdata.append('property[price]', add_property_detail?.price);
-    formdata.append(
-      'property[currency_type]',
-      add_property_detail?.currency_type,
-    );
-    formdata.append('property[year_built]', add_property_detail?.year_built);
-    formdata.append('property[address]', add_property_detail?.address);
-    formdata.append('property[unit]', add_property_detail?.unit);
-    formdata.append(
-      'property[lot_frontage]',
-      add_property_detail?.lot_frontage,
-    );
-    formdata.append(
-      'property[lot_frontage_unit]',
-      add_property_detail?.lot_frontage_unit || 'feet',
-    );
-    formdata.append('property[lot_depth]', add_property_detail?.lot_depth);
-    formdata.append(
-      'property[lot_depth_unit]',
-      add_property_detail?.lot_depth_unit || 'feet',
-    );
-    formdata.append('property[lot_size]', add_property_detail?.lot_size || '');
-    formdata.append(
-      'property[lot_size_unit]',
-      add_property_detail?.lot_size_unit || '',
-    );
-    formdata.append(
-      'property[is_lot_irregular]',
-      add_property_detail?.is_lot_irregular || 'No',
-    );
-    formdata.append(
-      'property[lot_description]',
-      add_property_detail?.property_desc || '',
-    );
-    formdata.append(
-      'property[property_tax]',
-      add_property_detail?.property_tax || '',
-    );
-    formdata.append('property[tax_year]', add_property_detail?.text_year || '');
-    formdata.append('property[locker]', add_property_detail?.locker || '');
-    formdata.append(
-      'property[condo_corporation_or_hqa]',
-      add_property_detail?.condo_corporation_or_hqa || '',
-    );
-    formdata.append('property[other_options]', JSON.stringify(filterArr));
-    // formdata.append('property[images]', imgArr);
-    formdata.append(
-      'property[property_type]',
-      add_property_detail?.property_type.toLowerCase() || 'house',
-    );
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setloading(true);
+        var formdata = new FormData();
+        const filterArr = add_property_detail?.option_data?.map(item => {
+          return {
+            title: item?.title,
+            value: item?.value,
+          };
+        });
 
-    const res = await addProperty(formdata);
-    if (res) {
-      // const onSuccess = res => {
-      //   console.log('ok');
-      //   navigation?.navigate('Dashboard');
-      // };
-      // dispatch(add_property_detail_request(null, onSuccess));
+        add_property_detail?.images?.forEach(item => {
+          formdata.append('property[images][]', {
+            uri: item?.path,
+            type: item?.mime || 'image/jpeg',
+            name: item?.filename || 'image',
+          });
+        }),
+          formdata.append('property[title]', add_property_detail?.title || '');
+        formdata.append('property[price]', add_property_detail?.price || '');
+        formdata.append(
+          'property[currency_type]',
+          add_property_detail?.currency_type || '',
+        );
+        formdata.append(
+          'property[year_built]',
+          add_property_detail?.year_built || '',
+        );
+        formdata.append(
+          'property[address]',
+          add_property_detail?.address || '',
+        );
+        formdata.append('property[unit]', add_property_detail?.unit || '');
+        formdata.append(
+          'property[lot_frontage]',
+          add_property_detail?.lot_frontage || '',
+        );
+        formdata.append(
+          'property[lot_frontage_unit]',
+          add_property_detail?.lot_frontage_unit || 'feet',
+        );
+        formdata.append(
+          'property[lot_depth]',
+          add_property_detail?.lot_depth || '',
+        );
+        formdata.append(
+          'property[lot_depth_unit]',
+          add_property_detail?.lot_depth_unit || 'feet',
+        );
+        formdata.append(
+          'property[lot_size]',
+          add_property_detail?.lot_size || '',
+        );
+        formdata.append(
+          'property[lot_size_unit]',
+          add_property_detail?.lot_size_unit || '',
+        );
+        formdata.append(
+          'property[is_lot_irregular]',
+          add_property_detail?.is_lot_irregular || 'No',
+        );
+        formdata.append(
+          'property[lot_description]',
+          add_property_detail?.property_desc || '',
+        );
+        formdata.append(
+          'property[property_tax]',
+          add_property_detail?.property_tax || '',
+        );
+        formdata.append(
+          'property[tax_year]',
+          add_property_detail?.text_year || '',
+        );
+        formdata.append('property[locker]', add_property_detail?.locker || '');
+        formdata.append(
+          'property[condo_corporation_or_hqa]',
+          add_property_detail?.condo_corporation_or_hqa || '',
+        );
+        formdata.append(
+          'property[other_options]',
+          JSON.stringify(filterArr) || JSON.stringify([]),
+        );
+        formdata.append(
+          'property[property_type]',
+          add_property_detail?.property_type == 'Vacant Land'
+            ? 'vacant_land'
+            : add_property_detail?.property_type || 'house',
+        );
+        const res = await addProperty(formdata, setloading);
+        if (res) {
+          console.log(res);
+          const onSuccess = res => {
+            setloading(false);
+            navigation?.navigate('Home');
+          };
+          dispatch(add_property_detail_request(null, onSuccess));
+        }
+      } catch (error) {
+        setloading(false);
+
+        console.log('Error', error);
+      }
+    } else {
+      Alert.alert('Error', networkText);
     }
   };
+
+  //on Press Save
   const onPressSave = async () => {
     add_property_detail.save_desc = true;
     add_property_detail.save_list = true;
@@ -186,10 +232,7 @@ const PropertyDetail = ({navigation}) => {
             <Divider color={colors.g13} />
             <PreviewField
               title={'Street Address'}
-              subtitle={
-                add_property_detail?.address ||
-                '4517 New York Ave. Manchester, Kentucky 39495'
-              }
+              subtitle={add_property_detail?.address || 'N/A'}
             />
             <PreviewField
               title={'Unit'}
@@ -302,6 +345,7 @@ const PropertyDetail = ({navigation}) => {
           </View>
         </View>
       </KeyboardAwareScrollView>
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

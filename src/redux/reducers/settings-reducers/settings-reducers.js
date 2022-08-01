@@ -45,6 +45,9 @@ const settingsReducers = (state = initialState, actions) => {
         isFailure: true,
         userProfile: null,
       };
+
+    //Payments
+
     default:
       return state;
   }
