@@ -36,6 +36,7 @@ const Login = ({navigation}) => {
   const [showSlide, setShowSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch(null);
+
   useEffect(() => {
     GoogleSignin.signOut();
   }, []);
