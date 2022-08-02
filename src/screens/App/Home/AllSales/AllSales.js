@@ -282,7 +282,7 @@ const AllSales = ({navigation}) => {
                 source={appIcons.modelHome}
                 style={styles.modelIconStyle}
               />
-              <Text>House</Text>
+              <Text style={styles.menuTxtStyle}>House</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -296,7 +296,7 @@ const AllSales = ({navigation}) => {
                 source={appIcons.condoStyle}
                 style={styles.modelIconStyle}
               />
-              <Text style={{color: colors.b1}}>Condo</Text>
+              <Text style={styles.menuTxtStyle}>Condo</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -310,7 +310,7 @@ const AllSales = ({navigation}) => {
                 source={appIcons.vacant}
                 style={styles.modelIconStyle}
               />
-              <Text style={{color: colors.b1}}>Vacant Land</Text>
+              <Text style={styles.menuTxtStyle}>Vacant Land</Text>
             </View>
           </MenuItem>
         </Menu>
