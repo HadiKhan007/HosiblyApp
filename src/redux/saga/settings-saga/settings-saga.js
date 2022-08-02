@@ -2,7 +2,12 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
 import {
   addDebitCard,
+  delDebitCard,
+  editDebitCard,
+  getAllPaymentCards,
+  getDefaultCard,
   getUserData,
+  setDefaultCard,
   updateUserData,
 } from '../../../shared/service/SettingsService';
 import * as types from '../../actions/types';
@@ -99,13 +104,13 @@ export function* editcardRequest() {
 function* editCard(params) {
   try {
     const res = yield editDebitCard(params?.params);
-    if (res.data) {
+    if (res) {
       yield put({
         type: types.EDIT_CARD_SUCCESS,
-        payload: res.data,
+        payload: res,
       });
-      console.log(res.data);
-      params?.cbSuccess(res.data);
+
+      params?.cbSuccess(res);
     }
   } catch (error) {
     console.log(error);
@@ -126,12 +131,12 @@ export function* getPaymentCardRequest() {
 function* paymentsCards(params) {
   try {
     const res = yield getAllPaymentCards();
-    if (res.data) {
+    if (res) {
       yield put({
         type: types.GET_CARD_LIST_SUCCESS,
-        payload: res.data,
+        payload: res,
       });
-      params?.cbSuccess(res.data);
+      params?.cbSuccess(res);
     }
   } catch (error) {
     console.log(error?.response?.status);
@@ -204,12 +209,12 @@ export function* delCardRequest() {
 function* delCard(params) {
   try {
     const res = yield delDebitCard(params?.params);
-    if (res.data) {
+    if (res) {
       yield put({
         type: types.DELETE_CARD_SUCCESS,
         payload: params?.params,
       });
-      params?.cbSuccess(res.data);
+      params?.cbSuccess(res);
     }
   } catch (error) {
     console.log(error);
@@ -229,17 +234,15 @@ export function* defaultCardRequest() {
 }
 function* defaultCard(params) {
   try {
-    console.log(params?.params?.card?.id);
-    const res = yield editDebitCard({
-      card_id: params?.params?.card?.id,
-      default: true,
-    });
-    if (res.data) {
+    var form = new FormData();
+    form.append('payment[id]', params?.params?.card?.card?.id);
+    const res = yield setDefaultCard(form);
+    if (res) {
       yield put({
         type: types.ADD_DEFAULT_CARD_SUCCESS,
         payload: params?.params,
       });
-      params?.cbSuccess(res?.data);
+      params?.cbSuccess(res);
     }
   } catch (error) {
     console.log(error);
@@ -263,9 +266,9 @@ function* getdefaultCard(params) {
 
     yield put({
       type: types.GET_DEFAULT_CARD_SUCCESS,
-      payload: res?.data,
+      payload: res,
     });
-    params?.cbSuccess(res?.data);
+    params?.cbSuccess(res);
   } catch (error) {
     console.log(error);
     yield put({

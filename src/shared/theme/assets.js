@@ -82,6 +82,11 @@ export const appIcons = {
   checked: require('../../assets/icons/checked.png'),
   unchecked: require('../../assets/icons/unchecked.png'),
   visa: require('../../assets/icons/visa.png'),
+  delete: require('../../assets/icons/delete.png'),
+  edit: require('../../assets/icons/edit.png'),
+  default: require('../../assets/icons/default.png'),
+  visa: require('../../assets/icons/visa.png'),
+  masterCard: require('../../assets/icons/masterCard.png'),
 };
 
 export const appSvgs = {

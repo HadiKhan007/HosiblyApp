@@ -33,23 +33,18 @@ const AddCard = ({navigation, route}) => {
     const isConnected = await checkConnected();
     if (isConnected) {
       try {
-        // setIsLoading(true);
+        setIsLoading(true);
         const data = await createToken({
           name: values?.fullname,
           type: 'Card',
           setupFutureUsage: 'OffSession',
         });
-        console.log(data);
         if (data?.token?.id) {
           var form = new FormData();
           form.append('payment[name]', values?.fullname);
           form.append('payment[token]', data?.token?.id);
           form.append('payment[country]', values?.country);
-          // const requestBody = {
-          //   'payment[name]': values?.fullname,
-          //   'payment[token]': data?.token?.id,
-          //   'payment[country]': values?.country,
-          // };
+
           const onSuccess = res => {
             setIsLoading(false);
             navigation?.goBack();
@@ -80,7 +75,6 @@ const AddCard = ({navigation, route}) => {
       <BackHeader title={'Add Card'} />
       <View style={styles.contentContainer}>
         <AppHeading title={'Billing Information'} />
-
         <Formik
           initialValues={addCardFormFields}
           onSubmit={values => {
@@ -97,7 +91,10 @@ const AddCard = ({navigation, route}) => {
             handleSubmit,
             handleReset,
           }) => (
-            <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            <KeyboardAwareScrollView
+              style={commonStyles.flex1}
+              contentContainerStyle={commonStyles.keyboardView}
+              showsVerticalScrollIndicator={false}>
               <View style={styles.inputCon}>
                 <AppInput
                   onChangeText={handleChange('fullname')}
@@ -128,7 +125,7 @@ const AddCard = ({navigation, route}) => {
                 />
                 <PaymentInput title={'Card Information'} />
               </View>
-              <View style={[commonStyles.aiCenter, spacing.mt10]}>
+              <View style={[commonStyles.aiCenter, spacing.my4]}>
                 <View style={styles.btnCon}>
                   <AppButton
                     onPress={handleSubmit}

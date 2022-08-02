@@ -22,6 +22,7 @@ import PayMethod from '../screens/App/Profile/PayMethod';
 import AllCards from '../screens/App/Profile/AllCards';
 import CardDetails from '../screens/App/Profile/CardDetails';
 import AddCard from '../screens/App/Payment/AddCard';
+import EditCard from '../screens/App/Payment/EditCard';
 
 const AppStack = createNativeStackNavigator();
 
@@ -47,6 +48,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'NewMessages'} component={NewMessages} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
         <AppStack.Screen name={'AddCard'} component={AddCard} />
+        <AppStack.Screen name={'EditCard'} component={EditCard} />
 
         <AppStack.Screen
           name={'AddPropertyDetails'}

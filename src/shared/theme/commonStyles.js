@@ -14,4 +14,11 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  keyboardView: {
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  flex1: {
+    flex: 1,
+  },
 });

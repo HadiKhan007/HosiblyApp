@@ -41,23 +41,77 @@ export const addDebitCard = async params => {
 };
 
 //Edit
-export const editDebitCard = params => {
-  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/edit_card`, params);
+export const editDebitCard = async params => {
+  const token = await GetToken();
+  const res = await axios.put(
+    `${BASE_URL}${ENDPOINTS.EDIT_CARD_CONST}`,
+    params,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        auth_token: token,
+        Accept: 'application/json',
+      },
+    },
+  );
+  return res.data;
+};
+
+//Set Default Card
+export const setDefaultCard = async params => {
+  const token = await GetToken();
+  const res = await axios.put(
+    `${BASE_URL}${ENDPOINTS.DEFAULT_CARD_CONST}`,
+    params,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        auth_token: token,
+        Accept: 'application/json',
+      },
+    },
+  );
+  return res.data;
 };
 
 //Get Default Card
-export const getDefaultCard = () => {
-  return HTTP_CLIENT.get(`${ENDPOINTS.CARD_CONST}/current_user_default_card`);
+export const getDefaultCard = async () => {
+  const res = await axios.get(`${BASE_URL}get_default_card`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+    },
+  });
+  return res.data;
 };
 
 //Del Card Requests
 export const delDebitCard = async params => {
-  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/delete_card`, params);
+  const token = await GetToken();
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.DELETE_CARD_CONST}`,
+    params,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        auth_token: token,
+        Accept: 'application/json',
+      },
+    },
+  );
+  return res.data;
 };
 
 //Get Card Requests
-export const getAllPaymentCards = () => {
-  return HTTP_CLIENT.post(`${ENDPOINTS.CARD_CONST}/all_cards`);
+export const getAllPaymentCards = async () => {
+  const token = await GetToken();
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.CARDS_CONST}`, {
+    headers: {
+      auth_token: token,
+      Accept: 'application/json',
+    },
+  });
+  return res.data;
 };
 
 //Pay With Social Card Requests

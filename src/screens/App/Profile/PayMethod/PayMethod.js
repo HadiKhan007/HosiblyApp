@@ -1,11 +1,65 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Text, View, Image, TouchableOpacity} from 'react-native';
+import {useIsFocused} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {AppButton, AppHeader, BackHeader, Spacer} from '../../../../components';
-import {appIcons, colors, WP} from '../../../../shared/exporter';
+import {get_default_card_request} from '../../../../redux/actions';
+import {
+  appIcons,
+  checkConnected,
+  colors,
+  networkText,
+  WP,
+} from '../../../../shared/exporter';
 import styles from './styles';
 
 const PayMethod = ({navigation}) => {
   const [method, setMethod] = useState('cards');
+  const [loading, setLoading] = useState(false);
+  const [currentCard, setcurrentCard] = useState(null);
+
+  const dispatch = useDispatch(null);
+  const isFocus = useIsFocused(null);
+
+  useEffect(() => {
+    if (isFocus) {
+      getDefaultCard();
+    }
+  }, [isFocus]);
+
+  //Get Default Card
+  const getDefaultCard = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          setcurrentCard(res);
+          console.log('On Default Card Success', res);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Default Card Failure', res);
+        };
+        dispatch(get_default_card_request(onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -35,7 +89,11 @@ const PayMethod = ({navigation}) => {
             />
             <View>
               <Text style={styles.titleTxtStyle}>Credit Card</Text>
-              <Text style={styles.valTxtStyle}>**** **** **** 3456 Visa</Text>
+              <Text style={styles.valTxtStyle}>
+                {currentCard?.card?.last4
+                  ? `**** **** **** ${currentCard?.card?.last4} ${currentCard?.card?.brand}`
+                  : 'No card selected'}
+              </Text>
             </View>
           </View>
           <Image

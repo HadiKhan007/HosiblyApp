@@ -75,9 +75,9 @@ export const responseValidator = (response, errorMsg) => {
 };
 export const checkBrand = name => {
   if (name == 'Visa') {
-    return appIcons.blueBg;
-  } else if (name == 'Master') {
-    return appIcons.orangeBg;
+    return appIcons.visa;
+  } else if (name == 'MasterCard') {
+    return appIcons.masterCard;
   }
 };
 

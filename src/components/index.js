@@ -32,6 +32,8 @@ export * from './Modal/ImagePickerModal';
 export * from './Modal/PersonDetailsModal';
 export * from './Modal/DeleteModal';
 export * from './Modal/ListModal';
+export * from './Modal/CardOptionModal';
+export * from './Modal/DelPaymentCard';
 
 //Box
 export * from './Box/DividerBox';
