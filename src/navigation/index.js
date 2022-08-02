@@ -34,7 +34,7 @@ const MainAppNav = () => {
   return (
     <NavigationContainer>
       <AppStack.Navigator
-        initialRouteName="App"
+        initialRouteName="Splash"
         screenOptions={{headerShown: false}}>
         <AppStack.Screen name={'Splash'} component={Splash} />
         <AppStack.Screen name={'Walkthrough'} component={Walkthrough} />

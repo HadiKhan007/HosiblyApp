@@ -62,18 +62,22 @@ const styles = StyleSheet.create({
   menuItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+
     paddingHorizontal: platformOrientedCode(WP('2'), WP('4.5')),
   },
   modelIconStyle: {
     width: 15,
     height: 14,
     marginRight: WP('3'),
+    marginTop: WP('2'),
   },
   menuTxtStyle: {
     color: colors.b1,
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_Regular,
-    marginTop: platformOrientedCode(WP('2'), WP('3.5')),
+    marginTop: WP('2'),
   },
   dividerView: {
     top: 5,

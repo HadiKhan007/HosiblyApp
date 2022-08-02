@@ -262,6 +262,8 @@ const AddPropertyDetails = ({navigation}) => {
       setpropertyTax(add_property_detail?.property_tax);
       setcondo_corporation(add_property_detail?.condo_corporation_or_hqa);
       setCondoFees(add_property_detail?.condo_fees);
+    } else {
+      dispatch(set_address_request('', () => {}));
     }
   }, []);
 

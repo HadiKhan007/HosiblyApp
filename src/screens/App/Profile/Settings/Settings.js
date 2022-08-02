@@ -15,9 +15,9 @@ const Settings = ({navigation}) => {
   const logout = async () => {
     dispatch(
       logoutRequset(null, () => {
-        navigation?.replace('Auth');
         GoogleSignin.signOut();
         AsyncStorage.removeItem('usertoken');
+        navigation?.replace('Auth');
       }),
     );
   };

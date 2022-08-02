@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     height: 8,
   },
   bottomView: {
-    bottom: Platform.select({android: WP('20'), ios: WP('3')}),
+    bottom: WP('3'),
     width: '100%',
     alignSelf: 'center',
     alignItems: 'center',
