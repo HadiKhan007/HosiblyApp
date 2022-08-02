@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     width: WP('26.3'),
     height: WP('24.1'),
     marginRight: WP('3'),
+    backgroundColor: colors.g11,
   },
   nameTxtStyle: {
     width: '85%',

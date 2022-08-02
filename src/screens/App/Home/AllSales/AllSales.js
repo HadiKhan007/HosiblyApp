@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {Spacer, BackHeader, DeleteModal} from '../../../../components';
@@ -7,13 +14,22 @@ import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
   appImages,
+  checkConnected,
   colors,
   family,
   size,
   WP,
+  networkText,
+  property_image,
 } from '../../../../shared/exporter';
 import {allSales} from '../../../../shared/utilities/constant';
 import styles from './styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
+import {
+  get_all_properties,
+  get_filtered_properties,
+} from '../../../../redux/actions';
 
 const AllSales = ({navigation}) => {
   const [item, setItem] = useState('');
@@ -21,6 +37,79 @@ const AllSales = ({navigation}) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState('All');
+  const [loading, setLoading] = useState(false);
+  const isFocus = useIsFocused(null);
+  const [properties, setProperties] = useState([]);
+  const dispatch = useDispatch();
+
+  //Get Properties
+  useEffect(() => {
+    if (isFocus) {
+      getAllProperties();
+    }
+  }, [isFocus]);
+
+  //Get All Properties
+  const getAllProperties = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setProperties(res);
+          setLoading(false);
+          console.log('On All prop Success');
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On All prop Failure', res);
+        };
+        dispatch(get_all_properties(null, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  //Get Filtered Properties
+  const getFilteredProperties = async type => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setProperties(res);
+          setLoading(false);
+          setShowMenu(false);
+          console.log('On Filter prop Success', res);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          setShowMenu(false);
+          Alert.alert('Error', res);
+          console.log('On Filter prop Failure', res);
+        };
+        var form = new FormData();
+        form.append(
+          'type',
+          type == 'Vacant Land' ? 'vacant_land' : type.toLowerCase(),
+        );
+
+        dispatch(get_filtered_properties(form, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   const renderItem = ({item, index}) => {
     return (
@@ -28,31 +117,36 @@ const AllSales = ({navigation}) => {
         activeOpacity={1}
         style={styles.itemContainer}
         onPress={() => navigation.navigate('PropertyDetails', {item: item})}>
-        <Image source={item?.img} style={styles.imgStyle} />
+        <Image
+          source={{uri: item?.image[0]?.url || property_image}}
+          style={styles.imgStyle}
+        />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
             <Text numberOfLines={1} style={styles.nameTxtStyle}>
-              {item?.name}
+              {item?.title}
             </Text>
             <View style={styles.txtContainer}>
-              <Text style={styles.newTxtStyle}>{item?.saleNum}</Text>
+              <Text style={styles.newTxtStyle}>{properties.length}</Text>
             </View>
           </View>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>
+              {`$${item?.price || 0}`} |{' '}
+            </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || 0}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {item?.bath_rooms || 0}
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 2}]}>
-            {item?.imges.map((item, index) => {
+            {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
               return (
                 index < 4 && (
                   <Image
@@ -62,10 +156,10 @@ const AllSales = ({navigation}) => {
                 )
               );
             })}
-            {item?.imges?.length > 4 && (
+            {[1, 2, 3, 4, 5, 6, 7].length > 4 && (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
-                  +{item?.imges?.length - 4}
+                  +{[1, 2, 3, 4, 5, 6]?.length - 4}
                 </Text>
               </View>
             )}
@@ -146,7 +240,7 @@ const AllSales = ({navigation}) => {
 
   const hideItemClick = type => {
     setFilterType(type);
-    setShowMenu(false);
+    getFilteredProperties(type);
   };
 
   return (
@@ -181,14 +275,14 @@ const AllSales = ({navigation}) => {
           <MenuItem
             style={styles.menuItemStyle}
             textStyle={styles.menuTxtStyle}
-            onPress={() => hideItemClick('Home')}>
+            onPress={() => hideItemClick('House')}>
             <View style={styles.menuItemRow}>
               <Image
                 resizeMode="contain"
                 source={appIcons.modelHome}
                 style={styles.modelIconStyle}
               />
-              <Text>Home</Text>
+              <Text>House</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -199,10 +293,10 @@ const AllSales = ({navigation}) => {
             <View style={styles.menuItemRow}>
               <Image
                 resizeMode="contain"
-                source={appIcons.condo}
+                source={appIcons.condoStyle}
                 style={styles.modelIconStyle}
               />
-              <Text>Condo</Text>
+              <Text style={{color: colors.b1}}>Condo</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -216,7 +310,7 @@ const AllSales = ({navigation}) => {
                 source={appIcons.vacant}
                 style={styles.modelIconStyle}
               />
-              <Text>Vacant Land</Text>
+              <Text style={{color: colors.b1}}>Vacant Land</Text>
             </View>
           </MenuItem>
         </Menu>
@@ -224,7 +318,9 @@ const AllSales = ({navigation}) => {
       <View style={styles.container}>
         <SwipeListView
           useFlatList
-          data={data}
+          data={properties}
+          disableLeftSwipe={true}
+          disableRightSwipe={true}
           renderItem={renderItem}
           renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
           leftOpenValue={180}

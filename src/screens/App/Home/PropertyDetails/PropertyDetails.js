@@ -17,6 +17,7 @@ import {
   condoMatches,
   landMatches,
   propertyMatches,
+  property_image,
 } from '../../../../shared/utilities/constant';
 import styles from './styles';
 
@@ -27,7 +28,6 @@ const PropertyDetails = ({navigation, route}) => {
   const [matchFilter, setMatchFilter] = useState('Match');
   const [filterType, setFilterType] = useState('Top Match');
   const [showMatchMenu, setShowMatchMenu] = useState(false);
-  const [item, setItem] = useState(route?.params?.item || []);
 
   useLayoutEffect(() => {
     navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
@@ -51,22 +51,29 @@ const PropertyDetails = ({navigation, route}) => {
         activeOpacity={1}
         style={styles.detailsContainer}
         onPress={() => console.log('You touched me')}>
-        <Image source={item?.img} style={styles.imgStyle} />
+        <Image
+          source={{uri: route?.params?.item?.image[0].url || property_image}}
+          style={styles.imgStyle}
+        />
         <View>
           <Text numberOfLines={2} style={styles.nameTxtStyle}>
-            {item?.name}
+            {route?.params?.item?.title || ''}
           </Text>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>
+              {`$${route?.params?.item?.price}`} |{' '}
+            </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>
+              {route?.params?.item?.bed_rooms || 0}
+            </Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {route?.params?.item?.bath_rooms || 0}
             </Text>
           </View>
         </View>

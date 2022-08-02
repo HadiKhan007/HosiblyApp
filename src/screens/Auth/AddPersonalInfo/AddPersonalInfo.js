@@ -45,6 +45,7 @@ const AddPersonalInfo = ({navigation}) => {
         type: values?.image?.mime,
         name: values?.image?.fileName || 'image',
       };
+
       const form = new FormData();
       form.append('user[description]', values?.desc);
       form.append('user[avatar]', imgObj);

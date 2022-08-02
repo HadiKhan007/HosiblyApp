@@ -1,38 +1,51 @@
 import React from 'react';
-import {Text, View, Image, FlatList} from 'react-native';
-import {appIcons, appImages} from '../../../../../shared/exporter';
-import {recentSales} from '../../../../../shared/utilities/constant';
+import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
+import {
+  appIcons,
+  appImages,
+  property_image,
+} from '../../../../../shared/exporter';
 import styles from './styles';
 
-const SellTab = ({navigation}) => {
+const SellTab = ({navigation, properties}) => {
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.itemContainer}>
-        <Image source={item?.img} style={styles.imgStyle} />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          navigation?.navigate('PropertyDetails', {item: item});
+        }}
+        style={styles.itemContainer}>
+        <Image
+          source={{uri: item?.image[0].url, property_image}}
+          style={styles.imgStyle}
+        />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
             <Text numberOfLines={1} style={styles.nameTxtStyle}>
-              {item?.name}
+              {item?.title}
             </Text>
             <View style={styles.txtContainer}>
-              <Text style={styles.newTxtStyle}>{item?.saleNum}</Text>
+              <Text style={styles.newTxtStyle}>{properties.length}</Text>
             </View>
           </View>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>
+              {`$${item?.price || 0}`} |{' '}
+            </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || 0}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {item?.bath_rooms || 0}
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 2}]}>
-            {item?.imges.map((item, index) => {
+            {[1, 2, 3, 4, 5, 6, 7]?.map((item, index) => {
               return (
                 index < 4 && (
                   <Image
@@ -42,19 +55,18 @@ const SellTab = ({navigation}) => {
                 )
               );
             })}
-            {item?.imges?.length > 4 && (
+            {[1, 2, 3, 4, 5, 6].length > 4 && (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
-                  +{item?.imges?.length - 4}
+                  +{[1, 2, 3, 4, 5, 6]?.length - 4}
                 </Text>
               </View>
             )}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
-
   return (
     <View style={styles.paddingView}>
       <View style={styles.rowContainer}>
@@ -66,7 +78,7 @@ const SellTab = ({navigation}) => {
         </Text>
       </View>
       <FlatList
-        data={recentSales}
+        data={properties}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}

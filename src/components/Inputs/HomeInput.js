@@ -11,6 +11,8 @@ export const HomeInput = ({
   h2,
   placeholder,
   h2FontSize,
+  onChangeText,
+  value,
 }) => {
   return (
     <View style={styles.container}>
@@ -33,6 +35,8 @@ export const HomeInput = ({
           placeholderTextColor={colors.g19}
           placeholder={placeholder || '0'}
           keyboardType={'decimal-pad'}
+          onChangeText={onChangeText}
+          value={value}
         />
       </View>
     </View>
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
     height: 25,
     color: colors.g19,
     padding: 0,
-    textAlign: 'center',
+    textAlign: 'right',
   },
 
   aiRow1: {

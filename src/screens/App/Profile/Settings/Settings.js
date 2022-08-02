@@ -45,7 +45,7 @@ const Settings = ({navigation}) => {
               name={'right'}
               type={'antdesign'}
               size={20}
-              color={colors.g30}
+              color={colors.g35}
             />
           </TouchableOpacity>
         );

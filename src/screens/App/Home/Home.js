@@ -1,5 +1,12 @@
-import React, {useRef, useState} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import {Menu, MenuItem} from 'react-native-material-menu';
@@ -17,20 +24,27 @@ import {
   appIcons,
   appImages,
   scrHeight,
+  networkText,
+  checkConnected,
 } from '../../../shared/exporter';
 import styles from './styles';
 // Tabs
 import BuyTab from './Tabs/BuyTab/BuyTab';
 import MatchesTab from './Tabs/MatchesTab/MatchesTab';
 import SellTab from './Tabs/SellTab/SellTab';
-
+import {useIsFocused} from '@react-navigation/core';
+import {useDispatch, useSelector} from 'react-redux';
+import {get_recent_properties} from '../../../redux/actions';
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [hideAds, setHideAds] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [selected, setSelected] = useState('buy');
   const [showModal, setShowModal] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const isFocus = useIsFocused(null);
+  const dispatch = useDispatch();
+  const {recent_properties} = useSelector(state => state?.appReducer);
   const hideItemClick = () => {
     setShowMenu(false);
     setHideAds(true);
@@ -69,6 +83,44 @@ const Home = ({navigation}) => {
         </View>
       </View>
     );
+  };
+  //Get Properties
+  useEffect(() => {
+    if (isFocus) {
+      getProperties();
+    }
+  }, [isFocus]);
+
+  const getProperties = () => {
+    if (selected == 'sell') {
+      getRecentProperties();
+    }
+  };
+
+  //Get Recent Properties
+  const getRecentProperties = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          console.log('On Recent prop Success');
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Recent prop Failure', res);
+        };
+        dispatch(get_recent_properties(null, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
   };
 
   return (
@@ -151,7 +203,10 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setSelected('sell')}
+                onPress={() => {
+                  getRecentProperties();
+                  setSelected('sell');
+                }}
                 style={styles.tabStyle(selected === 'sell')}>
                 <Text style={styles.tabTxtStyle(selected === 'sell')}>
                   I Want To Sell
@@ -161,7 +216,9 @@ const Home = ({navigation}) => {
           </View>
           {selected === 'buy' && <BuyTab navigation={navigation} />}
           {selected === 'matches' && <MatchesTab navigation={navigation} />}
-          {selected === 'sell' && <SellTab navigation={navigation} />}
+          {selected === 'sell' && (
+            <SellTab properties={recent_properties} navigation={navigation} />
+          )}
         </View>
         <PersonDetailsModal
           show={showModal}

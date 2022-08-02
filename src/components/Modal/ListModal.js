@@ -27,7 +27,6 @@ export const ListModal = ({
       getValue(item, index);
     }
   };
-
   return (
     <RBSheet
       ref={listRef}

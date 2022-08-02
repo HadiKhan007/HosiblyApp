@@ -6,6 +6,7 @@ export * from './Header/ChatHeader';
 //Button
 export * from './AppButton/AppButton';
 export * from './AppButton/FilterButton';
+export * from './AppButton/DetailButton';
 
 //StatusBar
 export * from './Bar/MyStatusBar';
@@ -46,9 +47,18 @@ export * from './Footer/AuthText';
 
 //TextFields
 export * from './TextFields/ProfileField';
+export * from './TextFields/PreviewField';
 
 //Components
 export * from './MapComponent/MapComponent';
 
 //Headings
 export * from './Headings/AppHeading';
+//Cards
+export * from './Cards/PreviewImageCover';
+export * from './Cards/PreviewImageBox';
+export * from './Cards/PreviewInfoCard';
+export * from './Cards/AddressCard';
+
+//Headings
+export * from './Headings/SmallHeading';

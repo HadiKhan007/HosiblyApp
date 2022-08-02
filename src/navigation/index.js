@@ -23,6 +23,10 @@ import AllCards from '../screens/App/Profile/AllCards';
 import CardDetails from '../screens/App/Profile/CardDetails';
 import AddCard from '../screens/App/Payment/AddCard';
 import EditCard from '../screens/App/Payment/EditCard';
+import AddMorePropertyDetail from '../screens/App/Home/AddMorePropertyDetail';
+import AddPropertyDes from '../screens/App/Home/AddPropertyDes';
+import PropertyDetail from '../screens/App/Home/PropertyDetail';
+import AddAddress from '../screens/App/Home/AddAddress';
 
 const AppStack = createNativeStackNavigator();
 
@@ -49,6 +53,9 @@ const MainAppNav = () => {
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
         <AppStack.Screen name={'AddCard'} component={AddCard} />
         <AppStack.Screen name={'EditCard'} component={EditCard} />
+        <AppStack.Screen name={'AddPropertyDesc'} component={AddPropertyDes} />
+        <AppStack.Screen name={'PropertyDetail'} component={PropertyDetail} />
+        <AppStack.Screen name={'AddAddress'} component={AddAddress} />
 
         <AppStack.Screen
           name={'AddPropertyDetails'}
@@ -57,6 +64,10 @@ const MainAppNav = () => {
         <AppStack.Screen name={'PayMethod'} component={PayMethod} />
         <AppStack.Screen name={'AllCards'} component={AllCards} />
         <AppStack.Screen name={'CardDetails'} component={CardDetails} />
+        <AppStack.Screen
+          name={'AddMorePropertyDetails'}
+          component={AddMorePropertyDetail}
+        />
       </AppStack.Navigator>
     </NavigationContainer>
   );

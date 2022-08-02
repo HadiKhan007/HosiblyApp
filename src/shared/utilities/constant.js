@@ -14,7 +14,12 @@ const stripe_publishableKey =
   'pk_test_51LNZ3BAsady3KIaWJBkXxRdqVBYRpGA8FXT331sywLWwi4ML7XiphER14uQfrb4IoAVLXfKca0oaC3ZGul65nm5E00eFZKLOEa';
 const profile_uri =
   'https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png';
-
+const image_options = {
+  width: 300,
+  height: 400,
+  multiple: true,
+  mediaType: 'photo',
+};
 const slidesData = [
   {
     key: 1,
@@ -368,7 +373,7 @@ const allSales = [
   {
     id: 1,
     saleNum: '8',
-    name: 'White Modern House',
+    value: 'White Modern House',
     img: appImages.home3,
     type: 'House',
     imges: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -376,7 +381,7 @@ const allSales = [
   {
     id: 2,
     saleNum: '3',
-    name: 'Compact Condo',
+    value: 'Compact Condo',
     img: appImages.home4,
     type: 'Condo',
     imges: [1, 2, 3],
@@ -384,7 +389,7 @@ const allSales = [
   {
     id: 3,
     saleNum: '5',
-    name: 'Clean Land',
+    value: 'Clean Land',
     img: appImages.home6,
     type: 'Vacant Land',
     imges: [1, 2, 3, 4, 5],
@@ -392,7 +397,7 @@ const allSales = [
   {
     id: 3,
     saleNum: '3',
-    name: 'Condo Bright',
+    value: 'Condo Bright',
     img: appImages.home2,
     type: 'Condo',
     imges: [1, 2, 3],
@@ -770,6 +775,301 @@ const settings = [
 
 const networkText = 'Check Internet Connection';
 
+const home_items = [
+  {
+    id: 1,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
+    selected: false,
+  },
+  {
+    id: 2,
+    title: 'Driveway',
+    value: '',
+    Img: appIcons.driveway,
+    selected: false,
+  },
+  {
+    id: 3,
+    title: 'House Type',
+    value: '',
+    Img: appIcons.HouseType,
+    selected: false,
+  },
+  {
+    id: 4,
+    title: 'House Style',
+    value: '',
+    Img: appIcons.HouseType,
+    selected: false,
+  },
+  {
+    id: 5,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
+    selected: false,
+  },
+
+  {
+    id: 7,
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+    selected: false,
+  },
+  {
+    id: 8,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+    selected: false,
+  },
+  {
+    id: 9,
+    title: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+    selected: false,
+  },
+  {
+    id: 10,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+    selected: false,
+  },
+  {
+    id: 11,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+    selected: false,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+    selected: false,
+  },
+  {
+    id: 13,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+    selected: false,
+  },
+  {
+    id: 14,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+    selected: false,
+  },
+  {
+    id: 15,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+    selected: false,
+  },
+
+  {
+    id: 16,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+    selected: false,
+  },
+];
+
+const condo_items = [
+  {
+    id: 0,
+    title: 'Parking Type',
+    value: '',
+    Img: appIcons.parkingType,
+    selected: false,
+  },
+  {
+    id: 1,
+    title: 'Parking Ownership',
+    value: '',
+    Img: appIcons.ownership,
+    selected: false,
+  },
+  {
+    id: 2,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
+    selected: false,
+  },
+  {
+    id: 3,
+    title: 'Condo Type',
+    value: '',
+    Img: appIcons.condoType,
+    selected: false,
+  },
+  {
+    id: 4,
+    title: 'Condo Style',
+    value: '',
+    Img: appIcons.condoStyle,
+    selected: false,
+  },
+  {
+    id: 5,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
+    selected: false,
+  },
+  {
+    id: 6,
+    title: 'Balcony',
+    value: '',
+    Img: appIcons.balcony,
+    selected: false,
+  },
+  {
+    id: 7,
+    title: 'Exposure',
+    value: '',
+    Img: appIcons.exposure,
+    selected: false,
+  },
+  {
+    id: 8,
+    title: 'Security',
+    value: '',
+    Img: appIcons.security,
+    selected: false,
+  },
+  {
+    id: 9,
+    title: 'Pets Allowed',
+    value: '',
+    Img: appIcons.pets,
+    selected: false,
+  },
+  {
+    id: 10,
+    title: 'Included Utilities',
+    value: '',
+    Img: appIcons.settings,
+    selected: false,
+  },
+  {
+    id: 11,
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+    selected: false,
+  },
+  {
+    id: 12,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+    selected: false,
+  },
+  {
+    id: 13,
+    title: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+    selected: false,
+  },
+  {
+    id: 14,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+    selected: false,
+  },
+  {
+    id: 15,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+    selected: false,
+  },
+  {
+    id: 16,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+    selected: false,
+  },
+  {
+    id: 17,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+    selected: false,
+  },
+
+  {
+    id: 18,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+    selected: false,
+  },
+  {
+    id: 19,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+    selected: false,
+  },
+
+  {
+    id: 20,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+    selected: false,
+  },
+];
+
+const inputItems = [
+  {
+    id: 1,
+    title: 'Bath Rooms',
+    value: '',
+    Img: appIcons.bath,
+  },
+  {
+    id: 2,
+    title: 'Bed Rooms',
+    value: '',
+    Img: appIcons.bed,
+  },
+  {
+    id: 3,
+    title: 'Living Space',
+    value: '',
+    Img: appIcons.living_space,
+  },
+  {
+    id: 4,
+    title: 'Parking Spaces',
+    value: '',
+    Img: appIcons.parking,
+  },
+  {
+    id: 5,
+    title: 'Garage Spaces',
+    value: '',
+    Img: appIcons.garage_space,
+  },
+];
+const property_image = 'https://wallpaperaccess.com/full/1700222.jpg';
 export {
   IOS,
   ANDROID,
@@ -803,4 +1103,9 @@ export {
   condoDetails,
   landDetails,
   settings,
+  inputItems,
+  home_items,
+  condo_items,
+  image_options,
+  property_image,
 };
