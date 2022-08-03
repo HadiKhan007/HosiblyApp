@@ -22,6 +22,12 @@ export const AddPersonalInfoField = {
   desc: '',
 };
 
+export const AddSupportInfoField = {
+  image: '',
+  hourly_rate: '',
+  desc: '',
+};
+
 export const loginFormFields = {
   email: '',
   password: '',
@@ -106,6 +112,12 @@ export const editProfileFieldsVS = yup.object().shape({
 
 export const AddPersonalInfoVS = yup.object().shape({
   image: yup.object().shape().required('Image Required'),
+  desc: yup.string().required('Description Required'),
+});
+
+export const AddSupportInfoVS = yup.object().shape({
+  image: yup.object().shape().required('Image Required'),
+  hourly_rate: yup.string().required('Hourly Rate Required'),
   desc: yup.string().required('Description Required'),
 });
 export const CodeVS = yup.object().shape({

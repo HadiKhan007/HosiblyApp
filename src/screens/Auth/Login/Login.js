@@ -130,6 +130,7 @@ const Login = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
   return (
     <>
       <MyStatusBar />
@@ -168,6 +169,7 @@ const Login = ({navigation}) => {
                     onPress={() => handleGoogleLogin()}
                   />
                   <AppButton
+                    onPress={() => navigation?.navigate('AddSupportInfo')}
                     title={'Sign up with Apple'}
                     icon={appIcons.apple}
                     style={styles.appleStyle}

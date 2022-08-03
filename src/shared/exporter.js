@@ -32,6 +32,8 @@ export {
   editProfileFieldsVS,
   addCardFormFields,
   addCardVS,
+  AddSupportInfoField,
+  AddSupportInfoVS,
 } from './utilities/validations';
 export {
   StatusBarHeight,

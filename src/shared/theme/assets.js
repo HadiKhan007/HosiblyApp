@@ -120,6 +120,7 @@ export const appIcons = {
   condoType: require('../../assets/icons/condoType.png'),
   condoStyle: require('../../assets/icons/condoStyle.png'),
   settings: require('../../assets/icons/settings.png'),
+  pdf: require('../../assets/icons/pdf.png'),
 };
 
 export const appSvgs = {

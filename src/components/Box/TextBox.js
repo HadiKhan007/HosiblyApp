@@ -16,6 +16,7 @@ export const TextBox = ({
   error,
   height,
   conStyle,
+  borderRadius,
 }) => {
   return (
     <View style={conStyle}>
@@ -24,6 +25,7 @@ export const TextBox = ({
           styles.textareaContainer,
           {
             height: height ? height : WP('68'),
+            borderRadius: borderRadius || 10,
           },
         ]}
         style={styles.textarea}

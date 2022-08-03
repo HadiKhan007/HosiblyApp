@@ -7,6 +7,7 @@ export const colors = {
   p5: '#F0F9FF',
   p6: '#F1F9FE',
   p7: '#F1F7FE',
+  p8: 'rgba(76, 187, 255, 0.1)',
 
   // Secondary Color
   s1: '#FF2C2C',
@@ -60,7 +61,10 @@ export const colors = {
   g34: '#676F7E',
   g30: '#F2F4F5',
   g35: '#A2A0A8',
-
+  g36: 'rgba(220, 220, 220, 0.19)',
+  g37: '#CFCFCF',
+  g38: '#76787F',
+  g39: '#F5F5F5',
   //Green
   gr1: '#00A66C',
   //White colors
@@ -83,6 +87,7 @@ export const colors = {
   r2: '#F9595F',
   r3: '#FFBBBB',
   r4: '#FFEEEE',
+  r5: '#EA4335',
 
   over1: 'rgba(0,0,0,0.7)',
 };

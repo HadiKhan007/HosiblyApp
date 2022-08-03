@@ -41,6 +41,8 @@ export * from './Box/DividerBox';
 export * from './Box/TextBox';
 export * from './Box/ProfileImageBox';
 export * from './Box/GalleryCard';
+export * from './Box/OutlineBox';
+export * from './Box/DocBox';
 
 //Footer
 export * from './Footer/AuthText';
