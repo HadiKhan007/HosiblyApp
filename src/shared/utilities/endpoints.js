@@ -15,6 +15,11 @@ const ENDPOINTS = {
   GET_PROFILE: 'get_profile.json',
   UPDATE_PROFILE: 'update_profile.json',
   RESEND_OTP: 'verify_otp/resend_otp',
+  CARD_CONST: 'card',
+  CARDS_CONST: 'cards',
+  DELETE_CARD_CONST: 'delete_card',
+  EDIT_CARD_CONST: 'update_card',
+  DEFAULT_CARD_CONST: 'default_card',
 };
 
 export {BASE_URL, ENDPOINTS};

@@ -49,7 +49,7 @@ const Profile = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <AppLoader loading={isLoading} />
+      {/* <AppLoader loading={isLoading} /> */}
       <MyStatusBar />
       <View style={spacing.my2}>
         <BackHeader

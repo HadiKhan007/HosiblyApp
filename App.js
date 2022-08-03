@@ -5,8 +5,9 @@ import MainNavigation from './src/navigation';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import store, {persistor} from './src/redux/store';
-import {colors} from './src/shared/exporter';
+import {colors, stripe_publishableKey} from './src/shared/exporter';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 // ignore warnings
 LogBox.ignoreAllLogs();
@@ -27,9 +28,11 @@ const App = () => {
         backgroundColor={colors.s1}
         barStyle={'dark-content'}
       />
-      <PersistGate persistor={persistor}>
-        <MainNavigation />
-      </PersistGate>
+      <StripeProvider publishableKey={stripe_publishableKey}>
+        <PersistGate persistor={persistor}>
+          <MainNavigation />
+        </PersistGate>
+      </StripeProvider>
     </Provider>
   );
 };

@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput, View, Image} from 'react-native';
 import React from 'react';
 import SelectDropdown from 'react-native-select-dropdown';
 import {colors, family, size} from '../../shared/exporter';
@@ -19,12 +19,38 @@ export const PriceInput = ({
   defaultValue,
   dropDown,
   subtitle,
+  marginRight,
+  marginLeft,
+  marginBottom,
+  marginTop,
+  source,
+  onSubmitEditing,
+  onChangeText,
+  editable,
+  keyboardType,
+  returnKeyType,
+  tintColor,
+  simpleInputPlaceHolder,
 }) => {
   return (
     <View
       style={[styles.container, {justifyContent: !inputs && 'space-between'}]}>
       <View style={styles.aiRow}>
-        <View style={styles.headStyle}>
+        <View style={[styles.headStyle]}>
+          {source && (
+            <Image
+              source={source}
+              style={{
+                height: 30,
+                width: 30,
+                marginRight: marginRight,
+                marginLeft: marginLeft,
+                marginBottom: marginBottom,
+                marginTop: marginTop,
+                tintColor: tintColor,
+              }}
+            />
+          )}
           <Text style={[styles.h1]}>{title || 'Price'}</Text>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
         </View>
@@ -46,6 +72,7 @@ export const PriceInput = ({
                 </View>
               );
             }}
+            statusBarTranslucent={true}
             buttonStyle={styles.btnStyle}
             dropdownStyle={styles.dropdownStyle}
             renderCustomizedRowChild={item => {
@@ -90,11 +117,19 @@ export const PriceInput = ({
           />
         </View>
       ) : (
-        <TextInput
-          placeholder={text}
-          placeholderTextColor={colors.g19}
-          style={styles.simpleInputStyle}
-        />
+        <View style={{marginRight: marginRight}}>
+          <TextInput
+            onSubmitEditing={onSubmitEditing}
+            onChangeText={onChangeText}
+            value={value}
+            placeholder={simpleInputPlaceHolder}
+            placeholderTextColor={colors.g19}
+            style={styles.simpleInputStyle}
+            editable={editable}
+            keyboardType={keyboardType}
+            returnKeyType={returnKeyType}
+          />
+        </View>
       )}
     </View>
   );
@@ -137,26 +172,25 @@ const styles = StyleSheet.create({
     height: '80%',
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
     width: '80%',
-    alignSelf: 'flex-end',
-    marginBottom: 5,
     borderWidth: 1,
     borderColor: colors.g29,
+    marginVertical: 0,
   },
   btnStyle: {
-    width: '40%',
+    width: '38%',
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
   dropdownStyle: {
-    marginVertical: Platform.select({android: -25, ios: -15}),
+    marginVertical: -15,
     width: '20%',
     backgroundColor: colors.white,
   },
   rowStyle: {
     borderBottomWidth: 0,
-    marginVertical: 5,
     height: 45,
   },
   inputStyle: {
@@ -171,6 +205,7 @@ const styles = StyleSheet.create({
     height: 50,
     color: colors.g19,
     padding: 0,
+    textAlign: 'right',
   },
   to: {
     paddingHorizontal: 10,

@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     width: WP('26.3'),
     height: WP('24.1'),
     marginRight: WP('2.5'),
+    backgroundColor: colors.g11,
   },
   innerRow: {
     flexDirection: 'row',
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.r1,
   },
   newTxtStyle: {
-    left: 0.3,
     color: colors.white,
     fontSize: size.xxxtiny,
     fontFamily: family.Gilroy_Bold,
@@ -86,6 +86,20 @@ const styles = StyleSheet.create({
       left: index === 0 ? 0 : -5 * index,
       backgroundColor: 'red',
     };
+  },
+  bottomView: {
+    bottom: WP('3'),
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    justifyContent: 'center',
+  },
+  btnTxtStyle: {
+    color: colors.white,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_SemiBold,
   },
   countContainer: {
     left: -20,

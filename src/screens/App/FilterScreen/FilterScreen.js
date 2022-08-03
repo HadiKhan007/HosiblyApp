@@ -81,6 +81,7 @@ const FilterScreen = ({navigation}) => {
               list={currency_list}
               title={'Price'}
               defaultValue={'USD'}
+              dropDown={true}
             />
             <Divider color={colors.g18} />
             <FilterButton

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   WP,
   colors,
@@ -247,20 +247,6 @@ const styles = StyleSheet.create({
   crossIconStyle: {
     width: 8,
     height: 8,
-  },
-  bottomView: {
-    bottom: 6,
-    width: '100%',
-    alignSelf: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    justifyContent: 'center',
-  },
-  btnTxtStyle: {
-    color: colors.white,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_SemiBold,
   },
 });
 

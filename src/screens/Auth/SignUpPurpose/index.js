@@ -1,1 +1,1 @@
-export {default} from './SignupPurpose';
+export {default} from './SignUpPurpose';

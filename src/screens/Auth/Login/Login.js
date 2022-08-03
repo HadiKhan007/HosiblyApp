@@ -19,7 +19,6 @@ import {
   loginFormFields,
   LoginVS,
   networkText,
-  spacing,
 } from '../../../shared/exporter';
 import {
   GoogleSignin,
@@ -36,6 +35,7 @@ const Login = ({navigation}) => {
   const [showSlide, setShowSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch(null);
+
   useEffect(() => {
     GoogleSignin.signOut();
   }, []);
@@ -130,6 +130,7 @@ const Login = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
   return (
     <>
       <MyStatusBar />
@@ -168,6 +169,7 @@ const Login = ({navigation}) => {
                     onPress={() => handleGoogleLogin()}
                   />
                   <AppButton
+                    onPress={() => navigation?.navigate('AddSupportInfo')}
                     title={'Sign up with Apple'}
                     icon={appIcons.apple}
                     style={styles.appleStyle}

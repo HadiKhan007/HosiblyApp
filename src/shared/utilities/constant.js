@@ -1,5 +1,5 @@
 import {appIcons} from '../exporter';
-import {appImages} from '../theme/assets';
+import {appImages, appLogos} from '../theme/assets';
 import {colors} from '../theme/colors';
 
 const ANDROID = Platform.OS === 'android';
@@ -11,10 +11,15 @@ export const video_url =
   'https://billionpound.s3.us-west-2.amazonaws.com/Public/walk_through.mp4';
 
 const stripe_publishableKey =
-  'pk_test_51Jc5CWG5H9PTsJWTIZhYvdTTYfou0YKpZcDRJemqk83fnHQfRJoJJiHLK8AioyjhRa1XYAW9Q0NggRgAIumEaUgj00g64wGpS3';
+  'pk_test_51LNZ3BAsady3KIaWJBkXxRdqVBYRpGA8FXT331sywLWwi4ML7XiphER14uQfrb4IoAVLXfKca0oaC3ZGul65nm5E00eFZKLOEa';
 const profile_uri =
   'https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png';
-
+const image_options = {
+  width: 300,
+  height: 400,
+  multiple: true,
+  mediaType: 'photo',
+};
 const slidesData = [
   {
     key: 1,
@@ -368,35 +373,703 @@ const allSales = [
   {
     id: 1,
     saleNum: '8',
-    name: 'White Modern House',
+    value: 'White Modern House',
     img: appImages.home3,
+    type: 'House',
     imges: [1, 2, 3, 4, 5, 6, 7, 8],
   },
   {
     id: 2,
     saleNum: '3',
-    name: 'Compact Condo',
+    value: 'Compact Condo',
     img: appImages.home4,
+    type: 'Condo',
     imges: [1, 2, 3],
   },
   {
     id: 3,
     saleNum: '5',
-    name: 'Clean Land',
+    value: 'Clean Land',
     img: appImages.home6,
+    type: 'Vacant Land',
     imges: [1, 2, 3, 4, 5],
   },
   {
     id: 3,
     saleNum: '3',
-    name: 'Condo Bright',
+    value: 'Condo Bright',
     img: appImages.home2,
+    type: 'Condo',
     imges: [1, 2, 3],
+  },
+];
+
+const propertyMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 4,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 5,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 6,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 7,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 8,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 9,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const condoMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const landMatches = [
+  {
+    id: 1,
+    img: appImages.person3,
+    name: 'Aspen Franci',
+    match: '95%',
+    matchIcon: appLogos.roundLogo,
+  },
+  {
+    id: 2,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 3,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+  {
+    id: 4,
+    img: appImages.person1,
+    name: 'Ashlynn Westervelt',
+    match: '90%',
+    matchIcon: appIcons.locMatch,
+  },
+  {
+    id: 5,
+    img: appImages.person2,
+    name: 'Maria Vaccaro',
+    match: '87%',
+    matchIcon: appIcons.homeMatch,
+  },
+];
+
+const homeDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Bedrooms',
+    property: '4',
+    isHave: true,
+  },
+  {
+    id: 3,
+    title: 'Bathrooms',
+    property: '4 Bath + Powder Room',
+    isHave: true,
+  },
+  {
+    id: 4,
+    title: 'Property Types',
+    property: 'Multi-Family',
+    isHave: true,
+  },
+  {
+    id: 5,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+    isHave: true,
+  },
+  {
+    id: 6,
+    title: 'Min Lot Forntage',
+    property: '30',
+    isHave: true,
+  },
+  {
+    id: 7,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+    isHave: true,
+  },
+  {
+    id: 8,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+    isHave: false,
+  },
+  {
+    id: 9,
+    title: 'Parking Spots Req.',
+    property: '2',
+    isHave: true,
+  },
+  {
+    id: 10,
+    title: 'Garage Spots Req.',
+    property: 'Doesn’t matter',
+    isHave: true,
+  },
+  {
+    id: 11,
+    title: 'Max Age',
+    property: '10',
+    isHave: true,
+  },
+];
+
+const condoDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Bedrooms',
+    property: '4',
+    isHave: false,
+  },
+  {
+    id: 3,
+    title: 'Bathrooms',
+    property: '4 Bath + Powder Room',
+    isHave: true,
+  },
+  {
+    id: 4,
+    title: 'Property Types',
+    property: 'Multi-Family',
+    isHave: true,
+  },
+  {
+    id: 5,
+    title: 'Property Styles',
+    property: 'Doesn’t matter',
+    isHave: false,
+  },
+  {
+    id: 6,
+    title: 'Min Lot Forntage',
+    property: '30',
+    isHave: true,
+  },
+  {
+    id: 7,
+    title: 'Lot Size (ft)',
+    property: '23 ft to 50 ft',
+    isHave: true,
+  },
+  {
+    id: 8,
+    title: 'Living Space',
+    property: '12 ft to 15 ft',
+    isHave: false,
+  },
+  {
+    id: 9,
+    title: 'Parking Spots Req.',
+    property: '2',
+    isHave: true,
+  },
+  {
+    id: 10,
+    title: 'Balcony',
+    property: 'Yes',
+    isHave: true,
+  },
+  {
+    id: 11,
+    title: 'Security',
+    property: 'Cameras',
+    isHave: true,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    property: 'In Building',
+    isHave: false,
+  },
+  {
+    id: 13,
+    title: 'Max Age',
+    property: '10',
+    isHave: true,
+  },
+];
+
+const landDetails = [
+  {
+    id: 1,
+    title: 'Budget',
+    property: '$25,000 to $50,000',
+    isHave: true,
+  },
+  {
+    id: 2,
+    title: 'Min Lot Forntage',
+    property: '200',
+    isHave: true,
+  },
+  {
+    id: 3,
+    title: 'Lot Size (sqm)',
+    property: '143',
+    isHave: true,
+  },
+];
+
+const chat = [
+  {
+    id: 1,
+    viewType: 'receiver',
+    message: 'Can I see your lot view?',
+  },
+  {
+    id: 2,
+    viewType: 'sender',
+    message:
+      'Amet minim mollit non deserunt ullamco 😄. Dolor do amet sint. Amet minim mollit non deserunt ullamco 😄. Dolor do amet sint.',
+  },
+  {
+    id: 3,
+    viewType: 'receiver',
+    message:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+  {
+    id: 4,
+    viewType: 'sender',
+    message: 'Hello 👋 Amet minim mollit non deserunt ullamco 😄',
+  },
+];
+
+const settings = [
+  {
+    id: 1,
+    title: 'Share App',
+    screen: 'share',
+    icon: appIcons.share,
+  },
+  {
+    id: 2,
+    title: 'Notifications',
+    screen: 'Notifications',
+    icon: appIcons.notify,
+  },
+  {
+    id: 3,
+    title: 'Payment Method',
+    screen: 'PayMethod',
+    icon: appIcons.payMethod,
+  },
+  {
+    id: 4,
+    title: 'Privacy Policy',
+    screen: 'PrivacyPolicy',
+    icon: appIcons.privacy,
+  },
+  {
+    id: 5,
+    title: 'Support',
+    screen: 'Support',
+    icon: appIcons.support,
+  },
+  {
+    id: 6,
+    title: 'Terms & Conditions',
+    screen: 'Terms',
+    icon: appIcons.terms,
+  },
+  {
+    id: 7,
+    title: 'FAQ',
+    screen: 'FAQ',
+    icon: appIcons.faq,
   },
 ];
 
 const networkText = 'Check Internet Connection';
 
+const home_items = [
+  {
+    id: 1,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
+    selected: false,
+  },
+  {
+    id: 2,
+    title: 'Driveway',
+    value: '',
+    Img: appIcons.driveway,
+    selected: false,
+  },
+  {
+    id: 3,
+    title: 'House Type',
+    value: '',
+    Img: appIcons.HouseType,
+    selected: false,
+  },
+  {
+    id: 4,
+    title: 'House Style',
+    value: '',
+    Img: appIcons.HouseType,
+    selected: false,
+  },
+  {
+    id: 5,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
+    selected: false,
+  },
+
+  {
+    id: 7,
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+    selected: false,
+  },
+  {
+    id: 8,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+    selected: false,
+  },
+  {
+    id: 9,
+    title: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+    selected: false,
+  },
+  {
+    id: 10,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+    selected: false,
+  },
+  {
+    id: 11,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+    selected: false,
+  },
+  {
+    id: 12,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+    selected: false,
+  },
+  {
+    id: 13,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+    selected: false,
+  },
+  {
+    id: 14,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+    selected: false,
+  },
+  {
+    id: 15,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+    selected: false,
+  },
+
+  {
+    id: 16,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+    selected: false,
+  },
+];
+
+const condo_items = [
+  {
+    id: 0,
+    title: 'Parking Type',
+    value: '',
+    Img: appIcons.parkingType,
+    selected: false,
+  },
+  {
+    id: 1,
+    title: 'Parking Ownership',
+    value: '',
+    Img: appIcons.ownership,
+    selected: false,
+  },
+  {
+    id: 2,
+    title: 'Garage',
+    value: '',
+    Img: appIcons.garage,
+    selected: false,
+  },
+  {
+    id: 3,
+    title: 'Condo Type',
+    value: '',
+    Img: appIcons.condoType,
+    selected: false,
+  },
+  {
+    id: 4,
+    title: 'Condo Style',
+    value: '',
+    Img: appIcons.condoStyle,
+    selected: false,
+  },
+  {
+    id: 5,
+    title: 'Exterior',
+    value: '',
+    Img: appIcons.exterior,
+    selected: false,
+  },
+  {
+    id: 6,
+    title: 'Balcony',
+    value: '',
+    Img: appIcons.balcony,
+    selected: false,
+  },
+  {
+    id: 7,
+    title: 'Exposure',
+    value: '',
+    Img: appIcons.exposure,
+    selected: false,
+  },
+  {
+    id: 8,
+    title: 'Security',
+    value: '',
+    Img: appIcons.security,
+    selected: false,
+  },
+  {
+    id: 9,
+    title: 'Pets Allowed',
+    value: '',
+    Img: appIcons.pets,
+    selected: false,
+  },
+  {
+    id: 10,
+    title: 'Included Utilities',
+    value: '',
+    Img: appIcons.settings,
+    selected: false,
+  },
+  {
+    id: 11,
+    title: 'Water',
+    value: '',
+    Img: appIcons.water,
+    selected: false,
+  },
+  {
+    id: 12,
+    title: 'Sewer',
+    value: '',
+    Img: appIcons.sware,
+    selected: false,
+  },
+  {
+    id: 13,
+    title: 'Heat Source',
+    value: '',
+    Img: appIcons.source,
+    selected: false,
+  },
+  {
+    id: 14,
+    title: 'Heat Type',
+    value: '',
+    Img: appIcons.heat,
+    selected: false,
+  },
+  {
+    id: 15,
+    title: 'Air Conditioner',
+    value: '',
+    Img: appIcons.airCon,
+    selected: false,
+  },
+  {
+    id: 16,
+    title: 'Laundry',
+    value: '',
+    Img: appIcons.loundry,
+    selected: false,
+  },
+  {
+    id: 17,
+    title: 'Fireplace',
+    value: '',
+    Img: appIcons.fire,
+    selected: false,
+  },
+
+  {
+    id: 18,
+    title: 'Central Vacuum',
+    value: '',
+    Img: appIcons.vacume,
+    selected: false,
+  },
+  {
+    id: 19,
+    title: 'Basement',
+    value: '',
+    Img: appIcons.bassement,
+    selected: false,
+  },
+
+  {
+    id: 20,
+    title: 'Pool',
+    value: '',
+    Img: appIcons.pool,
+    selected: false,
+  },
+];
+
+const inputItems = [
+  {
+    id: 1,
+    title: 'Bath Rooms',
+    value: '',
+    Img: appIcons.bath,
+  },
+  {
+    id: 2,
+    title: 'Bed Rooms',
+    value: '',
+    Img: appIcons.bed,
+  },
+  {
+    id: 3,
+    title: 'Living Space',
+    value: '',
+    Img: appIcons.living_space,
+  },
+  {
+    id: 4,
+    title: 'Parking Spaces',
+    value: '',
+    Img: appIcons.parking,
+  },
+  {
+    id: 5,
+    title: 'Garage Spaces',
+    value: '',
+    Img: appIcons.garage_space,
+  },
+];
+const property_image = 'https://wallpaperaccess.com/full/1700222.jpg';
 export {
   IOS,
   ANDROID,
@@ -422,4 +1095,17 @@ export {
   recentSales,
   allSales,
   networkText,
+  propertyMatches,
+  homeDetails,
+  chat,
+  condoMatches,
+  landMatches,
+  condoDetails,
+  landDetails,
+  settings,
+  inputItems,
+  home_items,
+  condo_items,
+  image_options,
+  property_image,
 };

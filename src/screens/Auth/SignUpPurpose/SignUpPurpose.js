@@ -5,7 +5,7 @@ import {AppButton, Spacer} from '../../../components';
 import {appIcons, appImages, colors, WP} from '../../../shared/exporter';
 import styles from './styles';
 
-const SignupPurpose = ({navigation, route}) => {
+const SignUpPurpose = ({navigation, route}) => {
   const [selected, setSelected] = useState('want_sell');
 
   const handleNavigation = () => {
@@ -81,4 +81,4 @@ const SignupPurpose = ({navigation, route}) => {
   );
 };
 
-export default SignupPurpose;
+export default SignUpPurpose;
