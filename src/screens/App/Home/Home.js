@@ -204,8 +204,8 @@ const Home = ({navigation}) => {
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => {
-                  getRecentProperties();
                   setSelected('sell');
+                  getRecentProperties();
                 }}
                 style={styles.tabStyle(selected === 'sell')}>
                 <Text style={styles.tabTxtStyle(selected === 'sell')}>
@@ -225,31 +225,6 @@ const Home = ({navigation}) => {
           onPressHide={() => setShowModal(false)}
         />
       </KeyboardAwareScrollView>
-      {selected === 'sell' && (
-        <>
-          <View style={styles.bottomView}>
-            <AppButton
-              width="38.5%"
-              height={WP('10.3')}
-              title="Enter Address"
-              borderColor={colors.p2}
-              shadowColor={colors.white}
-              textStyle={styles.btnTxtStyle}
-            />
-            <View style={{width: WP('3')}} />
-            <AppButton
-              onPress={() => {
-                navigation?.navigate('AddPropertyDetails');
-              }}
-              width="38.5%"
-              height={WP('10.3')}
-              borderColor={colors.p2}
-              title="List A New Property"
-              textStyle={styles.btnTxtStyle}
-            />
-          </View>
-        </>
-      )}
     </SafeAreaView>
   );
 };

@@ -1,13 +1,19 @@
 import React from 'react';
 import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
+import {AppButton} from '../../../../../components';
 import {
   appIcons,
   appImages,
+  colors,
   property_image,
+  WP,
 } from '../../../../../shared/exporter';
 import styles from './styles';
+import DeviceInfo from 'react-native-device-info';
 
 const SellTab = ({navigation, properties}) => {
+  let hasNotch = DeviceInfo.hasNotch();
+
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -77,12 +83,35 @@ const SellTab = ({navigation, properties}) => {
           View All
         </Text>
       </View>
-      <FlatList
-        data={properties}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{height: hasNotch ? WP('85') : WP('60')}}>
+        <FlatList
+          data={properties}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+      <View style={styles.bottomView}>
+        <AppButton
+          width="38.5%"
+          height={WP('10.3')}
+          title="Enter Address"
+          borderColor={colors.p2}
+          shadowColor={colors.white}
+          textStyle={styles.btnTxtStyle}
+        />
+        <View style={{width: WP('3')}} />
+        <AppButton
+          onPress={() => {
+            navigation?.navigate('AddPropertyDetails');
+          }}
+          width="38.5%"
+          height={WP('10.3')}
+          borderColor={colors.p2}
+          title="List A New Property"
+          textStyle={styles.btnTxtStyle}
+        />
+      </View>
     </View>
   );
 };

@@ -87,6 +87,20 @@ const styles = StyleSheet.create({
       backgroundColor: 'red',
     };
   },
+  bottomView: {
+    bottom: WP('3'),
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    justifyContent: 'center',
+  },
+  btnTxtStyle: {
+    color: colors.white,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_SemiBold,
+  },
   countContainer: {
     left: -20,
     borderRadius: 5,

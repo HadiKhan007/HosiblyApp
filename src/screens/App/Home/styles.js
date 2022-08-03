@@ -248,20 +248,6 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
   },
-  bottomView: {
-    bottom: WP('3'),
-    width: '100%',
-    alignSelf: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    justifyContent: 'center',
-  },
-  btnTxtStyle: {
-    color: colors.white,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_SemiBold,
-  },
 });
 
 export default styles;
