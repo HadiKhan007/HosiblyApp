@@ -45,6 +45,9 @@ const Home = ({navigation}) => {
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
   const {recent_properties} = useSelector(state => state?.appReducer);
+  const {userInfo} = useSelector(state => state?.auth);
+  const {userProfile} = useSelector(state => state?.settings);
+
   const hideItemClick = () => {
     setShowMenu(false);
     setHideAds(true);
@@ -91,12 +94,12 @@ const Home = ({navigation}) => {
     }
   }, [isFocus]);
 
+  //Get Properties
   const getProperties = () => {
     if (selected == 'sell') {
       getRecentProperties();
     }
   };
-
   //Get Recent Properties
   const getRecentProperties = async () => {
     const check = await checkConnected();
@@ -130,6 +133,7 @@ const Home = ({navigation}) => {
           navigation.navigate('Profile');
         }}
         rightIcon
+        img={userProfile?.user?.image || userInfo?.user?.image}
       />
       <Spacer androidVal={WP('4')} iOSVal={WP('4')} />
       <KeyboardAwareScrollView
@@ -217,7 +221,31 @@ const Home = ({navigation}) => {
           {selected === 'buy' && <BuyTab navigation={navigation} />}
           {selected === 'matches' && <MatchesTab navigation={navigation} />}
           {selected === 'sell' && (
-            <SellTab properties={recent_properties} navigation={navigation} />
+            <View style={{height: scrWidth / 1.1}}>
+              <SellTab properties={recent_properties} navigation={navigation} />
+
+              <View style={styles.bottomView}>
+                <AppButton
+                  width="38.5%"
+                  height={WP('10.3')}
+                  title="Enter Address"
+                  borderColor={colors.p2}
+                  shadowColor={colors.white}
+                  textStyle={styles.btnTxtStyle}
+                />
+                <View style={{width: WP('3')}} />
+                <AppButton
+                  onPress={() => {
+                    navigation?.navigate('AddPropertyDetails');
+                  }}
+                  width="38.5%"
+                  height={WP('10.3')}
+                  borderColor={colors.p2}
+                  title="List A New Property"
+                  textStyle={styles.btnTxtStyle}
+                />
+              </View>
+            </View>
           )}
         </View>
         <PersonDetailsModal

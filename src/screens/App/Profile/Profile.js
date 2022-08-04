@@ -83,14 +83,23 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={spacing.my4}>
-          <Text style={styles.desc}>{data?.description}</Text>
+          <Text style={styles.desc}>
+            {data?.description || 'Describe something'}
+          </Text>
         </View>
         <Divider color={colors.g18} />
         <View style={spacing.py4}>
-          <ProfileField title={'Email Address'} subtitle={data?.email} />
-          <ProfileField title={'Phone Number'} subtitle={data?.phone_number} />
+          <ProfileField
+            title={'Email Address'}
+            subtitle={data?.email || 'email-address'}
+          />
+          <ProfileField
+            title={'Phone Number'}
+            subtitle={`+${data?.country_code || ''}${data?.phone_number || ''}`}
+          />
         </View>
       </View>
+      <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
 };

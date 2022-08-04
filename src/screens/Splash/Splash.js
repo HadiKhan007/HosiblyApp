@@ -15,7 +15,7 @@ const Splash = ({navigation}) => {
     const isnotWalkthrough = await AsyncStorage.getItem('walkthrough');
     setTimeout(() => {
       if (isnotWalkthrough) {
-        if (userInfo?.user?.auth_token) {
+        if (userInfo?.user?.auth_token && userInfo?.user?.is_otp_verified) {
           navigation.replace('App');
         } else {
           navigation.replace('Auth');

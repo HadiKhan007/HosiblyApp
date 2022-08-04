@@ -10,6 +10,7 @@ import {
 } from '../../../../../shared/exporter';
 import styles from './styles';
 import DeviceInfo from 'react-native-device-info';
+import {BlankField} from '../../../../../components';
 
 const SellTab = ({navigation, properties}) => {
   let hasNotch = DeviceInfo.hasNotch();
@@ -83,35 +84,18 @@ const SellTab = ({navigation, properties}) => {
           View All
         </Text>
       </View>
-      <View style={{height: hasNotch ? WP('85') : WP('60')}}>
-        <FlatList
-          data={properties}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-      <View style={styles.bottomView}>
-        <AppButton
-          width="38.5%"
-          height={WP('10.3')}
-          title="Enter Address"
-          borderColor={colors.p2}
-          shadowColor={colors.white}
-          textStyle={styles.btnTxtStyle}
-        />
-        <View style={{width: WP('3')}} />
-        <AppButton
-          onPress={() => {
-            navigation?.navigate('AddPropertyDetails');
-          }}
-          width="38.5%"
-          height={WP('10.3')}
-          borderColor={colors.p2}
-          title="List A New Property"
-          textStyle={styles.btnTxtStyle}
-        />
-      </View>
+      {properties != '' ? (
+        <View style={{height: '95%'}}>
+          <FlatList
+            data={properties}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      ) : (
+        <BlankField title={'No Property Available'} />
+      )}
     </View>
   );
 };
