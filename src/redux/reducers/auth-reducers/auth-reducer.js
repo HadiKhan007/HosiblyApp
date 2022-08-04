@@ -10,6 +10,7 @@ const initialState = {
   resetPassRes: null,
   otp_verify: null,
   resendData: null,
+  support_info: null,
 };
 const authReducer = (state = initialState, actions) => {
   const {type, payload} = actions;
@@ -167,6 +168,15 @@ const authReducer = (state = initialState, actions) => {
         isFailure: true,
         userInfo: state?.userInfo,
       };
+
+    //Support Info
+    case TYPES.SET_SUPPORT_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        support_info: payload,
+      };
+
     //************Walkthrough Sates*************
 
     case TYPES.USER_TYPE_SUCCESS:

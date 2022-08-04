@@ -41,6 +41,10 @@ export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 
+//Types for Crate Support Closure
+export const SET_SUPPORT_INFO_REQUEST = 'SET_SUPPORT_INFO_REQUEST';
+export const SET_SUPPORT_INFO_SUCCESS = 'SET_SUPPORT_INFO_SUCCESS';
+
 //Types for OTP Verification
 export const OTP_VERIFY_REQUEST = 'OTP_VERIFY_REQUEST';
 export const OTP_VERIFY_SUCCESS = 'OTP_VERIFY_SUCCESS';

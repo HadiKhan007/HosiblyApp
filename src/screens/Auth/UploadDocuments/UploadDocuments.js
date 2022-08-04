@@ -121,7 +121,12 @@ const UploadDocuments = ({navigation}) => {
               />
             </View>
             <View>
-              <AppButton title={'Done'} />
+              <AppButton
+                title={'Next'}
+                onPress={() => {
+                  navigation?.navigate('ScheduleDay');
+                }}
+              />
             </View>
           </KeyboardAwareScrollView>
 

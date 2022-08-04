@@ -10,6 +10,7 @@ export {
   verifyOTPRequest,
   resendOTPRequest,
   addInfoRequest,
+  setSupportClosureRequest,
 } from './auth-actions/auth-action';
 // settings actions
 export {

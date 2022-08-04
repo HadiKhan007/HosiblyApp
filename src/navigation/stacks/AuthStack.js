@@ -11,6 +11,9 @@ import VerifyPhone from '../../screens/Auth/VerifyPhone';
 import SignUp from '../../screens/Auth/Signup';
 import AddPersonalInfo from '../../screens/Auth/AddPersonalInfo';
 import SignUpPurpose from '../../screens/Auth/SignUpPurpose';
+import UploadDocuments from '../../screens/Auth/UploadDocuments';
+import AddSupportInfo from '../../screens/Auth/AddSupportInfo';
+import ScheduleDay from '../../screens/Auth/ScheduleDay';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +32,9 @@ function AuthStack(props) {
       <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
       <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
       <Stack.Screen name="AddPersonalInfo" component={AddPersonalInfo} />
+      <Stack.Screen name={'UploadDocuments'} component={UploadDocuments} />
+      <Stack.Screen name={'AddSupportInfo'} component={AddSupportInfo} />
+      <Stack.Screen name={'ScheduleDay'} component={ScheduleDay} />
     </Stack.Navigator>
   );
 }

@@ -43,6 +43,7 @@ export * from './Box/ProfileImageBox';
 export * from './Box/GalleryCard';
 export * from './Box/OutlineBox';
 export * from './Box/DocBox';
+export * from './Box/DayBox';
 
 //Footer
 export * from './Footer/AuthText';
@@ -61,6 +62,7 @@ export * from './Cards/PreviewImageCover';
 export * from './Cards/PreviewImageBox';
 export * from './Cards/PreviewInfoCard';
 export * from './Cards/AddressCard';
+export * from './Cards/TimePickerCard';
 
 //Headings
 export * from './Headings/SmallHeading';
