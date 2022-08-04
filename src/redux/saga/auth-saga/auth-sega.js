@@ -250,3 +250,20 @@ function* add_info(params) {
     params?.cbFailure(msg);
   }
 }
+
+// *************Support Info Sega**************
+export function* supportInfoSega() {
+  yield takeLatest(types.SET_SUPPORT_INFO_REQUEST, support_info);
+}
+
+function* support_info(params) {
+  try {
+    yield put({
+      type: types.SET_SUPPORT_INFO_SUCCESS,
+      payload: params?.params,
+    });
+    params?.callBack(params?.params);
+  } catch (error) {
+    console.log(error);
+  }
+}

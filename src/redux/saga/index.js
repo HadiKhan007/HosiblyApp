@@ -18,6 +18,7 @@ import {
   OTPVerifyRequest,
   resendOTPRequestSega,
   addInfoRequestSega,
+  supportInfoSega,
 } from './auth-saga/auth-sega';
 
 import {
@@ -45,6 +46,7 @@ export function* rootSaga() {
   yield fork(addInfoRequestSega);
   yield fork(getProfileRequest);
   yield fork(updateProfileRequest);
+  yield fork(supportInfoSega);
 
   //Payments
   yield fork(addcardRequest);

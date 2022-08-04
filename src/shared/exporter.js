@@ -62,6 +62,7 @@ export {
   condo_items,
   image_options,
   property_image,
+  weekDays,
 } from './utilities/constant';
 export {header, authHeader} from './utilities/headers';
 export {

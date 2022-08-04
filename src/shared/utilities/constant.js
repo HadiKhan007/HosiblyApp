@@ -1070,6 +1070,20 @@ const inputItems = [
   },
 ];
 const property_image = 'https://wallpaperaccess.com/full/1700222.jpg';
+
+const weekDays = [
+  {
+    day: 'Mon',
+    selected: false,
+  },
+  {day: 'Tue', selected: false},
+  {day: 'Wed', selected: false},
+  {day: 'Thu', selected: false},
+  {day: 'Fri', selected: false},
+  {day: 'Sat', selected: false},
+  {day: 'Sun', selected: false},
+];
+
 export {
   IOS,
   ANDROID,
@@ -1108,4 +1122,5 @@ export {
   condo_items,
   image_options,
   property_image,
+  weekDays,
 };

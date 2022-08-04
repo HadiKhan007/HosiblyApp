@@ -27,8 +27,6 @@ import AddMorePropertyDetail from '../screens/App/Home/AddMorePropertyDetail';
 import AddPropertyDes from '../screens/App/Home/AddPropertyDes';
 import PropertyDetail from '../screens/App/Home/PropertyDetail';
 import AddAddress from '../screens/App/Home/AddAddress';
-import UploadDocuments from '../screens/Auth/UploadDocuments';
-import AddSupportInfo from '../screens/Auth/AddSupportInfo';
 
 const AppStack = createNativeStackNavigator();
 
@@ -58,8 +56,6 @@ const MainAppNav = () => {
         <AppStack.Screen name={'AddPropertyDesc'} component={AddPropertyDes} />
         <AppStack.Screen name={'PropertyDetail'} component={PropertyDetail} />
         <AppStack.Screen name={'AddAddress'} component={AddAddress} />
-        <AppStack.Screen name={'UploadDocuments'} component={UploadDocuments} />
-        <AppStack.Screen name={'AddSupportInfo'} component={AddSupportInfo} />
 
         <AppStack.Screen
           name={'AddPropertyDetails'}

@@ -98,3 +98,12 @@ export const logoutRequset = (params, callBack) => {
     callBack,
   };
 };
+
+//Set Support Closure Action
+export const setSupportClosureRequest = (params, callBack) => {
+  return {
+    type: TYPES.SET_SUPPORT_INFO_REQUEST,
+    params,
+    callBack,
+  };
+};

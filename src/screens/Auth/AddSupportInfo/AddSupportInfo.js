@@ -33,7 +33,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {addInfoRequest} from '../../../redux/actions';
+import {addInfoRequest, setSupportClosureRequest} from '../../../redux/actions';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 
 const AddSupportInfo = ({navigation}) => {
@@ -53,29 +53,18 @@ const AddSupportInfo = ({navigation}) => {
     const check = await checkConnected();
     if (check) {
       if (professionList[0].profession) {
-        // setLoading(true);
-        const imgObj = {
-          uri: values?.image?.path,
-          type: values?.image?.mime,
-          name: values?.image?.fileName || 'image',
+        const body = {
+          description: values?.desc,
+          avatar: values?.image,
+          profession: professionList,
+          hourly_rate: values?.hourly_rate,
         };
-
-        const form = new FormData();
-        form.append('user[description]', values?.desc);
-        form.append('user[avatar]', imgObj);
-        form.append('user[profession]', professionList);
-        navigation?.navigate('UploadDocuments');
-        // const addInfoSuccess = async res => {
-        //   setLoading(false);
-        //   setTimeout(() => {
-        //     navigation?.replace('App');
-        //   }, 500);
-        // };
-        // const addInfoFailure = async res => {
-        //   setLoading(false);
-        //   Alert.alert('Error', res);
-        // };
-        // dispatch(addInfoRequest(form, addInfoSuccess, addInfoFailure));
+        const addInfoSuccess = async () => {
+          setTimeout(() => {
+            navigation?.navigate('UploadDocuments');
+          }, 500);
+        };
+        dispatch(setSupportClosureRequest(body, addInfoSuccess));
       } else {
         Alert.alert('Error', 'At least one profession required!');
       }
