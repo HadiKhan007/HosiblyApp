@@ -22,6 +22,12 @@ export const AddPersonalInfoField = {
   desc: '',
 };
 
+export const AddSupportInfoField = {
+  image: '',
+  hourly_rate: '',
+  desc: '',
+};
+
 export const loginFormFields = {
   email: '',
   password: '',
@@ -44,6 +50,11 @@ export const editFormFields = {
   email: '',
   phone: '',
   bio: '',
+};
+
+export const addCardFormFields = {
+  fullname: '',
+  country: '',
 };
 
 export const LoginVS = yup.object().shape({
@@ -103,6 +114,12 @@ export const AddPersonalInfoVS = yup.object().shape({
   image: yup.object().shape().required('Image Required'),
   desc: yup.string().required('Description Required'),
 });
+
+export const AddSupportInfoVS = yup.object().shape({
+  image: yup.object().shape().required('Image Required'),
+  hourly_rate: yup.string().required('Hourly Rate Required'),
+  desc: yup.string().required('Description Required'),
+});
 export const CodeVS = yup.object().shape({
   code: yup
     .string()
@@ -123,4 +140,9 @@ export const ResetPasswordVS = yup.object().shape({
     .min(6, 'Password must be at least 6 characters')
     .required('Confirm New Password Required')
     .oneOf([yup.ref('password'), null], 'New Passwords do not match'),
+});
+
+export const addCardVS = yup.object().shape({
+  fullname: yup.string().required('Full Name Required'),
+  country: yup.string().required('Country Required'),
 });

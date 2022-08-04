@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     width: WP('26.3'),
     height: WP('24.1'),
     marginRight: WP('2.5'),
+    backgroundColor: colors.g11,
   },
   innerRow: {
     flexDirection: 'row',
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.r1,
   },
   newTxtStyle: {
-    left: 0.3,
     color: colors.white,
     fontSize: size.xxxtiny,
     fontFamily: family.Gilroy_Bold,
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'red',
     };
   },
+
   countContainer: {
     left: -20,
     borderRadius: 5,

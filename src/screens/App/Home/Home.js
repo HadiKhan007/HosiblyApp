@@ -1,5 +1,12 @@
-import React, {useRef, useState} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import {Menu, MenuItem} from 'react-native-material-menu';
@@ -17,19 +24,29 @@ import {
   appIcons,
   appImages,
   scrHeight,
+  networkText,
+  checkConnected,
 } from '../../../shared/exporter';
 import styles from './styles';
 // Tabs
 import BuyTab from './Tabs/BuyTab/BuyTab';
 import MatchesTab from './Tabs/MatchesTab/MatchesTab';
 import SellTab from './Tabs/SellTab/SellTab';
-
+import {useIsFocused} from '@react-navigation/core';
+import {useDispatch, useSelector} from 'react-redux';
+import {get_recent_properties} from '../../../redux/actions';
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [hideAds, setHideAds] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [selected, setSelected] = useState('buy');
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const isFocus = useIsFocused(null);
+  const dispatch = useDispatch();
+  const {recent_properties} = useSelector(state => state?.appReducer);
+  const {userInfo} = useSelector(state => state?.auth);
+  const {userProfile} = useSelector(state => state?.settings);
 
   const hideItemClick = () => {
     setShowMenu(false);
@@ -70,6 +87,44 @@ const Home = ({navigation}) => {
       </View>
     );
   };
+  //Get Properties
+  useEffect(() => {
+    if (isFocus) {
+      getProperties();
+    }
+  }, [isFocus]);
+
+  //Get Properties
+  const getProperties = () => {
+    if (selected == 'sell') {
+      getRecentProperties();
+    }
+  };
+  //Get Recent Properties
+  const getRecentProperties = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          console.log('On Recent prop Success');
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Recent prop Failure', res);
+        };
+        dispatch(get_recent_properties(null, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -78,6 +133,7 @@ const Home = ({navigation}) => {
           navigation.navigate('Profile');
         }}
         rightIcon
+        img={userProfile?.user?.image || userInfo?.user?.image}
       />
       <Spacer androidVal={WP('4')} iOSVal={WP('4')} />
       <KeyboardAwareScrollView
@@ -151,7 +207,10 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setSelected('sell')}
+                onPress={() => {
+                  setSelected('sell');
+                  getRecentProperties();
+                }}
                 style={styles.tabStyle(selected === 'sell')}>
                 <Text style={styles.tabTxtStyle(selected === 'sell')}>
                   I Want To Sell
@@ -161,38 +220,39 @@ const Home = ({navigation}) => {
           </View>
           {selected === 'buy' && <BuyTab navigation={navigation} />}
           {selected === 'matches' && <MatchesTab navigation={navigation} />}
-          {selected === 'sell' && <SellTab navigation={navigation} />}
+          {selected === 'sell' && (
+            <View style={{height: scrWidth / 1.1}}>
+              <SellTab properties={recent_properties} navigation={navigation} />
+
+              <View style={styles.bottomView}>
+                <AppButton
+                  width="38.5%"
+                  height={WP('10.3')}
+                  title="Enter Address"
+                  borderColor={colors.p2}
+                  shadowColor={colors.white}
+                  textStyle={styles.btnTxtStyle}
+                />
+                <View style={{width: WP('3')}} />
+                <AppButton
+                  onPress={() => {
+                    navigation?.navigate('AddPropertyDetails');
+                  }}
+                  width="38.5%"
+                  height={WP('10.3')}
+                  borderColor={colors.p2}
+                  title="List A New Property"
+                  textStyle={styles.btnTxtStyle}
+                />
+              </View>
+            </View>
+          )}
         </View>
         <PersonDetailsModal
           show={showModal}
           onPressHide={() => setShowModal(false)}
         />
       </KeyboardAwareScrollView>
-      {selected === 'sell' && (
-        <>
-          <View style={styles.bottomView}>
-            <AppButton
-              width="38.5%"
-              height={WP('10.3')}
-              title="Enter Address"
-              borderColor={colors.p2}
-              shadowColor={colors.white}
-              textStyle={styles.btnTxtStyle}
-            />
-            <View style={{width: WP('3')}} />
-            <AppButton
-              onPress={() => {
-                navigation?.navigate('AddPropertyDetails');
-              }}
-              width="38.5%"
-              height={WP('10.3')}
-              borderColor={colors.p2}
-              title="List A New Property"
-              textStyle={styles.btnTxtStyle}
-            />
-          </View>
-        </>
-      )}
     </SafeAreaView>
   );
 };

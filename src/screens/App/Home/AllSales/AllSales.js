@@ -1,54 +1,152 @@
-import React, {useState} from 'react';
-import {Text, View, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {BackHeader} from '../../../../components';
+import {Spacer, BackHeader, DeleteModal} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
   appImages,
+  checkConnected,
   colors,
   family,
   size,
+  WP,
+  networkText,
+  property_image,
 } from '../../../../shared/exporter';
 import {allSales} from '../../../../shared/utilities/constant';
 import styles from './styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
+import {
+  get_all_properties,
+  get_filtered_properties,
+} from '../../../../redux/actions';
 
-const AllSales = () => {
+const AllSales = ({navigation}) => {
+  const [item, setItem] = useState('');
+  const [data, setData] = useState(allSales);
   const [showMenu, setShowMenu] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState('All');
+  const [loading, setLoading] = useState(false);
+  const isFocus = useIsFocused(null);
+  const [properties, setProperties] = useState([]);
+  const dispatch = useDispatch();
+
+  //Get Properties
+  useEffect(() => {
+    if (isFocus) {
+      getAllProperties();
+    }
+  }, [isFocus]);
+
+  //Get All Properties
+  const getAllProperties = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setProperties(res);
+          setLoading(false);
+          console.log('On All prop Success');
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On All prop Failure', res);
+        };
+        dispatch(get_all_properties(null, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  //Get Filtered Properties
+  const getFilteredProperties = async type => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setProperties(res);
+          setLoading(false);
+          setShowMenu(false);
+          console.log('On Filter prop Success', res);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          setShowMenu(false);
+          Alert.alert('Error', res);
+          console.log('On Filter prop Failure', res);
+        };
+        var form = new FormData();
+        form.append(
+          'type',
+          type == 'Vacant Land' ? 'vacant_land' : type.toLowerCase(),
+        );
+
+        dispatch(get_filtered_properties(form, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         activeOpacity={1}
         style={styles.itemContainer}
-        onPress={() => console.log('You touched me')}>
-        <Image source={item?.img} style={styles.imgStyle} />
+        onPress={() => navigation.navigate('PropertyDetails', {item: item})}>
+        <Image
+          source={{uri: item?.image[0]?.url || property_image}}
+          style={styles.imgStyle}
+        />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
             <Text numberOfLines={1} style={styles.nameTxtStyle}>
-              {item?.name}
+              {item?.title}
             </Text>
             <View style={styles.txtContainer}>
-              <Text style={styles.newTxtStyle}>{item?.saleNum}</Text>
+              <Text style={styles.newTxtStyle}>{properties.length}</Text>
             </View>
           </View>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>
+              {`$${item?.price || 0}`} |{' '}
+            </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || 0}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {item?.bath_rooms || 0}
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 2}]}>
-            {item?.imges.map((item, index) => {
+            {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
               return (
                 index < 4 && (
                   <Image
@@ -58,10 +156,10 @@ const AllSales = () => {
                 )
               );
             })}
-            {item?.imges?.length > 4 && (
+            {[1, 2, 3, 4, 5, 6, 7].length > 4 && (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
-                  +{item?.imges?.length - 4}
+                  +{[1, 2, 3, 4, 5, 6]?.length - 4}
                 </Text>
               </View>
             )}
@@ -77,6 +175,13 @@ const AllSales = () => {
 
   const onRowDidOpen = rowKey => {
     console.log('This row opened', rowKey);
+  };
+
+  const handleDelete = data => {
+    setItem(data?.item);
+    setTimeout(() => {
+      setShowModal(true);
+    }, 300);
   };
 
   const renderHiddenItem = (data, rowMap) => {
@@ -118,7 +223,10 @@ const AllSales = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={[styles.backRightBtn, styles.backRightBtnRight]}
-          onPress={() => closeRow(rowMap, data?.index)}>
+          onPress={() => {
+            closeRow(rowMap, data?.index);
+            handleDelete(data);
+          }}>
           <Image
             resizeMode="contain"
             source={appIcons.delIcon}
@@ -132,11 +240,12 @@ const AllSales = () => {
 
   const hideItemClick = type => {
     setFilterType(type);
-    setShowMenu(false);
+    getFilteredProperties(type);
   };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <BackHeader
         title="My Property Lists"
         txtCenter
@@ -166,14 +275,14 @@ const AllSales = () => {
           <MenuItem
             style={styles.menuItemStyle}
             textStyle={styles.menuTxtStyle}
-            onPress={() => hideItemClick('Home')}>
+            onPress={() => hideItemClick('House')}>
             <View style={styles.menuItemRow}>
               <Image
                 resizeMode="contain"
                 source={appIcons.modelHome}
                 style={styles.modelIconStyle}
               />
-              <Text>Home</Text>
+              <Text style={styles.menuTxtStyle}>House</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -184,10 +293,10 @@ const AllSales = () => {
             <View style={styles.menuItemRow}>
               <Image
                 resizeMode="contain"
-                source={appIcons.condo}
+                source={appIcons.condoStyle}
                 style={styles.modelIconStyle}
               />
-              <Text>Condo</Text>
+              <Text style={styles.menuTxtStyle}>Condo</Text>
             </View>
           </MenuItem>
           <View style={styles.dividerView} />
@@ -201,7 +310,7 @@ const AllSales = () => {
                 source={appIcons.vacant}
                 style={styles.modelIconStyle}
               />
-              <Text>Vacant Land</Text>
+              <Text style={styles.menuTxtStyle}>Vacant Land</Text>
             </View>
           </MenuItem>
         </Menu>
@@ -209,7 +318,9 @@ const AllSales = () => {
       <View style={styles.container}>
         <SwipeListView
           useFlatList
-          data={allSales}
+          data={properties}
+          disableLeftSwipe={true}
+          disableRightSwipe={true}
           renderItem={renderItem}
           renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
           leftOpenValue={180}
@@ -231,6 +342,11 @@ const AllSales = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <DeleteModal
+        item={item}
+        show={showModal}
+        onPressHide={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 };

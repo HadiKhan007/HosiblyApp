@@ -22,6 +22,7 @@ const AppInput = ({
   editable,
   title,
   keyboardType,
+  maxLength,
 }) => {
   const [showPass, setShowPass] = React.useState(secureTextEntry);
 
@@ -62,6 +63,7 @@ const AppInput = ({
         renderErrorMessage={renderErrorMessage}
         autoCompleteType={undefined}
         onSubmitEditing={onSubmitEditing}
+        maxLength={maxLength}
       />
     </View>
   );

@@ -8,12 +8,12 @@ import {
   family,
   appLogos,
   appImages,
+  profile_uri,
 } from '../../shared/exporter';
 import {MyStatusBar} from '..';
 
-export const AppHeader = ({rightIcon = false, onPressIcon}) => {
+export const AppHeader = ({rightIcon = false, onPressIcon, img}) => {
   const navigation = useNavigation();
-
   return (
     <>
       <MyStatusBar />
@@ -27,10 +27,10 @@ export const AppHeader = ({rightIcon = false, onPressIcon}) => {
           <Text style={styles.logoTxtStyle}>Housibly</Text>
         </View>
         {rightIcon && (
-          <TouchableOpacity onPress={onPressIcon}>
+          <TouchableOpacity activeOpacity={0.7} onPress={onPressIcon}>
             <Image
               resizeMode="contain"
-              source={appImages.personPh}
+              source={{uri: img}}
               style={styles.personImgStyle}
             />
           </TouchableOpacity>
@@ -67,5 +67,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 8,
+    backgroundColor: colors.g1,
+    resizeMode: 'cover',
   },
 });

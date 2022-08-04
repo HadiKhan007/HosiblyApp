@@ -9,9 +9,8 @@ import ResetPassword from '../../screens/Auth/ResetPassword';
 import VerifyOTP from '../../screens/Auth/VerifyOTP';
 import VerifyPhone from '../../screens/Auth/VerifyPhone';
 import SignUp from '../../screens/Auth/Signup';
-import SignUpPurpose from '../../screens/Auth/SignUpPurpose';
-
 import AddPersonalInfo from '../../screens/Auth/AddPersonalInfo';
+import SignUpPurpose from '../../screens/Auth/SignUpPurpose';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +22,6 @@ function AuthStack(props) {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="SignUpPurpose" component={SignUpPurpose} />
-
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="TermsConditions" component={TermsConditions} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

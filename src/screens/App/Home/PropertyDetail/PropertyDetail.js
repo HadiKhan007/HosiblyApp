@@ -34,7 +34,11 @@ import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {useDispatch, useSelector} from 'react-redux';
 import {addProperty} from '../../../../shared/service/PropertyService';
-import {add_property_detail_request} from '../../../../redux/actions';
+import {
+  add_property_detail_request,
+  set_address_request,
+} from '../../../../redux/actions';
+import {setAddressRequest} from '../../../../redux/saga/app-sega/app-sega';
 
 const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
@@ -146,6 +150,7 @@ const PropertyDetail = ({navigation}) => {
           console.log(res);
           const onSuccess = res => {
             setloading(false);
+            dispatch(set_address_request('', () => {}));
             navigation?.navigate('Home');
           };
           dispatch(add_property_detail_request(null, onSuccess));

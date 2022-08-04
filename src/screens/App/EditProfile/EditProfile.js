@@ -94,6 +94,9 @@ const EditProfile = ({navigation, route}) => {
     data.append('user[email]', values?.email);
     data.append('user[phone_number]', values?.phone);
     data.append('user[description]', values?.bio);
+    data.append('user[country_name]', cca2);
+    data.append('user[country_code]', country?.callingCode[0]);
+
     if (userImage === '') {
       console.log("Don't send the old image.");
     } else {
@@ -104,8 +107,6 @@ const EditProfile = ({navigation, route}) => {
       };
       data.append('user[avatar]', imgObj);
     }
-
-    console.log('Params are try ==>', data);
 
     const updateProfileSuccess = async res => {
       // alert('Profile is updated successfully.');
@@ -149,6 +150,8 @@ const EditProfile = ({navigation, route}) => {
               setFieldValue('email', data?.email);
               setFieldValue('bio', data?.description);
               setFieldValue('phone', data?.phone_number);
+              setcca2(data?.country_name || 'US');
+              setcountry({callingCode: data?.country_code || '1'});
             }, [data]);
             return (
               <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
@@ -211,7 +214,6 @@ const EditProfile = ({navigation, route}) => {
                         withFilter={true}
                         withAlphaFilter={true}
                       />
-                      // <Image source={appIcons.america} style={styles.iconStyle} />
                     }
                   />
                   <Text style={styles.textStyle}>Edit Bio</Text>

@@ -16,3 +16,32 @@ export const set_address_request = (params, cbSuccess) => {
     cbSuccess,
   };
 };
+//Get Recent Properties
+export const get_recent_properties = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_RECENT_PROPERTIES_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+//Get Filtered Properties
+export const get_filtered_properties = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_FILTERED_PROPERTIES_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+//Get All Properties
+export const get_all_properties = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_ALL_PROPERTIES_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
