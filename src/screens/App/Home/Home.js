@@ -217,7 +217,31 @@ const Home = ({navigation}) => {
           {selected === 'buy' && <BuyTab navigation={navigation} />}
           {selected === 'matches' && <MatchesTab navigation={navigation} />}
           {selected === 'sell' && (
-            <SellTab properties={recent_properties} navigation={navigation} />
+            <View style={{height: scrWidth / 1.1}}>
+              <SellTab properties={recent_properties} navigation={navigation} />
+
+              <View style={styles.bottomView}>
+                <AppButton
+                  width="38.5%"
+                  height={WP('10.3')}
+                  title="Enter Address"
+                  borderColor={colors.p2}
+                  shadowColor={colors.white}
+                  textStyle={styles.btnTxtStyle}
+                />
+                <View style={{width: WP('3')}} />
+                <AppButton
+                  onPress={() => {
+                    navigation?.navigate('AddPropertyDetails');
+                  }}
+                  width="38.5%"
+                  height={WP('10.3')}
+                  borderColor={colors.p2}
+                  title="List A New Property"
+                  textStyle={styles.btnTxtStyle}
+                />
+              </View>
+            </View>
           )}
         </View>
         <PersonDetailsModal

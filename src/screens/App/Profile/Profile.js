@@ -88,7 +88,10 @@ const Profile = ({navigation}) => {
         <Divider color={colors.g18} />
         <View style={spacing.py4}>
           <ProfileField title={'Email Address'} subtitle={data?.email} />
-          <ProfileField title={'Phone Number'} subtitle={data?.phone_number} />
+          <ProfileField
+            title={'Phone Number'}
+            subtitle={`+1${data?.phone_number || ''}`}
+          />
         </View>
       </View>
     </SafeAreaView>

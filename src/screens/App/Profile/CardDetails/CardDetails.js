@@ -143,7 +143,9 @@ const CardDetails = ({navigation, route}) => {
       <View style={styles.bottomView}>
         <AppButton
           title="Proceed"
-          onPress={() => handleNavigation()}
+          onPress={() => {
+            alert('Coming Soon');
+          }}
           borderColor={colors.white}
           shadowColor={colors.white}
         />

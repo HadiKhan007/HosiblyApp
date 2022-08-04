@@ -23,13 +23,31 @@ import {Formik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch} from 'react-redux';
 import {signUpRequest} from '../../../redux/actions';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const Signup = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [country, setcountry] = useState({
+    name: 'United States',
+    callingCode: ['1'],
+  });
+  const [cca2, setcca2] = useState('US');
   const dispatch = useDispatch(null);
+
+  //Handle Signup
   const handleSignUp = async values => {
     const check = await checkConnected();
     if (check) {
+      let phone = '';
+      if (values?.contact.charAt(0) == '0') {
+        phone = values?.contact?.substring(1);
+      } else {
+        phone = values.contact;
+      }
+      const countryObj = {
+        code: country?.callingCode[0],
+        country_name: country?.name,
+      };
       try {
         setIsLoading(true);
         let item = route?.params?.item;
@@ -38,7 +56,7 @@ const Signup = ({navigation, route}) => {
         data.append('user[full_name]', values?.fullname);
         data.append('user[email]', values?.email);
         data.append('user[password]', values?.password);
-        data.append('user[phone_number]', values?.contact);
+        data.append('user[phone_number]', phone);
         data.append('user[licensed_realtor]', item?.licensed === 'Yes');
         data.append(
           'user[contacted_by_real_estate]',
@@ -64,6 +82,11 @@ const Signup = ({navigation, route}) => {
     } else {
       Alert.alert('Error', networkText);
     }
+  };
+  //Contry Value
+  const setCountryValue = val => {
+    setcca2(val.cca2);
+    setcountry(val);
   };
 
   return (
@@ -129,6 +152,18 @@ const Signup = ({navigation, route}) => {
                   errorMessage={errors.contact}
                   title={'Phone Number'}
                   keyboardType={'phone-pad'}
+                  maxLength={14}
+                  rightIcon={
+                    <CountryPicker
+                      onSelect={setCountryValue}
+                      translation="eng"
+                      withFlag={true}
+                      withEmoji={true}
+                      countryCode={cca2}
+                      withFilter={true}
+                      withAlphaFilter={true}
+                    />
+                  }
                 />
 
                 <AppInput

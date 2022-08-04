@@ -90,6 +90,10 @@ const EditProfile = ({navigation, route}) => {
 
   const handleUpdateProfile = values => {
     setIsLoading(true);
+    const countryObj = {
+      code: country?.callingCode[0],
+      country_name: country?.name,
+    };
     const data = new FormData();
     data.append('user[email]', values?.email);
     data.append('user[phone_number]', values?.phone);

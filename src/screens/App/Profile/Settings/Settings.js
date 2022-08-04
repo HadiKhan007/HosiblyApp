@@ -8,6 +8,7 @@ import {Icon} from 'react-native-elements';
 import {logoutRequset} from '../../../../redux/actions';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CommonActions} from '@react-navigation/routers';
 
 const Settings = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -17,7 +18,12 @@ const Settings = ({navigation}) => {
       logoutRequset(null, () => {
         GoogleSignin.signOut();
         AsyncStorage.removeItem('usertoken');
-        navigation?.replace('Auth');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{name: 'Auth'}],
+          }),
+        );
       }),
     );
   };
