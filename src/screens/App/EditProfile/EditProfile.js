@@ -91,8 +91,14 @@ const EditProfile = ({navigation, route}) => {
   const handleUpdateProfile = values => {
     setIsLoading(true);
     const data = new FormData();
+    let phone = '';
+    if (values?.phone.charAt(0) == '0') {
+      phone = values?.phone?.substring(1);
+    } else {
+      phone = values.phone;
+    }
     data.append('user[email]', values?.email);
-    data.append('user[phone_number]', values?.phone);
+    data.append('user[phone_number]', phone);
     data.append('user[description]', values?.bio);
     data.append('user[country_name]', cca2);
     data.append('user[country_code]', country?.callingCode[0]);
