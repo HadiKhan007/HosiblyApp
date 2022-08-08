@@ -18,13 +18,14 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
+import {setSupportClosureRequest} from '../../../redux/actions';
 const UploadDocuments = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageArray, setimageArray] = useState([]);
   const [docArray, setDocArray] = useState([]);
 
-  const {userInfo} = useSelector(state => state?.auth);
+  const {support_info} = useSelector(state => state?.auth);
   const dispatch = useDispatch(null);
 
   //Gallery Handlers
@@ -87,6 +88,18 @@ const UploadDocuments = ({navigation}) => {
       }),
     );
   };
+
+  //On Continue
+  const onContinue = () => {
+    const addInfoSuccess = async () => {
+      setTimeout(() => {
+        navigation?.navigate('ScheduleDay');
+      }, 500);
+    };
+    support_info['images'] = imageArray;
+    support_info['documents'] = docArray;
+    dispatch(setSupportClosureRequest(support_info, addInfoSuccess));
+  };
   return (
     <>
       <SafeAreaView style={styles.rootContainer}>
@@ -124,7 +137,7 @@ const UploadDocuments = ({navigation}) => {
               <AppButton
                 title={'Next'}
                 onPress={() => {
-                  navigation?.navigate('ScheduleDay');
+                  onContinue();
                 }}
               />
             </View>

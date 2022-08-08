@@ -1,24 +1,56 @@
 import React, {useState} from 'react';
-import {View, Text, StatusBar, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  ImageBackground,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {AppButton, Spacer} from '../../../components';
+import {AppButton, BackHeader, SignUpModal, Spacer} from '../../../components';
 import {appIcons, appImages, colors, WP} from '../../../shared/exporter';
 import styles from './styles';
 
 const SignUpPurpose = ({navigation, route}) => {
   const [selected, setSelected] = useState('want_sell');
+  const [show, setShow] = useState(false);
+  const [showSlide, setShowSlide] = useState(0);
 
-  const handleNavigation = () => {
-    navigation.navigate('SignUp', {
-      regPurpose: selected,
-      item: route?.params?.modelItem,
-    });
+  const handleNavigation = (userType, licensed, contacted) => {
+    if (selected == 'want_support_closer') {
+      navigation.navigate('SignUp', {
+        regPurpose: selected,
+      });
+    } else {
+      navigation.navigate('SignUp', {
+        regPurpose: selected,
+        item: {
+          userType,
+          licensed,
+          contacted,
+        },
+      });
+    }
+    setShowSlide(0);
   };
 
   return (
     <View style={styles.rootContainer}>
       <StatusBar backgroundColor={'transparent'} translucent={true} />
+
       <ImageBackground source={appImages.homeImg} style={styles.bgImgStyle}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation?.goBack();
+          }}
+          style={styles.btnCon}>
+          <Image
+            resizeMode="contain"
+            source={appIcons.backArrow}
+            style={[styles.iconStyle1]}
+          />
+        </TouchableOpacity>
         <Text style={styles.helloTxtStyle}>Hello, roberto</Text>
         <Text style={styles.chooseTxtStyle}>
           Choose, What do you want to do?{' '}
@@ -74,9 +106,25 @@ const SignUpPurpose = ({navigation, route}) => {
           />
         </View>
         <View style={styles.bottomView}>
-          <AppButton title="Next" onPress={() => handleNavigation()} />
+          <AppButton
+            title="Next"
+            onPress={() => {
+              if (selected == 'want_support_closer') {
+                handleNavigation();
+              } else {
+                setShow(true);
+              }
+            }}
+          />
         </View>
       </KeyboardAwareScrollView>
+      <SignUpModal
+        show={show}
+        activeIndex={showSlide}
+        onPressHide={() => setShow(false)}
+        buttonClick={() => setShowSlide(showSlide + 1)}
+        valueCallBack={handleNavigation}
+      />
     </View>
   );
 };

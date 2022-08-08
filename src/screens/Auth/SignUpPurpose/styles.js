@@ -55,6 +55,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingHorizontal: WP('8.2'),
   },
+  iconStyle1: {
+    width: WP('5'),
+    height: WP('5'),
+    tintColor: colors.white,
+  },
+  btnCon: {
+    position: 'absolute',
+    top: WP('15'),
+    left: WP('5'),
+    alignSelf: 'flex-start',
+  },
 });
 
 export default styles;

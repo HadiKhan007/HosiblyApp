@@ -82,15 +82,13 @@ export const resendOTP = async params => {
 };
 
 export const addInfo = async params => {
-  const res = await axios.put(
-    `${BASE_URL}${ENDPOINTS.INFO_CONST}.json`,
-    params,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        auth_token: await GetToken(),
-      },
+  console.log(params);
+  const res = await axios.put(`${BASE_URL}${ENDPOINTS.INFO_CONST}`, params, {
+    headers: {
+      Accept: 'multipart/form-data',
+      'Content-Type': 'multipart/form-data',
+      auth_token: await GetToken(),
     },
-  );
+  });
   return res.data;
 };
