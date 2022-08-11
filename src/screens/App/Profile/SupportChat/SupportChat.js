@@ -1,4 +1,4 @@
-import React, {useRef, useState, useLayoutEffect} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -11,90 +11,65 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import {useIsFocused} from '@react-navigation/core';
-import {ChatHeader, Spacer} from '../../../../components';
+import {Spacer, AppHeader, BackHeader} from '../../../../components';
 import {
-  appIcons,
-  appImages,
-  colors,
-  platformOrientedCode,
   WP,
+  colors,
+  appIcons,
+  platformOrientedCode,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
-import {chat} from '../../../../shared/utilities/constant';
 
-const PersonChat = ({navigation}) => {
-  const isFocus = useIsFocused();
+const SupportChat = ({navigation}) => {
   const [fresh, setFresh] = useState(true);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState(false);
-  const [allMessages, setAllMessages] = useState(chat);
-
-  useLayoutEffect(() => {
-    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
-    return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
-  }, [isFocus]);
+  const [data, setData] = useState([1, 2, 3, 4, 5, 6]);
 
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.msgContainer}>
-        {item.viewType === 'sender' ? (
-          // Sender Bubble
-          <View style={styles.senderBubble}>
-            <View style={styles.senderBubbleStyles}>
-              <Text style={styles.senderMsgStyles}>{item.message}</Text>
-            </View>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.itemContainer}
+        onPress={() => navigation.navigate('SupportChat')}>
+        <View style={styles.rowContainer}>
+          <Image source={appLogos.supportLogo} style={styles.imgStyle} />
+          <View>
+            <Text style={styles.nameTxtStyle}>Harold Von</Text>
+            <Text style={styles.dateTxtStyle}>Jan 12, 2022 | 9:00am</Text>
           </View>
-        ) : (
-          // Receiver Bubble
-          <View style={styles.receiverBubble}>
-            <View style={{width: '70%'}}>
-              <View style={styles.receiverBubbleStyles}>
-                <Text style={styles.receiverMsgStyles}>{item.message}</Text>
-              </View>
-            </View>
-          </View>
-        )}
-      </View>
+        </View>
+        <Text style={styles.infoTxtStyle}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+          pretium sem sit amet venenatis commodo. Nullam aliquam lacus nisl,
+          varius luctus mauris hendrerit ut. Etiam eros lectus, commodo nec nisl
+          in, aliquet congue quam. Morbi condimentum lectus id urna gravida, at
+          facilisis lectus consectetur. Nam viverra augue est.
+        </Text>
+      </TouchableOpacity>
     );
   };
 
-  const onSend = () => {};
-
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <ChatHeader
-        onPressIcon={() => {
-          // navigation.navigate('Profile');
-        }}
-        rightIcon
-      />
+      <AppHeader subtitle={'Support'} />
+      <BackHeader title={'Support'} />
       <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
-      {allMessages?.length > 0 ? (
+      {data?.length > 0 ? (
         <FlatList
           inverted
-          data={allMessages}
+          data={data}
           extraData={fresh}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
-          ListFooterComponent={() => {
-            return (
-              <View style={styles.personView}>
-                <Image
-                  resizeMode="contain"
-                  source={appImages.person3}
-                  style={styles.personImgStyle}
-                />
-                <Text style={styles.nameTxtStyle}>Aspen Franci</Text>
-              </View>
-            );
-          }}
         />
       ) : (
         <View style={styles.noRecordsView}>
           <Text style={styles.noRecords}>
-            {isLoading ? '' : 'No events found'}
+            {isLoading ? '' : 'No messages found'}
           </Text>
         </View>
       )}
@@ -144,4 +119,4 @@ const PersonChat = ({navigation}) => {
   );
 };
 
-export default PersonChat;
+export default SupportChat;
