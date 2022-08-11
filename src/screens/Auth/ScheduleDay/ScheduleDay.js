@@ -11,29 +11,70 @@ import {
 import {checkConnected, colors, weekDays} from '../../../shared/exporter';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
+import {addInfoRequest} from '../../../redux/actions';
+import moment from 'moment';
 
 const ScheduleDay = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [week_days, setWeek_days] = useState(weekDays);
-  const {userInfo} = useSelector(state => state?.auth);
+  const {userInfo, support_info} = useSelector(state => state?.auth);
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+
   const dispatch = useDispatch(null);
 
   //On Submit
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
-      // setLoading(true);
+      var form = new FormData();
       const imgObj = {
-        uri: values?.image?.path,
-        type: values?.image?.mime,
-        name: values?.image?.fileName || 'image',
+        name: support_info?.avatar?.fileName,
+        type: support_info?.avatar?.mime,
+        uri: support_info?.avatar?.path,
+      };
+      form.append('user[avatar]', imgObj);
+      support_info?.profession?.forEach(item => {
+        form.append('title[]', item?.profession);
+      }),
+        form.append('user[hourly_rate]', support_info?.hourly_rate);
+      form.append('user[description]', support_info?.description);
+      support_info?.images?.forEach(item => {
+        form.append('images[]', {
+          uri: item?.path,
+          type: item?.mime || 'image/jpeg',
+          name: item?.filename || 'image',
+        });
+      }),
+        support_info?.documents?.forEach(item => {
+          form.append('certificates[]', {
+            uri: item?.uri,
+            type: item?.type || 'sample/jpeg',
+            name: item?.name || 'pdf',
+          });
+        }),
+        form.append(
+          'working_days[]',
+          week_days.map(item => {
+            return item?.day;
+          }),
+        );
+      form.append('start_time', moment(startTime).format('DD-MM-YYYY'));
+      form.append('end_time', moment(endTime).format('DD-MM-YYYY'));
+
+      const addInfoSuccess = async res => {
+        console.log(res);
+        setLoading(false);
+        setTimeout(() => {
+          navigation?.replace('App');
+        }, 500);
+      };
+      const addInfoFailure = async res => {
+        setLoading(false);
+        Alert.alert('Error', res);
       };
 
-      const form = new FormData();
-      form.append('user[description]', values?.desc);
-      form.append('user[avatar]', imgObj);
-      form.append('user[profession]', professionList);
-      navigation?.navigate('UploadDocuments');
+      dispatch(addInfoRequest(form, addInfoSuccess, addInfoFailure));
     } else {
       Alert.alert('Error', 'At least one profession required!');
     }
@@ -74,13 +115,30 @@ const ScheduleDay = ({navigation}) => {
             <View>
               <Text style={[styles.h1Style]}>Starts at</Text>
 
-              <TimePickerCard dateValue={new Date()} minTime={new Date()} />
+              <TimePickerCard
+                dateValue={startTime}
+                onDateChange={date => {
+                  setStartTime(date);
+                }}
+                minTime={new Date()}
+              />
             </View>
             <View>
               <Text style={[styles.h1Style]}>Ends at</Text>
-              <TimePickerCard dateValue={new Date()} minTime={new Date()} />
+              <TimePickerCard
+                dateValue={endTime}
+                onDateChange={date => {
+                  setEndTime(date);
+                }}
+                minTime={startTime}
+              />
             </View>
-            <AppButton title={'Set'} />
+            <AppButton
+              title={'Submit'}
+              onPress={() => {
+                onSubmit();
+              }}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

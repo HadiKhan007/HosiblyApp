@@ -57,17 +57,21 @@ const Signup = ({navigation, route}) => {
         data.append('user[country_name]', cca2);
         data.append('user[country_code]', country?.callingCode[0]);
 
-        data.append('user[licensed_realtor]', item?.licensed === 'Yes');
+        data.append('user[licensed_realtor]', item?.licensed ? 'Yes' : 'No');
         data.append(
           'user[contacted_by_real_estate]',
-          item?.contacted === 'Yes',
+          item?.contacted ? 'Yes' : 'No',
         );
-        data.append('user[user_type]', item?.userType.toLowerCase());
+        data.append(
+          'user[user_type]',
+          item?.userType ? item?.userType.toLowerCase() : 'neither',
+        );
         data.append('user[profile_type]', profileType);
         const signUpSuccess = async res => {
           navigation?.replace('VerifyOTP', {
             registeration: true,
             email: values?.email,
+            userType: route?.params?.regPurpose,
           });
           setIsLoading(false);
         };

@@ -115,7 +115,6 @@ const AddSupportInfo = ({navigation}) => {
                   height: 400,
                 }).then(image => {
                   setFieldValue('image', image);
-
                   setShow(false);
                 });
               }, 400);
@@ -229,10 +228,10 @@ const AddSupportInfo = ({navigation}) => {
                           placeholder={'Add here'}
                         />
                       </View>
+                      <View>
+                        <AppButton title={'Next'} onPress={handleSubmit} />
+                      </View>
                     </View>
-                  </View>
-                  <View>
-                    <AppButton title={'Next'} onPress={handleSubmit} />
                   </View>
                 </KeyboardAwareScrollView>
 

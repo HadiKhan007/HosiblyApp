@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     fontFamily: family.Gilroy_Medium,
     fontSize: size.tiny,
     textAlign: 'right',
-    marginVertical: 10,
   },
   mh: {
     marginHorizontal: WP('3'),

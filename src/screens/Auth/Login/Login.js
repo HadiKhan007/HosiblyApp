@@ -31,8 +31,6 @@ import {useDispatch} from 'react-redux';
 import {loginRequest, socialLoginRequest} from '../../../redux/actions';
 
 const Login = ({navigation}) => {
-  const [show, setShow] = useState(false);
-  const [showSlide, setShowSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch(null);
 
@@ -85,17 +83,6 @@ const Login = ({navigation}) => {
     dispatch(socialLoginRequest(form, socialLoginSuccess, socialLoginFailure));
   };
 
-  const handleNavigation = (userType, licensed, contacted) => {
-    navigation.navigate('SignUpPurpose', {
-      modelItem: {
-        userType,
-        licensed,
-        contacted,
-      },
-    });
-    setShowSlide(0);
-  };
-
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
@@ -112,7 +99,11 @@ const Login = ({navigation}) => {
           }, 500);
         } else {
           if (res?.user?.is_otp_verified) {
-            navigation?.navigate('AddPersonalInfo');
+            if (res?.user?.profile_type == 'want_support_closer') {
+              navigation?.navigate('AddSupportInfo');
+            } else {
+              navigation?.navigate('AddPersonalInfo');
+            }
           } else {
             navigation?.navigate('VerifyOTP', {
               email: values?.email,
@@ -259,7 +250,9 @@ const Login = ({navigation}) => {
                       <AuthFooter
                         title={'Don’t have an account?'}
                         subtitle={'Create One'}
-                        onPress={() => setShow(true)}
+                        onPress={() => {
+                          navigation?.navigate('SignUpPurpose');
+                        }}
                       />
                     </View>
                   </View>
@@ -267,13 +260,6 @@ const Login = ({navigation}) => {
               </KeyboardAwareScrollView>
             )}
           </Formik>
-          <SignUpModal
-            show={show}
-            activeIndex={showSlide}
-            onPressHide={() => setShow(false)}
-            buttonClick={() => setShowSlide(showSlide + 1)}
-            valueCallBack={handleNavigation}
-          />
         </View>
       </View>
       <AppLoader loading={isLoading} />

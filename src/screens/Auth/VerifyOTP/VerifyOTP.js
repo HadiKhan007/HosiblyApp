@@ -47,7 +47,11 @@ const VerifyOTP = ({navigation, route}) => {
 
       const otpSuccess = async res => {
         if (route?.params?.registeration) {
-          navigation?.replace('AddPersonalInfo');
+          if (route?.params?.userType === 'want_support_closer') {
+            navigation?.replace('AddSupportInfo');
+          } else {
+            navigation?.replace('AddPersonalInfo');
+          }
         } else {
           navigation?.replace(
             'ResetPassword',
