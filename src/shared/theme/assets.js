@@ -3,6 +3,7 @@ import {svgIcons} from '../../assets/svgs/index';
 export const appLogos = {
   appLogo: require('../../assets/logos/app_logo.png'),
   roundLogo: require('../../assets/logos/round_logo.png'),
+  supportLogo: require('../../assets/logos/support_logo.png'),
 };
 
 export const appImages = {
