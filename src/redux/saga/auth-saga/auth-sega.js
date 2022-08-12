@@ -232,7 +232,9 @@ export function* addInfoRequestSega() {
 
 function* add_info(params) {
   try {
+    console.log('params', params.params);
     const res = yield addInfo(params?.params);
+    console.log(res);
     if (res) {
       yield put({
         type: types.ADD_ADDITIONAL_INFO_SUCCESS,
@@ -241,7 +243,7 @@ function* add_info(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error?.response);
     yield put({
       type: types.ADD_ADDITIONAL_INFO_FAILURE,
       payload: null,
