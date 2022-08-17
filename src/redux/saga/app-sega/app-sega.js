@@ -106,3 +106,19 @@ function* setAddress(params) {
     console.log(error);
   }
 }
+
+// *************SET ADDRESS Info**************
+export function* setBuyerDataRequest() {
+  yield takeLatest(types.ADD_BUYER_DATA_REQUEST, addBuyerData);
+}
+function* addBuyerData(params) {
+  try {
+    yield put({
+      type: types.ADD_BUYER_DATA_SUCCESS,
+      payload: params?.params,
+    });
+    params?.cbSuccess(params.params);
+  } catch (error) {
+    console.log(error);
+  }
+}

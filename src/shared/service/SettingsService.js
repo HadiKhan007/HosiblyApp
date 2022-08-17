@@ -1,4 +1,3 @@
-import {retry} from 'redux-saga/effects';
 import {HTTP_CLIENT, ENDPOINTS} from '../exporter';
 import axios from 'axios';
 import {GetToken} from '../utilities/headers';

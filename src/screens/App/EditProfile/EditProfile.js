@@ -33,6 +33,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
+import {useIsFocused} from '@react-navigation/core';
 
 const EditProfile = ({navigation, route}) => {
   const [country, setcountry] = useState({
@@ -50,17 +51,19 @@ const EditProfile = ({navigation, route}) => {
   const [data, setData] = useState(route?.params?.item);
   const [oldImage, setOldImage] = useState(profile_uri);
   const [userImage, setUserImage] = useState('');
-
+  const isFocus = useIsFocused(null);
   const dispatch = useDispatch(null);
 
-  useLayoutEffect(() => {
-    let userImg = route?.params?.item?.image;
-    if (userImg === '') {
-      console.log('empty image');
-    } else {
-      setOldImage(route?.params?.item?.image);
+  useEffect(() => {
+    if (isFocus) {
+      let userImg = route?.params?.item?.image;
+      if (userImg === '') {
+        console.log('empty image');
+      } else {
+        setOldImage(route?.params?.item?.image);
+      }
     }
-  }, [navigation, route]);
+  }, [isFocus]);
 
   //Gallery Handlers
   const showGallery = () => {
@@ -116,7 +119,7 @@ const EditProfile = ({navigation, route}) => {
 
     const updateProfileSuccess = async res => {
       // alert('Profile is updated successfully.');
-      navigation.replace('Profile');
+      navigation.goBack();
       setIsLoading(false);
     };
     const updateProfileFailure = async err => {
@@ -199,8 +202,7 @@ const EditProfile = ({navigation, route}) => {
                   <AppInput
                     onChangeText={handleChange('phone')}
                     renderErrorMessage={true}
-                    placeholder={data?.phone_number}
-                    // placeholder={`+${country?.callingCode[0]}23 456 789`}
+                    placeholder={'Enter Phone Number'}
                     value={values.phone}
                     onBlur={() => setFieldTouched('phone')}
                     blurOnSubmit={false}

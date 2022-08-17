@@ -5,6 +5,7 @@ import {
   getFilteredPropertiesRequest,
   getRecentPropertiesRequest,
   setAddressRequest,
+  setBuyerDataRequest,
 } from './app-sega/app-sega';
 
 import {
@@ -78,4 +79,5 @@ export function* rootSaga() {
   yield fork(getBookmarksRequest);
   yield fork(filterBookmarksRequest);
   yield fork(deleteBookmarkRequest);
+  yield fork(setBuyerDataRequest);
 }

@@ -330,7 +330,7 @@ const AddPropertyDetails = ({navigation}) => {
                 <Divider color={colors.g18} />
                 <PriceInput
                   simpleInputPlaceHolder={'e.g 21.00'}
-                  title={'Years Built'}
+                  title={'Year Built'}
                   subtitle={' (e.g 1994)'}
                   keyboardType={'decimal-pad'}
                   onChangeText={text => {

@@ -42,8 +42,8 @@ const AddSupportInfo = ({navigation}) => {
   const {userInfo} = useSelector(state => state?.auth);
   const [professionList, setprofessionList] = useState([
     {
-      id: 0,
-      profession: '',
+      id: 1,
+      title: '',
     },
   ]);
   const dispatch = useDispatch(null);
@@ -52,7 +52,8 @@ const AddSupportInfo = ({navigation}) => {
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
-      if (professionList[0].profession) {
+      setLoading(true);
+      if (professionList[0].title) {
         const body = {
           description: values?.desc,
           avatar: values?.image,
@@ -61,6 +62,7 @@ const AddSupportInfo = ({navigation}) => {
         };
         const addInfoSuccess = async () => {
           setTimeout(() => {
+            setLoading(false);
             navigation?.navigate('UploadDocuments');
           }, 500);
         };
@@ -165,7 +167,7 @@ const AddSupportInfo = ({navigation}) => {
                               placeholder="Enter Profession"
                               // value={professionList[index].profession}
                               onChangeText={text => {
-                                professionList[index].profession = text;
+                                professionList[index].title = text;
                               }}
                             />
                           );
@@ -179,7 +181,7 @@ const AddSupportInfo = ({navigation}) => {
                                     ...professionList,
                                     {
                                       id: professionList.length + 1,
-                                      profession: '',
+                                      title: '',
                                     },
                                   ]);
                                 }}

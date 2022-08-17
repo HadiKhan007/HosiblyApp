@@ -1,11 +1,11 @@
 import {
+  FlatList,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   AppButton,
   BackHeader,
@@ -20,6 +20,11 @@ import {Divider} from 'react-native-elements/dist/divider/Divider';
 import {
   bath_list,
   beds_list,
+  buyer_condo_list,
+  buyer_house_inputs,
+  buyer_house_list,
+  buyer_vacant_input,
+  buyer_vacant_list,
   colors,
   lat_frontage_list,
   property_type_list,
@@ -29,13 +34,14 @@ import {
 } from '../../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {max} from 'moment';
 const currency_list = ['CA$', 'PKR', 'INR', 'EUR'];
 
 const FilterScreen = ({navigation}) => {
   const [currency, setCurrency] = useState('USD');
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [showMore, setshowMore] = useState(false);
-  const [propertyType, setPropertyType] = useState({text: 'Home'});
+  const [propertyType, setPropertyType] = useState({text: 'House'});
   const [propertyData, setPropertyData] = useState(null);
   const [minBedRooms, setminBedRooms] = useState({text: ''});
   const [bedRoomData, setbedRoomData] = useState(null);
@@ -43,12 +49,63 @@ const FilterScreen = ({navigation}) => {
   const [bathRoomData, setBathRoomData] = useState(null);
   const [latFrontage, setlatFrontage] = useState({text: ''});
   const [latFrontageData, setlatFrontageData] = useState(null);
+  const [minPrice, setminPrice] = useState('');
+  const [maxPrice, setmaxPrice] = useState('');
+  const [inputList, setinputList] = useState([]);
+  const [itemList, setitemList] = useState([]);
 
   //References
   const propertyTypeRef = useRef(null);
   const bedRoomRef = useRef(null);
   const bathRoomRef = useRef(null);
   const latForntageRef = useRef(null);
+
+  //Set States
+  useEffect(() => {
+    setPropertyData({text: 'House'});
+    setinputList(buyer_house_inputs);
+    setitemList(buyer_house_list);
+  }, []);
+
+  const addPropertyData = async () => {
+    const requestBody = {
+      propertyType: propertyType?.text,
+      minBedRooms: minBedRooms?.text,
+      minBathRooms: minBathRooms?.text,
+      latFrontage: latFrontage?.text,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      inputList: inputList,
+      itemList: itemList,
+    };
+    console.log(requestBody);
+  };
+
+  //Set More Options
+  const setMoreOptions = val => {
+    if (val == 'House') {
+      setitemList(buyer_house_list);
+    } else if (val == 'Condo') {
+      setitemList(buyer_condo_list);
+    } else if (val == 'Vacant Land') {
+      setitemList(buyer_vacant_list);
+    }
+  };
+  //Set More Input Options
+  const setMoreInputOptions = val => {
+    if (val == 'House') {
+      setinputList(buyer_house_inputs);
+    } else if (val == 'Condo') {
+      setinputList(buyer_house_inputs);
+    } else if (val == 'Vacant Land') {
+      setinputList(buyer_vacant_input);
+    }
+  };
+
+  //on Press Item
+  const onPressItem = (item, index) => {
+    itemList[index].value = item?.title;
+  };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -82,21 +139,31 @@ const FilterScreen = ({navigation}) => {
               title={'Price'}
               defaultValue={'USD'}
               dropDown={true}
-            />
-            <Divider color={colors.g18} />
-            <FilterButton
-              onPress={() => {
-                bedRoomRef?.current?.open();
+              onChangeText1={text => {
+                setminPrice(text);
               }}
-              title={minBedRooms?.text || 'Min Bedrooms'}
-            />
-            <Divider color={colors.g18} />
-            <FilterButton
-              onPress={() => {
-                bathRoomRef?.current?.open();
+              onChangeText2={text => {
+                setmaxPrice(text);
               }}
-              title={minBathRooms?.text || 'Min Bathrooms'}
             />
+            {propertyType?.text != 'Vacant Land' && (
+              <>
+                <Divider color={colors.g18} />
+                <FilterButton
+                  onPress={() => {
+                    bedRoomRef?.current?.open();
+                  }}
+                  title={minBedRooms?.text || 'Min Bedrooms'}
+                />
+                <Divider color={colors.g18} />
+                <FilterButton
+                  onPress={() => {
+                    bathRoomRef?.current?.open();
+                  }}
+                  title={minBathRooms?.text || 'Min Bathrooms'}
+                />
+              </>
+            )}
             <Divider color={colors.g18} />
             <TouchableOpacity
               onPress={() => {
@@ -114,47 +181,45 @@ const FilterScreen = ({navigation}) => {
             </TouchableOpacity>
             {showMore && (
               <>
-                {propertyType.text != 'Vacant Land' ? (
-                  <>
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Any Specific Property Types?'} />
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Any Specific Property Styles?'} />
-                    <Divider color={colors.g18} />
-                    <LivingSpaceInput />
-                    <Divider color={colors.g18} />
-                    <FilterButton
-                      title={'Parking Spots Required'}
-                      onPress={() => {
-                        navigation.navigate('SubFilterScreen');
-                      }}
-                    />
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Balcony'} />
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Security'} />
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Laundry'} />
-                    <Divider color={colors.g18} />
-                    <FilterButton title={'Max Age'} />
-                  </>
-                ) : (
-                  <>
-                    <Divider color={colors.g18} />
-                    <FilterButton
-                      onPress={() => {
-                        latForntageRef?.current?.open();
-                      }}
-                      title={latFrontage.text || 'Min Lot Forntage'}
-                    />
-                    <Divider color={colors.g18} />
-                    <LivingSpaceInput
-                      h1={'Lot Size'}
-                      h2={'(ft)'}
-                      h2FontSize={size.xsmall}
-                    />
-                  </>
-                )}
+                <FlatList
+                  data={inputList}
+                  renderItem={({item, index}) => {
+                    return (
+                      <>
+                        <Divider color={colors.g18} />
+                        <LivingSpaceInput
+                          h1={item?.title}
+                          h2={item?.subtitle}
+                          h2FontSize={size.xsmall}
+                          onChangeText1={text => {
+                            item.minValue = text;
+                          }}
+                          onChangeText2={text => {
+                            inputList[index].maxValue = text;
+                          }}
+                        />
+                      </>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index?.toString()}
+                />
+                <FlatList
+                  data={itemList}
+                  renderItem={({item, index}) => {
+                    return (
+                      <>
+                        <Divider color={colors.g18} />
+                        <FilterButton
+                          onPress={() => {
+                            onPressItem(item, index);
+                          }}
+                          title={item?.title}
+                        />
+                      </>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index?.toString()}
+                />
               </>
             )}
           </View>
@@ -173,7 +238,7 @@ const FilterScreen = ({navigation}) => {
 
             <AppButton
               onPress={() => {
-                navigation?.goBack();
+                addPropertyData();
               }}
               width={'45%'}
               bgColor={colors.p2}
@@ -195,6 +260,8 @@ const FilterScreen = ({navigation}) => {
           propertyTypeRef?.current?.close();
         }}
         onPressTick={() => {
+          setMoreOptions(propertyData?.text);
+          setMoreInputOptions(propertyData?.text);
           setPropertyType(propertyData);
           propertyTypeRef?.current?.close();
         }}
