@@ -75,6 +75,8 @@ const FilterScreen = ({navigation}) => {
       latFrontage: latFrontage?.text,
       minPrice: minPrice,
       maxPrice: maxPrice,
+      inputList: inputList,
+      itemList: itemList,
     };
     console.log(requestBody);
   };
@@ -98,6 +100,11 @@ const FilterScreen = ({navigation}) => {
     } else if (val == 'Vacant Land') {
       setinputList(buyer_vacant_input);
     }
+  };
+
+  //on Press Item
+  const onPressItem = (item, index) => {
+    itemList[index].value = item?.title;
   };
 
   return (
@@ -176,7 +183,7 @@ const FilterScreen = ({navigation}) => {
               <>
                 <FlatList
                   data={inputList}
-                  renderItem={({item}) => {
+                  renderItem={({item, index}) => {
                     return (
                       <>
                         <Divider color={colors.g18} />
@@ -188,7 +195,7 @@ const FilterScreen = ({navigation}) => {
                             item.minValue = text;
                           }}
                           onChangeText2={text => {
-                            item.maxValue = text;
+                            inputList[index].maxValue = text;
                           }}
                         />
                       </>
@@ -198,11 +205,16 @@ const FilterScreen = ({navigation}) => {
                 />
                 <FlatList
                   data={itemList}
-                  renderItem={({item}) => {
+                  renderItem={({item, index}) => {
                     return (
                       <>
                         <Divider color={colors.g18} />
-                        <FilterButton title={item?.title} />
+                        <FilterButton
+                          onPress={() => {
+                            onPressItem(item, index);
+                          }}
+                          title={item?.title}
+                        />
                       </>
                     );
                   }}

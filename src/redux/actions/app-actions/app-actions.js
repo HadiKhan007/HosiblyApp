@@ -45,3 +45,13 @@ export const get_all_properties = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+//Buyers
+//Get All Properties
+export const set_buyer_properties = (params, cbSuccess) => {
+  return {
+    type: TYPES.ADD_BUYER_DATA_SUCCESS,
+    params,
+    cbSuccess,
+  };
+};
