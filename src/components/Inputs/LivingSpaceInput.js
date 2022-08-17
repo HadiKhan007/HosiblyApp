@@ -5,11 +5,8 @@ import {colors, family, size} from '../../shared/exporter';
 import {Icon} from 'react-native-elements';
 
 export const LivingSpaceInput = ({
-  onSelect,
-  value,
-  isPickerOpen,
-  onFocus,
-  onBlur,
+  onChangeText1,
+  onChangeText2,
   h1,
   h2,
   placeholder1,
@@ -18,7 +15,7 @@ export const LivingSpaceInput = ({
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.aiRow}>
+      <View style={[styles.aiRow]}>
         <Text style={[styles.h1]}> {h1 || 'Living Space'} </Text>
         <Text
           style={[
@@ -27,7 +24,7 @@ export const LivingSpaceInput = ({
               fontSize: h2FontSize || size.xxxtiny,
             },
           ]}>
-          {h2 || '(ft, excluding basement)'}
+          {h2 || ''}
         </Text>
       </View>
       <View style={styles.aiRow1}>
@@ -36,6 +33,7 @@ export const LivingSpaceInput = ({
           placeholderTextColor={colors.g19}
           style={styles.inputStyle}
           keyboardType={'decimal-pad'}
+          onChangeText={onChangeText1}
         />
         <Text style={styles.to}>to</Text>
         <TextInput
@@ -43,6 +41,7 @@ export const LivingSpaceInput = ({
           placeholderTextColor={colors.g19}
           placeholder={placeholder2 || 'max'}
           keyboardType={'decimal-pad'}
+          onChangeText={onChangeText2}
         />
       </View>
     </View>

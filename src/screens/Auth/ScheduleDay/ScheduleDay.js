@@ -27,7 +27,6 @@ const ScheduleDay = ({navigation}) => {
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
-      console.log(support_info?.avatar);
       var form = new FormData();
       const imgObj = {
         name: support_info?.avatar?.fileName || 'Avatar',
@@ -35,8 +34,11 @@ const ScheduleDay = ({navigation}) => {
         uri: support_info?.avatar?.path,
       };
       form.append('user[avatar]', imgObj);
-      form.append('user[profession]', support_info?.profession);
+      support_info?.profession?.forEach(item => {
+        form.append('user[titles][]', item?.title);
+      });
       form.append('user[currency_amount]', support_info?.hourly_rate);
+      form.append('user[currency_type]', '$');
       form.append('user[description]', support_info?.description);
       support_info?.images?.forEach(item => {
         form.append('user[images][]', {
@@ -52,14 +54,11 @@ const ScheduleDay = ({navigation}) => {
             name: item?.name || 'pdf',
           });
         }),
-        form.append(
-          'user[working_days][]',
-          week_days.map(item => {
-            if (item?.selected) {
-              return item?.day;
-            }
-          }),
-        );
+        week_days?.forEach(item => {
+          if (item?.day) {
+            form.append('user[working_days][]', item?.day);
+          }
+        });
       form.append(
         'user[starting_time]',
         moment(startTime).format('DD-MM-YYYY'),
@@ -67,7 +66,6 @@ const ScheduleDay = ({navigation}) => {
       form.append('user[ending_time]', moment(endTime).format('DD-MM-YYYY'));
 
       const addInfoSuccess = async res => {
-        console.log(res);
         setLoading(false);
         setTimeout(() => {
           navigation?.replace('App');

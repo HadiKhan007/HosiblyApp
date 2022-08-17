@@ -52,22 +52,21 @@ const AddSupportInfo = ({navigation}) => {
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
+      setLoading(true);
       if (professionList[0].title) {
-        const form = new FormData();
-        form.append('user[description]', 'dsadsa');
-        form.append('title[]', 'dsadsa');
-        form.append('user[profession]', [{title: 'sad'}]);
-        form.append('user[working_days]', ['mon', 'tue']);
-        form.append('user[starting_time]', '2-12-2022');
-        form.append('user[ending_time]', '2-12-2022');
-        form.append('currency_type', 'dollar');
-
+        const body = {
+          description: values?.desc,
+          avatar: values?.image,
+          profession: professionList,
+          hourly_rate: values?.hourly_rate,
+        };
         const addInfoSuccess = async () => {
           setTimeout(() => {
+            setLoading(false);
             navigation?.navigate('UploadDocuments');
           }, 500);
         };
-        dispatch(setSupportClosureRequest(form, addInfoSuccess));
+        dispatch(setSupportClosureRequest(body, addInfoSuccess));
       } else {
         Alert.alert('Error', 'At least one profession required!');
       }
