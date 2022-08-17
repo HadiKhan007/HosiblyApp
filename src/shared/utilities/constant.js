@@ -1052,13 +1052,13 @@ const inputItems = [
   },
   {
     id: 3,
-    title: 'Living Space',
+    title: 'Total Number of Rooms',
     value: '',
     Img: appIcons.living_space,
   },
   {
     id: 4,
-    title: 'Parking Spaces',
+    title: 'Total Parking Spaces',
     value: '',
     Img: appIcons.parking,
   },
@@ -1082,6 +1082,14 @@ const weekDays = [
   {day: 'Fri', selected: false},
   {day: 'Sat', selected: false},
   {day: 'Sun', selected: false},
+];
+
+const buyers_list = [
+  {id: 0, title: ''},
+  {id: 1, title: ''},
+  {id: 2, title: ''},
+  {id: 3, title: ''},
+  {id: 4, title: ''},
 ];
 
 export {
@@ -1123,4 +1131,5 @@ export {
   image_options,
   property_image,
   weekDays,
+  buyers_list,
 };
