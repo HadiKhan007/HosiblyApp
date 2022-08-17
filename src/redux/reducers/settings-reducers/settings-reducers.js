@@ -9,6 +9,7 @@ const initialState = {
   pay_with_debit: null,
   pay_with_social: null,
   default_card: null,
+  staticData: null,
 };
 
 const settingsReducers = (state = initialState, actions) => {
@@ -200,6 +201,25 @@ const settingsReducers = (state = initialState, actions) => {
       };
 
     case TYPES.PAY_WITH_SOCIAL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        pay_with_social: null,
+      };
+
+    //************Static Pages*************
+    case TYPES.STATIC_PAGES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        pay_with_social: payload,
+      };
+
+    case TYPES.STATIC_PAGES_FAILURE:
       return {
         ...state,
         loading: false,

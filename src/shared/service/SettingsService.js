@@ -127,3 +127,14 @@ export const payWithSocialCard = (type, params) => {
     params,
   );
 };
+
+//Get Static Pages
+export const staticPages = async endpoint => {
+  const res = await axios.get(`${BASE_URL}static_page/${endpoint}`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+    },
+  });
+  return res.data;
+};

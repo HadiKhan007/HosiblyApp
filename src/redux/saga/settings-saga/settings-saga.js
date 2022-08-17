@@ -8,6 +8,7 @@ import {
   getDefaultCard,
   getUserData,
   setDefaultCard,
+  staticPages,
   updateUserData,
 } from '../../../shared/service/SettingsService';
 import * as types from '../../actions/types';
@@ -273,6 +274,30 @@ function* getdefaultCard(params) {
     console.log(error);
     yield put({
       type: types.GET_DEFAULT_CARD_FAILURE,
+      payload: null,
+    });
+
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// *************GET STATIC PAGES DATA**************
+export function* getStaticPagesSaga() {
+  yield takeLatest(types.STATIC_PAGES_REQUEST, getStaticPages);
+}
+function* getStaticPages(params) {
+  try {
+    const res = yield staticPages(params?.params);
+    yield put({
+      type: types.STATIC_PAGES_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.STATIC_PAGES_FAILURE,
       payload: null,
     });
 

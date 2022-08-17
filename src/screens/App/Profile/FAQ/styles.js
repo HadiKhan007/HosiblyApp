@@ -10,19 +10,10 @@ const styles = StyleSheet.create({
     paddingBottom: WP('1.5'),
     paddingHorizontal: WP('4'),
   },
-  titleTxtStyle: {
-    lineHeight: 19,
-    color: colors.b2,
-    marginTop: WP('8'),
-    fontSize: size.large,
-    marginBottom: WP('4'),
-    fontFamily: family.Gilroy_SemiBold,
-  },
-  valuesTxtStyle: {
-    lineHeight: 21,
+  txtStyle: {
     color: colors.b2,
     fontSize: size.normal,
-    fontFamily: family.Gilroy_Regular,
+    fontFamily: family.Gilroy_SemiBold,
   },
 });
 

@@ -1,39 +1,71 @@
-import React from 'react';
-import {SafeAreaView, Text, View, ScrollView} from 'react-native';
-import {AppHeader, BackHeader} from '../../../../components';
+import React, {useState, useEffect} from 'react';
+import {Text, View, ScrollView, SafeAreaView} from 'react-native';
+import {
+  Spacer,
+  AppHeader,
+  AppLoader,
+  BackHeader,
+  MyStatusBar,
+} from '../../../../components';
+import RenderHtml from 'react-native-render-html';
+import {checkConnected, scrWidth, WP} from '../../../../shared/exporter';
 import styles from './styles';
 
-const FAQ = () => {
+// redux stuff
+import {useDispatch} from 'react-redux';
+import {staticPages} from '../../../../redux/actions';
+
+const PrivacyPolicy = () => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [faqs, setFAQs] = useState('');
+
+  useEffect(() => {
+    getFAQs();
+  }, []);
+
+  const getFAQs = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setFAQs(res?.content);
+          setLoading(false);
+        };
+        const onFailure = err => {
+          console.log('err is => ', err);
+          setLoading(false);
+        };
+        dispatch(staticPages('faq', onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <AppHeader subtitle={'FAQ'} />
-      <BackHeader title={'FAQ'} />
+      <AppLoader loading={loading} />
+      <MyStatusBar />
+      <AppHeader />
+      <Spacer androidVal={WP('4')} iOSVal={WP('4')} />
+      <BackHeader title="FAQ" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
-          <Text style={styles.titleTxtStyle}>Welcome to housibly!</Text>
-          <Text style={styles.valuesTxtStyle}>
-            The following organizations may link to our Website without prior
-            written approval:{'\n'}
-            {'\n'}• {'  '}Government agencies;{'\n•   '}Search engines;{' '}
-            {'\n•   '}News organizations;{'\n•   '}Online directory distributors
-            may link to our Website in the same manner as they hyperlink to the
-            Websites of other listed businesses; and{'\n•   '}
-            System wide Accredited Businesses except soliciting non-profit
-            organizations, charity shopping malls, and charity fundraising
-            groups which may not hyperlink to our Web site.{'\n'}
-            {'\n'}These organizations may link to our home page, to publications
-            or to other Website information so long as the link: (a) is not in
-            any way deceptive; (b) does not falsely imply sponsorship,
-            endorsement or approval of the linking party and its products and/or
-            services; and (c) fits within the context of the linking party’s
-            site.{'\n'}
-            {'\n'}We may consider and approve other link requests from the
-            following types of organizations:
-          </Text>
+          {faqs === '' ? (
+            <Text style={styles.txtStyle} />
+          ) : (
+            <RenderHtml contentWidth={scrWidth} source={{html: faqs}} />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default FAQ;
+export default PrivacyPolicy;

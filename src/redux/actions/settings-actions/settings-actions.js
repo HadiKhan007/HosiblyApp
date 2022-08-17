@@ -102,3 +102,13 @@ export const pay_with_social_request = (
     cbFailure,
   };
 };
+
+//get static pages data
+export const staticPages = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.STATIC_PAGES_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};

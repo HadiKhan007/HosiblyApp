@@ -6,21 +6,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  flStyle: {
-    paddingTop: WP('7.7'),
-    paddingHorizontal: WP('4.1'),
+  contentContainer: {
+    marginTop: WP('3'),
+    paddingBottom: WP('1.5'),
+    paddingHorizontal: WP('4'),
   },
-  quesTxtStyle: {
-    color: colors.b1,
+  txtStyle: {
+    color: colors.b2,
     fontSize: size.normal,
     fontFamily: family.Gilroy_SemiBold,
-  },
-  ansTxtStyle: {
-    lineHeight: 20,
-    color: colors.b1,
-    fontSize: size.normal,
-    marginVertical: WP('5'),
-    fontFamily: family.Gilroy_Regular,
   },
 });
 
