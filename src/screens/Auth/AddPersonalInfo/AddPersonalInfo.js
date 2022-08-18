@@ -53,7 +53,7 @@ const AddPersonalInfo = ({navigation}) => {
         setLoading(false);
         setTimeout(() => {
           navigation?.replace('App');
-        }, 200);
+        }, 400);
       };
       const addInfoFailure = async res => {
         setLoading(false);

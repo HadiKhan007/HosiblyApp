@@ -87,6 +87,7 @@ const Home = ({navigation}) => {
       </View>
     );
   };
+
   //Get Properties
   useEffect(() => {
     if (isFocus) {
@@ -100,6 +101,7 @@ const Home = ({navigation}) => {
       getRecentProperties();
     }
   };
+
   //Get Recent Properties
   const getRecentProperties = async () => {
     const check = await checkConnected();
@@ -125,6 +127,7 @@ const Home = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader

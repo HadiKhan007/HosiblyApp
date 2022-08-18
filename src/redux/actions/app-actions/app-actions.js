@@ -50,7 +50,7 @@ export const get_all_properties = (params, cbSuccess, cbFailure) => {
 //Get All Properties
 export const set_buyer_properties = (params, cbSuccess) => {
   return {
-    type: TYPES.ADD_BUYER_DATA_SUCCESS,
+    type: TYPES.ADD_BUYER_DATA_REQUEST,
     params,
     cbSuccess,
   };

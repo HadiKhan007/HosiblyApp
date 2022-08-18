@@ -24,7 +24,7 @@ const SellTab = ({navigation, properties}) => {
         }}
         style={styles.itemContainer}>
         <Image
-          source={{uri: item?.image[0].url, property_image}}
+          source={{uri: item?.image[0]?.url || property_image}}
           style={styles.imgStyle}
         />
         <View style={{paddingVertical: 5}}>

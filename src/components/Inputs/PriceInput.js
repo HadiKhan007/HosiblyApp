@@ -104,21 +104,25 @@ export const PriceInput = ({
       </View>
       {inputs ? (
         <View style={styles.aiRow1}>
-          <TextInput
-            placeholder={placeholder1 || '1,000,000'}
-            placeholderTextColor={colors.g19}
-            style={styles.inputStyle}
-            keyboardType={'decimal-pad'}
-            onChangeText={onChangeText1}
-          />
+          <View style={styles.inputCon}>
+            <TextInput
+              placeholder={placeholder1 || '1,000,000'}
+              placeholderTextColor={colors.g19}
+              style={styles.inputStyle}
+              keyboardType={'decimal-pad'}
+              onChangeText={onChangeText1}
+            />
+          </View>
           <Text style={styles.to}>to</Text>
-          <TextInput
-            style={styles.inputStyle}
-            placeholderTextColor={colors.g19}
-            placeholder={placeholder2 || '1,500,000'}
-            keyboardType={'decimal-pad'}
-            onChangeText={onChangeText2}
-          />
+          <View style={styles.inputCon}>
+            <TextInput
+              style={styles.inputStyle}
+              placeholderTextColor={colors.g19}
+              placeholder={placeholder2 || '1,500,000'}
+              keyboardType={'decimal-pad'}
+              onChangeText={onChangeText2}
+            />
+          </View>
         </View>
       ) : (
         <View style={{marginRight: marginRight}}>
@@ -199,8 +203,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     height: 20,
-    borderLeftWidth: 1,
-    borderLeftColor: colors.p2,
     color: colors.g19,
     padding: 0,
   },
@@ -222,5 +224,9 @@ const styles = StyleSheet.create({
     width: '50%',
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  inputCon: {
+    width: '40%',
+    alignItems: 'flex-end',
   },
 });
