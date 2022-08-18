@@ -20,6 +20,12 @@ const ENDPOINTS = {
   DELETE_CARD_CONST: 'delete_card',
   EDIT_CARD_CONST: 'update_card',
   DEFAULT_CARD_CONST: 'default_card',
+  ADD_TO_BOOKMARKS: 'default_card',
+  GET_BOOKMARKS: 'default_card',
+  FILTER_BOOKMARKS: 'default_card',
+  DELETE_BOOKMARKS: 'default_card',
+  GET_QUERIES: 'tickets',
+  ADD_QUERY: 'tickets',
 };
 
 export {BASE_URL, ENDPOINTS};

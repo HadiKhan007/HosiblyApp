@@ -30,9 +30,19 @@ import {
   getdefaultCardRequest,
   getPaymentCardRequest,
   getProfileRequest,
+  getStaticPagesSaga,
   payWithDebitRequest,
   updateProfileRequest,
+  getQueriesSaga,
+  addQuerySaga,
 } from './settings-saga/settings-saga';
+
+import {
+  addToBookmarksRequest,
+  getBookmarksRequest,
+  filterBookmarksRequest,
+  deleteBookmarkRequest,
+} from './bookmarks-saga/bookmarks-saga';
 
 export function* rootSaga() {
   yield fork(loginRequest);
@@ -48,6 +58,9 @@ export function* rootSaga() {
   yield fork(getProfileRequest);
   yield fork(updateProfileRequest);
   yield fork(supportInfoSega);
+  yield fork(getStaticPagesSaga);
+  yield fork(getQueriesSaga);
+  yield fork(addQuerySaga);
 
   //Payments
   yield fork(addcardRequest);
@@ -64,5 +77,11 @@ export function* rootSaga() {
   yield fork(getRecentPropertiesRequest);
   yield fork(getFilteredPropertiesRequest);
   yield fork(getAllPropertiesRequest);
+
+  //Bookmarks
+  yield fork(addToBookmarksRequest);
+  yield fork(getBookmarksRequest);
+  yield fork(filterBookmarksRequest);
+  yield fork(deleteBookmarkRequest);
   yield fork(setBuyerDataRequest);
 }

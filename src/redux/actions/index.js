@@ -24,6 +24,9 @@ export {
   get_payment_cards_request,
   edit_card_request,
   get_default_card_request,
+  staticPages,
+  getQueries,
+  addQuery,
 } from './settings-actions/settings-actions';
 
 export {
@@ -34,3 +37,11 @@ export {
   get_filtered_properties,
   set_buyer_properties,
 } from './app-actions/app-actions';
+
+// bookmarks actions
+export {
+  addToBookmarksRequest,
+  getBookmarksRequest,
+  filterBookmarksRequest,
+  deleteBookmarkRequest,
+} from './bookmarks-actions/bookmarks-actions';

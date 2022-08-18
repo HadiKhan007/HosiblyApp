@@ -1,44 +1,107 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
   Image,
+  Alert,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {AppButton, AppHeader, BackHeader} from '../../../../components';
-import {WP, appLogos, colors, size} from '../../../../shared/exporter';
+import moment from 'moment';
+import {useIsFocused} from '@react-navigation/core';
+import {
+  AppButton,
+  AppHeader,
+  AppLoader,
+  BackHeader,
+} from '../../../../components';
+import {
+  WP,
+  size,
+  colors,
+  appLogos,
+  checkConnected,
+  networkText,
+} from '../../../../shared/exporter';
 import styles from './styles';
 
+// redux stuff
+import {useDispatch} from 'react-redux';
+import {getQueries} from '../../../../redux/actions';
+
 const Support = ({navigation}) => {
-  const [support, setSupport] = useState([1, 2, 3, 4, 5, 6]);
+  const isFocus = useIsFocused();
+  const dispatch = useDispatch();
+  const [count, setCount] = useState(0);
+  const [support, setSupport] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (count === 0) {
+      getAllQueries(true);
+    } else {
+      getAllQueries(false);
+    }
+  }, [isFocus]);
+
+  const getAllQueries = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setSupport(res?.tickets);
+          setLoading(false);
+        };
+        const onFailure = err => {
+          console.log('err is => ', err);
+          setLoading(false);
+        };
+        dispatch(getQueries(onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        style={styles.itemContainer}
+        style={styles.itemContainer(item?.image)}
         onPress={() => navigation.navigate('SupportChat')}>
-        <Image source={appLogos.supportLogo} style={styles.imgStyle} />
-        <View style={{flex: 1}}>
-          <View style={styles.reviewRow}>
-            <Text style={styles.dateTxtStyle}>01/12/2022</Text>
-            <Text style={styles.statusTxtStyle(index)}>
-              {index === 2 ? 'Complete' : 'Pending'}
+        <View style={styles.rowContainer}>
+          <Image source={appLogos.supportLogo} style={styles.imgStyle} />
+          <View style={{flex: 1}}>
+            <View style={styles.reviewRow}>
+              <Text style={styles.dateTxtStyle}>
+                {moment(item?.ticket?.created_at).format('L')}
+              </Text>
+              <Text style={styles.statusTxtStyle(item?.ticket?.status)}>
+                {item?.ticket?.status}
+              </Text>
+            </View>
+            <Text style={styles.numTxtStyle}>
+              {item?.ticket?.ticket_number}
             </Text>
           </View>
-          <Text style={styles.numTxtStyle}>92RU29R</Text>
-          <Text style={styles.infoTxtStyle}>
-            Lorem Ipsum is simply dummy text of the printing.
-          </Text>
         </View>
+        <Text style={styles.infoTxtStyle}>{item?.ticket?.description}</Text>
+        {item?.image !== '' && (
+          <Image source={{uri: item?.image}} style={styles.queryImgStyle} />
+        )}
       </TouchableOpacity>
     );
   };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <AppLoader loading={loading} />
       <AppHeader subtitle={'Support'} />
       <BackHeader title={'Support'} />
       <View style={styles.contentContainer}>
@@ -47,7 +110,7 @@ const Support = ({navigation}) => {
             data={support}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{marginTop: WP('5')}}
+            contentContainerStyle={{paddingTop: WP('5')}}
           />
         ) : (
           <View style={styles.noRecordsView}>

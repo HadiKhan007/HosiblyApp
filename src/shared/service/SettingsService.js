@@ -126,3 +126,36 @@ export const payWithSocialCard = (type, params) => {
     params,
   );
 };
+
+//Get Static Pages
+export const staticPages = async endpoint => {
+  const res = await axios.get(`${BASE_URL}static_page/${endpoint}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
+};
+
+//Get Queries Pages
+export const getQueries = async () => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_QUERIES}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
+};
+
+//Add Queries Pages
+export const addQuery = async params => {
+  const res = await axios.post(`${BASE_URL}${ENDPOINTS.ADD_QUERY}`, params, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
+};
