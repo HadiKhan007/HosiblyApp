@@ -28,6 +28,7 @@ import {
   colors,
   lat_frontage_list,
   property_type_list,
+  select_option_list,
   size,
   spacing,
   WP,
@@ -53,12 +54,13 @@ const FilterScreen = ({navigation}) => {
   const [maxPrice, setmaxPrice] = useState('');
   const [inputList, setinputList] = useState([]);
   const [itemList, setitemList] = useState([]);
-
+  const [Id, setId] = useState(0);
   //References
   const propertyTypeRef = useRef(null);
   const bedRoomRef = useRef(null);
   const bathRoomRef = useRef(null);
   const latForntageRef = useRef(null);
+  const selectOptionRef = useRef(null);
 
   //Set States
   useEffect(() => {
@@ -91,6 +93,7 @@ const FilterScreen = ({navigation}) => {
       setitemList(buyer_vacant_list);
     }
   };
+
   //Set More Input Options
   const setMoreInputOptions = val => {
     if (val == 'House') {
@@ -104,7 +107,8 @@ const FilterScreen = ({navigation}) => {
 
   //on Press Item
   const onPressItem = (item, index) => {
-    itemList[index].value = item?.title;
+    setId(index);
+    selectOptionRef?.current?.open();
   };
 
   return (
@@ -213,7 +217,7 @@ const FilterScreen = ({navigation}) => {
                           onPress={() => {
                             onPressItem(item, index);
                           }}
-                          title={item?.title}
+                          title={item?.value || item?.title}
                         />
                       </>
                     );
@@ -327,6 +331,21 @@ const FilterScreen = ({navigation}) => {
         }}
         selected={latFrontageData}
         title={'Min Lot Frontage'}
+      />
+
+      <ListModal
+        listRef={selectOptionRef}
+        list={select_option_list}
+        getValue={(val, index) => {
+          itemList[Id].value = val?.text;
+          setitemList([...itemList]);
+          selectOptionRef?.current?.close();
+        }}
+        NotleftIcon={true}
+        NotrightIcon={true}
+        selected={{text: itemList[Id]?.value}}
+        title={'Select Option'}
+        closable={true}
       />
     </SafeAreaView>
   );

@@ -125,7 +125,6 @@ const Home = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader

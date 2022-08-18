@@ -50,12 +50,12 @@ const Signup = ({navigation, route}) => {
         let item = route?.params?.item;
         let profileType = route?.params?.regPurpose;
         const data = new FormData();
-        data.append('user[full_name]', values?.fullname);
+        data.append('user[full_name]', values?.fullname || '');
         data.append('user[email]', values?.email);
-        data.append('user[password]', values?.password);
-        data.append('user[phone_number]', phone);
-        data.append('user[country_name]', cca2);
-        data.append('user[country_code]', country?.callingCode[0]);
+        data.append('user[password]', values?.password || '');
+        data.append('user[phone_number]', phone || '');
+        data.append('user[country_name]', cca2 || '');
+        data.append('user[country_code]', country?.callingCode[0] || '');
 
         data.append('user[licensed_realtor]', item?.licensed ? 'Yes' : 'No');
         data.append(
@@ -166,6 +166,7 @@ const Signup = ({navigation, route}) => {
                       countryCode={cca2}
                       withFilter={true}
                       withAlphaFilter={true}
+                      withCallingCode={true}
                     />
                   }
                 />

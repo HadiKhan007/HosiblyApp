@@ -288,6 +288,17 @@ const lat_frontage_list = [
   },
 ];
 
+const select_option_list = [
+  {
+    id: 0,
+    text: 'Yes',
+  },
+  {
+    id: 1,
+    text: 'No',
+  },
+];
+
 const myMatches = [
   {
     id: 1,
@@ -1244,4 +1255,5 @@ export {
   buyer_condo_list,
   buyer_vacant_input,
   buyer_vacant_list,
+  select_option_list,
 };

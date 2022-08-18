@@ -20,7 +20,9 @@ export const ListModal = ({
   onPressCross,
   onPressTick,
   selected,
-  closable,
+  closable = false,
+  NotleftIcon,
+  NotrightIcon,
 }) => {
   const StoreList = (item, index) => {
     if (getValue) {
@@ -32,15 +34,24 @@ export const ListModal = ({
       ref={listRef}
       height={height}
       openDuration={250}
-      closeOnPressBack={false}
-      closeOnPressMask={false}
+      closeOnPressBack={closable}
+      closeOnPressMask={closable}
       customStyles={{
         container: styles.container,
       }}>
       <View style={styles.aiRow}>
-        <Icon name={'cross'} type={'entypo'} onPress={onPressCross} />
+        <View>
+          {!NotleftIcon && (
+            <Icon name={'cross'} type={'entypo'} onPress={onPressCross} />
+          )}
+        </View>
+
         <Text style={styles.textStyle}>{title}</Text>
-        <Icon name={'check'} type={'ionicons'} onPress={onPressTick} />
+        <View>
+          {!NotrightIcon && (
+            <Icon name={'check'} type={'ionicons'} onPress={onPressTick} />
+          )}
+        </View>
       </View>
 
       <View style={styles.gradientStyle}>

@@ -46,7 +46,6 @@ const Profile = ({navigation}) => {
     };
     dispatch(getProfileRequest(getProfileSuccess, getProfileFailure));
   };
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       {/* <AppLoader loading={isLoading} /> */}
@@ -73,7 +72,7 @@ const Profile = ({navigation}) => {
               source={{uri: userImage === '' ? profile_uri : userImage}}
             />
           </View>
-          <Text style={styles.h1}>{data?.full_name}</Text>
+          <Text style={styles.h1}>{data?.full_name || ''}</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('EditProfile', {item: data});
@@ -95,7 +94,9 @@ const Profile = ({navigation}) => {
           />
           <ProfileField
             title={'Phone Number'}
-            subtitle={`+${data?.country_code || ''}${data?.phone_number || ''}`}
+            subtitle={`+${data?.country_code || ''}${
+              data?.phone_number || '2232131213'
+            }`}
           />
         </View>
       </View>

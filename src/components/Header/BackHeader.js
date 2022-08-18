@@ -22,6 +22,7 @@ export const BackHeader = ({
       <View style={styles.mainRowContainer}>
         <TouchableOpacity
           activeOpacity={0.7}
+          hitSlop={styles.hitSlop}
           onPress={() => navigation.goBack()}
           style={styles.rowContainer}>
           <Image
@@ -104,5 +105,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.p2,
+  },
+  hitSlop: {
+    top: 50,
+    left: 100,
+    bottom: 50,
+    right: 100,
   },
 });
