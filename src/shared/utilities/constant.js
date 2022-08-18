@@ -288,6 +288,17 @@ const lat_frontage_list = [
   },
 ];
 
+const select_option_list = [
+  {
+    id: 0,
+    text: 'Yes',
+  },
+  {
+    id: 1,
+    text: 'No',
+  },
+];
+
 const myMatches = [
   {
     id: 1,
@@ -1052,13 +1063,13 @@ const inputItems = [
   },
   {
     id: 3,
-    title: 'Living Space',
+    title: 'Total Number of Rooms',
     value: '',
     Img: appIcons.living_space,
   },
   {
     id: 4,
-    title: 'Parking Spaces',
+    title: 'Total Parking Spaces',
     value: '',
     Img: appIcons.parking,
   },
@@ -1082,6 +1093,121 @@ const weekDays = [
   {day: 'Fri', selected: false},
   {day: 'Sat', selected: false},
   {day: 'Sun', selected: false},
+];
+
+const buyers_list = [
+  {id: 0, title: ''},
+  {id: 1, title: ''},
+  {id: 2, title: ''},
+  {id: 3, title: ''},
+  {id: 4, title: ''},
+];
+
+const buyer_house_list = [
+  {
+    id: 0,
+    title: 'Any Specific Property Types?',
+    value: '',
+  },
+  {
+    id: 1,
+    title: 'Any Specific Property Styles?',
+    value: '',
+  },
+
+  {
+    id: 2,
+    title: 'Parking Spots Required',
+    value: '',
+  },
+  {
+    id: 3,
+    title: 'Garage Spots Required',
+    value: '',
+  },
+  {
+    id: 4,
+    title: 'Min Lot Forntage',
+    value: '',
+  },
+  {
+    id: 5,
+    title: 'Max Age',
+    value: '',
+  },
+];
+const buyer_house_inputs = [
+  {
+    id: 0,
+    title: 'Lot Size',
+    subtitle: '(ft)',
+    minValue: '',
+    maxValue: '',
+  },
+  {
+    id: 1,
+    title: 'Total Number of Rooms',
+    subtitle: '',
+    minValue: '',
+    maxValue: '',
+  },
+];
+
+const buyer_condo_list = [
+  {
+    id: 0,
+    title: 'Any Specific Property Types?',
+    value: '',
+  },
+  {
+    id: 1,
+    title: 'Any Specific Property Styles?',
+    value: '',
+  },
+
+  {
+    id: 2,
+    title: 'Parking Spots Required',
+    value: '',
+  },
+  {
+    id: 3,
+    title: 'Balcony',
+    value: '',
+  },
+  {
+    id: 4,
+    title: 'Security',
+    value: '',
+  },
+  {
+    id: 5,
+    title: 'Laundry',
+    value: '',
+  },
+  {
+    id: 6,
+    title: 'Max Age',
+    value: '',
+  },
+];
+
+const buyer_vacant_list = [
+  {
+    id: 0,
+    title: 'Min Lot Forntage',
+    subtitle: '(ft)',
+    value: '',
+  },
+];
+const buyer_vacant_input = [
+  {
+    id: 0,
+    title: 'Lot Size',
+    subtitle: '(ft)',
+    minValue: '',
+    maxValue: '',
+  },
 ];
 
 export {
@@ -1123,4 +1249,11 @@ export {
   image_options,
   property_image,
   weekDays,
+  buyers_list,
+  buyer_house_list,
+  buyer_house_inputs,
+  buyer_condo_list,
+  buyer_vacant_input,
+  buyer_vacant_list,
+  select_option_list,
 };

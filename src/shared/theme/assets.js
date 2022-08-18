@@ -3,6 +3,7 @@ import {svgIcons} from '../../assets/svgs/index';
 export const appLogos = {
   appLogo: require('../../assets/logos/app_logo.png'),
   roundLogo: require('../../assets/logos/round_logo.png'),
+  supportLogo: require('../../assets/logos/support_logo.png'),
 };
 
 export const appImages = {
@@ -86,6 +87,8 @@ export const appIcons = {
   default: require('../../assets/icons/default.png'),
   visa: require('../../assets/icons/visa.png'),
   masterCard: require('../../assets/icons/masterCard.png'),
+  allIcon: require('../../assets/icons/all_icon.png'),
+  closersIcon: require('../../assets/icons/closers_icon.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),
@@ -121,6 +124,7 @@ export const appIcons = {
   condoStyle: require('../../assets/icons/condoStyle.png'),
   settings: require('../../assets/icons/settings.png'),
   pdf: require('../../assets/icons/pdf.png'),
+  filter: require('../../assets/icons/filter.png'),
 };
 
 export const appSvgs = {

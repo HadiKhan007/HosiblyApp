@@ -15,6 +15,9 @@ import Notifications from '../screens/App/Profile/Notifications';
 import NewMessages from '../screens/App/Profile/NewMessages';
 import Terms from '../screens/App/Profile/Terms';
 import PrivacyPolicy from '../screens/App/Profile/PrivacyPolicy';
+import Support from '../screens/App/Profile/Support';
+import SupportQuery from '../screens/App/Profile/SupportQuery';
+import SupportChat from '../screens/App/Profile/SupportChat';
 import FAQ from '../screens/App/Profile/FAQ';
 import MapScreen from '../screens/App/Home/MapScreen';
 import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
@@ -27,6 +30,8 @@ import AddMorePropertyDetail from '../screens/App/Home/AddMorePropertyDetail';
 import AddPropertyDes from '../screens/App/Home/AddPropertyDes';
 import PropertyDetail from '../screens/App/Home/PropertyDetail';
 import AddAddress from '../screens/App/Home/AddAddress';
+import Chat from '../screens/App/Chat';
+import Video from '../screens/App/Video';
 
 const AppStack = createNativeStackNavigator();
 
@@ -42,12 +47,16 @@ const MainAppNav = () => {
         <AppStack.Screen name={'App'} component={BottomTabs} />
         <AppStack.Screen name={'FilterScreen'} component={FilterScreen} />
         <AppStack.Screen name={'SubFilterScreen'} component={SubFilterScreen} />
+        <AppStack.Screen name={'Settings'} component={Settings} />
         <AppStack.Screen name={'Profile'} component={Profile} />
         <AppStack.Screen name={'EditProfile'} component={EditProfile} />
-        <AppStack.Screen name={'Settings'} component={Settings} />
+
         <AppStack.Screen name={'Notifications'} component={Notifications} />
         <AppStack.Screen name={'Terms'} component={Terms} />
         <AppStack.Screen name={'PrivacyPolicy'} component={PrivacyPolicy} />
+        <AppStack.Screen name={'Support'} component={Support} />
+        <AppStack.Screen name={'SupportQuery'} component={SupportQuery} />
+        <AppStack.Screen name={'SupportChat'} component={SupportChat} />
         <AppStack.Screen name={'FAQ'} component={FAQ} />
         <AppStack.Screen name={'NewMessages'} component={NewMessages} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
@@ -56,6 +65,8 @@ const MainAppNav = () => {
         <AppStack.Screen name={'AddPropertyDesc'} component={AddPropertyDes} />
         <AppStack.Screen name={'PropertyDetail'} component={PropertyDetail} />
         <AppStack.Screen name={'AddAddress'} component={AddAddress} />
+        <AppStack.Screen name={'Chat'} component={Chat} />
+        <AppStack.Screen name={'Video'} component={Video} />
 
         <AppStack.Screen
           name={'AddPropertyDetails'}

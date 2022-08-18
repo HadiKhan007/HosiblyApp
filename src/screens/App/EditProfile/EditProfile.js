@@ -33,6 +33,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
+import {useIsFocused} from '@react-navigation/core';
 
 const EditProfile = ({navigation, route}) => {
   const [country, setcountry] = useState({
@@ -47,20 +48,23 @@ const EditProfile = ({navigation, route}) => {
   };
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(route?.params?.item);
+  const [data, setData] = useState('');
   const [oldImage, setOldImage] = useState(profile_uri);
   const [userImage, setUserImage] = useState('');
-
+  const isFocus = useIsFocused(null);
   const dispatch = useDispatch(null);
 
-  useLayoutEffect(() => {
-    let userImg = route?.params?.item?.image;
-    if (userImg === '') {
-      console.log('empty image');
-    } else {
-      setOldImage(route?.params?.item?.image);
+  useEffect(() => {
+    if (isFocus) {
+      let userImg = route?.params?.item?.image;
+      if (userImg === '') {
+        console.log('empty image');
+      } else {
+        setOldImage(route?.params?.item?.image);
+      }
+      setData(route?.params?.item);
     }
-  }, [navigation, route]);
+  }, [isFocus]);
 
   //Gallery Handlers
   const showGallery = () => {
@@ -97,11 +101,11 @@ const EditProfile = ({navigation, route}) => {
     } else {
       phone = values.phone;
     }
-    data.append('user[email]', values?.email);
-    data.append('user[phone_number]', phone);
-    data.append('user[description]', values?.bio);
-    data.append('user[country_name]', cca2);
-    data.append('user[country_code]', country?.callingCode[0]);
+    data.append('user[email]', values?.email || '');
+    data.append('user[phone_number]', phone || '');
+    data.append('user[description]', values?.bio || '');
+    data.append('user[country_name]', cca2 || '');
+    data.append('user[country_code]', country?.callingCode[0] || '');
 
     if (userImage === '') {
       console.log("Don't send the old image.");
@@ -116,7 +120,7 @@ const EditProfile = ({navigation, route}) => {
 
     const updateProfileSuccess = async res => {
       // alert('Profile is updated successfully.');
-      navigation.replace('Profile');
+      navigation.goBack();
       setIsLoading(false);
     };
     const updateProfileFailure = async err => {
@@ -153,11 +157,11 @@ const EditProfile = ({navigation, route}) => {
             setFieldValue,
           }) => {
             useEffect(() => {
-              setFieldValue('email', data?.email);
-              setFieldValue('bio', data?.description);
-              setFieldValue('phone', data?.phone_number);
+              setFieldValue('email', data?.email || '');
+              setFieldValue('bio', data?.description || '');
+              setFieldValue('phone', data?.phone_number || '');
               setcca2(data?.country_name || 'US');
-              setcountry({callingCode: data?.country_code || '1'});
+              setcountry({callingCode: [data?.country_code] || '1'});
             }, [data]);
             return (
               <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
@@ -199,8 +203,7 @@ const EditProfile = ({navigation, route}) => {
                   <AppInput
                     onChangeText={handleChange('phone')}
                     renderErrorMessage={true}
-                    placeholder={data?.phone_number}
-                    // placeholder={`+${country?.callingCode[0]}23 456 789`}
+                    placeholder={'Enter Phone Number'}
                     value={values.phone}
                     onBlur={() => setFieldTouched('phone')}
                     blurOnSubmit={false}
@@ -219,6 +222,7 @@ const EditProfile = ({navigation, route}) => {
                         countryCode={cca2}
                         withFilter={true}
                         withAlphaFilter={true}
+                        withCallingCode={true}
                       />
                     }
                   />

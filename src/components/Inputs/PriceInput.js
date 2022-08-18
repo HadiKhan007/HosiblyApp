@@ -31,6 +31,8 @@ export const PriceInput = ({
   returnKeyType,
   tintColor,
   simpleInputPlaceHolder,
+  onChangeText1,
+  onChangeText2,
 }) => {
   return (
     <View
@@ -107,6 +109,7 @@ export const PriceInput = ({
             placeholderTextColor={colors.g19}
             style={styles.inputStyle}
             keyboardType={'decimal-pad'}
+            onChangeText={onChangeText1}
           />
           <Text style={styles.to}>to</Text>
           <TextInput
@@ -114,6 +117,7 @@ export const PriceInput = ({
             placeholderTextColor={colors.g19}
             placeholder={placeholder2 || '1,500,000'}
             keyboardType={'decimal-pad'}
+            onChangeText={onChangeText2}
           />
         </View>
       ) : (
@@ -195,7 +199,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     height: 20,
-    width: '40%',
     borderLeftWidth: 1,
     borderLeftColor: colors.p2,
     color: colors.g19,
@@ -218,5 +221,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '50%',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 });

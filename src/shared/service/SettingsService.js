@@ -1,4 +1,3 @@
-import {retry} from 'redux-saga/effects';
 import {HTTP_CLIENT, ENDPOINTS} from '../exporter';
 import axios from 'axios';
 import {GetToken} from '../utilities/headers';
@@ -126,4 +125,37 @@ export const payWithSocialCard = (type, params) => {
     `${ENDPOINTS.CARD_CONST}/${type == 'apple' ? 'apple_pay' : 'google_pay'}`,
     params,
   );
+};
+
+//Get Static Pages
+export const staticPages = async endpoint => {
+  const res = await axios.get(`${BASE_URL}static_page/${endpoint}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
+};
+
+//Get Queries Pages
+export const getQueries = async () => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_QUERIES}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
+};
+
+//Add Queries Pages
+export const addQuery = async params => {
+  const res = await axios.post(`${BASE_URL}${ENDPOINTS.ADD_QUERY}`, params, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
 };

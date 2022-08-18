@@ -16,7 +16,7 @@ import {ChatHeader, Spacer} from '../../../../components';
 import {
   appIcons,
   appImages,
-  colors, 
+  colors,
   platformOrientedCode,
   WP,
 } from '../../../../shared/exporter';
@@ -109,7 +109,7 @@ const PersonChat = ({navigation}) => {
               multiline
               maxHeight={75}
               onChangeText={text => setMessage(text)}
-              placeholderTextColor={colors.p8}
+              placeholderTextColor={colors.g40}
               style={styles.inputStyles}
             />
             {visibility ? (

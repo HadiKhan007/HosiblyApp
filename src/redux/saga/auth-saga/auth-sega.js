@@ -215,7 +215,6 @@ function* resend_otp(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
     yield put({
       type: types.RESEND_OTP_FAILURE,
       payload: null,
@@ -241,7 +240,7 @@ function* add_info(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error?.response);
     yield put({
       type: types.ADD_ADDITIONAL_INFO_FAILURE,
       payload: null,

@@ -9,6 +9,7 @@ const initialState = {
   recent_properties: [],
   all_properties: [],
   filtered_properties: [],
+  buyer_preferences: '',
 };
 
 const appReducers = (state = initialState, actions) => {
@@ -66,6 +67,16 @@ const appReducers = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
         all_properties: null,
+      };
+
+    //************ SET BUYER Properties states*************
+    case TYPES.ADD_BUYER_DATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        buyer_preferences: payload,
       };
 
     //************ Get Filtered Properties states*************

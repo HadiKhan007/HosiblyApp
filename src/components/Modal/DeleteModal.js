@@ -3,7 +3,7 @@ import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 
-export const DeleteModal = ({item, show, onPressHide}) => {
+export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
@@ -32,7 +32,15 @@ export const DeleteModal = ({item, show, onPressHide}) => {
             3.5
           </Text>
         </View>
-        <Text style={styles.removeTxtStyle}>Remove From Property List?</Text>
+        {isBookMark ? (
+          <View style={styles.simpleRow}>
+            <Image source={appIcons.heartIcon} style={styles.heartIconStyle} />
+            <Text style={styles.heartTxtStyle}>90% match</Text>
+          </View>
+        ) : null}
+        <Text style={styles.removeTxtStyle}>
+          {isBookMark ? 'Remove From Bookmark?' : 'Remove From Property List?'}
+        </Text>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.buttonStyle}
@@ -125,9 +133,24 @@ const styles = StyleSheet.create({
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Medium,
   },
+  simpleRow: {
+    marginTop: WP('2'),
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  heartIconStyle: {
+    width: 13,
+    height: 11,
+    marginRight: 5,
+  },
+  heartTxtStyle: {
+    color: colors.r2,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
+  },
   removeTxtStyle: {
     color: colors.b1,
-    paddingTop: WP('8'),
+    paddingTop: WP('6'),
     alignSelf: 'center',
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Regular,

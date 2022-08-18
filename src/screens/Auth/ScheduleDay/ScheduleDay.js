@@ -29,41 +29,43 @@ const ScheduleDay = ({navigation}) => {
     if (check) {
       var form = new FormData();
       const imgObj = {
-        name: support_info?.avatar?.fileName,
+        name: support_info?.avatar?.fileName || 'Avatar',
         type: support_info?.avatar?.mime,
         uri: support_info?.avatar?.path,
       };
       form.append('user[avatar]', imgObj);
       support_info?.profession?.forEach(item => {
-        form.append('title[]', item?.profession);
-      }),
-        form.append('user[hourly_rate]', support_info?.hourly_rate);
+        form.append('user[titles][]', item?.title);
+      });
+      form.append('user[currency_amount]', support_info?.hourly_rate);
+      form.append('user[currency_type]', '$');
       form.append('user[description]', support_info?.description);
       support_info?.images?.forEach(item => {
-        form.append('images[]', {
+        form.append('user[images][]', {
           uri: item?.path,
           type: item?.mime || 'image/jpeg',
           name: item?.filename || 'image',
         });
       }),
         support_info?.documents?.forEach(item => {
-          form.append('certificates[]', {
+          form.append('user[certificates][]', {
             uri: item?.uri,
             type: item?.type || 'sample/jpeg',
             name: item?.name || 'pdf',
           });
         }),
-        form.append(
-          'working_days[]',
-          week_days.map(item => {
-            return item?.day;
-          }),
-        );
-      form.append('start_time', moment(startTime).format('DD-MM-YYYY'));
-      form.append('end_time', moment(endTime).format('DD-MM-YYYY'));
+        week_days?.forEach(item => {
+          if (item?.day) {
+            form.append('user[working_days][]', item?.day);
+          }
+        });
+      form.append(
+        'user[starting_time]',
+        moment(startTime).format('DD-MM-YYYY'),
+      );
+      form.append('user[ending_time]', moment(endTime).format('DD-MM-YYYY'));
 
       const addInfoSuccess = async res => {
-        console.log(res);
         setLoading(false);
         setTimeout(() => {
           navigation?.replace('App');

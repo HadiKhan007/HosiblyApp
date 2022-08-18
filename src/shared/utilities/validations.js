@@ -107,7 +107,7 @@ export const editProfileFieldsVS = yup.object().shape({
     .string()
     .required('Email Required')
     .email('Please provide a valid email address'),
-  bio: yup.string().required('Bio data Required'),
+  bio: yup.string('Invalid description').required('Bio data Required'),
 });
 
 export const AddPersonalInfoVS = yup.object().shape({

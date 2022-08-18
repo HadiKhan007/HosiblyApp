@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import authReducer from './auth-reducers/auth-reducer';
 import settingsReducers from './settings-reducers/settings-reducers';
+import bookmarksReducers from './bookmarks-reducers/bookmarks-reducers';
 import appReducer from './app-reducers/app-reducers';
 
 import * as types from '../actions/types';
@@ -9,6 +10,7 @@ const root_reducer = combineReducers({
   /* your app’s top-level reducers */
   auth: authReducer,
   settings: settingsReducers,
+  bookmarks: bookmarksReducers,
   appReducer: appReducer,
 });
 
