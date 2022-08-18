@@ -25,6 +25,8 @@ export {
   edit_card_request,
   get_default_card_request,
   staticPages,
+  getQueries,
+  addQuery,
 } from './settings-actions/settings-actions';
 
 export {

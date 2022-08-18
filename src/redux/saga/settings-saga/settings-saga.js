@@ -2,10 +2,12 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
 import {
   addDebitCard,
+  addQuery,
   delDebitCard,
   editDebitCard,
   getAllPaymentCards,
   getDefaultCard,
+  getQueries,
   getUserData,
   setDefaultCard,
   staticPages,
@@ -298,6 +300,54 @@ function* getStaticPages(params) {
     console.log(error);
     yield put({
       type: types.STATIC_PAGES_FAILURE,
+      payload: null,
+    });
+
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// *************GET QUERIES DATA**************
+export function* getQueriesSaga() {
+  yield takeLatest(types.GET_QUERIES_REQUEST, getQueriesReq);
+}
+function* getQueriesReq(params) {
+  try {
+    const res = yield getQueries();
+    yield put({
+      type: types.GET_QUERIES_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_QUERIES_FAILURE,
+      payload: null,
+    });
+
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// *************ADD QUERY**************
+export function* addQuerySaga() {
+  yield takeLatest(types.ADD_QUERY_REQUEST, addQueryReq);
+}
+function* addQueryReq(params) {
+  try {
+    const res = yield addQuery(params?.params);
+    yield put({
+      type: types.ADD_QUERY_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.ADD_QUERY_FAILURE,
       payload: null,
     });
 

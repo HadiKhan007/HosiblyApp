@@ -33,6 +33,8 @@ import {
   getStaticPagesSaga,
   payWithDebitRequest,
   updateProfileRequest,
+  getQueriesSaga,
+  addQuerySaga,
 } from './settings-saga/settings-saga';
 
 import {
@@ -57,6 +59,8 @@ export function* rootSaga() {
   yield fork(updateProfileRequest);
   yield fork(supportInfoSega);
   yield fork(getStaticPagesSaga);
+  yield fork(getQueriesSaga);
+  yield fork(addQuerySaga);
 
   //Payments
   yield fork(addcardRequest);

@@ -112,3 +112,22 @@ export const staticPages = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+//get queries
+export const getQueries = (cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_QUERIES_REQUEST,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+//add query
+export const addQuery = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.ADD_QUERY_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};

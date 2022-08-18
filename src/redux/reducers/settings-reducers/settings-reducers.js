@@ -10,6 +10,7 @@ const initialState = {
   pay_with_social: null,
   default_card: null,
   staticData: null,
+  queries: null,
 };
 
 const settingsReducers = (state = initialState, actions) => {
@@ -218,7 +219,6 @@ const settingsReducers = (state = initialState, actions) => {
         isFailure: false,
         pay_with_social: payload,
       };
-
     case TYPES.STATIC_PAGES_FAILURE:
       return {
         ...state,
@@ -226,6 +226,40 @@ const settingsReducers = (state = initialState, actions) => {
         isSuccess: true,
         isFailure: false,
         pay_with_social: null,
+      };
+
+    //************GET QUERIES*************
+    case TYPES.GET_QUERIES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        queries: payload,
+      };
+    case TYPES.GET_QUERIES_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        queries: null,
+      };
+
+    //************ADD QUERY*************
+    case TYPES.ADD_QUERY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+      };
+    case TYPES.ADD_QUERY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
       };
 
     default:

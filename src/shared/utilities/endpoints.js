@@ -24,6 +24,8 @@ const ENDPOINTS = {
   GET_BOOKMARKS: 'default_card',
   FILTER_BOOKMARKS: 'default_card',
   DELETE_BOOKMARKS: 'default_card',
+  GET_QUERIES: 'tickets',
+  ADD_QUERY: 'tickets',
 };
 
 export {BASE_URL, ENDPOINTS};
