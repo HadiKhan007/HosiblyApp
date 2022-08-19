@@ -12,18 +12,18 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {Spacer, DeleteModal, AppLoader} from '../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
-  appIcons,
-  checkConnected,
-  colors,
   WP,
+  colors,
+  appIcons,
   networkText,
+  checkConnected,
+  property_image,
 } from '../../../shared/exporter';
-import {allMatches, allSales} from '../../../shared/utilities/constant';
 import styles from './styles';
 import {useIsFocused} from '@react-navigation/core';
 
 // redux stuff
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
   getBookmarksRequest,
   filterBookmarksRequest,
@@ -34,7 +34,6 @@ const Bookmarks = ({navigation}) => {
   const dispatch = useDispatch();
   const isFocus = useIsFocused(null);
   const [item, setItem] = useState('');
-  const [data, setData] = useState(allSales);
   const [loading, setLoading] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
@@ -55,9 +54,8 @@ const Bookmarks = ({navigation}) => {
       try {
         setLoading(true);
         const onSuccess = res => {
-          // setBookmarks(res);
+          setBookmarks(res?.properties);
           setLoading(false);
-          console.log('Bookmarks Res => ', res);
         };
         const onFailure = res => {
           setLoading(false);
@@ -76,21 +74,22 @@ const Bookmarks = ({navigation}) => {
   //Get Filtered BookMarks
   const getFilteredBookMarks = async type => {
     let keyword =
-      type === 'Support Closers' ? 'support_closer' : type.toLowerCase();
+      type === 'Support Closers'
+        ? 'support_closers'
+        : (type = 'Properties' ? 'property' : 'all');
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
         const onSuccess = res => {
-          // setBookmarks(res);
+          setBookmarks(res?.properties);
           setLoading(false);
           setShowMenu(false);
-          console.log('Filter Res => ', res);
         };
         const onFailure = res => {
           setLoading(false);
           setShowMenu(false);
-          Alert.alert('Error', res);
+          // Alert.alert('Error', res);
         };
         var form = new FormData();
         form.append('keyword', keyword);
@@ -108,22 +107,27 @@ const Bookmarks = ({navigation}) => {
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.itemContainer}>
-        <Image source={item?.img} style={styles.imgStyle} />
+        <Image
+          style={styles.imgStyle}
+          source={{uri: item?.image[0]?.url || property_image}}
+        />
         <View style={{paddingVertical: 5}}>
           <Text numberOfLines={1} style={styles.nameTxtStyle}>
-            {item?.name}
+            {item?.title}
           </Text>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>
+              {`$${item?.price || 0}`} |{' '}
+            </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || 0}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {item?.bath_rooms || 0}
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 0}]}>
@@ -160,16 +164,18 @@ const Bookmarks = ({navigation}) => {
         const onSuccess = res => {
           setLoading(false);
           setShowMenu(false);
-          // getAllBookMarks(false);
-          console.log('Delete Res => ', res);
+          getAllBookMarks();
+          alert('Bookmark deleted successfully.');
         };
         const onFailure = res => {
           setLoading(false);
           setShowMenu(false);
           Alert.alert('Error', res);
-          console.log('On Filter prop Failure', res);
+          console.log('Error is => ', res);
         };
-        dispatch(deleteBookmarkRequest(selItem?.id, onSuccess, onFailure));
+        dispatch(
+          deleteBookmarkRequest(selItem?.bookmark_id, onSuccess, onFailure),
+        );
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -276,31 +282,39 @@ const Bookmarks = ({navigation}) => {
         </Menu>
       </View>
       <View style={styles.container}>
-        <SwipeListView
-          useFlatList
-          data={allMatches}
-          disableLeftSwipe={false}
-          disableRightSwipe={true}
-          renderItem={renderItem}
-          renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
-          leftOpenValue={0}
-          rightOpenValue={-110}
-          // previewRowKey={'0'}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
-          closeOnScroll
-          onRowDidOpen={onRowDidOpen}
-          onRowOpen={(rowKey, rowMap) => {
-            let key = rowKey;
-            if (key === rowKey) return;
-            setTimeout(() => {
-              rowMap[rowKey].closeRow();
-            }, 2000);
-          }}
-          // closeOnRowPress
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        {bookmarks?.length > 0 ? (
+          <SwipeListView
+            useFlatList
+            data={bookmarks}
+            disableLeftSwipe={false}
+            disableRightSwipe={true}
+            renderItem={renderItem}
+            renderHiddenItem={(data, rowMap) => renderHiddenItem(data, rowMap)}
+            leftOpenValue={0}
+            rightOpenValue={-110}
+            // previewRowKey={'0'}
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+            closeOnScroll
+            onRowDidOpen={onRowDidOpen}
+            onRowOpen={(rowKey, rowMap) => {
+              let key = rowKey;
+              if (key === rowKey) return;
+              setTimeout(() => {
+                rowMap[rowKey].closeRow();
+              }, 2000);
+            }}
+            // closeOnRowPress
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        ) : (
+          <View style={styles.noRecordsView}>
+            <Text style={styles.noRecords}>
+              {loading ? '' : 'No bookmarks found'}
+            </Text>
+          </View>
+        )}
       </View>
       <DeleteModal
         item={item}

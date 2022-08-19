@@ -30,8 +30,6 @@ export const getAllBookmarks = async () => {
 };
 
 export const getFilteredBookmarks = async params => {
-  console.log('PARAMS ARE => ', params);
-  console.log('TOKEN IS => ', await GetToken());
   const res = await axios.post(
     `${BASE_URL}${ENDPOINTS.FILTER_BOOKMARKS}`,
     params,
@@ -39,7 +37,6 @@ export const getFilteredBookmarks = async params => {
       headers: {
         Accept: 'application/json',
         auth_token: await GetToken(),
-        'Content-Type': 'multipart/form-data',
       },
     },
   );
@@ -47,7 +44,7 @@ export const getFilteredBookmarks = async params => {
 };
 
 export const removeBookmark = async id => {
-  const res = await axios.get(
+  const res = await axios.delete(
     `${BASE_URL}${ENDPOINTS.DELETE_BOOKMARKS}/${id}`,
     {
       headers: {

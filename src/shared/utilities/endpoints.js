@@ -22,7 +22,7 @@ const ENDPOINTS = {
   DEFAULT_CARD_CONST: 'default_card',
   ADD_TO_BOOKMARKS: 'bookmarks',
   GET_BOOKMARKS: 'bookmarks/get_current_user_bookmark',
-  FILTER_BOOKMARKS: 'bookmarks/get_bookmarks', // filtered bookmarks
+  FILTER_BOOKMARKS: 'bookmarks/filter_bookmarks',
   DELETE_BOOKMARKS: 'bookmarks',
   GET_QUERIES: 'tickets',
   ADD_QUERY: 'tickets',

@@ -210,6 +210,17 @@ const styles = StyleSheet.create({
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Medium,
   },
+  noRecordsView: {
+    flex: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noRecords: {
+    marginRight: 17,
+    color: colors.p1,
+    fontSize: size.large,
+    fontFamily: family.Gilroy_Bold,
+  },
 });
 
 export default styles;
