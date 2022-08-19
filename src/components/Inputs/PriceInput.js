@@ -158,10 +158,11 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   btnStyle: {
-    width: '38%',
+    width: '40%',
     backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+
+    height: '100%',
   },
   dropdownStyle: {
     marginVertical: -15,

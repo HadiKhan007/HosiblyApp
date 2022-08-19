@@ -28,6 +28,7 @@ const ScheduleDay = ({navigation}) => {
     const check = await checkConnected();
     if (check) {
       var form = new FormData();
+      setLoading(true);
       const imgObj = {
         name: support_info?.avatar?.fileName || 'Avatar',
         type: support_info?.avatar?.mime,
@@ -69,6 +70,7 @@ const ScheduleDay = ({navigation}) => {
         setLoading(false);
         setTimeout(() => {
           navigation?.replace('App');
+          setLoading(true);
         }, 500);
       };
       const addInfoFailure = async res => {
