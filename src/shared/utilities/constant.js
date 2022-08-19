@@ -1125,13 +1125,9 @@ const buyer_house_list = [
     title: 'Garage Spots Required',
     value: '',
   },
+
   {
     id: 4,
-    title: 'Min Lot Forntage',
-    value: '',
-  },
-  {
-    id: 5,
     title: 'Max Age',
     value: '',
   },
@@ -1192,14 +1188,7 @@ const buyer_condo_list = [
   },
 ];
 
-const buyer_vacant_list = [
-  {
-    id: 0,
-    title: 'Min Lot Forntage',
-    subtitle: '(ft)',
-    value: '',
-  },
-];
+const buyer_vacant_list = [];
 const buyer_vacant_input = [
   {
     id: 0,

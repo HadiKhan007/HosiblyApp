@@ -89,7 +89,6 @@ const PersonDetails = ({navigation, route}) => {
       </View>
     );
   };
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       <StatusBar backgroundColor={colors.g5} />

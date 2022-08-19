@@ -85,7 +85,7 @@ const SellTab = ({navigation, properties}) => {
         </Text>
       </View>
       {properties != '' ? (
-        <View style={{height: '95%'}}>
+        <View style={{height: '94%', paddingBottom: 80}}>
           <FlatList
             data={properties}
             renderItem={renderItem}

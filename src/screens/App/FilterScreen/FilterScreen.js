@@ -10,6 +10,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   AppButton,
   BackHeader,
+  DoublePriceInput,
   FilterButton,
   ListModal,
   LivingSpaceInput,
@@ -112,20 +113,34 @@ const FilterScreen = ({navigation}) => {
   }, []);
 
   const addPropertyData = async () => {
+    const filterItem = itemList?.map(item => {
+      return {
+        title: item?.title,
+        value: item?.value,
+      };
+    });
+
+    const filterInput = inputList?.map(item => {
+      return {
+        title: item?.title,
+        minValue: item?.minValue,
+        maxValue: item?.maxValue,
+      };
+    });
     const requestBody = {
-      property_type: propertyType,
-      min_bed_rooms: minBedRooms,
-      min_bath_rooms: minBathRooms,
-      lat_frontage: latFrontage,
+      property_type: propertyType?.text,
+      min_bed_rooms: propertyType?.text == 'House' ? minBedRooms?.text : '',
+      min_bath_rooms: propertyType?.text == 'House' ? minBathRooms?.text : '',
+      lat_frontage: latFrontage?.text,
       min_price: minPrice,
       max_price: maxPrice,
       currency_type: currency,
-      input_list: inputList,
-      item_list: itemList,
+      other_options: filterItem,
+      other_inputs: filterInput,
     };
-
+    console.log(requestBody);
     const onSuccess = res => {
-      navigation?.goBack();
+      // navigation?.goBack();
     };
     dispatch(set_buyer_properties(requestBody, onSuccess));
   };
@@ -196,8 +211,7 @@ const FilterScreen = ({navigation}) => {
               title={propertyType?.text}
             />
             <Divider color={colors.g18} />
-            <PriceInput
-              inputs={true}
+            <DoublePriceInput
               onSelect={val => {
                 setCurrency(val);
               }}
@@ -277,6 +291,14 @@ const FilterScreen = ({navigation}) => {
                   }}
                   keyExtractor={(item, index) => index?.toString()}
                 />
+                {propertyType?.text != 'Condo' && (
+                  <FilterButton
+                    onPress={() => {
+                      latForntageRef?.current?.open();
+                    }}
+                    title={latFrontage?.text || 'Min Lot Frontage'}
+                  />
+                )}
                 <FlatList
                   data={itemList}
                   renderItem={({item, index}) => {
