@@ -48,11 +48,16 @@ const PropertyDetails = ({navigation, route}) => {
   const RenderDetails = () => {
     return (
       <TouchableOpacity
-        activeOpacity={1}
+        activeOpacity={0.7}
         style={styles.detailsContainer}
-        onPress={() => console.log('You touched me')}>
+        onPress={() => {
+          navigation.navigate('PropertyInfo', {
+            item: route?.params?.item,
+            itemType: route?.params?.item?.type,
+          });
+        }}>
         <Image
-          source={{uri: route?.params?.item?.image[0].url || property_image}}
+          source={{uri: route?.params?.item?.image[0]?.url || property_image}}
           style={styles.imgStyle}
         />
         <View>

@@ -74,6 +74,25 @@ const authReducer = (state = initialState, actions) => {
         resendData: null,
       };
 
+    //************Add Additional Info Sates*************
+
+    case TYPES.ADD_ADDITIONAL_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: true,
+        isSuccess: true,
+        isFailure: false,
+        userInfo: payload,
+      };
+    case TYPES.ADD_ADDITIONAL_INFO_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: false,
+        isFailure: true,
+        userInfo: null,
+      };
+
     //************Social Login Sates*************
 
     case TYPES.SOCIAL_LOGIN_REQUEST_SUCCESS:

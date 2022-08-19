@@ -15,22 +15,19 @@ import {
   appIcons,
   appImages,
   size,
+  capitalizeFirstLetter,
 } from '../../../../../shared/exporter';
-import {
-  addresses,
-  buyerRef,
-  buyerRefAdvance,
-} from '../../../../../shared/utilities/constant';
+import {addresses} from '../../../../../shared/utilities/constant';
 import styles from './styles';
 
-const BuyTab = ({navigation}) => {
+const BuyTab = ({navigation, buyer_data}) => {
   const [address, setAddress] = useState('');
   const [showAdvance, setShowAdvance] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
-  const RenderRow = ({item, index}) => {
+  const RenderRow = ({item}) => {
     return (
-      <View style={styles.itemRow(index)}>
+      <View style={styles.itemRow(item?.index)}>
         <Text style={styles.titleTxtStyle}>{item?.title}</Text>
         <Text style={styles.valTxtStyle}>{item?.property}</Text>
       </View>
@@ -52,9 +49,44 @@ const BuyTab = ({navigation}) => {
         <Text style={styles.propertyTxtStyle}>
           Your Current Buyer Preference
         </Text>
-        {buyerRef.map((item, index) => {
-          return <RenderRow item={item} index={index} />;
-        })}
+        <RenderRow
+          item={{
+            title: 'Property Type',
+            property:
+              capitalizeFirstLetter(buyer_data?.preference?.property_type) ||
+              'N/A',
+            index: 0,
+          }}
+        />
+        <RenderRow
+          item={{
+            title: `Min Price (${buyer_data?.preference?.price_unit})`,
+            property: buyer_data?.preference?.min_price || 'N/A',
+            index: 1,
+          }}
+        />
+        <RenderRow
+          item={{
+            title: `Max Price (${buyer_data?.preference?.price_unit})`,
+            property: buyer_data?.preference?.max_price || 'N/A',
+            index: 2,
+          }}
+        />
+        <RenderRow
+          item={{
+            title: 'Bedrooms',
+            property: buyer_data?.preference?.min_bedrooms || 'N/A',
+            index: 3,
+          }}
+        />
+        <RenderRow
+          item={{
+            title: 'Bathrooms',
+            property: buyer_data?.preference?.min_bathrooms || 'N/A',
+            index: 4,
+          }}
+        />
+
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.iconRow}
@@ -67,10 +99,88 @@ const BuyTab = ({navigation}) => {
             color={colors.p1}
           />
         </TouchableOpacity>
-        {showAdvance &&
-          buyerRefAdvance.map((item, index) => {
-            return <RenderRow item={item} index={index} />;
-          })}
+        {showAdvance && (
+          <>
+            <RenderRow
+              item={{
+                title: 'Property Types',
+                property: buyer_data?.preference?.property_types || 'N/A',
+                index: 5,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Property Styles',
+                property: buyer_data?.preference?.property_style || 'N/A',
+                index: 6,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Min Lot Forntage',
+                property: buyer_data?.preference?.min_lot_frontage || 'N/A',
+                index: 7,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Lot Size (ft)',
+                property: buyer_data?.preference?.min_lot_size || 'N/A',
+                index: 8,
+              }}
+            />
+
+            <RenderRow
+              item={{
+                title: 'Total Number of Rooms(Min)',
+                property: buyer_data?.preference?.min_living_space || 'N/A',
+                index: 9,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Total Number of Rooms(Max)',
+                property: buyer_data?.preference?.max_living_space || 'N/A',
+                index: 10,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Parking Spots Req.',
+                property: buyer_data?.preference?.parking_spot || 'N/A',
+                index: 11,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Garage Spots Req.',
+                property: buyer_data?.preference?.garbage_spot || 'N/A',
+                index: 12,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Balcony',
+                property: buyer_data?.preference?.balcony || 'N/A',
+                index: 13,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Security',
+                property: buyer_data?.preference?.security || 'N/A',
+                index: 14,
+              }}
+            />
+            <RenderRow
+              item={{
+                title: 'Laundry',
+                property: buyer_data?.preference?.laundry || 'N/A',
+                index: 15,
+              }}
+            />
+          </>
+        )}
 
         <ImageBackground
           source={appImages.map}

@@ -82,7 +82,6 @@ export const resendOTP = async params => {
 };
 
 export const addInfo = async params => {
-  console.log(params);
   const res = await axios.post(`${BASE_URL}${ENDPOINTS.INFO_CONST}`, params, {
     headers: {
       Accept: 'application/json',

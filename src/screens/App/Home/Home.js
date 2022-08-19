@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
@@ -34,7 +35,10 @@ import MatchesTab from './Tabs/MatchesTab/MatchesTab';
 import SellTab from './Tabs/SellTab/SellTab';
 import {useIsFocused} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
-import {get_recent_properties} from '../../../redux/actions';
+import {
+  get_buyer_properties,
+  get_recent_properties,
+} from '../../../redux/actions';
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [hideAds, setHideAds] = useState(false);
@@ -44,7 +48,9 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
-  const {recent_properties} = useSelector(state => state?.appReducer);
+  const {recent_properties, buyer_data} = useSelector(
+    state => state?.appReducer,
+  );
   const {userInfo} = useSelector(state => state?.auth);
   const {userProfile} = useSelector(state => state?.settings);
 
@@ -87,6 +93,7 @@ const Home = ({navigation}) => {
       </View>
     );
   };
+
   //Get Properties
   useEffect(() => {
     if (isFocus) {
@@ -98,8 +105,11 @@ const Home = ({navigation}) => {
   const getProperties = () => {
     if (selected == 'sell') {
       getRecentProperties();
+    } else if (selected == 'buy') {
+      getbuyerProperties();
     }
   };
+
   //Get Recent Properties
   const getRecentProperties = async () => {
     const check = await checkConnected();
@@ -125,6 +135,31 @@ const Home = ({navigation}) => {
     }
   };
 
+  //Get Buyer Properties
+  const getbuyerProperties = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          console.log('On Buyer prop Success');
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Buyer prop Failure', res);
+        };
+        dispatch(get_buyer_properties(null, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader
@@ -135,7 +170,7 @@ const Home = ({navigation}) => {
         img={userProfile?.user?.image || userInfo?.user?.image}
       />
       <Spacer androidVal={WP('4')} iOSVal={WP('4')} />
-      <KeyboardAwareScrollView
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewStyle}>
         <View style={styles.innerViewStyle}>
@@ -217,10 +252,12 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          {selected === 'buy' && <BuyTab navigation={navigation} />}
+          {selected === 'buy' && (
+            <BuyTab buyer_data={buyer_data} navigation={navigation} />
+          )}
           {selected === 'matches' && <MatchesTab navigation={navigation} />}
           {selected === 'sell' && (
-            <View style={{height: scrWidth / 1.1}}>
+            <View style={{height: scrWidth / 1.2}}>
               <SellTab properties={recent_properties} navigation={navigation} />
 
               <View style={styles.bottomView}>
@@ -251,7 +288,7 @@ const Home = ({navigation}) => {
           show={showModal}
           onPressHide={() => setShowModal(false)}
         />
-      </KeyboardAwareScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };

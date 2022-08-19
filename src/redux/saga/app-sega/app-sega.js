@@ -1,7 +1,9 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
 import {
+  addBuyerPreferences,
   getAllProperties,
+  getBuyerPreferences,
   getFilteredProperties,
   getRecentProperties,
 } from '../../../shared/service/PropertyService';
@@ -113,12 +115,46 @@ export function* setBuyerDataRequest() {
 }
 function* addBuyerData(params) {
   try {
-    yield put({
-      type: types.ADD_BUYER_DATA_SUCCESS,
-      payload: params?.params,
-    });
-    params?.cbSuccess(params.params);
+    if (params?.params?.save_data) {
+      yield put({
+        type: types.ADD_BUYER_DATA_SUCCESS,
+        payload: params?.params,
+      });
+      params?.cbSuccess(params.params);
+    } else {
+      const res = yield addBuyerPreferences(params?.params);
+      yield put({
+        type: types.ADD_BUYER_DATA_SUCCESS,
+        payload: null,
+      });
+      console.log(res);
+      params?.cbSuccess(res);
+    }
   } catch (error) {
     console.log(error);
+  }
+}
+
+// *************SET ADDRESS Info**************
+export function* getBuyerDataRequest() {
+  yield takeLatest(types.GET_BUYER_DATA_REQUEST, getBuyerData);
+}
+function* getBuyerData(params) {
+  try {
+    const res = yield getBuyerPreferences(params?.params);
+
+    yield put({
+      type: types.GET_BUYER_DATA_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_BUYER_DATA_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
   }
 }

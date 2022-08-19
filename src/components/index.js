@@ -25,6 +25,7 @@ export * from './Inputs/LivingSpaceInput';
 export * from './Inputs/FilterInput';
 export * from './Inputs/HomeInput';
 export * from './Inputs/PaymentInput';
+export * from './Inputs/DoublePriceInput';
 
 //Modals
 export * from './Modal/SignUpModal';

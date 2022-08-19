@@ -47,13 +47,13 @@ const AddPersonalInfo = ({navigation}) => {
       };
 
       const form = new FormData();
-      form.append('user[description]', values?.desc);
+      form.append('user[description]', values?.desc || '');
       form.append('user[avatar]', imgObj);
       const addInfoSuccess = async res => {
         setLoading(false);
         setTimeout(() => {
           navigation?.replace('App');
-        }, 500);
+        }, 400);
       };
       const addInfoFailure = async res => {
         setLoading(false);

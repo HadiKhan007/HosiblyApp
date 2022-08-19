@@ -147,7 +147,6 @@ const PropertyDetail = ({navigation}) => {
         );
         const res = await addProperty(formdata, setloading);
         if (res) {
-          console.log(res);
           const onSuccess = res => {
             setloading(false);
             dispatch(set_address_request('', () => {}));
@@ -157,7 +156,6 @@ const PropertyDetail = ({navigation}) => {
         }
       } catch (error) {
         setloading(false);
-
         console.log('Error', error);
       }
     } else {
@@ -305,6 +303,7 @@ const PropertyDetail = ({navigation}) => {
                       </View>
                     );
                   }}
+                  keyExtractor={(item, index) => item?.toString()}
                 />
               </View>
             )}

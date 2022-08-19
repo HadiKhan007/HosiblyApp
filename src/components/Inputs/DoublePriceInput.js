@@ -4,49 +4,26 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {colors, family, size} from '../../shared/exporter';
 import {Icon} from 'react-native-elements';
 
-export const PriceInput = ({
+export const DoublePriceInput = ({
   onSelect,
   value,
   isPickerOpen,
   onFocus,
   onBlur,
-
+  placeholder1,
+  placeholder2,
   title,
   list,
   defaultValue,
   dropDown,
   subtitle,
-  marginRight,
-  marginLeft,
-  marginBottom,
-  marginTop,
-  source,
-  onSubmitEditing,
-  onChangeText,
-  editable,
-  keyboardType,
-  returnKeyType,
-  tintColor,
-  simpleInputPlaceHolder,
+  onChangeText1,
+  onChangeText2,
 }) => {
   return (
     <View style={[styles.container, {justifyContent: 'space-between'}]}>
       <View style={styles.aiRow}>
         <View style={[styles.headStyle]}>
-          {source && (
-            <Image
-              source={source}
-              style={{
-                height: 30,
-                width: 30,
-                marginRight: marginRight,
-                marginLeft: marginLeft,
-                marginBottom: marginBottom,
-                marginTop: marginTop,
-                tintColor: tintColor,
-              }}
-            />
-          )}
           <Text style={[styles.h1]}>{title || 'Price'}</Text>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
         </View>
@@ -96,19 +73,26 @@ export const PriceInput = ({
           />
         )}
       </View>
-
-      <View style={{marginRight: marginRight}}>
-        <TextInput
-          onSubmitEditing={onSubmitEditing}
-          onChangeText={onChangeText}
-          value={value}
-          placeholder={simpleInputPlaceHolder}
-          placeholderTextColor={colors.g19}
-          style={styles.simpleInputStyle}
-          editable={editable}
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType}
-        />
+      <View style={styles.aiRow1}>
+        <View style={styles.inputCon}>
+          <TextInput
+            placeholder={placeholder1 || '1,000,000'}
+            placeholderTextColor={colors.g19}
+            style={styles.inputStyle}
+            keyboardType={'decimal-pad'}
+            onChangeText={onChangeText1}
+          />
+        </View>
+        <Text style={styles.to}>to</Text>
+        <View style={styles.inputCon}>
+          <TextInput
+            style={styles.inputStyle}
+            placeholderTextColor={colors.g19}
+            placeholder={placeholder2 || '1,500,000'}
+            keyboardType={'decimal-pad'}
+            onChangeText={onChangeText2}
+          />
+        </View>
       </View>
     </View>
   );
@@ -182,5 +166,22 @@ const styles = StyleSheet.create({
     color: colors.g19,
     padding: 0,
     textAlign: 'right',
+  },
+  to: {
+    paddingHorizontal: 10,
+    color: colors.g19,
+    fontFamily: family.Gilroy_Medium,
+    fontSize: size.xsmall,
+  },
+  aiRow1: {
+    flexDirection: 'row',
+    height: '100%',
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  inputCon: {
+    width: '40%',
+    alignItems: 'flex-end',
   },
 });
