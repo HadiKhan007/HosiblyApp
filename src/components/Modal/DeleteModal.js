@@ -3,7 +3,13 @@ import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 
-export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
+export const DeleteModal = ({
+  item,
+  show,
+  onPressHide,
+  isBookMark = false,
+  deleteFromBookmarks,
+}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
@@ -44,7 +50,9 @@ export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.buttonStyle}
-          onPress={() => onPressHide()}>
+          onPress={() => {
+            isBookMark ? deleteFromBookmarks(item) : onPressHide();
+          }}>
           <Text style={styles.btnTxtStyle}>Remove</Text>
         </TouchableOpacity>
       </View>

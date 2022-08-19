@@ -9,7 +9,13 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {Spacer, BackHeader, DeleteModal} from '../../../../components';
+import {
+  Spacer,
+  BackHeader,
+  DeleteModal,
+  AppButton,
+  AppLoader,
+} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
@@ -24,12 +30,15 @@ import {
 } from '../../../../shared/exporter';
 import {allSales} from '../../../../shared/utilities/constant';
 import styles from './styles';
-import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/core';
 import {
   get_all_properties,
   get_filtered_properties,
 } from '../../../../redux/actions';
+
+// redux stuff
+import {useDispatch} from 'react-redux';
+import {addToBookmarksRequest} from '../../../../redux/actions';
 
 const AllSales = ({navigation}) => {
   const [item, setItem] = useState('');
@@ -40,6 +49,7 @@ const AllSales = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const isFocus = useIsFocused(null);
   const [properties, setProperties] = useState([]);
+
   const dispatch = useDispatch();
 
   //Get Properties
@@ -58,7 +68,6 @@ const AllSales = ({navigation}) => {
         const onSuccess = res => {
           setProperties(res);
           setLoading(false);
-          console.log('On All prop Success');
         };
         const onFailure = res => {
           setLoading(false);
@@ -111,7 +120,37 @@ const AllSales = ({navigation}) => {
     }
   };
 
+  const addToBookmark = async ({id}) => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          console.log('Res => ', res);
+          alert('Property is bookmarked.');
+          getAllProperties();
+        };
+        const onFailure = err => {
+          alert(err);
+          console.log('err is => ', err);
+          setLoading(false);
+        };
+        const data = new FormData();
+        data.append('id', id);
+        data.append('bookmark[bookmark_type]', 'property_bookmark');
+        dispatch(addToBookmarksRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   const renderItem = ({item, index}) => {
+    console.log('Item is ==> ', item?.is_bookmark);
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -145,23 +184,36 @@ const AllSales = ({navigation}) => {
               {item?.bath_rooms || 0}
             </Text>
           </View>
-          <View style={[styles.simpleRow, {paddingTop: 2}]}>
-            {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
-              return (
-                index < 4 && (
-                  <Image
-                    source={appImages.personPh}
-                    style={styles.personImgStyle(index)}
-                  />
-                )
-              );
-            })}
-            {[1, 2, 3, 4, 5, 6, 7].length > 4 && (
-              <View style={styles.countContainer}>
-                <Text style={styles.countTxtStyle}>
-                  +{[1, 2, 3, 4, 5, 6]?.length - 4}
-                </Text>
-              </View>
+          <View style={styles.rowStyle}>
+            <View style={styles.simpleRow}>
+              {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
+                return (
+                  index < 4 && (
+                    <Image
+                      source={appImages.personPh}
+                      style={styles.personImgStyle(index)}
+                    />
+                  )
+                );
+              })}
+              {[1, 2, 3, 4, 5, 6, 7].length > 4 && (
+                <View style={styles.countContainer}>
+                  <Text style={styles.countTxtStyle}>
+                    +{[1, 2, 3, 4, 5, 6]?.length - 4}
+                  </Text>
+                </View>
+              )}
+            </View>
+            {item?.is_bookmark && (
+              <AppButton
+                width={'40%'}
+                height={WP('8')}
+                title="Bookmark"
+                fontSize={size.xxsmall}
+                borderColor={colors.white}
+                shadowColor={colors.white}
+                onPress={() => addToBookmark(item)}
+              />
             )}
           </View>
         </View>
@@ -245,6 +297,7 @@ const AllSales = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <AppLoader loading={loading} />
       <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <BackHeader
         title="My Property Lists"
