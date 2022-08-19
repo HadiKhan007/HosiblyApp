@@ -1,20 +1,14 @@
 import React from 'react';
 import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
-import {AppButton} from '../../../../../components';
 import {
   appIcons,
   appImages,
-  colors,
   property_image,
-  WP,
 } from '../../../../../shared/exporter';
 import styles from './styles';
-import DeviceInfo from 'react-native-device-info';
 import {BlankField} from '../../../../../components';
 
 const SellTab = ({navigation, properties}) => {
-  let hasNotch = DeviceInfo.hasNotch();
-
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -85,8 +79,9 @@ const SellTab = ({navigation, properties}) => {
         </Text>
       </View>
       {properties != '' ? (
-        <View style={{height: '94%', paddingBottom: 80}}>
+        <View style={{height: '94%'}}>
           <FlatList
+            nestedScrollEnabled={true}
             data={properties}
             renderItem={renderItem}
             keyExtractor={item => item.id}

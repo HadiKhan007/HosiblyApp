@@ -52,3 +52,25 @@ export const getAllProperties = async () => {
   });
   return res.data;
 };
+
+export const addBuyerPreferences = async params => {
+  const res = await axios.post(`${BASE_URL}user_preferences`, params, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};
+
+export const getBuyerPreferences = async () => {
+  const res = await axios.get(`${BASE_URL}user_preferences`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};

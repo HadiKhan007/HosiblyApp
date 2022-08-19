@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     height: 8,
   },
   bottomView: {
-    bottom: -10,
+    bottom: -20,
     width: '100%',
     alignSelf: 'center',
     alignItems: 'center',

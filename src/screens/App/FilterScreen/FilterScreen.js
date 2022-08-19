@@ -9,6 +9,7 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {
   AppButton,
+  AppLoader,
   BackHeader,
   DoublePriceInput,
   FilterButton,
@@ -27,8 +28,10 @@ import {
   buyer_house_list,
   buyer_vacant_input,
   buyer_vacant_list,
+  checkConnected,
   colors,
   lat_frontage_list,
+  networkText,
   property_type_list,
   select_option_list,
   size,
@@ -58,6 +61,7 @@ const FilterScreen = ({navigation}) => {
   const [inputList, setinputList] = useState([]);
   const [itemList, setitemList] = useState([]);
   const [Id, setId] = useState(0);
+  const [loading, setLoading] = useState(false);
   //References
   const propertyTypeRef = useRef(null);
   const bedRoomRef = useRef(null);
@@ -113,36 +117,52 @@ const FilterScreen = ({navigation}) => {
   }, []);
 
   const addPropertyData = async () => {
-    const filterItem = itemList?.map(item => {
-      return {
-        title: item?.title,
-        value: item?.value,
-      };
-    });
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const form = new FormData();
+        form.append(
+          'preference[property_type]',
+          propertyType?.text?.toLowerCase() || 'house',
+        );
+        form.append('preference[min_price]', minPrice || '');
+        form.append('preference[max_price]', maxPrice || '');
+        form.append('preference[price_unit]', currency || '');
+        form.append('preference[min_bedrooms]', minBedRooms?.text || '');
+        form.append('preference[min_bathrooms]', minBathRooms?.text || '');
+        form.append('preference[min_lot_frontage]', latFrontage?.text || '');
 
-    const filterInput = inputList?.map(item => {
-      return {
-        title: item?.title,
-        minValue: item?.minValue,
-        maxValue: item?.maxValue,
-      };
-    });
-    const requestBody = {
-      property_type: propertyType?.text,
-      min_bed_rooms: propertyType?.text == 'House' ? minBedRooms?.text : '',
-      min_bath_rooms: propertyType?.text == 'House' ? minBathRooms?.text : '',
-      lat_frontage: latFrontage?.text,
-      min_price: minPrice,
-      max_price: maxPrice,
-      currency_type: currency,
-      other_options: filterItem,
-      other_inputs: filterInput,
-    };
-    console.log(requestBody);
-    const onSuccess = res => {
-      // navigation?.goBack();
-    };
-    dispatch(set_buyer_properties(requestBody, onSuccess));
+        itemList?.forEach(item => {
+          form.append(`preference[${item?.key}]`, item?.value);
+        });
+        inputList?.forEach(item => {
+          form.append(`preference[${item?.key}]`, item?.minValue);
+          if (item?.key1) {
+            form.append(`preference[${item?.key1}]`, item?.maxValue);
+          }
+        });
+        const onSuccess = res => {
+          setLoading(false);
+          Alert.alert('Success', 'Buyer preferences edited successfully!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation?.goBack();
+              },
+            },
+          ]);
+        };
+        console.log(form);
+        dispatch(set_buyer_properties(form, onSuccess));
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
   };
 
   const onSavePropertyData = async () => {
@@ -439,6 +459,7 @@ const FilterScreen = ({navigation}) => {
         title={itemList[Id]?.title}
         closable={true}
       />
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

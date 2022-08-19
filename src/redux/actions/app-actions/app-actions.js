@@ -55,3 +55,13 @@ export const set_buyer_properties = (params, cbSuccess) => {
     cbSuccess,
   };
 };
+
+//Get All preferences
+export const get_buyer_properties = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_BUYER_DATA_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
