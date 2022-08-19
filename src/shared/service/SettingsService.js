@@ -155,6 +155,7 @@ export const addQuery = async params => {
     headers: {
       Accept: 'application/json',
       auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
     },
   });
   return res.data;

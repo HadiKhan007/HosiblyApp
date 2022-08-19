@@ -12,6 +12,7 @@ export const addBookmarks = async params => {
       headers: {
         Accept: 'application/json',
         auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
       },
     },
   );
@@ -37,6 +38,7 @@ export const getFilteredBookmarks = async params => {
       headers: {
         Accept: 'application/json',
         auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
       },
     },
   );
