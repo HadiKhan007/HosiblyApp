@@ -15,6 +15,7 @@ import {
   appIcons,
   appImages,
   size,
+  capitalizeFirstLetter,
 } from '../../../../../shared/exporter';
 import {addresses} from '../../../../../shared/utilities/constant';
 import styles from './styles';
@@ -51,7 +52,9 @@ const BuyTab = ({navigation, buyer_data}) => {
         <RenderRow
           item={{
             title: 'Property Type',
-            property: buyer_data?.preference?.property_type || 'N/A',
+            property:
+              capitalizeFirstLetter(buyer_data?.preference?.property_type) ||
+              'N/A',
             index: 0,
           }}
         />
@@ -126,17 +129,18 @@ const BuyTab = ({navigation, buyer_data}) => {
                 index: 8,
               }}
             />
+
             <RenderRow
               item={{
-                title: 'Min Lot Forntage',
-                property: buyer_data?.preference?.min_lot_frontage || 'N/A',
+                title: 'Total Number of Rooms(Min)',
+                property: buyer_data?.preference?.min_living_space || 'N/A',
                 index: 9,
               }}
             />
             <RenderRow
               item={{
-                title: 'Total Number of Rooms',
-                property: buyer_data?.preference?.min_living_space || 'N/A',
+                title: 'Total Number of Rooms(Max)',
+                property: buyer_data?.preference?.max_living_space || 'N/A',
                 index: 10,
               }}
             />

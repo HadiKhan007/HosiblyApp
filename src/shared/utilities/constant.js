@@ -1121,15 +1121,16 @@ const buyer_house_list = [
     id: 2,
     title: 'Parking Spots Required',
     value: '',
-    key: 'parking_spot_required',
+    key: 'parking_spot',
   },
   {
     id: 3,
     title: 'Garage Spots Required',
     value: '',
-    key: 'garage_spot_required',
+    key: 'garbage_spot',
   },
 ];
+
 const buyer_house_inputs = [
   {
     id: 0,
@@ -1169,7 +1170,7 @@ const buyer_condo_list = [
     id: 2,
     title: 'Parking Spots Required',
     value: '',
-    key: 'parking_spot_required',
+    key: 'parking_spot',
   },
 
   {
