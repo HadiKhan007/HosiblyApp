@@ -9,18 +9,14 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {Spacer, BackHeader, DeleteModal} from '../../../components';
+import {Spacer, DeleteModal, AppLoader} from '../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
 import {
   appIcons,
-  appImages,
   checkConnected,
   colors,
-  family,
-  size,
   WP,
   networkText,
-  property_image,
 } from '../../../shared/exporter';
 import {allMatches, allSales} from '../../../shared/utilities/constant';
 import styles from './styles';
@@ -28,43 +24,45 @@ import {useIsFocused} from '@react-navigation/core';
 
 // redux stuff
 import {useDispatch, useSelector} from 'react-redux';
-import {getBookmarksRequest} from '../../../redux/actions';
+import {
+  getBookmarksRequest,
+  filterBookmarksRequest,
+  deleteBookmarkRequest,
+} from '../../../redux/actions';
 
 const Bookmarks = ({navigation}) => {
+  const dispatch = useDispatch();
+  const isFocus = useIsFocused(null);
   const [item, setItem] = useState('');
   const [data, setData] = useState(allSales);
+  const [loading, setLoading] = useState(false);
+  const [bookmarks, setBookmarks] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState('All');
-  const [loading, setLoading] = useState(false);
-  const isFocus = useIsFocused(null);
-  const [properties, setProperties] = useState([]);
-  const dispatch = useDispatch();
 
-  //Get Properties
+  //Get Bookmarks
   useEffect(() => {
     if (isFocus) {
-      // getAllBookMarks();
+      getAllBookMarks();
     }
   }, [isFocus]);
 
-  //Get All Properties
+  //Get All Bookmarks
   const getAllBookMarks = async () => {
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
         const onSuccess = res => {
-          setProperties(res);
+          // setBookmarks(res);
           setLoading(false);
-          console.log('On All prop Success');
+          console.log('Bookmarks Res => ', res);
         };
         const onFailure = res => {
           setLoading(false);
-          Alert.alert('Error', res);
-          console.log('On All prop Failure', res);
         };
-        dispatch(get_all_properties(null, onSuccess, onFailure));
+        dispatch(getBookmarksRequest(onSuccess, onFailure));
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -77,29 +75,26 @@ const Bookmarks = ({navigation}) => {
 
   //Get Filtered BookMarks
   const getFilteredBookMarks = async type => {
+    let keyword =
+      type === 'Support Closers' ? 'support_closer' : type.toLowerCase();
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
         const onSuccess = res => {
-          setProperties(res);
+          // setBookmarks(res);
           setLoading(false);
           setShowMenu(false);
-          console.log('On Filter prop Success', res);
+          console.log('Filter Res => ', res);
         };
         const onFailure = res => {
           setLoading(false);
           setShowMenu(false);
           Alert.alert('Error', res);
-          console.log('On Filter prop Failure', res);
         };
         var form = new FormData();
-        form.append(
-          'type',
-          type == 'Vacant Land' ? 'vacant_land' : type.toLowerCase(),
-        );
-
-        dispatch(get_filtered_properties(form, onSuccess, onFailure));
+        form.append('keyword', keyword);
+        dispatch(filterBookmarksRequest(form, onSuccess, onFailure));
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -156,6 +151,35 @@ const Bookmarks = ({navigation}) => {
     }, 300);
   };
 
+  const deleteFromBookmarks = async selItem => {
+    setShowModal(false);
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          setShowMenu(false);
+          // getAllBookMarks(false);
+          console.log('Delete Res => ', res);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          setShowMenu(false);
+          Alert.alert('Error', res);
+          console.log('On Filter prop Failure', res);
+        };
+        dispatch(deleteBookmarkRequest(selItem?.id, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   const renderHiddenItem = (data, rowMap) => {
     return (
       <View style={styles.backBtnsContainer}>
@@ -180,11 +204,12 @@ const Bookmarks = ({navigation}) => {
   const hideItemClick = type => {
     setFilterType(type);
     setShowMenu(false);
-    // getFilteredBookMarks(type);
+    getFilteredBookMarks(type);
   };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <AppLoader loading={loading} />
       <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <Text style={styles.headerTxtStyle}>Bookmarks</Text>
       <Text style={styles.titleTxtStyle}>Recent</Text>
@@ -282,6 +307,7 @@ const Bookmarks = ({navigation}) => {
         show={showModal}
         isBookMark={true}
         onPressHide={() => setShowModal(false)}
+        deleteFromBookmarks={deleteFromBookmarks}
       />
     </SafeAreaView>
   );

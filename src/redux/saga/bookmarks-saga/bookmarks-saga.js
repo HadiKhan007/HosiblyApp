@@ -2,6 +2,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
 import {
   addBookmarks,
+  removeBookmark,
   getAllBookmarks,
   getFilteredBookmarks,
 } from '../../../shared/service/BookmarksService';
@@ -14,7 +15,7 @@ export function* addToBookmarksRequest() {
 
 function* addToBookmarks(params) {
   try {
-    const res = yield addBookmarks();
+    const res = yield addBookmarks(params?.params);
     if (res) {
       yield put({
         type: types.ADD_TO_BOOKMARKS_SUCCESS,
@@ -43,7 +44,7 @@ function* getBookmarks(params) {
     const res = yield getAllBookmarks();
     if (res) {
       yield put({
-        type: types.GET_PROFILE_SUCCESS,
+        type: types.GET_BOOKMARKS_SUCCESS,
         payload: res,
       });
       params?.cbSuccess(res);
@@ -51,7 +52,7 @@ function* getBookmarks(params) {
   } catch (error) {
     console.log(error);
     yield put({
-      type: types.GET_PROFILE_FAILURE,
+      type: types.GET_BOOKMARKS_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);
@@ -66,7 +67,7 @@ export function* filterBookmarksRequest() {
 
 function* getFilterBookmarks(params) {
   try {
-    const res = yield getFilteredBookmarks();
+    const res = yield getFilteredBookmarks(params?.params);
     if (res) {
       yield put({
         type: types.FILTER_BOOKMARKS_SUCCESS,
@@ -92,7 +93,7 @@ export function* deleteBookmarkRequest() {
 
 function* deleteBookmark(params) {
   try {
-    const res = yield removeBookmark();
+    const res = yield removeBookmark(params?.id);
     if (res) {
       yield put({
         type: types.REMOVE_BOOKMARK_SUCCESS,

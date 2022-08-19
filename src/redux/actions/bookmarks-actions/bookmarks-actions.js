@@ -1,9 +1,10 @@
 import * as TYPES from '../types';
 
 // add to bookmarks
-export const addToBookmarksRequest = (cbSuccess, cbFailure) => {
+export const addToBookmarksRequest = (params, cbSuccess, cbFailure) => {
   return {
-    type: TYPES.GET_BOOKMARKS_REQUEST,
+    type: TYPES.ADD_TO_BOOKMARKS_REQUEST,
+    params,
     cbSuccess,
     cbFailure,
   };
@@ -19,18 +20,20 @@ export const getBookmarksRequest = (cbSuccess, cbFailure) => {
 };
 
 // filter all bookmarks
-export const filterBookmarksRequest = (cbSuccess, cbFailure) => {
+export const filterBookmarksRequest = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.FILTER_BOOKMARKS_REQUEST,
+    params,
     cbSuccess,
     cbFailure,
   };
 };
 
 // delete from bookmarks
-export const deleteBookmarkRequest = (cbSuccess, cbFailure) => {
+export const deleteBookmarkRequest = (id, cbSuccess, cbFailure) => {
   return {
     type: TYPES.REMOVE_BOOKMARK_REQUEST,
+    id,
     cbSuccess,
     cbFailure,
   };

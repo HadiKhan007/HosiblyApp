@@ -108,7 +108,6 @@ const Home = ({navigation}) => {
         setLoading(true);
         const onSuccess = res => {
           setLoading(false);
-          console.log('On Recent prop Success');
         };
         const onFailure = res => {
           setLoading(false);
