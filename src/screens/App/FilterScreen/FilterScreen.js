@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   Text,
@@ -8,7 +9,9 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {
   AppButton,
+  AppLoader,
   BackHeader,
+  DoublePriceInput,
   FilterButton,
   ListModal,
   LivingSpaceInput,
@@ -25,8 +28,10 @@ import {
   buyer_house_list,
   buyer_vacant_input,
   buyer_vacant_list,
+  checkConnected,
   colors,
   lat_frontage_list,
+  networkText,
   property_type_list,
   select_option_list,
   size,
@@ -35,8 +40,9 @@ import {
 } from '../../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {max} from 'moment';
-const currency_list = ['CA$', 'PKR', 'INR', 'EUR'];
+import {useDispatch, useSelector} from 'react-redux';
+import {set_buyer_properties} from '../../../redux/actions';
+const currency_list = ['CA$', 'USD'];
 
 const FilterScreen = ({navigation}) => {
   const [currency, setCurrency] = useState('USD');
@@ -55,6 +61,7 @@ const FilterScreen = ({navigation}) => {
   const [inputList, setinputList] = useState([]);
   const [itemList, setitemList] = useState([]);
   const [Id, setId] = useState(0);
+  const [loading, setLoading] = useState(false);
   //References
   const propertyTypeRef = useRef(null);
   const bedRoomRef = useRef(null);
@@ -62,27 +69,121 @@ const FilterScreen = ({navigation}) => {
   const latForntageRef = useRef(null);
   const selectOptionRef = useRef(null);
 
+  const dispatch = useDispatch(null);
+  const {buyer_preferences} = useSelector(state => state?.appReducer);
+
   //Set States
   useEffect(() => {
-    setPropertyData({text: 'House'});
-    setinputList(buyer_house_inputs);
-    setitemList(buyer_house_list);
+    if (buyer_preferences?.save_data) {
+      setPropertyType(buyer_preferences?.property_type);
+      setPropertyData(buyer_preferences?.property_type);
+      setminBedRooms(buyer_preferences?.min_bed_rooms);
+      setbedRoomData(buyer_preferences?.min_bed_rooms);
+      setBathRoomData(buyer_preferences?.min_bath_rooms);
+      setminBathRooms(buyer_preferences?.min_bath_rooms);
+      setlatFrontage(buyer_preferences?.lat_frontage);
+      setlatFrontageData(buyer_preferences?.lat_frontage);
+      setminPrice(buyer_preferences?.min_price);
+      setmaxPrice(buyer_preferences?.max_price);
+      setinputList(buyer_preferences?.input_list);
+      setitemList(buyer_preferences?.item_list);
+      setCurrency(buyer_preferences?.currency_type);
+    } else {
+      setPropertyData({text: 'House'});
+      setinputList(buyer_house_inputs);
+      setitemList(buyer_house_list);
+    }
+    return () => {
+      if (!buyer_preferences?.save_data) {
+        for (let i = 0; i < buyer_house_inputs.length; i++) {
+          buyer_house_inputs[i].minValue = '';
+          buyer_house_inputs[i].maxValue = '';
+        }
+        for (let i = 0; i < buyer_house_list.length; i++) {
+          buyer_house_list[i].value = '';
+        }
+        for (let i = 0; i < buyer_condo_list.length; i++) {
+          buyer_condo_list[i].value = '';
+        }
+        for (let i = 0; i < buyer_vacant_input.length; i++) {
+          buyer_vacant_input[i].minValue = '';
+          buyer_vacant_input[i].maxValue = '';
+        }
+        for (let i = 0; i < buyer_vacant_list.length; i++) {
+          buyer_vacant_list[i].value = '';
+        }
+      }
+    };
   }, []);
 
   const addPropertyData = async () => {
-    const requestBody = {
-      propertyType: propertyType?.text,
-      minBedRooms: minBedRooms?.text,
-      minBathRooms: minBathRooms?.text,
-      latFrontage: latFrontage?.text,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
-      inputList: inputList,
-      itemList: itemList,
-    };
-    console.log(requestBody);
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const form = new FormData();
+        form.append(
+          'preference[property_type]',
+          propertyType?.text?.toLowerCase() || 'house',
+        );
+        form.append('preference[min_price]', minPrice || '');
+        form.append('preference[max_price]', maxPrice || '');
+        form.append('preference[price_unit]', currency || '');
+        form.append('preference[min_bedrooms]', minBedRooms?.text || '');
+        form.append('preference[min_bathrooms]', minBathRooms?.text || '');
+        form.append('preference[min_lot_frontage]', latFrontage?.text || '');
+
+        itemList?.forEach(item => {
+          form.append(`preference[${item?.key}]`, item?.value);
+        });
+        inputList?.forEach(item => {
+          form.append(`preference[${item?.key}]`, item?.minValue);
+          if (item?.key1) {
+            form.append(`preference[${item?.key1}]`, item?.maxValue);
+          }
+        });
+        const onSuccess = res => {
+          setLoading(false);
+          Alert.alert('Success', 'Buyer preferences edited successfully!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation?.goBack();
+              },
+            },
+          ]);
+        };
+        console.log(form);
+        dispatch(set_buyer_properties(form, onSuccess));
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
   };
 
+  const onSavePropertyData = async () => {
+    const requestBody = {
+      property_type: propertyType,
+      min_bed_rooms: minBedRooms,
+      currency_type: currency,
+      min_bath_rooms: minBathRooms,
+      lat_frontage: latFrontage,
+      min_price: minPrice,
+      max_price: maxPrice,
+      input_list: inputList,
+      item_list: itemList,
+      save_data: true,
+    };
+
+    const onSuccess = res => {
+      Alert.alert('Success', 'Information Saved Successfully');
+    };
+    dispatch(set_buyer_properties(requestBody, onSuccess));
+  };
   //Set More Options
   const setMoreOptions = val => {
     if (val == 'House') {
@@ -130,8 +231,7 @@ const FilterScreen = ({navigation}) => {
               title={propertyType?.text}
             />
             <Divider color={colors.g18} />
-            <PriceInput
-              inputs={true}
+            <DoublePriceInput
               onSelect={val => {
                 setCurrency(val);
               }}
@@ -197,16 +297,28 @@ const FilterScreen = ({navigation}) => {
                           h2FontSize={size.xsmall}
                           onChangeText1={text => {
                             item.minValue = text;
+                            setinputList([...inputList]);
                           }}
                           onChangeText2={text => {
                             inputList[index].maxValue = text;
+                            setinputList([...inputList]);
                           }}
+                          val1={inputList[index]?.minValue}
+                          val2={inputList[index]?.maxValue}
                         />
                       </>
                     );
                   }}
                   keyExtractor={(item, index) => index?.toString()}
                 />
+                {propertyType?.text != 'Condo' && (
+                  <FilterButton
+                    onPress={() => {
+                      latForntageRef?.current?.open();
+                    }}
+                    title={latFrontage?.text || 'Min Lot Frontage'}
+                  />
+                )}
                 <FlatList
                   data={itemList}
                   renderItem={({item, index}) => {
@@ -235,7 +347,7 @@ const FilterScreen = ({navigation}) => {
               fontSize={size.tiny}
               borderColor={colors.g21}
               onPress={() => {
-                navigation?.goBack();
+                onSavePropertyData();
               }}
               shadowColor={colors.white}
             />
@@ -343,10 +455,11 @@ const FilterScreen = ({navigation}) => {
         }}
         NotleftIcon={true}
         NotrightIcon={true}
-        selected={{text: itemList[Id]?.value}}
-        title={'Select Option'}
+        selected={{text: itemList[Id]?.value || ''}}
+        title={itemList[Id]?.title}
         closable={true}
       />
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

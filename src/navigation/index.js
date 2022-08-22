@@ -32,6 +32,7 @@ import PropertyDetail from '../screens/App/Home/PropertyDetail';
 import AddAddress from '../screens/App/Home/AddAddress';
 import Chat from '../screens/App/Chat';
 import Video from '../screens/App/Video';
+import PropertyInfo from '../screens/App/Home/PropertyInfo';
 
 const AppStack = createNativeStackNavigator();
 
@@ -67,6 +68,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'AddAddress'} component={AddAddress} />
         <AppStack.Screen name={'Chat'} component={Chat} />
         <AppStack.Screen name={'Video'} component={Video} />
+        <AppStack.Screen name={'PropertyInfo'} component={PropertyInfo} />
 
         <AppStack.Screen
           name={'AddPropertyDetails'}

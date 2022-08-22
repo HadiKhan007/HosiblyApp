@@ -1,5 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {WP, colors, size, family, scrWidth} from '../../../../../shared/exporter';
+import {
+  WP,
+  colors,
+  size,
+  family,
+  scrWidth,
+} from '../../../../../shared/exporter';
 
 const styles = StyleSheet.create({
   propertyTxtStyle: {

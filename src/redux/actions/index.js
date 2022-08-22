@@ -36,6 +36,7 @@ export {
   get_recent_properties,
   get_filtered_properties,
   set_buyer_properties,
+  get_buyer_properties,
 } from './app-actions/app-actions';
 
 // bookmarks actions

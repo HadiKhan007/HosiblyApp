@@ -24,6 +24,7 @@ export const DocBox = ({docArray, onPressDoc}) => {
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={docArray}
+          nestedScrollEnabled={true}
           renderItem={({item, index}) => {
             return (
               <View style={styles.imgCon}>

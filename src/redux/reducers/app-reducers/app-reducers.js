@@ -10,6 +10,7 @@ const initialState = {
   all_properties: [],
   filtered_properties: [],
   buyer_preferences: '',
+  buyer_data: null,
 };
 
 const appReducers = (state = initialState, actions) => {
@@ -77,6 +78,24 @@ const appReducers = (state = initialState, actions) => {
         isSuccess: true,
         isFailure: false,
         buyer_preferences: payload,
+      };
+
+    //************ Get Buyer  Data states*************
+    case TYPES.GET_BUYER_DATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        buyer_data: payload,
+      };
+    case TYPES.GET_BUYER_DATA_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: false,
+        isFailure: true,
+        buyer_data: null,
       };
 
     //************ Get Filtered Properties states*************

@@ -7,27 +7,20 @@ import {
   family,
   scrWidth,
   platformOrientedCode,
-} from '../../../shared/exporter';
+} from '../../../../shared/exporter';
 
 let hasNotch = DeviceInfo.hasNotch();
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.g5,
     paddingTop: platformOrientedCode(WP('6'), 0),
   },
-  headerTxtStyle: {
-    color: colors.b1,
-    alignSelf: 'center',
-    fontSize: size.xsmall,
-    paddingVertical: WP('2.5'),
-    fontFamily: family.Gilroy_SemiBold,
-  },
-  titleTxtStyle: {
+  headTxtStyle: {
     color: colors.b1,
     fontSize: size.h6,
-    paddingTop: WP('5'),
+    paddingTop: WP('3'),
     paddingBottom: WP('3.6'),
     paddingHorizontal: WP('4'),
     fontFamily: family.Gilroy_Bold,
@@ -49,6 +42,10 @@ const styles = StyleSheet.create({
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_Medium,
   },
+  menuesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   menuContainer: {
     width: '100%',
     top: WP('-3'),
@@ -56,20 +53,31 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
+  menuContainer1: {
+    width: '100%',
+    top: WP('-3'),
+    paddingLeft: WP('42'),
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
   menuStyle: {
-    flex: 1,
     marginTop: 5,
     marginLeft: -5,
     borderRadius: 8,
-    width: scrWidth / 2.2,
-    height: platformOrientedCode(WP('35'), WP('32')),
+    height: WP('21'),
+    width: scrWidth / 3.35,
+  },
+  menuStyle1: {
+    marginTop: 5,
+    marginLeft: -5,
+    borderRadius: 8,
+    height: WP('27'),
+    width: scrWidth / 3,
   },
   menuItemStyle: {
-    height: WP('10'),
+    height: WP('8'),
   },
   menuItemRow: {
-    width: '100%',
-    height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: platformOrientedCode(WP('2'), WP('4.5')),
@@ -77,14 +85,13 @@ const styles = StyleSheet.create({
   modelIconStyle: {
     width: 15,
     height: 14,
-    marginTop: WP('2'),
     marginRight: WP('3'),
   },
   menuTxtStyle: {
     color: colors.b1,
-    marginTop: WP('2'),
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_Regular,
+    marginTop: platformOrientedCode(WP('2'), WP('3.5')),
   },
   dividerView: {
     top: 5,
@@ -92,53 +99,31 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.g24,
   },
-  flStyle: {
-    marginBottom: WP('13'),
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingBottom: platformOrientedCode(WP('16'), hasNotch ? 0 : WP('16')),
-  },
-  itemContainer: {
+  detailsContainer: {
+    marginTop: WP('8'),
+    alignItems: 'center',
     flexDirection: 'row',
-    paddingBottom: WP('4.2'),
-    paddingHorizontal: WP('4'),
-    backgroundColor: colors.white,
+    paddingBottom: WP('6'),
+    marginHorizontal: WP('4'),
+    backgroundColor: colors.g5,
+  },
+  innerRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   imgStyle: {
     borderRadius: 15,
     width: WP('26.3'),
     height: WP('24.1'),
-    marginRight: WP('2.5'),
-  },
-  innerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    marginRight: WP('3'),
   },
   nameTxtStyle: {
     color: colors.b1,
-    fontSize: size.large,
+    fontSize: size.h5,
     fontFamily: family.Gilroy_SemiBold,
   },
-  txtContainer: {
-    width: WP('9'),
-    borderRadius: 5,
-    height: WP('4.4'),
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.r1,
-  },
-  newTxtStyle: {
-    left: 0.5,
-    color: colors.white,
-    fontSize: size.xxtiny,
-    fontFamily: family.Gilroy_Regular,
-  },
   simpleRow: {
-    paddingTop: 13,
-    paddingBottom: 6,
+    paddingVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -158,68 +143,76 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginRight: 4,
   },
-  heartIconStyle: {
-    width: 13,
-    height: 11,
-    marginRight: 5,
-  },
-  heartTxtStyle: {
-    color: colors.r2,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_Medium,
-  },
-  timeTxtStyle: {
-    color: colors.g17,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_Medium,
-  },
-  backBtnsContainer: {
+  container: {
     flex: 1,
-    paddingLeft: 15,
-    alignItems: 'center',
+    backgroundColor: colors.white,
+    paddingBottom: platformOrientedCode(WP('16'), hasNotch ? 0 : WP('16')),
+  },
+  matchImgStyle: {
+    width: WP('11.5'),
+    height: WP('11.5'),
+    borderRadius: WP('11.5'),
+  },
+  iconRow: {
+    marginTop: WP('4'),
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  matchTxtStyle: {
+    color: colors.r2,
+    fontSize: size.normal,
+    fontFamily: family.Gilroy_Medium,
+  },
+  itemRow: index => {
+    return {
+      borderRadius: 5,
+      paddingHorizontal: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginHorizontal: WP('2'),
+      paddingVertical: index % 2 == 0 ? 4 : 6,
+      backgroundColor: index % 2 == 0 ? colors.g5 : colors.white,
+    };
+  },
+  titleTxtStyle: {
+    flex: 0.4,
+    color: colors.g16,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_Medium,
+  },
+  contentRow: {
+    flex: 0.6,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
-  delBtnStyle: {
-    top: 1,
-    right: 0,
-    bottom: 0,
-    width: WP('23'),
-    height: WP('23'),
-    borderRadius: 15,
-    alignItems: 'center',
-    position: 'absolute',
-    borderTopEndRadius: 0,
-    justifyContent: 'center',
-    borderBottomEndRadius: 0,
-    backgroundColor: colors.s1,
+  valTxtStyle: {
+    width: '80%',
+    color: colors.b1,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_SemiBold,
   },
   iconStyle: {
-    width: 20,
-    height: 20,
-    tintColor: colors.g15,
+    width: WP('4.2'),
+    height: WP('4.2'),
   },
-  delIconStyle: {
-    width: 20,
-    height: 20,
-    tintColor: colors.white,
-  },
-  btnTxtStyle: {
-    marginTop: 5,
-    color: colors.white,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_Medium,
-  },
-  noRecordsView: {
-    flex: 0.9,
+  bottomView: {
+    width: '100%',
+    bottom: WP('5'),
+    alignSelf: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
     justifyContent: 'center',
   },
-  noRecords: {
-    marginRight: 17,
-    color: colors.p1,
-    fontSize: size.large,
-    fontFamily: family.Gilroy_Bold,
+  btnTxtStyle: {
+    color: colors.white,
+    fontSize: size.tiny,
+    fontFamily: family.Gilroy_SemiBold,
+  },
+  h80: {
+    height: 80,
+    paddingHorizontal: 10,
   },
 });
 

@@ -1108,34 +1108,29 @@ const buyer_house_list = [
     id: 0,
     title: 'Any Specific Property Types?',
     value: '',
+    key: 'property_types',
   },
   {
     id: 1,
     title: 'Any Specific Property Styles?',
     value: '',
+    key: 'property_style',
   },
 
   {
     id: 2,
     title: 'Parking Spots Required',
     value: '',
+    key: 'parking_spot',
   },
   {
     id: 3,
     title: 'Garage Spots Required',
     value: '',
-  },
-  {
-    id: 4,
-    title: 'Min Lot Forntage',
-    value: '',
-  },
-  {
-    id: 5,
-    title: 'Max Age',
-    value: '',
+    key: 'garbage_spot',
   },
 ];
+
 const buyer_house_inputs = [
   {
     id: 0,
@@ -1143,6 +1138,8 @@ const buyer_house_inputs = [
     subtitle: '(ft)',
     minValue: '',
     maxValue: '',
+    key: 'min_lot_size',
+    key1: 'max_lot_size',
   },
   {
     id: 1,
@@ -1150,6 +1147,8 @@ const buyer_house_inputs = [
     subtitle: '',
     minValue: '',
     maxValue: '',
+    key: 'min_living_space',
+    key1: 'max_living_space',
   },
 ];
 
@@ -1158,48 +1157,43 @@ const buyer_condo_list = [
     id: 0,
     title: 'Any Specific Property Types?',
     value: '',
+    key: 'property_types',
   },
   {
     id: 1,
     title: 'Any Specific Property Styles?',
     value: '',
+    key: 'property_style',
   },
 
   {
     id: 2,
     title: 'Parking Spots Required',
     value: '',
+    key: 'parking_spot',
   },
+
   {
     id: 3,
     title: 'Balcony',
     value: '',
+    key: 'balcony',
   },
   {
     id: 4,
     title: 'Security',
     value: '',
+    key: 'security',
   },
   {
     id: 5,
     title: 'Laundry',
     value: '',
-  },
-  {
-    id: 6,
-    title: 'Max Age',
-    value: '',
+    key: 'laundry',
   },
 ];
 
-const buyer_vacant_list = [
-  {
-    id: 0,
-    title: 'Min Lot Forntage',
-    subtitle: '(ft)',
-    value: '',
-  },
-];
+const buyer_vacant_list = [];
 const buyer_vacant_input = [
   {
     id: 0,
@@ -1207,6 +1201,7 @@ const buyer_vacant_input = [
     subtitle: '(ft)',
     minValue: '',
     maxValue: '',
+    key: 'min_lot_size',
   },
 ];
 

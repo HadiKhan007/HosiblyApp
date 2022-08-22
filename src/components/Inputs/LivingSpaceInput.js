@@ -12,6 +12,8 @@ export const LivingSpaceInput = ({
   placeholder1,
   placeholder2,
   h2FontSize,
+  val1,
+  val2,
 }) => {
   return (
     <View style={styles.container}>
@@ -34,6 +36,7 @@ export const LivingSpaceInput = ({
           style={styles.inputStyle}
           keyboardType={'decimal-pad'}
           onChangeText={onChangeText1}
+          value={val1}
         />
         <Text style={styles.to}>to</Text>
         <TextInput
@@ -42,6 +45,7 @@ export const LivingSpaceInput = ({
           placeholder={placeholder2 || 'max'}
           keyboardType={'decimal-pad'}
           onChangeText={onChangeText2}
+          value={val2}
         />
       </View>
     </View>

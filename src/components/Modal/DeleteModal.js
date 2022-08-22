@@ -1,9 +1,22 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import {colors, WP, family, size, appIcons} from '../../shared/exporter';
+import {
+  colors,
+  WP,
+  family,
+  size,
+  appIcons,
+  property_image,
+} from '../../shared/exporter';
 
-export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
+export const DeleteModal = ({
+  item,
+  show,
+  onPressHide,
+  isBookMark = false,
+  deleteFromBookmarks,
+}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
@@ -17,19 +30,32 @@ export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
             style={styles.crossIconStyle}
           />
         </TouchableOpacity>
-        <Image source={item?.img} style={styles.imgStyle} />
-        <Text style={styles.nameTxtStyle}>{item?.name}</Text>
+        <Image
+          source={
+            isBookMark
+              ? {uri: (item?.image && item?.image[0]?.url) || property_image}
+              : item?.img
+          }
+          style={styles.imgStyle}
+        />
+        <Text style={styles.nameTxtStyle}>
+          {isBookMark ? item?.title : item?.name}
+        </Text>
         <View style={styles.rowContainer}>
-          <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+          <Text style={styles.smallTxtStyle}>
+            {isBookMark ? `$${item?.price} | ` : '$25,000'}
+          </Text>
           <Image
             resizeMode="contain"
             source={appIcons.bedIcon}
             style={styles.bedIconStyle}
           />
-          <Text style={styles.smallTxtStyle}>4</Text>
+          <Text style={styles.smallTxtStyle}>
+            {isBookMark ? item?.bed_rooms || '0' : '4'}
+          </Text>
           <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
           <Text resizeMode="contain" style={styles.smallTxtStyle}>
-            3.5
+            {isBookMark ? item?.bath_rooms || '0' : '3.5'}
           </Text>
         </View>
         {isBookMark ? (
@@ -44,7 +70,9 @@ export const DeleteModal = ({item, show, onPressHide, isBookMark = false}) => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.buttonStyle}
-          onPress={() => onPressHide()}>
+          onPress={() => {
+            isBookMark ? deleteFromBookmarks(item) : onPressHide();
+          }}>
           <Text style={styles.btnTxtStyle}>Remove</Text>
         </TouchableOpacity>
       </View>

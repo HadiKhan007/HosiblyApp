@@ -2,6 +2,7 @@ import {fork} from 'redux-saga/effects';
 import {
   addPropertyDetailRequest,
   getAllPropertiesRequest,
+  getBuyerDataRequest,
   getFilteredPropertiesRequest,
   getRecentPropertiesRequest,
   setAddressRequest,
@@ -72,6 +73,8 @@ export function* rootSaga() {
   yield fork(getdefaultCardRequest);
   yield fork(addPropertyDetailRequest);
   yield fork(setAddressRequest);
+  yield fork(setBuyerDataRequest);
+  yield fork(getBuyerDataRequest);
 
   //Properties
   yield fork(getRecentPropertiesRequest);
@@ -83,5 +86,4 @@ export function* rootSaga() {
   yield fork(getBookmarksRequest);
   yield fork(filterBookmarksRequest);
   yield fork(deleteBookmarkRequest);
-  yield fork(setBuyerDataRequest);
 }

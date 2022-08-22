@@ -41,7 +41,7 @@ import {
 } from '../../../../redux/actions';
 import {useIsFocused} from '@react-navigation/core';
 
-const currency_list = ['CA$'];
+const currency_list = ['USD', 'CA$'];
 const lot_list = ['meter', 'feet'];
 const depth_list = ['meter', 'feet'];
 const size_list = ['sqm', 'sqft'];
