@@ -95,13 +95,11 @@ const AllSales = ({navigation}) => {
           setProperties(res);
           setLoading(false);
           setShowMenu(false);
-          console.log('On Filter prop Success', res);
         };
         const onFailure = res => {
           setLoading(false);
           setShowMenu(false);
           Alert.alert('Error', res);
-          console.log('On Filter prop Failure', res);
         };
         var form = new FormData();
         form.append(
@@ -126,7 +124,6 @@ const AllSales = ({navigation}) => {
       try {
         setLoading(true);
         const onSuccess = res => {
-          console.log('Res => ', res);
           alert('Property is bookmarked.');
           getAllProperties();
         };
@@ -150,7 +147,6 @@ const AllSales = ({navigation}) => {
   };
 
   const renderItem = ({item, index}) => {
-    console.log('Item is ==> ', item?.is_bookmark);
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -204,7 +200,7 @@ const AllSales = ({navigation}) => {
                 </View>
               )}
             </View>
-            {item?.is_bookmark && (
+            {!item?.is_bookmark && (
               <AppButton
                 width={'40%'}
                 height={WP('8')}
@@ -372,6 +368,7 @@ const AllSales = ({navigation}) => {
         <SwipeListView
           useFlatList
           data={properties}
+          extraData={properties}
           disableLeftSwipe={true}
           disableRightSwipe={true}
           renderItem={renderItem}

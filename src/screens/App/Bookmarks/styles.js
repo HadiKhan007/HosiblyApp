@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: -5,
     borderRadius: 8,
     width: scrWidth / 2.2,
-    height: platformOrientedCode(WP('33'), WP('31')),
+    height: platformOrientedCode(WP('35'), WP('32')),
   },
   menuItemStyle: {
     height: WP('10'),
@@ -209,6 +209,17 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Medium,
+  },
+  noRecordsView: {
+    flex: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noRecords: {
+    marginRight: 17,
+    color: colors.p1,
+    fontSize: size.large,
+    fontFamily: family.Gilroy_Bold,
   },
 });
 
