@@ -6,6 +6,8 @@ import {family, size, colors, WP} from '../../shared/exporter';
 
 const AppInput = ({
   placeholder,
+  placeholderTextColor,
+  lable,
   leftIcon,
   rightIcon,
   secureTextEntry,
@@ -29,8 +31,10 @@ const AppInput = ({
   return (
     <View style={styles.container}>
       {title && <Text style={styles.textStyle}>{title}</Text>}
+
       <Input
         placeholder={placeholder}
+        placeholderTextColor={placeholderTextColor}
         secureTextEntry={showPass}
         inputContainerStyle={styles.inputContainerStyle}
         inputStyle={styles.inputStyle}
