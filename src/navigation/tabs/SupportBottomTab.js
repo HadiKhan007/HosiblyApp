@@ -3,11 +3,9 @@ import {View, Image, Platform, StyleSheet} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {appIcons, colors, WP} from '../../shared/exporter';
-
-import HomeStack from '../stacks/HomeStack';
-import SearchStack from '../stacks/SearchStack';
-import BookMarksStack from '../stacks/BookMarksStack';
-import ChatStack from '../stacks/ChatStack';
+import SupportHomeStack from '../SupportStack/SupportHomeStack';
+import SupportMessagingStack from '../SupportStack/MessagingStack';
+import SupportNotificationStack from '../SupportStack/NotificationStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,10 +28,10 @@ export default SupportBottomTabs = ({}) => {
       tabBarOptions={{
         showLabel: false,
       }}
-      initialRouteName={'Home'}>
+      initialRouteName={'SupportHome'}>
       <Tab.Screen
-        name="Home"
-        component={HomeStack}
+        name="SupportHome"
+        component={SupportHomeStack}
         options={{
           tabBarIcon: ({focused}) => (
             <>
@@ -48,40 +46,8 @@ export default SupportBottomTabs = ({}) => {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchStack}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <>
-              <Image
-                resizeMode="contain"
-                source={appIcons.searchIcon}
-                style={styles.iconStyle(focused)}
-              />
-              <View style={styles.barViewStyle(focused)} />
-            </>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="BookMarks"
-        component={BookMarksStack}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <>
-              <Image
-                resizeMode="contain"
-                source={appIcons.bookmarksIcon}
-                style={styles.bookmarksIconStyle(focused)}
-              />
-              <View style={styles.barViewStyle(focused)} />
-            </>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={ChatStack}
+        name="SupportMessaging"
+        component={SupportMessagingStack}
         options={{
           tabBarIcon: ({focused}) => (
             <>
@@ -89,6 +55,22 @@ export default SupportBottomTabs = ({}) => {
                 resizeMode="contain"
                 source={appIcons.messageIcon}
                 style={styles.iconStyle(focused)}
+              />
+              <View style={styles.barViewStyle(focused)} />
+            </>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SupportNotification"
+        component={SupportNotificationStack}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <>
+              <Image
+                resizeMode="contain"
+                source={appIcons.bookmarksIcon}
+                style={styles.bookmarksIconStyle(focused)}
               />
               <View style={styles.barViewStyle(focused)} />
             </>
