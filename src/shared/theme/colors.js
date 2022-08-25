@@ -93,6 +93,7 @@ export const colors = {
   r3: '#FFBBBB',
   r4: '#FFEEEE',
   r5: '#EA4335',
+  gr2: [ '#A051DC','#FE4F4F'],
 
   over1: 'rgba(0,0,0,0.7)',
 };

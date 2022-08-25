@@ -34,6 +34,7 @@ export {
   addCardVS,
   AddSupportInfoField,
   AddSupportInfoVS,
+  BudgetBoost
 } from './utilities/validations';
 export {
   StatusBarHeight,
