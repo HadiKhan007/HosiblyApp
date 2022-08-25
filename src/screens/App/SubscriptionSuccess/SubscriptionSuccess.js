@@ -5,7 +5,7 @@ import {appIcons, appImages} from '../../../shared/theme/assets';
 import styles from './styles';
 import {AppButton} from '../../../components';
 import {AppLinearGradient} from '../../../components/AppButton/AppLinearGradient';
-import {colors} from '../../../shared/exporter';
+import { colors } from '../../../shared/exporter';
 
 const SubscriptionSuccess = () => {
   return (
