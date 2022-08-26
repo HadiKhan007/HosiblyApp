@@ -87,8 +87,6 @@ export const addInfo = async params => {
       Accept: 'application/json',
       'Content-Type': 'multipart/form-data',
       auth_token: await GetToken(),
-      // auth_token:
-      //   'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFzYWFkQGdtYWlsLmNvbSJ9.CJZFvwqRARfuNSELnC-a0_dU-DLa2p-astHTrcgOBLU',
     },
   });
   return res.data;

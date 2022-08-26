@@ -69,6 +69,7 @@ export const colors = {
   g38: '#76787F',
   g39: '#F5F5F5',
   g40: '#8A8A8A',
+  g41:"#7D7D7D",
 
   //Green
   gr1: '#00A66C',
@@ -93,7 +94,8 @@ export const colors = {
   r3: '#FFBBBB',
   r4: '#FFEEEE',
   r5: '#EA4335',
-  gr2: [ '#A051DC','#FE4F4F'],
+  gr2: ['#A051DC', '#FE4F4F'],
+  starcolor: '#FFC107',
 
   over1: 'rgba(0,0,0,0.7)',
 };

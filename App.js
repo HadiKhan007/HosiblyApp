@@ -8,7 +8,8 @@ import store, {persistor} from './src/redux/store';
 import {colors, stripe_publishableKey} from './src/shared/exporter';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {StripeProvider} from '@stripe/stripe-react-native';
-import {SubscriptionSuccess} from './src/screens/App/SubscriptionSuccess/SubscriptionSuccess';
+import SupportProfile from './src/screens/SupportApp/SupportProfile/SupportProfile';
+import {SearchSupport} from './src/screens/App/SearchSupport/SeacrchSupport';
 
 // ignore warnings
 LogBox.ignoreAllLogs();

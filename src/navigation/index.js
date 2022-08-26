@@ -33,6 +33,7 @@ import AddAddress from '../screens/App/Home/AddAddress';
 import Chat from '../screens/App/Chat';
 import Video from '../screens/App/Video';
 import PropertyInfo from '../screens/App/Home/PropertyInfo';
+import SupportBottomTab from './tabs/SupportBottomTab';
 
 const AppStack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'Walkthrough'} component={Walkthrough} />
         <AppStack.Screen name={'Auth'} component={AuthStack} />
         <AppStack.Screen name={'App'} component={BottomTabs} />
+        {/* Buyer Screens */}
         <AppStack.Screen name={'FilterScreen'} component={FilterScreen} />
         <AppStack.Screen name={'SubFilterScreen'} component={SubFilterScreen} />
         <AppStack.Screen name={'Settings'} component={Settings} />
@@ -81,6 +83,8 @@ const MainAppNav = () => {
           name={'AddMorePropertyDetails'}
           component={AddMorePropertyDetail}
         />
+        {/* Support Closure Screens */}
+        <AppStack.Screen name={'SupportApp'} component={SupportBottomTab} />
       </AppStack.Navigator>
     </NavigationContainer>
   );
