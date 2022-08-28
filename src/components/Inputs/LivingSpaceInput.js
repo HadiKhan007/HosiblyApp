@@ -1,6 +1,5 @@
 import {Platform, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import SelectDropdown from 'react-native-select-dropdown';
 import {colors, family, size} from '../../shared/exporter';
 import {Icon} from 'react-native-elements';
 

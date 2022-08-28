@@ -2,14 +2,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {colors, family, size} from '../../shared/exporter';
 
-export const ProfileField = ({title, subtitle}) => {
+export const ProfileField = ({title, subtitle, subColor}) => {
   return (
     <View style={styles.container}>
       <View style={styles.leftCon}>
         <Text style={styles.h1}>{title}</Text>
       </View>
       <View style={styles.rightCon}>
-        <Text style={styles.h2}>{subtitle}</Text>
+        <Text style={[styles.h2, {color: subColor || colors.g19}]}>
+          {subtitle}
+        </Text>
       </View>
     </View>
   );

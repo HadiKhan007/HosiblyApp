@@ -69,6 +69,8 @@ export const colors = {
   g38: '#76787F',
   g39: '#F5F5F5',
   g40: '#8A8A8A',
+  g41: '#7D7D7D',
+  g42: '#474747',
 
   //Green
   gr1: '#00A66C',
@@ -85,6 +87,7 @@ export const colors = {
   btn_shadow: 'rgba(76, 187, 255, 0.4)',
   drop_shadow: 'rgba(0, 0, 0, 0.1)',
   item_shadow: 'rgba(255, 255, 255, 0.8)',
+  shad1: 'rgba(0, 0, 0, 0.05',
 
   // red
   red: 'red',
@@ -93,7 +96,11 @@ export const colors = {
   r3: '#FFBBBB',
   r4: '#FFEEEE',
   r5: '#EA4335',
-  gr2: [ '#A051DC','#FE4F4F'],
+  gr2: ['#A051DC', '#FE4F4F'],
+
+  //Yello
+  y1: '#FFC107',
+  starcolor: '#FFC107',
 
   over1: 'rgba(0,0,0,0.7)',
 };
