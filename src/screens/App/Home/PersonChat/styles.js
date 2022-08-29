@@ -5,6 +5,7 @@ import {
   size,
   family,
   platformOrientedCode,
+  scrWidth,
 } from '../../../../shared/exporter';
 import DeviceInfo from 'react-native-device-info';
 
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 26,
     height: 26,
+    borderRadius: 7,
   },
   msgContainer: {
     marginBottom: WP('4.6'),
@@ -116,6 +118,42 @@ const styles = StyleSheet.create({
     flex: 0.75,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  menuContainer: {
+    width: '100%',
+    top: WP('-3'),
+    paddingLeft: WP('5.2'),
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  menuStyle: {
+    flex: 1,
+    paddingTop: 6,
+    marginLeft: -5,
+    borderRadius: 8,
+    width: scrWidth / 3.2,
+    height: platformOrientedCode(WP('25'), WP('20')),
+  },
+  menuItemStyle: {
+    height: WP('8'),
+  },
+  menuItemRow: {
+    width: '100%',
+    height: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: platformOrientedCode(WP('2'), WP('4.5')),
+  },
+  modelIconStyle: {
+    width: 15,
+    height: 14,
+    marginTop: WP('2'),
+    marginRight: WP('3'),
+  },
+  menuTxtStyle: {
+    color: colors.b1,
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_Regular,
   },
   noRecords: {
     marginRight: 17,

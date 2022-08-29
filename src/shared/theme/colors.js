@@ -27,6 +27,8 @@ export const colors = {
   b5: '#222222',
   b6: '#2D3142',
   b7: '#2B2B2B',
+  b8: '#171717',
+  b9: '#272727',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -71,6 +73,7 @@ export const colors = {
   g40: '#8A8A8A',
   g41: '#7D7D7D',
   g42: '#474747',
+  g43: '#999999',
 
   //Green
   gr1: '#00A66C',
