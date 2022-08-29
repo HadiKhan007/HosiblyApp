@@ -94,7 +94,7 @@ const VerifyOTP = ({navigation, route}) => {
           res => {
             console.log('OTP RESEND', res);
             setLoading(false);
-            Alert.alert('Success', 'OTP send successfully');
+            Alert.alert('Success', 'OTP sent successfully');
           },
           res => {
             setLoading(false);
