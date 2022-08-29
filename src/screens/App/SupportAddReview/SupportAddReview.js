@@ -10,12 +10,10 @@ import {
 import React from 'react';
 import styles from './styles';
 import {appIcons, appImages, colors, size} from '../../../shared/exporter';
-import StarRating from 'react-native-star-rating';
 
-import {useState} from 'react';
 import {AppButton, AppStarRating} from '../../../components';
 
-const AddReview = () => {
+const SupportAddReview = () => {
   return (
     <View>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
@@ -61,4 +59,4 @@ const AddReview = () => {
   );
 };
 
-export {AddReview};
+export {SupportAddReview};

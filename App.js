@@ -8,6 +8,9 @@ import store, {persistor} from './src/redux/store';
 import {colors, stripe_publishableKey} from './src/shared/exporter';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {StripeProvider} from '@stripe/stripe-react-native';
+import SupportReview from './src/screens/SupportApp/SupportReview';
+import ReviewModal from './src/components/Modal/ReviewModal';
+import SupportAddReview from './src/screens/App/SupportAddReview';
 
 // ignore warnings
 LogBox.ignoreAllLogs();
@@ -22,18 +25,19 @@ GoogleSignin.configure({
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <StatusBar
-        translucent={false}
-        backgroundColor={colors.s1}
-        barStyle={'dark-content'}
-      />
-      <StripeProvider publishableKey={stripe_publishableKey}>
-        <PersistGate persistor={persistor}>
-          <MainNavigation />
-        </PersistGate>
-      </StripeProvider>
-    </Provider>
+    <SupportReview />
+    // <Provider store={store}>
+    //   <StatusBar
+    //     translucent={false}
+    //     backgroundColor={colors.s1}
+    //     barStyle={'dark-content'}
+    //   />
+    //   <StripeProvider publishableKey={stripe_publishableKey}>
+    //     <PersistGate persistor={persistor}>
+    //       <MainNavigation />
+    //     </PersistGate>
+    //   </StripeProvider>
+    // </Provider>
   );
 };
 

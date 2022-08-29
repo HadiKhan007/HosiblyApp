@@ -13,7 +13,9 @@ import {appIcons, appImages, colors, size} from '../../../shared/exporter';
 
 import {useState} from 'react';
 import {AppStarRating, MenuList} from '../../../components';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Icon from 'react-native-vector-icons/AntDesign';
+import {ProfileModal} from '../../../components/Modal/ProfileModel';
+import ReviewModal from '../../../components/Modal/ReviewModal';
 
 const SupportReviews = () => {
   const [reviews, setReviews] = useState([
@@ -47,6 +49,7 @@ const SupportReviews = () => {
     },
   ]);
   const [choseStar, setchoseStar] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -66,15 +69,29 @@ const SupportReviews = () => {
         <View style={styles.dropdownstyle}>
           <AppStarRating
             style={styles.starRating}
-            disabled={false}
+            disabled={true}
             maxStars={1}
             fullStarColor={colors.starcolor}
             starSize={size.h6}
           />
-          <TouchableOpacity style={styles.btnRow}>
-            <Text style={styles.reviewtext}>{choseStar}</Text>
-            <Icon name={'down-arrow'} type={'ionicons'} />
+          <Text style={styles.reviewtext}>{choseStar}</Text>
+
+          <TouchableOpacity
+            style={styles.btnRow}
+            onPress={() => setShowModal(!showModal)}>
+            <Icon
+              style={{
+                paddingHorizontal: 10,
+                color: colors.b9,
+                border: 1.5,
+              }}
+              name={'down'}
+              size={12}
+            />
           </TouchableOpacity>
+          <View>
+            <ReviewModal show={showModal} />
+          </View>
         </View>
       </View>
       <FlatList
@@ -91,7 +108,7 @@ const SupportReviews = () => {
                   <View style={styles.starRating}>
                     <AppStarRating
                       style={styles.starRating}
-                      disabled={true}
+                      disabled={false}
                       maxStars={5}
                       fullStarColor={colors.starcolor}
                       starSize={size.small}
@@ -105,9 +122,7 @@ const SupportReviews = () => {
             </View>
           );
         }}
-        // keyExtractor={item => item.id}
       />
-      <MenuList showMenu={true} menu_list={[1, 2, 3]} />
     </SafeAreaView>
   );
 };
