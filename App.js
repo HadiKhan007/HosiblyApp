@@ -25,19 +25,18 @@ GoogleSignin.configure({
 
 const App = () => {
   return (
-    <SupportReview />
-    // <Provider store={store}>
-    //   <StatusBar
-    //     translucent={false}
-    //     backgroundColor={colors.s1}
-    //     barStyle={'dark-content'}
-    //   />
-    //   <StripeProvider publishableKey={stripe_publishableKey}>
-    //     <PersistGate persistor={persistor}>
-    //       <MainNavigation />
-    //     </PersistGate>
-    //   </StripeProvider>
-    // </Provider>
+    <Provider store={store}>
+      <StatusBar
+        translucent={false}
+        backgroundColor={colors.s1}
+        barStyle={'dark-content'}
+      />
+      <StripeProvider publishableKey={stripe_publishableKey}>
+        <PersistGate persistor={persistor}>
+          <MainNavigation />
+        </PersistGate>
+      </StripeProvider>
+    </Provider>
   );
 };
 

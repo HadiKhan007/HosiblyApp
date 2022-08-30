@@ -29,6 +29,7 @@ export const colors = {
   b7: '#2B2B2B',
   b8: '#171717',
   b9: '#141414',
+  b10: '#1A1A1A',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -73,6 +74,7 @@ export const colors = {
   g40: '#8A8A8A',
   g41: '#7D7D7D',
   g42: '#474747',
+  g43: '#rgba(0, 0, 0, 0.03)',
 
   //Green
   gr1: '#00A66C',
@@ -80,6 +82,8 @@ export const colors = {
   white: '#ffffff',
   w1: '#F0F0F0',
   app_color: '#F9FBFC',
+  w1: '#FFFFFF',
+  w2: '#EFF8FC',
 
   //******************- Gradients -*******************/
 

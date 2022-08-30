@@ -15,7 +15,7 @@ import {useState} from 'react';
 import {AppStarRating, MenuList} from '../../../components';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {ProfileModal} from '../../../components/Modal/ProfileModel';
-import ReviewModal from '../../../components/Modal/ReviewModal';
+import {Menu, MenuItem} from 'react-native-material-menu';
 
 const SupportReviews = () => {
   const [reviews, setReviews] = useState([
@@ -49,8 +49,11 @@ const SupportReviews = () => {
     },
   ]);
   const [choseStar, setchoseStar] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+  const [visible, setVisible] = useState(false);
 
+  const hideMenu = () => setVisible(false);
+
+  const showMenu = () => setVisible(true);
   return (
     <SafeAreaView style={styles.rootContainer}>
       <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
@@ -66,7 +69,7 @@ const SupportReviews = () => {
       </View>
       <View style={styles.starContainer}>
         <Text style={styles.reviewtext}>Reviews(43)</Text>
-        <View style={styles.dropdownstyle}>
+        <View>
           <AppStarRating
             style={styles.starRating}
             disabled={true}
@@ -75,22 +78,40 @@ const SupportReviews = () => {
             starSize={size.h6}
           />
           <Text style={styles.reviewtext}>{choseStar}</Text>
-
           <TouchableOpacity
             style={styles.btnRow}
-            onPress={() => setShowModal(!showModal)}>
+            onPress={() => setVisible(!visible)}>
             <Icon
               style={{
-                paddingHorizontal: 10,
+                paddingHorizontal: 5,
                 color: colors.b9,
+                paddingBottom: 5,
+                paddingLeft: 5,
                 border: 1.5,
               }}
               name={'down'}
-              size={12}
+              size={15}
             />
           </TouchableOpacity>
-          <View>
-            <ReviewModal show={showModal} />
+          <View style={styles.itemContainer}>
+            <Menu visible={visible} onRequestClose={hideMenu}>
+              {[5, 4, 3, 2, 1].map(item => {
+                return (
+                  <MenuItem style={styles.menuItem}>
+                    <AppStarRating
+                      style={styles.starRating}
+                      disabled={false}
+                      maxStars={item}
+                      fullStarColor={colors.starcolor}
+                      starSize={size.small}
+                    />
+
+                    <Text style={styles.itemCon}>{item}</Text>
+                  </MenuItem>
+                );
+              })}
+            </Menu>
+            {/* <ReviewModal show={showModal} /> */}
           </View>
         </View>
       </View>
@@ -105,7 +126,7 @@ const SupportReviews = () => {
               <View style={styles.innerView}>
                 <View style={styles.centerView}>
                   <Text style={styles.nameText}>{item?.title}</Text>
-                  <View style={styles.starRating}>
+                  <View>
                     <AppStarRating
                       style={styles.starRating}
                       disabled={false}
