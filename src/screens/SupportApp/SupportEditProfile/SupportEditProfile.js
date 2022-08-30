@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {
   AppButton,
@@ -16,12 +17,15 @@ import {
   TextBox,
   AppLoader,
   ImagePickerModal,
+  GalleryCard,
 } from '../../../components';
 import {
   appIcons,
   colors,
   editFormFields,
   editProfileFieldsVS,
+  editSupportFormFields,
+  editSupportProfileFieldsVS,
   platformOrientedCode,
   profile_uri,
   spacing,
@@ -34,14 +38,20 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
 import {useIsFocused} from '@react-navigation/core';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 
-const EditProfile = ({navigation, route}) => {
+const SupportEditProfile = ({navigation, route}) => {
   const [country, setcountry] = useState({
     name: 'United States',
     callingCode: ['1'],
   });
   const [cca2, setcca2] = useState('US');
-
+  const [professionList, setprofessionList] = useState([
+    {
+      id: 1,
+      title: '',
+    },
+  ]);
   const setCountryValue = val => {
     setcca2(val.cca2);
     setcountry(val);
@@ -51,19 +61,21 @@ const EditProfile = ({navigation, route}) => {
   const [data, setData] = useState('');
   const [oldImage, setOldImage] = useState(profile_uri);
   const [userImage, setUserImage] = useState('');
+  const [imageArray, setimageArray] = useState([]);
+  const [isImgArray, setisImgArray] = useState(false);
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch(null);
 
   useEffect(() => {
-    if (isFocus) {
-      let userImg = route?.params?.item?.image;
-      if (userImg === '') {
-        console.log('empty image');
-      } else {
-        setOldImage(route?.params?.item?.image);
-      }
-      setData(route?.params?.item);
-    }
+    // if (isFocus) {
+    //   let userImg = route?.params?.item?.image;
+    //   if (userImg === '') {
+    //     console.log('empty image');
+    //   } else {
+    //     setOldImage(route?.params?.item?.image);
+    //   }
+    //   setData(route?.params?.item);
+    // }
   }, [isFocus]);
 
   //Gallery Handlers
@@ -73,8 +85,17 @@ const EditProfile = ({navigation, route}) => {
       ImagePicker.openPicker({
         width: 300,
         height: 400,
+        multiple: isImgArray,
       }).then(image => {
-        setUserImage(image);
+        if (isImgArray) {
+          var array3 = imageArray.concat(image);
+          const distinctItems = [
+            ...new Map(array3.map(item => [item['size'], item])).values(),
+          ];
+          setimageArray(distinctItems);
+        } else {
+          setUserImage(image);
+        }
       });
     }, 400);
   };
@@ -86,10 +107,28 @@ const EditProfile = ({navigation, route}) => {
       ImagePicker.openCamera({
         width: 300,
         height: 400,
+        multiple: isImgArray,
       }).then(image => {
-        setUserImage(image);
+        if (isImgArray) {
+          var array3 = imageArray.concat(image);
+          const distinctItems = [
+            ...new Map(array3.map(item => [item['size'], item])).values(),
+          ];
+          setimageArray(distinctItems);
+        } else {
+          setUserImage(image);
+        }
       });
     }, 400);
+  };
+  // Remove Images
+  const removeImage = (index, item) => {
+    imageArray.splice(index, 1);
+    setimageArray(
+      imageArray.filter(item => {
+        return item;
+      }),
+    );
   };
 
   const handleUpdateProfile = values => {
@@ -117,13 +156,12 @@ const EditProfile = ({navigation, route}) => {
       };
       data.append('user[avatar]', imgObj);
     }
-    //On Success
+
     const updateProfileSuccess = async res => {
       // alert('Profile is updated successfully.');
       navigation.goBack();
       setIsLoading(false);
     };
-    //On Failure
     const updateProfileFailure = async err => {
       console.log('Err is ==> ', err);
       Alert.alert('Error', err);
@@ -141,11 +179,11 @@ const EditProfile = ({navigation, route}) => {
       <BackHeader title={'Edit Profile'} />
       <View style={styles.contentContainer}>
         <Formik
-          initialValues={editFormFields}
+          initialValues={editSupportFormFields}
           onSubmit={values => {
             handleUpdateProfile(values);
           }}
-          validationSchema={editProfileFieldsVS}>
+          validationSchema={editSupportProfileFieldsVS}>
           {({
             values,
             handleChange,
@@ -158,11 +196,11 @@ const EditProfile = ({navigation, route}) => {
             setFieldValue,
           }) => {
             useEffect(() => {
-              setFieldValue('email', data?.email || '');
-              setFieldValue('bio', data?.description || '');
-              setFieldValue('phone', data?.phone_number || '');
-              setcca2(data?.country_name || 'US');
-              setcountry({callingCode: [data?.country_code] || '1'});
+              // setFieldValue('email', data?.email || '');
+              // setFieldValue('bio', data?.description || '');
+              // setFieldValue('phone', data?.phone_number || '');
+              // setcca2(data?.country_name || 'US');
+              // setcountry({callingCode: [data?.country_code] || '1'});
             }, [data]);
             return (
               <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
@@ -170,7 +208,10 @@ const EditProfile = ({navigation, route}) => {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     style={spacing.py8}
-                    onPress={() => setShow(true)}>
+                    onPress={() => {
+                      setisImgArray(false);
+                      setShow(true);
+                    }}>
                     <View style={styles.imgCon}>
                       <Image
                         style={styles.imgStyle}
@@ -187,9 +228,24 @@ const EditProfile = ({navigation, route}) => {
                     </View>
                   </TouchableOpacity>
                   <AppInput
+                    onChangeText={handleChange('fullname')}
+                    renderErrorMessage={true}
+                    placeholder={data?.fullname || 'Enter Full Name'}
+                    value={values.fullname}
+                    onBlur={() => setFieldTouched('fullname')}
+                    blurOnSubmit={false}
+                    disableFullscreenUI={true}
+                    autoCapitalize="none"
+                    editable={false}
+                    touched={touched.fullname}
+                    errorMessage={errors.fullname}
+                    title={'Full Name'}
+                  />
+
+                  <AppInput
                     onChangeText={handleChange('email')}
                     renderErrorMessage={true}
-                    placeholder={data?.email}
+                    placeholder={data?.email || 'Enter Email Address'}
                     value={values.email}
                     onBlur={() => setFieldTouched('email')}
                     blurOnSubmit={false}
@@ -227,14 +283,87 @@ const EditProfile = ({navigation, route}) => {
                       />
                     }
                   />
-                  <Text style={styles.textStyle}>Edit Bio</Text>
+
+                  <View style={[spacing.my4]}>
+                    <Text style={[styles.h1Style]}>Profession</Text>
+                    <FlatList
+                      data={professionList}
+                      renderItem={({item, index}) => {
+                        return (
+                          <AppInput
+                            placeholder="Enter Profession"
+                            // value={professionList[index].profession}
+                            onChangeText={text => {
+                              professionList[index].title = text;
+                            }}
+                          />
+                        );
+                      }}
+                      ListFooterComponent={() => {
+                        return (
+                          <>
+                            <Text
+                              onPress={() => {
+                                setprofessionList([
+                                  ...professionList,
+                                  {
+                                    id: professionList.length + 1,
+                                    title: '',
+                                  },
+                                ]);
+                              }}
+                              style={styles.rightText}>
+                              Add More
+                            </Text>
+                          </>
+                        );
+                      }}
+                    />
+                  </View>
+                  <AppInput
+                    onChangeText={handleChange('hourly_rate')}
+                    renderErrorMessage={true}
+                    placeholder="Hourly Rate"
+                    value={values.hourly_rate}
+                    onBlur={() => setFieldTouched('hourly_rate')}
+                    blurOnSubmit={false}
+                    disableFullscreenUI={true}
+                    autoCapitalize="none"
+                    touched={touched.hourly_rate}
+                    errorMessage={errors.hourly_rate}
+                    title={'Hourly Rate'}
+                    keyboardType={'numeric'}
+                    leftIcon={
+                      <Icon
+                        type={'fontisto'}
+                        name={'dollar'}
+                        size={12}
+                        color={colors.gr1}
+                      />
+                    }
+                  />
+
+                  <Text style={styles.textStyle}>Tell something about you</Text>
                   <TextBox
                     conStyle={spacing.px2}
                     onChangeText={handleChange('bio')}
                     value={values.bio}
+                    placeholder={'Add here'}
                     error={errors.bio}
                     touched={touched.bio}
                     height={190}
+                  />
+                  <GalleryCard
+                    onPressImg={index => {
+                      removeImage(index);
+                    }}
+                    imageArray={imageArray}
+                    onPress={() => {
+                      setisImgArray(true);
+                      setShow(true);
+                    }}
+                    title={'Upload Photos'}
+                    // subtitle={'Max 30 images'}
                   />
                   <View style={styles.btnCon}>
                     <AppButton
@@ -248,7 +377,10 @@ const EditProfile = ({navigation, route}) => {
                 {show && (
                   <ImagePickerModal
                     show={show}
-                    onPressHide={() => setShow(false)}
+                    onPressHide={() => {
+                      setisImgArray(false);
+                      setShow(false);
+                    }}
                     onPressGallery={() => {
                       showGallery();
                     }}
@@ -266,4 +398,4 @@ const EditProfile = ({navigation, route}) => {
   );
 };
 
-export default EditProfile;
+export default SupportEditProfile;

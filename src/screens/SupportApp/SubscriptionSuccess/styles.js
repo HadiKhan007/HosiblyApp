@@ -11,12 +11,10 @@ const styles = StyleSheet.create({
   lineargradient: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    height: WP('55'),
   },
   arrowcon: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    padding: WP('1'),
-    color: 'white',
+    marginVertical: 15,
   },
   iconstyle: {
     margin: WP('5'),
@@ -42,13 +40,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     fontfamily: family.Gilroy_Medium,
-    paddingTop: WP('15'),
+    marginTop: WP('10'),
   },
   subtext: {
     color: colors.p7,
-    paddingBottom: 20,
+    paddingVertical: 15,
     alignSelf: 'center',
-    fontSize: size.h6,
+    fontSize: size.large,
     fontFamily: family.Gilroy_SemiBold,
   },
   newtext: {

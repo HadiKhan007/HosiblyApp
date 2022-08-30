@@ -99,6 +99,9 @@ export const colors = {
   r3: '#FFBBBB',
   r4: '#FFEEEE',
   r5: '#EA4335',
+
+  //Gradient
+  gr1: ['#DEDEDE', '#DEDEDE'],
   gr2: ['#A051DC', '#FE4F4F'],
 
   //Yello
@@ -106,4 +109,7 @@ export const colors = {
   starcolor: '#FFC107',
 
   over1: 'rgba(0,0,0,0.7)',
+
+  //Blue
+  bl1: '#A051DC',
 };

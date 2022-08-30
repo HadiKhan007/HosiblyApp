@@ -100,6 +100,7 @@ export const appIcons = {
   calender: require('../../assets/icons/calender.png'),
   star: require('../../assets/icons/star.png'),
   yellowStar: require('../../assets/icons/yellowStar.png'),
+  notify1: require('../../assets/icons/notify1.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),

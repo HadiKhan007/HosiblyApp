@@ -69,7 +69,7 @@ export default SupportBottomTabs = ({}) => {
             <>
               <Image
                 resizeMode="contain"
-                source={appIcons.bookmarksIcon}
+                source={appIcons.notify1}
                 style={styles.bookmarksIconStyle(focused)}
               />
               <View style={styles.barViewStyle(focused)} />
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
       tintColor: isFocused ? colors.p2 : colors.g13,
     };
   },
+
   bookmarksIconStyle: isFocused => {
     return {
       width: 21,

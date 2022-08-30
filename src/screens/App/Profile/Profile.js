@@ -46,6 +46,7 @@ const Profile = ({navigation}) => {
     };
     dispatch(getProfileRequest(getProfileSuccess, getProfileFailure));
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       {/* <AppLoader loading={isLoading} /> */}

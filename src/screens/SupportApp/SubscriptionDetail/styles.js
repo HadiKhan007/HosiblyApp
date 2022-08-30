@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   lineargradient: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    height: WP('55'),
   },
   arrowcon: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    marginVertical: 15,
   },
   iconstyle: {
     margin: WP('5'),
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontfamily: family.Gilroy_Bold,
     fontWeight: 'bold',
-    fontSize: size.h3,
+    fontSize: size.h6,
     lineheight: 26,
     textAlign: 'center',
     color: colors.b1,
@@ -46,15 +46,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP('10'),
     color: colors.b1,
     textAlign: 'center',
-    fontSize: size.small,
+    fontSize: size.tiny,
+    marginVertical: 15,
+    lineHeight: 21,
   },
   bottomtext: {
-    marginTop: WP('15'),
+    marginVertical: WP('15'),
     marginBottom: WP('3'),
     paddingHorizontal: WP('10'),
     color: colors.b1,
     textAlign: 'center',
-    fontSize: size.medium,
+    fontSize: size.xsmall,
   },
   footercon: {
     flex: 0.1,

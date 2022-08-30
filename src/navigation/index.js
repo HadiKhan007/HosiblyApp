@@ -34,6 +34,7 @@ import Chat from '../screens/App/Chat';
 import Video from '../screens/App/Video';
 import PropertyInfo from '../screens/App/Home/PropertyInfo';
 import SupportBottomTab from './tabs/SupportBottomTab';
+import ClosureStack from './SupportStack/ClosureStack';
 
 const AppStack = createNativeStackNavigator();
 
@@ -85,6 +86,7 @@ const MainAppNav = () => {
         />
         {/* Support Closure Screens */}
         <AppStack.Screen name={'SupportApp'} component={SupportBottomTab} />
+        <AppStack.Screen name={'ClosureStack'} component={ClosureStack} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

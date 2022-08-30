@@ -38,6 +38,7 @@ const SupportHome = ({navigation}) => {
       <MyStatusBar />
       <View style={spacing.my2}>
         <BackHeader
+          noBackIcon={true}
           subtitle={'Your Profile'}
           rightIcon={
             <Icon
@@ -69,10 +70,17 @@ const SupportHome = ({navigation}) => {
               <Text style={styles.text2}>5</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.iconCon}>
+          <TouchableOpacity
+            style={styles.iconCon}
+            onPress={() => {
+              navigation?.navigate('SupportEditProfile');
+            }}>
             <Image style={styles.iconStyle} source={appIcons.bgPencil} />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => {
+              navigation?.navigate('ClosureStack');
+            }}
             style={[styles.iconCon, {top: 75, backgroundColor: colors.y1}]}>
             <Image style={styles.iconStyle} source={appIcons.yellowStar} />
           </TouchableOpacity>

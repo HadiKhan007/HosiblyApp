@@ -1,26 +1,25 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import SupportHome from '../../screens/SupportApp/SupportHome';
-import SupportReviews from '../../screens/SupportApp/SupportReview';
-import SupportEditProfile from '../../screens/SupportApp/SupportEditProfile';
 import SubscriptionPlan from '../../screens/SupportApp/SubscriptionPlan';
 import SubscriptionDetail from '../../screens/SupportApp/SubscriptionDetail';
+import SubscriptionSuccess from '../../screens/SupportApp/SubscriptionSuccess';
 
 const Stack = createNativeStackNavigator();
 
-function SupportHomeStack(props) {
+function ClosureStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="SupportHome"
+      initialRouteName="ClosureStack"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SupportHome" component={SupportHome} />
-      <Stack.Screen name="SupportReviews" component={SupportReviews} />
-      <Stack.Screen name="SupportEditProfile" component={SupportEditProfile} />
       <Stack.Screen name="SubscriptionPlan" component={SubscriptionPlan} />
       <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetail} />
+      <Stack.Screen
+        name="SubscriptionSuccess"
+        component={SubscriptionSuccess}
+      />
     </Stack.Navigator>
   );
 }
 
-export default SupportHomeStack;
+export default ClosureStack;

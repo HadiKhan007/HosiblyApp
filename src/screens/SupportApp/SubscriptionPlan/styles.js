@@ -4,61 +4,58 @@ import {WP, colors, size, family, scrWidth} from '../../../shared/exporter';
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    backgroundColor: colors.white,
   },
-  arrowcon: {
-    flex: 0.01,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    padding: WP('4'),
-  },
+
   imgIcon: {
     width: WP('7'),
     height: 20,
   },
   contentContainer: {
-    paddingVertical: WP('5'),
+    flex: 1,
+    paddingVertical: WP('3.86'),
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.white,
   },
   newtext: {
     marginVertical: WP('3'),
     paddingHorizontal: WP('10'),
     color: colors.b1,
     textAlign: 'center',
-    fontSize: size.small,
+    fontSize: size.xsmall,
   },
   textStyle: {
     fontfamily: family.Gilroy_SemiBold,
-    fontSize: size.h3,
+    fontSize: size.h6,
     lineheight: 26,
     textAlign: 'center',
     color: colors.b1,
   },
   linearGradient: {
-    flex: 0.9,
-    paddingLeft: 15,
-    paddingRight: 15,
+    height: '100%',
     borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   touchOpac: {
     width: WP('80'),
     height: 65,
     borderRadius: 6,
+    marginVertical: 5,
   },
 
   touch2Opac: {
     width: WP('80'),
-    height: 61,
-    backgroundColor: colors.g18,
-    borderRadius: 7,
-    marginVertical: 7,
+    height: 65,
+    borderRadius: 6,
+    marginVertical: 5,
   },
   btntext: {
     color: colors.p6,
     fontSize: size.medium,
     fontWeight: 'bold',
     fontfamily: family.Gilroy_Medium,
-    paddingVertical: WP('5'),
     textAlign: 'center',
   },
   btn2text: {
@@ -78,7 +75,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   footercon: {
-    flex: 0.1,
     position: 'absolute',
     left: 0,
     right: 0,

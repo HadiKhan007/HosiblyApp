@@ -1,17 +1,17 @@
-import {Text, View, TouchableOpacity, Image, StatusBar} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {appIcons, appImages} from '../../../shared/theme/assets';
 import styles from './styles';
-import { AppButton } from '../../../components';
+import {AppButton, BackHeader, MyStatusBar} from '../../../components';
 import {colors} from '../../../shared/exporter';
 
-
-const SubscriptionDetail = () => {
+const SubscriptionDetail = ({navigation, route}) => {
+  const proceedToPayment = () => {};
   return (
-    <>
-      <StatusBar translucent={true} backgroundColor="transparent" />
-      <View style={styles.rootContainer}>
+    <View style={styles.rootContainer}>
+      <MyStatusBar backgroundColor={colors.bl1} barStyle={'light-content'} />
+      <View style={styles.midContainer}>
         <View style={styles.gradientContainer}>
           <LinearGradient
             style={styles.lineargradient}
@@ -20,13 +20,8 @@ const SubscriptionDetail = () => {
             locations={[0, 0.1, 0.9]}
             colors={colors.gr2}>
             <View style={styles.arrowcon}>
-              <TouchableOpacity onPress={() => {}}>
-                <Image
-                  style={styles.iconstyle}
-                  source={appIcons.whitebackarrow}
-                />
-              </TouchableOpacity>
-              <Text style={styles.text}>$2.99/1Month</Text>
+              <BackHeader tintColor={colors.white} />
+              <Text style={styles.text}>{route?.params?.item?.title}</Text>
             </View>
           </LinearGradient>
           <View style={styles.midContainer}>
@@ -41,7 +36,9 @@ const SubscriptionDetail = () => {
               title="Proceed To Payment"
               width="80%"
               shadowColor={colors.btn_shadow}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('SubscriptionSuccess', route?.params?.item);
+              }}
             />
           </View>
         </View>
@@ -49,8 +46,8 @@ const SubscriptionDetail = () => {
           <Image source={appImages.rocket} />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
-export {SubscriptionDetail};
+export default SubscriptionDetail;
