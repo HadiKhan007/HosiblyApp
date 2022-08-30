@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Conversations from '../../screens/App/Conversations';
+import Notifications from '../../screens/App/Notifications';
 
 const Stack = createNativeStackNavigator();
 
-function MessagingStack(props) {
+function NotificationsStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Conversations"
+      initialRouteName="Notifications"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Conversations" component={Conversations} />
+      <Stack.Screen name="Notifications" component={Notifications} />
     </Stack.Navigator>
   );
 }
 
-export default MessagingStack;
+export default NotificationsStack;

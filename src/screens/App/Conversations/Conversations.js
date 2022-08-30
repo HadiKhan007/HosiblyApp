@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, Image, SafeAreaView, TouchableOpacity} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {ChatModal} from '../../../components';
 import {appIcons, appImages} from '../../../shared/exporter';
 import styles from './styles';
 
+import {useSelector} from 'react-redux';
+
 const Conversations = ({navigation}) => {
   const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const {userInfo} = useSelector(state => state?.auth);
 
   const renderItem = () => {
     return (
@@ -70,6 +67,9 @@ const Conversations = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      {userInfo?.user?.profile_type === 'want_support_closer' && (
+        <Text style={styles.headerTxtStyle}>Messages</Text>
+      )}
       {data?.length > 0 ? (
         <SwipeListView
           useFlatList

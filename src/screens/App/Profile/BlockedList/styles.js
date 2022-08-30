@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, family, size, WP} from '../../../shared/exporter';
+import {colors, family, size, WP} from '../../../../shared/exporter';
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -14,37 +14,40 @@ const styles = StyleSheet.create({
     fontFamily: family.Gilroy_SemiBold,
   },
   flStyle: {
-    paddingVertical: WP('8'),
+    paddingVertical: WP('4'),
     paddingHorizontal: WP('4'),
   },
   itemContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: WP('5'),
+    paddingVertical: WP('2.5'),
+    backgroundColor: colors.white,
   },
   imgStyle: {
     borderRadius: 16,
     width: WP('15.6'),
     height: WP('15.6'),
-    marginRight: WP('4'),
+    marginRight: WP('2.5'),
   },
   labelTxtStyle: {
     color: colors.b8,
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_SemiBold,
   },
-  descTxtStyle: {
-    color: colors.b8,
-    fontSize: size.tiny,
-    marginTop: WP('1.5'),
-    marginBottom: WP('0.5'),
-    fontFamily: family.Gilroy_Medium,
+  buttonStyle: {
+    width: WP('25'),
+    borderRadius: 15,
+    height: WP('7.7'),
+    marginTop: WP('2.5'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.p2,
   },
-  timeTxtStyle: {
-    color: colors.b8,
-    fontSize: size.tiny,
-    fontFamily: family.Gilroy_Regular,
+  btnTxtStyle: {
+    color: colors.white,
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_SemiBold,
   },
   noRecordsView: {
     flex: 1,

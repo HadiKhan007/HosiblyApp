@@ -15,7 +15,7 @@ import styles from './styles';
 import {useDispatch} from 'react-redux';
 import {staticPages} from '../../../../redux/actions';
 
-const PrivacyPolicy = () => {
+const FAQ = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [faqs, setFAQs] = useState('');
@@ -68,4 +68,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default FAQ;

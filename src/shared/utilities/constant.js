@@ -782,6 +782,12 @@ const settings = [
     screen: 'FAQ',
     icon: appIcons.faq,
   },
+  {
+    id: 7,
+    title: 'Blocked List',
+    screen: 'BlockedList',
+    icon: appIcons.blockIcon,
+  },
 ];
 
 const networkText = 'Check Internet Connection';

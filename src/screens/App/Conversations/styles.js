@@ -4,10 +4,17 @@ import {colors, family, size, WP} from '../../../shared/exporter';
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    paddingHorizontal: WP('4'),
     backgroundColor: colors.white,
   },
+  headerTxtStyle: {
+    color: colors.b8,
+    marginTop: WP('2'),
+    alignSelf: 'center',
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_SemiBold,
+  },
   flStyle: {
+    paddingHorizontal: WP('4'),
     paddingVertical: WP('5.5'),
   },
   itemContainer: {

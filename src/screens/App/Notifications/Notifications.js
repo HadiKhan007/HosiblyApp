@@ -3,11 +3,15 @@ import {View, Text, Image, FlatList, SafeAreaView} from 'react-native';
 import {appImages} from '../../../shared/exporter';
 import styles from './styles';
 
+import {useSelector} from 'react-redux';
+
 const Notifications = () => {
   const [data, setData] = useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
   ]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const {userInfo} = useSelector(state => state?.auth);
 
   const renderItem = () => {
     return (
@@ -26,6 +30,9 @@ const Notifications = () => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      {userInfo?.user?.profile_type === 'want_support_closer' && (
+        <Text style={styles.headerTxtStyle}>Notifications</Text>
+      )}
       {data?.length > 0 ? (
         <FlatList
           data={data}
