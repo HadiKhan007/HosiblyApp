@@ -18,6 +18,7 @@ const AppStarRating = ({
         rating={appIcons.starIcon}
         fullStarColor={fullStarColor}
         starSize={starSize}
+        starStyle={{paddingHorizontal: 2}}
       />
     </View>
   );

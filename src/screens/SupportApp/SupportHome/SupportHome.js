@@ -170,6 +170,7 @@ const SupportHome = ({navigation}) => {
             />
           </View>
         </View>
+
         <View style={styles.cardViewCon}>
           <View style={styles.starContainer}>
             <Text style={styles.reviewtext}>Your Reviews(43)</Text>
@@ -181,22 +182,21 @@ const SupportHome = ({navigation}) => {
               starSize={size.medium}
             />
           </View>
-          <View>
-            <FlatList
-              data={reviews}
-              keyExtractor={(item, index) => index}
-              renderItem={({item, index}) => {
-                return (
-                  <ReviewCard
-                    id={item.id}
-                    title={item.title}
-                    description={item.description}
-                    image={item.image}
-                  />
-                );
-              }}
-            />
-          </View>
+
+          <FlatList
+            data={reviews}
+            keyExtractor={(item, index) => index}
+            renderItem={({item, index}) => {
+              return (
+                <ReviewCard
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  image={item.image}
+                />
+              );
+            }}
+          />
 
           <AppButton
             width={'43%'}

@@ -35,6 +35,7 @@ import Video from '../screens/App/Video';
 import PropertyInfo from '../screens/App/Home/PropertyInfo';
 import SupportBottomTab from './tabs/SupportBottomTab';
 import ClosureStack from './SupportStack/ClosureStack';
+import SupportClosureStack from './stacks/SupportClosureStack';
 
 const AppStack = createNativeStackNavigator();
 
@@ -83,6 +84,11 @@ const MainAppNav = () => {
         <AppStack.Screen
           name={'AddMorePropertyDetails'}
           component={AddMorePropertyDetail}
+        />
+
+        <AppStack.Screen
+          name={'SupportClosureStack'}
+          component={SupportClosureStack}
         />
         {/* Support Closure Screens */}
         <AppStack.Screen name={'SupportApp'} component={SupportBottomTab} />

@@ -95,7 +95,7 @@ export const colors = {
   btn_shadow: 'rgba(76, 187, 255, 0.4)',
   drop_shadow: 'rgba(0, 0, 0, 0.1)',
   item_shadow: 'rgba(255, 255, 255, 0.8)',
-  shad1: 'rgba(0, 0, 0, 0.05',
+  shad1: 'rgba(0, 0, 0, 0.05)',
 
   // red
   red: 'red',

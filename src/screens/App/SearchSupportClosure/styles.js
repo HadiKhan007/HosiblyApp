@@ -4,7 +4,7 @@ import {colors, family, size, WP} from '../../../shared/exporter';
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: colors.w2,
+    backgroundColor: colors.white,
   },
   contentContainer: {
     paddingHorizontal: WP('3.85'),

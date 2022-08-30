@@ -68,7 +68,11 @@ const Home = ({navigation}) => {
 
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.itemContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation?.navigate('SupportClosureStack');
+        }}
+        style={styles.itemContainer}>
         <View style={styles.itemInnerRow}>
           <Image source={appImages.personImg} style={styles.personImgStyle} />
           <View style={styles.txtContainer}>
@@ -90,7 +94,7 @@ const Home = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
