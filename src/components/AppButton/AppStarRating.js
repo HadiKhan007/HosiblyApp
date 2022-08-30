@@ -1,5 +1,5 @@
 import {StyleSheet, View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import StarRating from 'react-native-star-rating';
 import {appIcons} from '../../shared/exporter';
 
@@ -10,8 +10,6 @@ const AppStarRating = ({
   fullStarColor,
   starSize,
 }) => {
-  const [star, setStar] = useState();
-
   return (
     <View style={styles.starRating}>
       <StarRating
@@ -28,7 +26,8 @@ const AppStarRating = ({
 const styles = StyleSheet.create({
   starRating: {
     flexDirection: 'row',
-    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export {AppStarRating};

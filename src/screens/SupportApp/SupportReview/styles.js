@@ -1,21 +1,23 @@
 import {StyleSheet} from 'react-native';
-import {
-  colors,
-  family,
-  platformOrientedCode,
-  size,
-  WP,
-} from '../../../shared/exporter';
+import {colors, family, size, WP} from '../../../shared/exporter';
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.w2,
   },
-  topContainer: {
-    flexDirection: 'row',
-    padding: 10,
+  contentContainer: {
+    paddingHorizontal: WP('3.85'),
+    flex: 1,
   },
+  modalContainer: {
+    borderRadius: 8,
+    paddingTop: WP('3.5'),
+    backgroundColor: 'red',
+    marginHorizontal: WP('30'),
+    paddingBottom: WP('2'),
+  },
+
   reviewContainer: {
     flex: 1,
     alignItems: 'center',
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: WP('3'),
+    marginVertical: 10,
   },
   topView: {
     flexDirection: 'row',
@@ -46,10 +48,18 @@ const styles = StyleSheet.create({
   },
   starRating: {
     flexDirection: 'row',
-    marginLeft: 15,
-    padding: 3,
+    marginLeft: 1,
+    padding: 1,
     width: 12,
-    height: 22,
+    height: 12,
+  },
+  itemContainer: {
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  itemCon: {
+    justifyContent: 'flex-end',
+    paddingLeft: 10,
   },
   commenttext: {
     paddingRight: 15,
@@ -60,6 +70,9 @@ const styles = StyleSheet.create({
   commitContainer: {
     marginRight: 50,
     marginLeft: 2,
+  },
+  menuItem: {
+    paddingTop: 7,
   },
   imagestyle: {
     width: WP('15'),
@@ -72,9 +85,9 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   dropdownstyle: {
-    padding: 10,
+    padding: 5,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   ratingStar: {
     color: colors.b1,
@@ -99,7 +112,7 @@ const styles = StyleSheet.create({
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 1,
   },
 });
 

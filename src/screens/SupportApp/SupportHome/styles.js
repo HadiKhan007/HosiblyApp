@@ -20,12 +20,20 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: colors.g9,
   },
+  cardViewCon: {
+    backgroundColor: colors.w2,
+    padding: 20,
+    marginTop: 10,
+  },
   imgStyle: {
     height: '100%',
     width: '100%',
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  uploadimage: {
+    padding: 10,
   },
   inputContainer: {
     paddingVertical: WP('10'),
@@ -85,6 +93,55 @@ const styles = StyleSheet.create({
   textCon: {
     justifyContent: 'center',
   },
+  starContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  imagestyle: {
+    width: WP('20'),
+    height: 79,
+    borderRadius: 20,
+    marginTop: 5,
+  },
+  topView: {
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+    padding: 10,
+  },
+  innerView: {
+    marginLeft: 10,
+    paddingVertical: 5,
+    marginLeft: 20,
+  },
+  centerView: {
+    flexDirection: 'row',
+  },
+  reviewtext: {
+    color: colors.b1,
+    fontSize: size.large,
+    lineheight: 21,
+    fontFamily: family.Gilroy_SemiBold,
+  },
+  cardContainer: {
+    backgroundColor: colors.w1,
+    flexDirection: 'row',
+    margin: 15,
+    borderRadius: 10,
+    // paddingLeft: 20,
+    padding: 15,
+  },
+  commitContainer: {
+    marginRight: 61,
+    marginLeft: 1,
+  },
+  commenttext: {
+    paddingRight: 10,
+    fontSize: size.tiny,
+    color: colors.g42,
+    fontFamily: family.Gilroy_Regular,
+  },
   desc: {
     color: colors.g22,
     fontFamily: family.Gilroy_Medium,
@@ -97,6 +154,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
+  pdfimg: {
+    width: 28.43,
+    height: 38,
+    marginTop: 15,
+    paddingRight: 20,
+  },
+  starRating: {
+    flexDirection: 'row',
+    width: 12,
+    height: 12,
+  },
   text1: {
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_Medium,
@@ -107,6 +175,26 @@ const styles = StyleSheet.create({
     fontSize: size.large,
     fontFamily: family.Gilroy_SemiBold,
     color: colors.b1,
+  },
+  text3: {
+    fontSize: 14,
+    fontFamily: family.Gilroy_Medium,
+    color: colors.b1,
+    paddingTop: WP('5'),
+    paddingBottom: WP('3'),
+    lineHeight: 15,
+  },
+  text4: {
+    color: colors.b10,
+    fontSize: 16,
+    fontFamily: family.Gilroy_Medium,
+    paddingTop: 10,
+  },
+  nameText: {
+    fontSize: 16,
+    color: colors.b8,
+    fontFamily: family.Gilroy_SemiBold,
+    paddingBottom: 10,
   },
 });
 
