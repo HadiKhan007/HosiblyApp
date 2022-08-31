@@ -14,6 +14,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default SupportAddReview = () => {
   const [rating, setrating] = useState(0);
+  const [description, setdescription] = useState('');
+  const onAddReviewa = async () => {};
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -27,7 +29,13 @@ export default SupportAddReview = () => {
           <Text style={styles.nametext}>Harden Eusaff</Text>
 
           <View style={spacing.my4}>
-            <TextBox placeholder={'Type here'} />
+            <TextBox
+              onChangeText={text => {
+                setdescription(text);
+              }}
+              value={description}
+              placeholder={'Type here'}
+            />
             <AppStarRating
               onPressStar={rating => {
                 setrating(rating);
