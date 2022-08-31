@@ -1,7 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, SafeAreaView, FlatList} from 'react-native';
 import styles from './styles';
-import {BackHeader, MyStatusBar, SupportUserCard} from '../../../components';
+import {
+  BackHeader,
+  MyStatusBar,
+  SearchBar,
+  SupportUserCard,
+} from '../../../components';
 
 import {commonStyles, spacing} from '../../../shared/exporter';
 
@@ -13,7 +18,8 @@ const SearchSupportClosure = ({navigation}) => {
         <BackHeader subtitle={'Looking For'} />
       </View>
       <View style={styles.contentContainer}>
-        <View style={commonStyles.flex1}>
+        <SearchBar />
+        <View style={[commonStyles.flex1, spacing.py4]}>
           <FlatList
             data={[1, 2, 3, 4, 5]}
             renderItem={() => {

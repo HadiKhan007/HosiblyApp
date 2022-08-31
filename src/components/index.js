@@ -11,6 +11,7 @@ export * from './AppButton/DetailButton';
 
 //StatusBar
 export * from './Bar/MyStatusBar';
+export * from './Bar/SearchBar';
 
 //Spacer
 export * from './Spacer/Spacer';

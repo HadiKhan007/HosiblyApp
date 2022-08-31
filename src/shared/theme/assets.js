@@ -36,6 +36,7 @@ export const appImages = {
 
 export const appIcons = {
   box: require('../../assets/icons/box.png'),
+  search: require('../../assets/icons/search.png'),
   checkedBox: require('../../assets/icons/checked_box.png'),
   google: require('../../assets/icons/google.png'),
   apple: require('../../assets/icons/apple.png'),
