@@ -17,18 +17,20 @@ export const CetificationCard = ({style, title, subtitle}) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: colors.w1,
+    backgroundColor: colors.white,
     flexDirection: 'row',
-    margin: 15,
+    marginVertical: 15,
     borderRadius: 10,
+    borderWidth: 1,
     padding: 15,
-    shadowColor: colors.g43,
+    borderColor: colors.g44,
+    shadowColor: colors.g44,
     shadowOffset: {
-      height: 0,
+      height: 3,
       width: 0,
     },
-    elevation: 2,
-    shadowOpacity: 0.9,
+    elevation: 3,
+    shadowOpacity: 2.5,
   },
   pdfimg: {
     width: 28.43,

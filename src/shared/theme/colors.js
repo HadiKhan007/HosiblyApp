@@ -28,8 +28,10 @@ export const colors = {
   b6: '#2D3142',
   b7: '#2B2B2B',
   b8: '#171717',
-  b9: '#141414',
-  b10: '#1A1A1A',
+  b9: '#272727',
+  b10: '#141414',
+  b11: '#1A1A1A',
+  b12: '#4A4A4A',
 
   //Gray Color
   g1: '#E2E2E2',
@@ -74,7 +76,9 @@ export const colors = {
   g40: '#8A8A8A',
   g41: '#7D7D7D',
   g42: '#474747',
-  g43: '#rgba(0, 0, 0, 0.03)',
+  g43: '#999999',
+  g44: '#rgba(0, 0, 0, 0.03)',
+  g45: 'rgba(196, 196, 196, 0.25)',
 
   //Green
   gr1: '#00A66C',
@@ -93,7 +97,7 @@ export const colors = {
   btn_shadow: 'rgba(76, 187, 255, 0.4)',
   drop_shadow: 'rgba(0, 0, 0, 0.1)',
   item_shadow: 'rgba(255, 255, 255, 0.8)',
-  shad1: 'rgba(0, 0, 0, 0.05',
+  shad1: 'rgba(0, 0, 0, 0.05)',
 
   // red
   red: 'red',
@@ -102,6 +106,9 @@ export const colors = {
   r3: '#FFBBBB',
   r4: '#FFEEEE',
   r5: '#EA4335',
+
+  //Gradient
+  gr1: ['#DEDEDE', '#DEDEDE'],
   gr2: ['#A051DC', '#FE4F4F'],
 
   //Yello
@@ -109,4 +116,7 @@ export const colors = {
   starcolor: '#FFC107',
 
   over1: 'rgba(0,0,0,0.7)',
+
+  //Blue
+  bl1: '#A051DC',
 };

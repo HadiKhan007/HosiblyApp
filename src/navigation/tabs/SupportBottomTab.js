@@ -3,9 +3,10 @@ import {View, Image, Platform, StyleSheet} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {appIcons, colors, WP} from '../../shared/exporter';
+
 import SupportHomeStack from '../SupportStack/SupportHomeStack';
 import SupportMessagingStack from '../SupportStack/MessagingStack';
-import SupportNotificationStack from '../SupportStack/NotificationStack';
+import SupportNotificationsStack from '../SupportStack/NotificationsStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,14 +63,14 @@ export default SupportBottomTabs = ({}) => {
         }}
       />
       <Tab.Screen
-        name="SupportNotification"
-        component={SupportNotificationStack}
+        name="SupportNotifications"
+        component={SupportNotificationsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <>
               <Image
                 resizeMode="contain"
-                source={appIcons.bookmarksIcon}
+                source={appIcons.notify1}
                 style={styles.bookmarksIconStyle(focused)}
               />
               <View style={styles.barViewStyle(focused)} />
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
       tintColor: isFocused ? colors.p2 : colors.g13,
     };
   },
+
   bookmarksIconStyle: isFocused => {
     return {
       width: 21,

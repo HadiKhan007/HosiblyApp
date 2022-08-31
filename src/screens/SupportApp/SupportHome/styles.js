@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   cardViewCon: {
     backgroundColor: colors.w2,
     padding: 20,
+    marginTop: 10,
   },
   imgStyle: {
     height: '100%',
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: colors.shad1,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
   },
   starContainer: {
     flexDirection: 'row',
+    marginVertical: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: WP('1'),
   },
   imagestyle: {
     width: WP('20'),
@@ -119,9 +119,9 @@ const styles = StyleSheet.create({
   },
   reviewtext: {
     color: colors.b1,
-    fontSize: 18,
+    fontSize: size.large,
     lineheight: 21,
-    paddingBottom: 10,
+    fontFamily: family.Gilroy_SemiBold,
   },
   cardContainer: {
     backgroundColor: colors.w1,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {WP, size, colors, family, appIcons} from '../../shared/exporter';
@@ -14,34 +14,39 @@ export const BackHeader = ({
   txtFamily = family.Gilroy_Bold,
   tintColor = colors.b1,
   onPressRight,
+  noBackIcon,
 }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.mainRowContainer}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          hitSlop={styles.hitSlop}
-          onPress={() => navigation.goBack()}
-          style={styles.rowContainer}>
-          <Image
-            resizeMode="contain"
-            source={appIcons.backArrow}
-            style={[styles.iconStyle, {tintColor: tintColor}]}
-          />
-          {title && (
-            <Text
-              style={styles.titleTxtStyle(
-                isBox,
-                txtCenter,
-                txtSize,
-                txtFamily,
-              )}>
-              {title}
-            </Text>
+        <View>
+          {!noBackIcon && (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              hitSlop={styles.hitSlop}
+              onPress={() => navigation.goBack()}
+              style={styles.rowContainer}>
+              <Image
+                resizeMode="contain"
+                source={appIcons.backArrow}
+                style={[styles.iconStyle, {tintColor: tintColor}]}
+              />
+              {title && (
+                <Text
+                  style={styles.titleTxtStyle(
+                    isBox,
+                    txtCenter,
+                    txtSize,
+                    txtFamily,
+                  )}>
+                  {title}
+                </Text>
+              )}
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+        </View>
         <View style={styles.center}>
           {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
         </View>

@@ -7,7 +7,7 @@ import {appIcons, colors, WP} from '../../shared/exporter';
 import HomeStack from '../stacks/HomeStack';
 import SearchStack from '../stacks/SearchStack';
 import BookMarksStack from '../stacks/BookMarksStack';
-import ChatStack from '../stacks/ChatStack';
+import TopTabs from '../tabs/TopTabs';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,8 +80,8 @@ export default BottomTabs = ({}) => {
         }}
       />
       <Tab.Screen
-        name="Chat"
-        component={ChatStack}
+        name="TopTabs"
+        component={TopTabs}
         options={{
           tabBarIcon: ({focused}) => (
             <>

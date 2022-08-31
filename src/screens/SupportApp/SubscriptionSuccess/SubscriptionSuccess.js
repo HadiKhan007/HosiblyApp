@@ -1,16 +1,16 @@
 import {Text, View, TouchableOpacity, Image, StatusBar} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {appIcons, appImages} from '../../../shared/theme/assets';
+import {appImages} from '../../../shared/theme/assets';
 import styles from './styles';
-import {AppButton} from '../../../components';
-import {AppLinearGradient} from '../../../components/AppButton/AppLinearGradient';
-import { colors } from '../../../shared/exporter';
+import {colors} from '../../../shared/exporter';
+import {BackHeader, MyStatusBar} from '../../../components';
 
-const SubscriptionSuccess = () => {
+const SubscriptionSuccess = ({navigation, route}) => {
   return (
-    <>
-      <StatusBar translucent={true} backgroundColor="transparent" />
+    <View style={styles.rootContainer}>
+      <MyStatusBar backgroundColor={colors.bl1} barStyle={'light-content'} />
+
       <View style={styles.rootContainer}>
         <View style={styles.gradientContainer}>
           <LinearGradient
@@ -20,13 +20,8 @@ const SubscriptionSuccess = () => {
             locations={[0, 0.1, 0.9]}
             colors={colors.gr2}>
             <View style={styles.arrowcon}>
-              <TouchableOpacity onPress={() => {}}>
-                <Image
-                  style={styles.iconstyle}
-                  source={appIcons.whitebackarrow}
-                />
-              </TouchableOpacity>
-              <Text style={styles.text}>$2.99/1Month</Text>
+              <BackHeader tintColor={colors.white} />
+              <Text style={styles.text}>{route?.params?.title}</Text>
               <Text style={styles.subtext}>Subcribed</Text>
             </View>
           </LinearGradient>
@@ -42,8 +37,8 @@ const SubscriptionSuccess = () => {
           <Image source={appImages.rocketluancher} />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
-export {SubscriptionSuccess};
+export default SubscriptionSuccess;

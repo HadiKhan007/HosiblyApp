@@ -52,6 +52,14 @@ export const editFormFields = {
   bio: '',
 };
 
+export const editSupportFormFields = {
+  fullname: '',
+  email: '',
+  phone: '',
+  hourly_rate: '',
+  bio: '',
+};
+
 export const addCardFormFields = {
   fullname: '',
   country: '',
@@ -107,6 +115,21 @@ export const editProfileFieldsVS = yup.object().shape({
     .string()
     .required('Email Required')
     .email('Please provide a valid email address'),
+  bio: yup.string('Invalid description').required('Bio data Required'),
+});
+
+export const editSupportProfileFieldsVS = yup.object().shape({
+  fullname: yup.string().required('Full Name Required'),
+
+  phone: yup
+    .number()
+    .typeError('Invalid phone number')
+    .required('Phone number Required'),
+  email: yup
+    .string()
+    .required('Email Required')
+    .email('Please provide a valid email address'),
+  hourly_rate: yup.string().required('Hourly Rate Required'),
   bio: yup.string('Invalid description').required('Bio data Required'),
 });
 

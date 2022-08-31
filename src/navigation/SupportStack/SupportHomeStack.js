@@ -3,7 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SupportHome from '../../screens/SupportApp/SupportHome';
 import SupportReviews from '../../screens/SupportApp/SupportReview';
-
 const Stack = createNativeStackNavigator();
 
 function SupportHomeStack(props) {

@@ -95,7 +95,11 @@ const Login = ({navigation}) => {
 
         if (res?.user?.is_confirmed && res?.user?.is_otp_verified) {
           setTimeout(() => {
-            navigation?.replace('App');
+            if (res?.user?.profile_type === 'want_support_closer') {
+              navigation?.replace('SupportApp');
+            } else {
+              navigation?.replace('App');
+            }
           }, 500);
         } else {
           if (res?.user?.is_otp_verified) {

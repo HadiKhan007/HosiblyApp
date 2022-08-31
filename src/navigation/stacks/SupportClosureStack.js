@@ -1,21 +1,20 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import SupportNotification from '../../screens/SupportApp/SupportNotification';
+import SearchSupportClosure from '../../screens/App/SearchSupportClosure';
 
 const Stack = createNativeStackNavigator();
 
-function NotificationStack(props) {
+function SupportClosureStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="SupportNotification"
+      initialRouteName="SupportClosureStack"
       screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name="SupportNotification"
-        component={SupportNotification}
+        name="SearchSupportClosure"
+        component={SearchSupportClosure}
       />
     </Stack.Navigator>
   );
 }
 
-export default NotificationStack;
+export default SupportClosureStack;

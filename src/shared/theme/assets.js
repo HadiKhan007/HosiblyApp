@@ -36,6 +36,7 @@ export const appImages = {
 
 export const appIcons = {
   box: require('../../assets/icons/box.png'),
+  search: require('../../assets/icons/search.png'),
   checkedBox: require('../../assets/icons/checked_box.png'),
   google: require('../../assets/icons/google.png'),
   apple: require('../../assets/icons/apple.png'),
@@ -100,6 +101,8 @@ export const appIcons = {
   calender: require('../../assets/icons/calender.png'),
   star: require('../../assets/icons/star.png'),
   yellowStar: require('../../assets/icons/yellowStar.png'),
+  notify1: require('../../assets/icons/notify1.png'),
+  blockIcon: require('../../assets/icons/block_icon.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),

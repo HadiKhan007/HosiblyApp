@@ -23,6 +23,7 @@ export const GalleryCard = ({
   imageArray,
   onPressImg,
   numColumns,
+  noUploadIcon,
 }) => {
   return (
     <View style={styles.container}>
@@ -31,11 +32,13 @@ export const GalleryCard = ({
         <Text style={styles.subtitle}>{subtitle}</Text>
       </View>
       <View style={commonStyles.aiRow}>
-        <TouchableOpacity onPress={onPress}>
-          <ImageBackground style={styles.imgCon}>
-            <Image style={styles.imgStyle} source={appIcons.gallery_1} />
-          </ImageBackground>
-        </TouchableOpacity>
+        {!noUploadIcon && (
+          <TouchableOpacity onPress={onPress}>
+            <ImageBackground style={styles.imgCon}>
+              <Image style={styles.imgStyle} source={appIcons.gallery_1} />
+            </ImageBackground>
+          </TouchableOpacity>
+        )}
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={imageArray}
@@ -45,16 +48,18 @@ export const GalleryCard = ({
                 imageStyle={{borderRadius: 13}}
                 style={styles.imgCon}
                 source={{uri: item?.path}}>
-                <TouchableOpacity
-                  style={styles.iconCon}
-                  onPress={() => onPressImg(index)}>
-                  <Image style={styles.iconStyle} source={appIcons.cross} />
-                </TouchableOpacity>
+                {!noUploadIcon && (
+                  <TouchableOpacity
+                    style={styles.iconCon}
+                    onPress={() => onPressImg(index)}>
+                    <Image style={styles.iconStyle} source={appIcons.cross} />
+                  </TouchableOpacity>
+                )}
               </ImageBackground>
             );
           }}
           numColumns={numColumns}
-          horizontal={false}
+          horizontal={true}
         />
       </View>
     </View>

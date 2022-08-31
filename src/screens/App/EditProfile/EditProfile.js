@@ -117,12 +117,13 @@ const EditProfile = ({navigation, route}) => {
       };
       data.append('user[avatar]', imgObj);
     }
-
+    //On Success
     const updateProfileSuccess = async res => {
       // alert('Profile is updated successfully.');
       navigation.goBack();
       setIsLoading(false);
     };
+    //On Failure
     const updateProfileFailure = async err => {
       console.log('Err is ==> ', err);
       Alert.alert('Error', err);

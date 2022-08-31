@@ -1,15 +1,16 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SupportMessaging from '../../screens/SupportApp/SupportMessaging';
+
+import Conversations from '../../screens/App/Conversations';
 
 const Stack = createNativeStackNavigator();
 
 function MessagingStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="SupportMessaging"
+      initialRouteName="Conversations"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="supportMessaging" component={SupportMessaging} />
+      <Stack.Screen name="Conversations" component={Conversations} />
     </Stack.Navigator>
   );
 }
