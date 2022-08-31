@@ -57,8 +57,8 @@ const SupportProfie = ({navigation}) => {
       <View style={spacing.my2}>
         <BackHeader subtitle={'Your Profile'} />
       </View>
-      <View style={styles.contentContainer}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.contentContainer}>
           <View style={spacing.py4}>
             <View style={styles.imgCon}>
               <Image
@@ -128,66 +128,62 @@ const SupportProfie = ({navigation}) => {
             subtitle="12.32mb"
             style={{fontSize: 14}}
           />
-          <View style={styles.cardViewCon}>
-            <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
-            <View style={spacing.py4}>
-              <FlatList
-                data={[1, 2, 3, 4, 5]}
-                renderItem={() => {
-                  return (
-                    <View style={spacing.pr2}>
-                      <UserCard
-                        height={61}
-                        width={61}
-                        image={appImages.hanna}
-                      />
-                    </View>
-                  );
-                }}
-                horizontal={true}
-              />
-            </View>
-          </View>
-
-          <View style={styles.cardViewCon}>
-            <View style={styles.starContainer}>
-              <Text style={styles.reviewtext}>Your Reviews(43)</Text>
-              <AppStarRating
-                style={styles.starRating}
-                disabled={true}
-                maxStars={5}
-                fullStarColor={colors.starcolor}
-                starSize={size.medium}
-              />
-            </View>
-
+        </View>
+        <View style={styles.cardViewCon}>
+          <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
+          <View style={spacing.py4}>
             <FlatList
-              data={reviews}
-              keyExtractor={(item, index) => index}
-              renderItem={({item, index}) => {
+              data={[1, 2, 3, 4, 5]}
+              renderItem={() => {
                 return (
-                  <ReviewCard
-                    id={item.id}
-                    title={item.title}
-                    description={item.description}
-                    image={item.image}
-                  />
+                  <View style={spacing.pr2}>
+                    <UserCard height={61} width={61} image={appImages.hanna} />
+                  </View>
                 );
               }}
-            />
-
-            <AppButton
-              width={'43%'}
-              borderColor={colors.p2}
-              title="View All Reviews"
-              textStyle={{fontSize: size.tiny}}
-              onPress={() => {
-                navigation?.navigate('SupportReviews');
-              }}
+              horizontal={true}
             />
           </View>
-        </ScrollView>
-      </View>
+        </View>
+
+        <View style={styles.cardViewCon}>
+          <View style={styles.starContainer}>
+            <Text style={styles.reviewtext}>Your Reviews(43)</Text>
+            <AppStarRating
+              starStyle={styles.starRating}
+              disabled={true}
+              maxStars={5}
+              fullStarColor={colors.starcolor}
+              starSize={size.medium}
+            />
+          </View>
+
+          <FlatList
+            data={reviews}
+            keyExtractor={(item, index) => index}
+            renderItem={({item, index}) => {
+              return (
+                <ReviewCard
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  image={item.image}
+                />
+              );
+            }}
+          />
+
+          <AppButton
+            width={'43%'}
+            borderColor={colors.p2}
+            title="View All Reviews"
+            textStyle={{fontSize: size.tiny}}
+            onPress={() => {
+              navigation?.navigate('SupportUserReviews');
+            }}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

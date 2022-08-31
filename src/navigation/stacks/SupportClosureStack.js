@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SearchSupportClosure from '../../screens/App/SearchSupportClosure';
 import SupportProfile from '../../screens/App/SupportProfile';
 import SupportUserReviews from '../../screens/App/SupportUserReviews';
-import SupportReviews from '../../screens/SupportApp/SupportReview';
+import SupportAddReview from '../../screens/App/SupportAddReview';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,7 @@ function SupportClosureStack(props) {
       />
       <Stack.Screen name="SupportProfile" component={SupportProfile} />
       <Stack.Screen name="SupportUserReviews" component={SupportUserReviews} />
-      <Stack.Screen name="SupportReviews" component={SupportReviews} />
+      <Stack.Screen name="SupportAddReview" component={SupportAddReview} />
     </Stack.Navigator>
   );
 }

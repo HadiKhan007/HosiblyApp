@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 12,
     height: 12,
+    padding: 1,
   },
   text1: {
     fontSize: size.xsmall,

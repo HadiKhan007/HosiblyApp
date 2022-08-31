@@ -182,7 +182,7 @@ const SupportHome = ({navigation}) => {
           <View style={styles.starContainer}>
             <Text style={styles.reviewtext}>Your Reviews(43)</Text>
             <AppStarRating
-              style={styles.starRating}
+              starStyle={styles.starRating}
               disabled={true}
               maxStars={5}
               fullStarColor={colors.starcolor}

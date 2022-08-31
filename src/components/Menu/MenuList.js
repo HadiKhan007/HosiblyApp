@@ -43,7 +43,7 @@ export const MenuList = ({
                 onPress={() => hideItemClick('Vacant Land')}>
                 <View style={styles.menuItemRow}>
                   <AppStarRating
-                    style={styles.starRating}
+                    starStyle={styles.starRating}
                     disabled={false}
                     maxStars={1}
                     fullStarColor={colors.starcolor}
@@ -101,5 +101,9 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.g24,
   },
-  starRating: {},
+  starRating: {
+    height: 12,
+    width: 12,
+    padding: 1,
+  },
 });

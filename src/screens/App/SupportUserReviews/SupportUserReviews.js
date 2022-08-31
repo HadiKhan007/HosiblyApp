@@ -1,17 +1,24 @@
 import {View, FlatList, SafeAreaView} from 'react-native';
 import React from 'react';
 import styles from './styles';
-import {appImages, colors, size, spacing} from '../../../shared/exporter';
+import {
+  appImages,
+  colors,
+  commonStyles,
+  size,
+  spacing,
+} from '../../../shared/exporter';
 
 import {useState} from 'react';
 import {
+  AppButton,
   BackHeader,
   MyStatusBar,
   ReviewCard,
   ReviewHeader,
 } from '../../../components';
 
-const SupportUserReviews = () => {
+const SupportUserReviews = ({navigation}) => {
   const [reviews, setReviews] = useState([
     {
       id: 0,
@@ -65,7 +72,7 @@ const SupportUserReviews = () => {
         />
 
         {/* LIST */}
-        <View style={{flex: 1}}>
+        <View style={commonStyles.flex1}>
           <FlatList
             data={reviews}
             renderItem={({item}) => {
@@ -84,6 +91,15 @@ const SupportUserReviews = () => {
             }}
           />
         </View>
+        <AppButton
+          onPress={() => {
+            navigation?.navigate('SupportAddReview');
+          }}
+          width={'60%'}
+          fontSize={size.tiny}
+          title={'Add Review'}
+          bgColor={colors.p1}
+        />
       </View>
     </SafeAreaView>
   );

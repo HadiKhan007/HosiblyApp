@@ -104,6 +104,7 @@ export const appIcons = {
   notify1: require('../../assets/icons/notify1.png'),
   blockIcon: require('../../assets/icons/block_icon.png'),
   call2: require('../../assets/icons/call2.png'),
+  emptyStar: require('../../assets/icons/emptyStar.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),

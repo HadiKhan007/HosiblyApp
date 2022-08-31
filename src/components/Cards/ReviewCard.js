@@ -12,7 +12,7 @@ export const ReviewCard = ({id, title, description, image, star}) => {
           <Text style={styles.nameText}>{title}</Text>
           {star && (
             <AppStarRating
-              style={styles.starRating}
+              starStyle={styles.starRating}
               disabled={true}
               maxStars={star}
               fullStarColor={colors.starcolor}
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   starRating: {
-    flexDirection: 'row',
     padding: 1,
     width: 12,
     height: 12,
