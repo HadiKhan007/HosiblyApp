@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, SafeAreaView, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import styles from './styles';
 import {
   BackHeader,
@@ -24,9 +30,12 @@ const SearchSupportClosure = ({navigation}) => {
             data={[1, 2, 3, 4, 5]}
             renderItem={() => {
               return (
-                <View>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation?.navigate('SupportProfile');
+                  }}>
                   <SupportUserCard />
-                </View>
+                </TouchableOpacity>
               );
             }}
           />
