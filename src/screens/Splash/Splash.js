@@ -18,7 +18,7 @@ const Splash = ({navigation}) => {
       if (isnotWalkthrough) {
         if (userInfo?.user?.auth_token) {
           if (userInfo?.user?.is_otp_verified && userInfo?.user?.is_confirmed) {
-            navigation.replace('App');
+            navigation.replace('SupportApp');
           } else {
             navigation.replace('Auth');
           }

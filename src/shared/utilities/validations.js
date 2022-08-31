@@ -142,6 +142,17 @@ export const ResetPasswordVS = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'New Passwords do not match'),
 });
 
+export const BudgetBoost = yup.object().shape({
+  budget: yup
+    .string()
+    .required('Budget Required')
+    .matches(/^[0-9]+$/, 'Budget must be only digits'),
+  duration: yup
+    .string()
+    .required('Duration Required')
+    .matches('Duration must Date format'),
+});
+
 export const addCardVS = yup.object().shape({
   fullname: yup.string().required('Full Name Required'),
   country: yup.string().required('Country Required'),

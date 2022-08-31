@@ -22,6 +22,7 @@ export const GalleryCard = ({
   onPress,
   imageArray,
   onPressImg,
+  numColumns,
 }) => {
   return (
     <View style={styles.container}>
@@ -52,7 +53,8 @@ export const GalleryCard = ({
               </ImageBackground>
             );
           }}
-          horizontal={true}
+          numColumns={numColumns}
+          horizontal={false}
         />
       </View>
     </View>

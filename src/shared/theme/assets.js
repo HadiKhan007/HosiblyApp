@@ -25,6 +25,13 @@ export const appImages = {
   person2: require('../../assets/images/person2.png'),
   person3: require('../../assets/images/person3.png'),
   cardBg: require('../../assets/images/card_bg.png'),
+  bookmark: require('../../assets/images/bookmark.png'),
+  rocket: require('../../assets/images/rocket.png'),
+  rocketluancher: require('../../assets/images/rocketluancher.png'),
+  hanna: require('../../assets/images/Hanna.png'),
+  Carter: require('../../assets/images/Carter.png'),
+  Press: require('../../assets/images/Press.png'),
+  James: require('../../assets/images/James.png'),
 };
 
 export const appIcons = {
@@ -89,6 +96,10 @@ export const appIcons = {
   masterCard: require('../../assets/icons/masterCard.png'),
   allIcon: require('../../assets/icons/all_icon.png'),
   closersIcon: require('../../assets/icons/closers_icon.png'),
+  whitebackarrow: require('../../assets/icons/whitebackarrow.png'),
+  calender: require('../../assets/icons/calender.png'),
+  star: require('../../assets/icons/star.png'),
+  yellowStar: require('../../assets/icons/yellowStar.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),
