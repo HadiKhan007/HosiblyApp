@@ -75,7 +75,7 @@ const ScheduleDay = ({navigation}) => {
       };
       const addInfoFailure = async res => {
         setLoading(false);
-        Alert.alert('Error', res);
+        Alert.alert('Error', res || 'Something went wrong!');
       };
 
       dispatch(addInfoRequest(form, addInfoSuccess, addInfoFailure));
