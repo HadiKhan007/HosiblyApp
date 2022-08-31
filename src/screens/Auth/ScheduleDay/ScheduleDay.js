@@ -69,7 +69,9 @@ const ScheduleDay = ({navigation}) => {
       const addInfoSuccess = async res => {
         setLoading(false);
         setTimeout(() => {
-          navigation?.replace('SupportApp');
+          // navigation?.replace('SupportApp');
+          navigation?.replace('App');
+
           setLoading(true);
         }, 500);
       };
