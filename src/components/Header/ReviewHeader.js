@@ -28,7 +28,10 @@ export const ReviewHeader = ({
           <Icon style={styles.iconStyle} name={'down'} size={15} />
         </TouchableOpacity>
 
-        <Menu style={styles.menuStyle} visible={showMenu}>
+        <Menu
+          onRequestClose={onPresMenu}
+          style={styles.menuStyle}
+          visible={showMenu}>
           {[5, 4, 3, 2, 1].map(item => {
             return (
               <TouchableOpacity

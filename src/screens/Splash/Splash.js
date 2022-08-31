@@ -27,7 +27,7 @@ const Splash = ({navigation}) => {
             navigation.replace('Auth');
           }
         } else {
-          navigation.replace('App');
+          navigation.replace('Auth');
         }
       } else {
         navigation.replace('Walkthrough');

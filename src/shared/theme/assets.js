@@ -102,6 +102,7 @@ export const appIcons = {
   star: require('../../assets/icons/star.png'),
   yellowStar: require('../../assets/icons/yellowStar.png'),
   notify1: require('../../assets/icons/notify1.png'),
+  blockIcon: require('../../assets/icons/block_icon.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),

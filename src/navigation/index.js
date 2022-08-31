@@ -19,6 +19,7 @@ import Support from '../screens/App/Profile/Support';
 import SupportQuery from '../screens/App/Profile/SupportQuery';
 import SupportChat from '../screens/App/Profile/SupportChat';
 import FAQ from '../screens/App/Profile/FAQ';
+import BlockedList from '../screens/App/Profile/BlockedList';
 import MapScreen from '../screens/App/Home/MapScreen';
 import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
 import PayMethod from '../screens/App/Profile/PayMethod';
@@ -36,6 +37,8 @@ import PropertyInfo from '../screens/App/Home/PropertyInfo';
 import SupportBottomTab from './tabs/SupportBottomTab';
 import ClosureStack from './SupportStack/ClosureStack';
 import SupportClosureStack from './stacks/SupportClosureStack';
+import PersonChat from '../screens/App/Home/PersonChat';
+import SupportEditProfile from '../screens/SupportApp/SupportEditProfile';
 
 const AppStack = createNativeStackNavigator();
 
@@ -63,6 +66,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'SupportQuery'} component={SupportQuery} />
         <AppStack.Screen name={'SupportChat'} component={SupportChat} />
         <AppStack.Screen name={'FAQ'} component={FAQ} />
+        <AppStack.Screen name={'BlockedList'} component={BlockedList} />
         <AppStack.Screen name={'NewMessages'} component={NewMessages} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
         <AppStack.Screen name={'AddCard'} component={AddCard} />
@@ -92,7 +96,13 @@ const MainAppNav = () => {
         />
         {/* Support Closure Screens */}
         <AppStack.Screen name={'SupportApp'} component={SupportBottomTab} />
+        <AppStack.Screen
+          name="SupportEditProfile"
+          component={SupportEditProfile}
+        />
         <AppStack.Screen name={'ClosureStack'} component={ClosureStack} />
+        {/* Chat */}
+        <AppStack.Screen name={'PersonChat'} component={PersonChat} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

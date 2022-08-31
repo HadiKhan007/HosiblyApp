@@ -111,10 +111,17 @@ const SupportHome = ({navigation}) => {
                 <Text style={styles.text2}>5</Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.iconCon}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation?.navigate('SupportEditProfile');
+              }}
+              style={styles.iconCon}>
               <Image style={styles.iconStyle} source={appIcons.bgPencil} />
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => {
+                navigation?.navigate('ClosureStack');
+              }}
               style={[styles.iconCon, {top: 75, backgroundColor: colors.y1}]}>
               <Image style={styles.iconStyle} source={appIcons.yellowStar} />
             </TouchableOpacity>

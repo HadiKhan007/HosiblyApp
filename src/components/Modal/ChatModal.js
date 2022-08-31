@@ -96,9 +96,9 @@ const styles = StyleSheet.create({
       backgroundColor:
         type === 'Block'
           ? colors.b9
-          : type === 'Report'
-          ? colors.p2
-          : colors.s1,
+          : type === 'Delete'
+          ? colors.s1
+          : colors.p2,
     };
   },
   btnTxtStyle: {
