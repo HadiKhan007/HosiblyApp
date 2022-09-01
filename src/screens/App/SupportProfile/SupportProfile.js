@@ -21,7 +21,7 @@ import {
   UserCard,
   ReviewCard,
 } from '../../../components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {
   appIcons,
@@ -37,7 +37,6 @@ import {CetificationCard} from '../../../components/Cards/CertificationCard';
 const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
   const [data, setData] = useState([]);
-  const [userImage, setUserImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([
     {
@@ -48,9 +47,8 @@ const SupportProfie = ({navigation}) => {
       image: appImages.hanna,
     },
   ]);
-
+  const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -63,10 +61,14 @@ const SupportProfie = ({navigation}) => {
             <View style={styles.imgCon}>
               <Image
                 style={styles.imgStyle}
-                source={{uri: userImage === '' ? profile_uri : userImage}}
+                source={{
+                  uri: support_detail?.support_closer_image || profile_uri,
+                }}
               />
             </View>
-            <Text style={styles.h1}>{data?.full_name || 'username'}</Text>
+            <Text style={styles.h1}>
+              {support_detail?.full_name || 'username'}
+            </Text>
             <Text style={styles.h2}>
               Company {data?.full_name || 'username'}
             </Text>
@@ -88,7 +90,11 @@ const SupportProfie = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                Linking.openURL(`tel:${9212121}`);
+                Linking.openURL(
+                  `tel:${support_detail?.country_code || ''}${
+                    support_detail?.phone_number || '2232131213'
+                  }`,
+                );
               }}
               style={[styles.iconCon, {top: 75}]}>
               <Image style={styles.iconStyle} source={appIcons.call2} />
@@ -96,38 +102,48 @@ const SupportProfie = ({navigation}) => {
           </View>
           <View style={spacing.my4}>
             <Text style={styles.desc}>
-              {data?.description || 'Describe something'}
+              {support_detail?.description || 'Describe something'}
             </Text>
           </View>
           <Divider color={colors.g18} />
           <View style={spacing.py4}>
-            <ProfileField
-              title={'Profession'}
-              subtitle={data?.email || 'Home Inspector, AC Repair'}
-              subColor={colors.p1}
-            />
+            {support_detail?.professions?.map(item => {
+              return (
+                <ProfileField
+                  title={'Profession'}
+                  subtitle={item?.title || 'Home Inspector, AC Repair'}
+                  subColor={colors.p1}
+                />
+              );
+            })}
 
             <ProfileField
               title={'Email Address'}
-              subtitle={data?.email || 'email-address'}
+              subtitle={support_detail?.email || 'email-address'}
             />
             <ProfileField
               title={'Phone Number'}
-              subtitle={`+${data?.country_code || ''}${
-                data?.phone_number || '2232131213'
+              subtitle={`${support_detail?.country_code || ''}${
+                support_detail?.phone_number || '2232131213'
               }`}
             />
           </View>
           <Divider color={colors.g18} />
           <Text style={styles.text3}>Uploaded Photos</Text>
-          <GalleryCard noUploadIcon={true} imageArray={[1, 2, 3, 4]} />
-          <Text style={styles.text3}>Uploaded Documents</Text>
-
-          <CetificationCard
-            title="my_certification.pdf"
-            subtitle="12.32mb"
-            style={{fontSize: 14}}
+          <GalleryCard
+            noUploadIcon={true}
+            imageArray={support_detail?.images}
           />
+          <Text style={styles.text3}>Uploaded Documents</Text>
+          {support_detail?.certificates?.map(item => {
+            return (
+              <CetificationCard
+                title={item?.image}
+                subtitle="12.32mb"
+                style={{fontSize: 14}}
+              />
+            );
+          })}
         </View>
         <View style={styles.cardViewCon}>
           <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
@@ -141,6 +157,7 @@ const SupportProfie = ({navigation}) => {
                   </View>
                 );
               }}
+              keyExtractor={(item, index) => index?.toString()}
               horizontal={true}
             />
           </View>

@@ -8,7 +8,9 @@ export const CetificationCard = ({style, title, subtitle}) => {
     <View style={styles.cardContainer}>
       <Image style={styles.pdfimg} source={appIcons.pdf} />
       <View style={{paddingHorizontal: 20}}>
-        <Text style={[styles.text4, style]}>{title}</Text>
+        <Text numberOfLines={1} style={[styles.text4, style]}>
+          {title}
+        </Text>
         <Text style={[styles.text4, style]}>{subtitle}</Text>
       </View>
     </View>

@@ -1,18 +1,29 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {appIcons, appImages, colors, family, size} from '../../shared/exporter';
+import {
+  appIcons,
+  capitalizeFirstLetter,
+  colors,
+  family,
+  size,
+} from '../../shared/exporter';
 import StarRating from 'react-native-star-rating';
 
-export const SupportUserCard = () => {
+export const SupportUserCard = ({item}) => {
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
-        <Image source={appImages.hanna} style={styles.imgCon} />
+        <Image
+          source={{uri: item?.support_closer_image}}
+          style={styles.imgCon}
+        />
       </View>
       <View style={styles.center}>
-        <Text style={styles.h1}>Harden Eusaff</Text>
+        <Text style={styles.h1}>
+          {capitalizeFirstLetter(item?.full_name) || ''}
+        </Text>
         <Text style={styles.h2}>Corporate Home X</Text>
-        <Text style={styles.h3}>Carpinter</Text>
+        <Text style={styles.h3}>{item?.professions[0].title || ''}</Text>
       </View>
       <View style={styles.rightContainer}>
         <StarRating
@@ -54,6 +65,7 @@ const styles = StyleSheet.create({
     height: 82,
     width: 82,
     borderRadius: 10,
+    backgroundColor: colors.g10,
   },
   h1: {
     fontSize: size.normal,

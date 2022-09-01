@@ -44,6 +44,10 @@ import {
   filterBookmarksRequest,
   deleteBookmarkRequest,
 } from './bookmarks-saga/bookmarks-saga';
+import {
+  getSupportUserDataRequest,
+  setSupportUserRequest,
+} from './support-user-sega/support-user-sega';
 
 export function* rootSaga() {
   yield fork(loginRequest);
@@ -86,4 +90,8 @@ export function* rootSaga() {
   yield fork(getBookmarksRequest);
   yield fork(filterBookmarksRequest);
   yield fork(deleteBookmarkRequest);
+
+  //Support Users
+  yield fork(getSupportUserDataRequest);
+  yield fork(setSupportUserRequest);
 }
