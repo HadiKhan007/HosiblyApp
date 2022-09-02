@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP('3.85'),
     flex: 1,
   },
+  secondCon: {
+    flex: 1,
+  },
   imgCon: {
     height: 122,
     width: 122,

@@ -19,8 +19,10 @@ export async function requestPermission() {
     console.log('token permission rejected');
   }
 }
+
 const getFcmToken = async () => {
   let oldToken = await AsyncStorage.getItem('fcmToken');
+
   if (oldToken == null) {
     try {
       messaging()
@@ -48,6 +50,7 @@ const getFcmToken = async () => {
       console.log(err);
     }
   } else {
+    console.log(oldToken);
     return oldToken;
   }
 };

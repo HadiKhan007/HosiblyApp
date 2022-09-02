@@ -30,49 +30,26 @@ import {
   colors,
   networkText,
   profile_uri,
+  responseValidator,
   size,
   spacing,
+  WP,
 } from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
 import {selected_suuport_user_data} from '../../../redux/actions';
+import {
+  getSupportReviewsApi,
+  getSupportVisitorApi,
+} from '../../../shared/service/SupportService';
 
 const SupportHome = ({navigation}) => {
   const dispatch = useDispatch(null);
   const [data, setData] = useState([]);
   const [userImage, setUserImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState([
-    {
-      id: 0,
-      title: 'Hanna Torff',
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint...',
-      image: appImages.hanna,
-    },
-    {
-      id: 1,
-      title: 'Carter Kenter',
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint...',
-      image: appImages.Carter,
-    },
-    {
-      id: 2,
-      title: 'Hanna Press',
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint...',
-
-      image: appImages.Press,
-    },
-    {
-      id: 4,
-      title: 'James George',
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint...',
-      image: appImages.James,
-    },
-  ]);
+  const [reviews, setReviews] = useState([]);
+  const [profileVisitors, setProfileVisitors] = useState([]);
   const {userInfo} = useSelector(state => state?.auth);
   const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
@@ -80,6 +57,8 @@ const SupportHome = ({navigation}) => {
   useEffect(() => {
     if (isFocus) {
       getprofileData();
+      getRatings();
+      getProfileVisitors();
     }
   }, [isFocus]);
 
@@ -105,31 +84,82 @@ const SupportHome = ({navigation}) => {
     }
   };
 
+  const getRatings = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const requestBody = {
+          support_closer_id: userInfo?.user?.id,
+        };
+        const res = await getSupportReviewsApi(requestBody);
+        if (res) {
+          setReviews(res);
+        }
+      } catch (error) {
+        console.log(error);
+        let msg = responseValidator(
+          error?.response?.status,
+          error?.response?.data,
+        );
+        // Alert.alert('Error', msg || 'Something went wrong!');
+      }
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+  const getProfileVisitors = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const requestBody = {
+          support_closer_id: userInfo?.user?.id,
+        };
+        const res = await getSupportVisitorApi(requestBody);
+        if (res) {
+          setProfileVisitors(res);
+        }
+      } catch (error) {
+        console.log(error);
+        let msg = responseValidator(
+          error?.response?.status,
+          error?.response?.data,
+        );
+        // Alert.alert('Error', msg || 'Something went wrong!');
+      }
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.rootContainer}>
-        <MyStatusBar />
-        <View style={spacing.my2}>
-          <BackHeader
-            noBackIcon={true}
-            subtitle={'Your Profile'}
-            rightIcon={
-              <Icon
-                type={'ionicons'}
-                name={'settings'}
-                onPress={() => {
-                  navigation?.navigate('Settings');
-                }}
-              />
-            }
-          />
-        </View>
+    <SafeAreaView style={styles.rootContainer}>
+      <MyStatusBar />
+      <View style={spacing.my2}>
+        <BackHeader
+          noBackIcon={true}
+          subtitle={'Your Profile'}
+          rightIcon={
+            <Icon
+              type={'ionicons'}
+              name={'settings'}
+              onPress={() => {
+                navigation?.navigate('Settings');
+              }}
+            />
+          }
+        />
+      </View>
+      <ScrollView contentContainerStyle={{paddingBottom: WP('15')}}>
         <View style={styles.contentContainer}>
           <View style={spacing.py4}>
             <View style={styles.imgCon}>
               <Image
                 style={styles.imgStyle}
-                source={{uri: userImage === '' ? profile_uri : userImage}}
+                source={{
+                  uri:
+                    support_detail?.support_closer?.profile_images ||
+                    profile_uri,
+                }}
               />
             </View>
             <Text style={styles.h1}>
@@ -144,7 +174,9 @@ const SupportHome = ({navigation}) => {
               </View>
               <View style={styles.textCon}>
                 <Text style={styles.text1}>Ratings</Text>
-                <Text style={styles.text2}>5</Text>
+                <Text style={styles.text2}>
+                  {support_detail?.support_closer?.rating || 0}
+                </Text>
               </View>
             </View>
             <TouchableOpacity
@@ -198,82 +230,105 @@ const SupportHome = ({navigation}) => {
                 support_detail?.support_closer?.country_code || ''
               }${support_detail?.support_closer?.phone_number || '2232131213'}`}
             />
+            <ProfileField
+              title={'Hourly Rate ($)'}
+              subtitle={support_detail?.support_closer?.hourly_rate || 0}
+            />
           </View>
           <Divider color={colors.g18} />
-          <Text style={styles.text3}>Uploaded Photos</Text>
-          <GalleryCard
-            noUploadIcon={true}
-            imageArray={support_detail?.support_closer?.uploded_images}
-          />
-          <Text style={styles.text3}>Uploaded Documents</Text>
-          {support_detail?.support_closer?.certificates?.map(item => {
-            return (
-              <CetificationCard
-                title={item?.image}
-                subtitle="12.32mb"
-                style={{fontSize: 14}}
+          {support_detail?.support_closer?.uploded_images.length > 0 && (
+            <>
+              <Text style={styles.text3}>Uploaded Photos</Text>
+              <GalleryCard
+                noUploadIcon={true}
+                imageArray={support_detail?.support_closer?.uploded_images}
               />
-            );
-          })}
-        </View>
-        <View style={styles.cardViewCon}>
-          <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
-          <View style={spacing.py4}>
-            <FlatList
-              data={[1, 2, 3, 4, 5]}
-              renderItem={() => {
+            </>
+          )}
+          {support_detail?.support_closer?.certificates.length > 0 && (
+            <>
+              <Text style={styles.text3}>Uploaded Documents</Text>
+              {support_detail?.support_closer?.certificates?.map(item => {
                 return (
-                  <View style={spacing.pr2}>
-                    <UserCard height={61} width={61} image={appImages.hanna} />
-                  </View>
+                  <CetificationCard
+                    title={item?.image}
+                    subtitle="12.32mb"
+                    style={{fontSize: 14}}
+                  />
                 );
-              }}
-              horizontal={true}
-            />
-          </View>
+              })}
+            </>
+          )}
         </View>
-
-        <View style={styles.cardViewCon}>
-          <View style={styles.starContainer}>
-            <Text style={styles.reviewtext}>Your Reviews(43)</Text>
-            <AppStarRating
-              starStyle={styles.starRating}
-              disabled={true}
-              maxStars={5}
-              fullStarColor={colors.starcolor}
-              starSize={size.medium}
-            />
-          </View>
-
-          <FlatList
-            data={reviews}
-            keyExtractor={(item, index) => index}
-            renderItem={({item, index}) => {
-              return (
-                <ReviewCard
-                  id={item.id}
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
+        <View>
+          {reviews.length > 0 && (
+            <View style={styles.cardViewCon}>
+              <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
+              <View style={spacing.py4}>
+                <FlatList
+                  data={reviews}
+                  renderItem={() => {
+                    return (
+                      <View style={spacing.pr2}>
+                        <UserCard
+                          height={61}
+                          width={61}
+                          image={appImages.hanna}
+                        />
+                      </View>
+                    );
+                  }}
+                  horizontal={true}
                 />
-              );
-            }}
-          />
-
-          <AppButton
-            width={'43%'}
-            borderColor={colors.p2}
-            title="View All Reviews"
-            textStyle={{fontSize: size.tiny}}
-            onPress={() => {
-              navigation?.navigate('SupportReviews');
-            }}
-          />
+              </View>
+            </View>
+          )}
+          {reviews?.length > 0 && (
+            <View style={styles.cardViewCon}>
+              <View style={styles.starContainer}>
+                <Text style={styles.reviewtext}>Your Reviews(43)</Text>
+                <AppStarRating
+                  starStyle={styles.starRating}
+                  disabled={true}
+                  rating={support_detail?.support_closer?.rating}
+                  maxStars={5}
+                  fullStarColor={colors.y1}
+                  starSize={size.medium}
+                />
+              </View>
+              <FlatList
+                data={reviews}
+                keyExtractor={(item, index) => index}
+                renderItem={({item, index}) => {
+                  return (
+                    <ReviewCard
+                      id={item.id}
+                      title={item.title}
+                      description={item.description}
+                      image={item.image}
+                    />
+                  );
+                }}
+                ListFooterComponent={() => {
+                  return (
+                    <AppButton
+                      width={'43%'}
+                      borderColor={colors.p2}
+                      title="View All Reviews"
+                      textStyle={{fontSize: size.tiny}}
+                      onPress={() => {
+                        navigation?.navigate('SupportReviews');
+                      }}
+                    />
+                  );
+                }}
+              />
+            </View>
+          )}
         </View>
-
-        <AppLoader loading={isLoading} />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+      <AppLoader loading={isLoading} />
+    </SafeAreaView>
   );
 };
 

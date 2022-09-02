@@ -26,6 +26,9 @@ const ENDPOINTS = {
   DELETE_BOOKMARKS: 'bookmarks',
   GET_QUERIES: 'tickets',
   ADD_QUERY: 'tickets',
+
+  // Support
+  UPDATE_SUPPORT_CONST: 'update_support_closer_profile',
 };
 
 export {BASE_URL, ENDPOINTS};

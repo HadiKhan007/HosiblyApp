@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {View, Text, Image, StatusBar} from 'react-native';
 import {useSelector} from 'react-redux';
-import {registerAppWithFCM, requestPermission} from '../../shared/exporter';
+import {requestPermission} from '../../shared/exporter';
 import {appLogos} from '../../shared/theme/assets';
 import styles from './styles';
 import messaging from '@react-native-firebase/messaging';

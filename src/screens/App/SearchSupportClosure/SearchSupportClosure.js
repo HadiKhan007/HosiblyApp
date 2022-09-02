@@ -77,7 +77,10 @@ const SearchSupportClosure = ({navigation}) => {
       setLoading(false);
       Alert.alert('Error', res);
     };
-    dispatch(selected_suuport_user_data(item, onSuccess, onFailure));
+    const requestBody = {
+      support_closer_id: item?.id,
+    };
+    dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
   };
 
   return (
@@ -105,6 +108,7 @@ const SearchSupportClosure = ({navigation}) => {
                 </TouchableOpacity>
               );
             }}
+            showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index?.toString()}
           />
         </View>

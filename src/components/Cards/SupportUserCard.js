@@ -10,6 +10,7 @@ import {
 import StarRating from 'react-native-star-rating';
 
 export const SupportUserCard = ({item}) => {
+  console.log(item);
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -22,8 +23,10 @@ export const SupportUserCard = ({item}) => {
         <Text style={styles.h1}>
           {capitalizeFirstLetter(item?.full_name) || ''}
         </Text>
-        <Text style={styles.h2}>Corporate Home X</Text>
-        <Text style={styles.h3}>{item?.professions[0].title || ''}</Text>
+        <Text numberOfLines={1} style={styles.h2}>
+          {item?.description}
+        </Text>
+        <Text style={styles.h3}>{item?.professions || ''}</Text>
       </View>
       <View style={styles.rightContainer}>
         <StarRating
@@ -34,7 +37,7 @@ export const SupportUserCard = ({item}) => {
           starSize={size.tiny}
           containerStyle={{paddingVertical: 1}}
         />
-        <Text style={styles.textStyle}>5</Text>
+        <Text style={styles.textStyle}>{item?.rating || 0}</Text>
       </View>
     </View>
   );

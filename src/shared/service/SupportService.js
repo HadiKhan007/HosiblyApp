@@ -34,3 +34,41 @@ export const getSupportUserProfileApi = async params => {
   });
   return res?.data;
 };
+//Get Reveiws
+export const getSupportReviewsApi = async params => {
+  const res = await axios.post(`${BASE_URL}reviews`, params, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res?.data;
+};
+
+//Get Support Visitor
+export const getSupportVisitorApi = async () => {
+  const res = await axios.get(`${BASE_URL}profile_visitor_list`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res?.data;
+};
+
+//Update Info
+export const updateSupportUserData = async params => {
+  const res = await axios.put(
+    `${BASE_URL}${ENDPOINTS.UPDATE_SUPPORT_CONST}.json`,
+    params,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};
