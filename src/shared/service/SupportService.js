@@ -23,3 +23,14 @@ export const addSupportReviewApi = async params => {
   });
   return res?.data;
 };
+
+export const getSupportUserProfileApi = async params => {
+  const res = await axios.post(`${BASE_URL}support_closer_profile`, params, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res?.data;
+};

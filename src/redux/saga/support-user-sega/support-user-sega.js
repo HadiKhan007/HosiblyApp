@@ -1,6 +1,9 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
-import {getSupportUsersApi} from '../../../shared/service/SupportService';
+import {
+  getSupportUserProfileApi,
+  getSupportUsersApi,
+} from '../../../shared/service/SupportService';
 
 import * as types from '../../actions/types';
 
@@ -35,14 +38,14 @@ export function* setSupportUserRequest() {
 }
 function* setSupportUser(params) {
   try {
-    // const res = yield getSupportUsersApi();
-    // if (res) {
-    yield put({
-      type: types.SELECTED_SUPPORT_USER_SUCCESS,
-      payload: params?.params,
-    });
-    params?.cbSuccess(params?.params);
-    // }
+    const res = yield getSupportUserProfileApi(params?.params);
+    if (res) {
+      yield put({
+        type: types.SELECTED_SUPPORT_USER_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
   } catch (error) {
     console.log(error);
     yield put({

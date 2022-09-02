@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Alert,
 } from 'react-native';
 import styles from './styles';
 import {
@@ -20,18 +21,21 @@ import {
   UserCard,
   ReviewCard,
 } from '../../../components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {
   appIcons,
   appImages,
+  checkConnected,
   colors,
+  networkText,
   profile_uri,
   size,
   spacing,
 } from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
+import {selected_suuport_user_data} from '../../../redux/actions';
 
 const SupportHome = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -69,8 +73,38 @@ const SupportHome = ({navigation}) => {
       image: appImages.James,
     },
   ]);
-
+  const {userInfo} = useSelector(state => state?.auth);
+  const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
+
+  useEffect(() => {
+    if (isFocus) {
+      getprofileData();
+    }
+  }, [isFocus]);
+
+  //Get Profile Data
+  const getprofileData = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const onSuccess = async res => {
+          console.log('get Support Success');
+        };
+        const onFailure = async res => {
+          console.log('Error', res);
+          Alert.alert('Error', res);
+        };
+        const requestBody = {
+          support_closer_id: userInfo?.user?.id,
+        };
+        dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+      } catch (error) {}
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.rootContainer}>
@@ -98,9 +132,11 @@ const SupportHome = ({navigation}) => {
                 source={{uri: userImage === '' ? profile_uri : userImage}}
               />
             </View>
-            <Text style={styles.h1}>{data?.full_name || 'username'}</Text>
+            <Text style={styles.h1}>
+              {support_detail?.support_closer?.full_name || 'username'}
+            </Text>
             <Text style={styles.h2}>
-              Company {data?.full_name || 'username'}
+              Company {support_detail?.support_closer?.full_name || 'username'}
             </Text>
             <View style={styles.aiRow}>
               <View style={styles.starCon}>
@@ -128,38 +164,57 @@ const SupportHome = ({navigation}) => {
           </View>
           <View style={spacing.my4}>
             <Text style={styles.desc}>
-              {data?.description || 'Describe something'}
+              {support_detail?.support_closer?.description ||
+                'Describe something'}
             </Text>
           </View>
           <Divider color={colors.g18} />
           <View style={spacing.py4}>
-            <ProfileField
-              title={'Profession'}
-              subtitle={data?.email || 'Home Inspector, AC Repair'}
-              subColor={colors.p1}
-            />
+            {
+              <FlatList
+                data={support_detail?.support_closer?.professions}
+                renderItem={({item}) => {
+                  return (
+                    <ProfileField
+                      title={'Profession'}
+                      subtitle={item?.title || 'Home Inspector, AC Repair'}
+                      subColor={colors.p1}
+                    />
+                  );
+                }}
+                keyExtractor={index => index?.toString()}
+              />
+            }
 
             <ProfileField
               title={'Email Address'}
-              subtitle={data?.email || 'email-address'}
+              subtitle={
+                support_detail?.support_closer?.email || 'email-address'
+              }
             />
             <ProfileField
               title={'Phone Number'}
-              subtitle={`+${data?.country_code || ''}${
-                data?.phone_number || '2232131213'
-              }`}
+              subtitle={`+${
+                support_detail?.support_closer?.country_code || ''
+              }${support_detail?.support_closer?.phone_number || '2232131213'}`}
             />
           </View>
           <Divider color={colors.g18} />
           <Text style={styles.text3}>Uploaded Photos</Text>
-          <GalleryCard noUploadIcon={true} imageArray={[1, 2, 3, 4]} />
-          <Text style={styles.text3}>Uploaded Documents</Text>
-
-          <CetificationCard
-            title="my_certification.pdf"
-            subtitle="12.32mb"
-            style={{fontSize: 14}}
+          <GalleryCard
+            noUploadIcon={true}
+            imageArray={support_detail?.support_closer?.uploded_images}
           />
+          <Text style={styles.text3}>Uploaded Documents</Text>
+          {support_detail?.support_closer?.certificates?.map(item => {
+            return (
+              <CetificationCard
+                title={item?.image}
+                subtitle="12.32mb"
+                style={{fontSize: 14}}
+              />
+            );
+          })}
         </View>
         <View style={styles.cardViewCon}>
           <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>

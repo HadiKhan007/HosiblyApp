@@ -6,6 +6,7 @@ const initialState = {
   isFailure: false,
   support_users: [],
   support_detail: null,
+  support_user_info: null,
 };
 
 const supportUserReducers = (state = initialState, actions) => {
