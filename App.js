@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar, LogBox} from 'react-native';
 import MainNavigation from './src/navigation';
 import {Provider} from 'react-redux';
@@ -8,22 +8,21 @@ import store, {persistor} from './src/redux/store';
 import {colors, stripe_publishableKey} from './src/shared/exporter';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {StripeProvider} from '@stripe/stripe-react-native';
-import SupportReview from './src/screens/SupportApp/SupportReview';
-import ReviewModal from './src/components/Modal/ReviewModal';
-import SupportAddReview from './src/screens/App/SupportAddReview';
-
-// ignore warnings
-LogBox.ignoreAllLogs();
-LogBox.ignoreLogs([
-  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
-]);
-
-GoogleSignin.configure({
-  webClientId:
-    '859276342696-gm0lnsee2kjh5pvpj85gcm5enrkdgfr2.apps.googleusercontent.com',
-});
 
 const App = () => {
+  // ignore warnings
+  LogBox.ignoreAllLogs();
+  LogBox.ignoreLogs([
+    "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+
+    useEffect(() => {
+      GoogleSignin.configure({
+        webClientId:
+          '859276342696-gm0lnsee2kjh5pvpj85gcm5enrkdgfr2.apps.googleusercontent.com',
+      });
+    }, []),
+  ]);
+
   return (
     <Provider store={store}>
       <StatusBar

@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, SafeAreaView, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import styles from './styles';
 import {
   BackHeader,
@@ -8,9 +15,74 @@ import {
   SupportUserCard,
 } from '../../../components';
 
-import {commonStyles, spacing} from '../../../shared/exporter';
+import {
+  checkConnected,
+  commonStyles,
+  networkText,
+  spacing,
+} from '../../../shared/exporter';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  get_suuport_users,
+  selected_suuport_user_data,
+} from '../../../redux/actions';
 
 const SearchSupportClosure = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [filteredData, setfilteredData] = useState([]);
+  const [supportData, setSupportData] = useState([]);
+  const dispatch = useDispatch(null);
+
+  //Get Suppport User
+  useEffect(() => {
+    getSupportUser();
+  }, []);
+
+  //Get Support User
+  const getSupportUser = async () => {
+    const check = await checkConnected();
+    if (check) {
+      const onSuccess = async res => {
+        setSupportData(res?.support_closer);
+        setfilteredData(res?.support_closer);
+        setLoading(false);
+      };
+      const onFailure = async res => {
+        setLoading(false);
+        Alert.alert('Error', res);
+      };
+      dispatch(get_suuport_users(null, onSuccess, onFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  //Search Item
+  const searchItem = async search => {
+    setSearchText(search);
+    let searchData = [];
+    searchData = filteredData?.filter(item => {
+      return item?.full_name?.toUpperCase().includes(search.toUpperCase());
+    });
+    setSupportData(searchData);
+  };
+
+  const selectedItem = async item => {
+    const onSuccess = async res => {
+      navigation?.navigate('SupportProfile');
+      setLoading(false);
+    };
+    const onFailure = async res => {
+      setLoading(false);
+      Alert.alert('Error', res);
+    };
+    const requestBody = {
+      support_closer_id: item?.id,
+    };
+    dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -18,17 +90,26 @@ const SearchSupportClosure = ({navigation}) => {
         <BackHeader subtitle={'Looking For'} />
       </View>
       <View style={styles.contentContainer}>
-        <SearchBar />
+        <SearchBar
+          onChangeText={text => {
+            searchItem(text);
+          }}
+        />
         <View style={[commonStyles.flex1, spacing.py4]}>
           <FlatList
-            data={[1, 2, 3, 4, 5]}
-            renderItem={() => {
+            data={supportData}
+            renderItem={({item}) => {
               return (
-                <View>
-                  <SupportUserCard />
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    selectedItem(item);
+                  }}>
+                  <SupportUserCard item={item} />
+                </TouchableOpacity>
               );
             }}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index?.toString()}
           />
         </View>
       </View>

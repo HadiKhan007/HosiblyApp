@@ -18,8 +18,10 @@ export const ReviewHeader = ({
       <View style={styles.itemContainer}>
         <TouchableOpacity style={styles.aiRow} onPress={onPresMenu}>
           <AppStarRating
+            starStyle={styles.headerStarStyle}
             disabled={true}
             maxStars={1}
+            rating={1}
             fullStarColor={colors.starcolor}
             starSize={size.h6}
           />
@@ -38,6 +40,8 @@ export const ReviewHeader = ({
                 onPress={() => onPressItem(item)}
                 style={styles.menuItem}>
                 <AppStarRating
+                  rating={5}
+                  starStyle={[styles.starStyle, {margin: 3}]}
                   disabled={false}
                   maxStars={item}
                   fullStarColor={colors.starcolor}
@@ -117,5 +121,14 @@ const styles = StyleSheet.create({
   aiRow: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  headerStarStyle: {
+    height: 16,
+    width: 16,
+  },
+  starStyle: {
+    padding: 1,
+    width: 12,
+    height: 12,
   },
 });

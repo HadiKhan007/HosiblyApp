@@ -87,3 +87,9 @@ export {
   setDigitSize,
 } from './utilities/helper';
 export {commonStyles} from './theme/commonStyles';
+export {
+  registerAppWithFCM,
+  requestPermission,
+  // LocalNotification,
+  // Notification_Listner,
+} from './utilities/NotificationHandler';

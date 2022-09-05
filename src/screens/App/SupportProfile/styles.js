@@ -10,9 +10,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: WP('3.85'),
     flex: 1,
   },
-  secondCon: {
-    flex: 1,
-  },
   imgCon: {
     height: 122,
     width: 122,
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
     paddingVertical: WP('10'),
   },
   iconCon: {
-    backgroundColor: colors.s2,
+    backgroundColor: colors.p1,
     height: 43,
     width: 43,
     borderRadius: 10,
@@ -56,6 +53,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     resizeMode: 'contain',
+    tintColor: colors.white,
   },
   h1: {
     fontSize: size.h6,

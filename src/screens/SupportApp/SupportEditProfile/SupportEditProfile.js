@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import {
   AppButton,
@@ -21,17 +22,20 @@ import {
 } from '../../../components';
 import {
   appIcons,
+  checkConnected,
   colors,
   editFormFields,
   editProfileFieldsVS,
   editSupportFormFields,
   editSupportProfileFieldsVS,
+  networkText,
   platformOrientedCode,
   profile_uri,
+  responseValidator,
   spacing,
 } from '../../../shared/exporter';
 import styles from './styles';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {updateProfileRequest} from '../../../redux/actions';
 import ImagePicker from 'react-native-image-crop-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -39,6 +43,7 @@ import {Formik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
 import {useIsFocused} from '@react-navigation/core';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {updateSupportUserData} from '../../../shared/service/SupportService';
 
 const SupportEditProfile = ({navigation, route}) => {
   const [country, setcountry] = useState({
@@ -59,23 +64,21 @@ const SupportEditProfile = ({navigation, route}) => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState('');
-  const [oldImage, setOldImage] = useState(profile_uri);
   const [userImage, setUserImage] = useState('');
   const [imageArray, setimageArray] = useState([]);
   const [isImgArray, setisImgArray] = useState(false);
   const isFocus = useIsFocused(null);
+  const {support_detail} = useSelector(state => state?.supportReducer);
   const dispatch = useDispatch(null);
 
   useEffect(() => {
-    // if (isFocus) {
-    //   let userImg = route?.params?.item?.image;
-    //   if (userImg === '') {
-    //     console.log('empty image');
-    //   } else {
-    //     setOldImage(route?.params?.item?.image);
-    //   }
-    //   setData(route?.params?.item);
-    // }
+    if (isFocus) {
+      setUserImage({
+        path: support_detail?.support_closer?.profile_images || '',
+      });
+      setimageArray(support_detail?.support_closer?.uploded_images);
+      setprofessionList(support_detail?.support_closer?.professions);
+    }
   }, [isFocus]);
 
   //Gallery Handlers
@@ -131,45 +134,65 @@ const SupportEditProfile = ({navigation, route}) => {
     );
   };
 
-  const handleUpdateProfile = values => {
-    setIsLoading(true);
-    const data = new FormData();
-    let phone = '';
-    if (values?.phone.charAt(0) == '0') {
-      phone = values?.phone?.substring(1);
-    } else {
-      phone = values.phone;
-    }
-    data.append('user[email]', values?.email || '');
-    data.append('user[phone_number]', phone || '');
-    data.append('user[description]', values?.bio || '');
-    data.append('user[country_name]', cca2 || '');
-    data.append('user[country_code]', country?.callingCode[0] || '');
-
-    if (userImage === '') {
-      console.log("Don't send the old image.");
-    } else {
-      const imgObj = {
-        name: userImage?.filename || 'image',
+  const handleUpdateProfile = async values => {
+    const check = await checkConnected();
+    if (check) {
+      setIsLoading(true);
+      const data = new FormData();
+      let phone = '';
+      if (values?.phone.charAt(0) == '0') {
+        phone = values?.phone?.substring(1);
+      } else {
+        phone = values.phone;
+      }
+      data.append('user[full_name]', values?.fullname);
+      data.append('user[email]', values?.email || '');
+      data.append('user[phone_number]', values?.phone || '');
+      data.append('user[description]', values?.bio || '');
+      // data.append('user[country_name]', cca2 || '');
+      // data.append('user[country_code]', country?.callingCode[0] || '');
+      professionList?.forEach(item => {
+        data.append('user[titles][]', item?.title);
+      });
+      data.append('user[currency_type]', '$');
+      data.append('user[avatar]', {
         uri: userImage?.path,
-        type: userImage?.mime,
-      };
-      data.append('user[avatar]', imgObj);
+        name: userImage?.filename || 'image',
+        type: userImage?.mime || 'image/jpeg',
+      });
+      data?.append('user[currency_amount]', values?.hourly_rate);
+      imageArray?.forEach(item => {
+        data.append('user[images][]', {
+          uri: item?.path || item?.image,
+          name: item?.filename || 'image',
+          type: item?.mime || 'image/jpeg',
+        });
+      });
+      try {
+        const res = await updateSupportUserData(data);
+        if (res) {
+          setIsLoading(false);
+          Alert.alert('Success', 'Profile updated successfully!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation?.goBack();
+              },
+            },
+          ]);
+        }
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+        let msg = responseValidator(
+          error?.response?.status,
+          error?.response?.data,
+        );
+        Alert.alert('Error', msg || 'Something went wrong!');
+      }
+    } else {
+      Alert.alert('Error', networkText);
     }
-
-    const updateProfileSuccess = async res => {
-      // alert('Profile is updated successfully.');
-      navigation.goBack();
-      setIsLoading(false);
-    };
-    const updateProfileFailure = async err => {
-      console.log('Err is ==> ', err);
-      Alert.alert('Error', err);
-      setIsLoading(false);
-    };
-    dispatch(
-      updateProfileRequest(data, updateProfileSuccess, updateProfileFailure),
-    );
   };
 
   return (
@@ -196,12 +219,32 @@ const SupportEditProfile = ({navigation, route}) => {
             setFieldValue,
           }) => {
             useEffect(() => {
-              // setFieldValue('email', data?.email || '');
-              // setFieldValue('bio', data?.description || '');
-              // setFieldValue('phone', data?.phone_number || '');
-              // setcca2(data?.country_name || 'US');
-              // setcountry({callingCode: [data?.country_code] || '1'});
-            }, [data]);
+              setFieldValue(
+                'hourly_rate',
+                support_detail?.support_closer?.hourly_rate || 0,
+              );
+              setFieldValue(
+                'fullname',
+                support_detail?.support_closer?.full_name || '',
+              );
+              setFieldValue(
+                'email',
+                support_detail?.support_closer?.email || '',
+              );
+              setFieldValue(
+                'bio',
+                support_detail?.support_closer?.description || '',
+              );
+              setFieldValue(
+                'phone',
+                support_detail?.support_closer?.phone_number || '',
+              );
+              setcca2(support_detail?.support_closer?.country_name || 'US');
+              setcountry({
+                callingCode:
+                  [support_detail?.support_closer?.country_code] || '1',
+              });
+            }, []);
             return (
               <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.inputContainer}>
@@ -213,18 +256,19 @@ const SupportEditProfile = ({navigation, route}) => {
                       setShow(true);
                     }}>
                     <View style={styles.imgCon}>
-                      <Image
-                        style={styles.imgStyle}
-                        source={{
-                          uri:
-                            userImage === ''
-                              ? oldImage
-                              : platformOrientedCode(
-                                  userImage?.path,
-                                  userImage?.sourceURL,
-                                ),
+                      <ImageBackground
+                        style={[styles.imgStyle]}
+                        imageStyle={{
+                          borderRadius: 15,
                         }}
-                      />
+                        source={{
+                          uri: userImage?.path,
+                        }}>
+                        <Image
+                          style={styles.iconStyle}
+                          source={appIcons.gallery_1}
+                        />
+                      </ImageBackground>
                     </View>
                   </TouchableOpacity>
                   <AppInput
@@ -291,8 +335,9 @@ const SupportEditProfile = ({navigation, route}) => {
                       renderItem={({item, index}) => {
                         return (
                           <AppInput
-                            placeholder="Enter Profession"
-                            // value={professionList[index].profession}
+                            placeholder={
+                              professionList[index].title || 'Enter Profession'
+                            }
                             onChangeText={text => {
                               professionList[index].title = text;
                             }}

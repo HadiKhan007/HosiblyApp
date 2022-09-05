@@ -47,7 +47,7 @@ export const GalleryCard = ({
               <ImageBackground
                 imageStyle={{borderRadius: 13}}
                 style={styles.imgCon}
-                source={{uri: item?.path}}>
+                source={{uri: item?.path || item?.image}}>
                 {!noUploadIcon && (
                   <TouchableOpacity
                     style={styles.iconCon}

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Linking,
   Alert,
 } from 'react-native';
 import styles from './styles';
@@ -33,64 +34,39 @@ import {
   responseValidator,
   size,
   spacing,
-  WP,
 } from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
-import {selected_suuport_user_data} from '../../../redux/actions';
 import {
   getSupportReviewsApi,
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
 
-const SupportHome = ({navigation}) => {
+const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
   const [data, setData] = useState([]);
-  const [userImage, setUserImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [profileVisitors, setProfileVisitors] = useState([]);
-  const {userInfo} = useSelector(state => state?.auth);
+
   const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
-
+  //Get Data
   useEffect(() => {
     if (isFocus) {
-      getprofileData();
       getRatings();
       getProfileVisitors();
     }
   }, [isFocus]);
-
-  //Get Profile Data
-  const getprofileData = async () => {
-    const check = await checkConnected();
-    if (check) {
-      try {
-        const onSuccess = async res => {
-          console.log('get Support Success');
-        };
-        const onFailure = async res => {
-          console.log('Error', res);
-          Alert.alert('Error', res);
-        };
-        const requestBody = {
-          support_closer_id: userInfo?.user?.id,
-        };
-        dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
-      } catch (error) {}
-    } else {
-      Alert.alert('Error', networkText);
-    }
-  };
 
   const getRatings = async () => {
     const check = await checkConnected();
     if (check) {
       try {
         const requestBody = {
-          support_closer_id: userInfo?.user?.id,
+          support_closer_id: support_detail?.support_closer?.id,
         };
+        console.log(requestBody);
         const res = await getSupportReviewsApi(requestBody);
         if (res) {
           setReviews(res);
@@ -101,20 +77,18 @@ const SupportHome = ({navigation}) => {
           error?.response?.status,
           error?.response?.data,
         );
-        // Alert.alert('Error', msg || 'Something went wrong!');
+        Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
     }
   };
+
   const getProfileVisitors = async () => {
     const check = await checkConnected();
     if (check) {
       try {
-        const requestBody = {
-          support_closer_id: userInfo?.user?.id,
-        };
-        const res = await getSupportVisitorApi(requestBody);
+        const res = await getSupportVisitorApi();
         if (res) {
           setProfileVisitors(res);
         }
@@ -124,7 +98,7 @@ const SupportHome = ({navigation}) => {
           error?.response?.status,
           error?.response?.data,
         );
-        // Alert.alert('Error', msg || 'Something went wrong!');
+        Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
@@ -135,21 +109,9 @@ const SupportHome = ({navigation}) => {
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
       <View style={spacing.my2}>
-        <BackHeader
-          noBackIcon={true}
-          subtitle={'Your Profile'}
-          rightIcon={
-            <Icon
-              type={'ionicons'}
-              name={'settings'}
-              onPress={() => {
-                navigation?.navigate('Settings');
-              }}
-            />
-          }
-        />
+        <BackHeader subtitle={'Your Profile'} />
       </View>
-      <ScrollView contentContainerStyle={{paddingBottom: WP('15')}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           <View style={spacing.py4}>
             <View style={styles.imgCon}>
@@ -163,7 +125,7 @@ const SupportHome = ({navigation}) => {
               />
             </View>
             <Text style={styles.h1}>
-              {support_detail?.support_closer?.full_name || 'username'}
+              {support_detail?.support_closer.full_name || 'username'}
             </Text>
             <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
@@ -181,42 +143,39 @@ const SupportHome = ({navigation}) => {
             </View>
             <TouchableOpacity
               onPress={() => {
-                navigation?.navigate('SupportEditProfile');
+                navigation?.navigate('PersonChat');
               }}
               style={styles.iconCon}>
-              <Image style={styles.iconStyle} source={appIcons.bgPencil} />
+              <Image style={styles.iconStyle} source={appIcons.messageIcon} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation?.navigate('ClosureStack');
+                Linking.openURL(
+                  `tel:${support_detail?.support_closer?.country_code || ''}${
+                    support_detail?.support_closer?.phone_number || '2232131213'
+                  }`,
+                );
               }}
-              style={[styles.iconCon, {top: 75, backgroundColor: colors.y1}]}>
-              <Image style={styles.iconStyle} source={appIcons.yellowStar} />
+              style={[styles.iconCon, {top: 75}]}>
+              <Image style={styles.iconStyle} source={appIcons.call2} />
             </TouchableOpacity>
           </View>
           <View style={spacing.my4}>
             <Text style={styles.desc}>
-              {support_detail?.support_closer?.description ||
-                'Describe something'}
+              {support_detail?.description || 'Describe something'}
             </Text>
           </View>
           <Divider color={colors.g18} />
           <View style={spacing.py4}>
-            {
-              <FlatList
-                data={support_detail?.support_closer?.professions}
-                renderItem={({item}) => {
-                  return (
-                    <ProfileField
-                      title={'Profession'}
-                      subtitle={item?.title || 'Home Inspector, AC Repair'}
-                      subColor={colors.p1}
-                    />
-                  );
-                }}
-                keyExtractor={index => index?.toString()}
-              />
-            }
+            {support_detail?.professions?.map(item => {
+              return (
+                <ProfileField
+                  title={'Profession'}
+                  subtitle={item?.title || 'Home Inspector, AC Repair'}
+                  subColor={colors.p1}
+                />
+              );
+            })}
 
             <ProfileField
               title={'Email Address'}
@@ -226,9 +185,9 @@ const SupportHome = ({navigation}) => {
             />
             <ProfileField
               title={'Phone Number'}
-              subtitle={`+${
-                support_detail?.support_closer?.country_code || ''
-              }${support_detail?.support_closer?.phone_number || '2232131213'}`}
+              subtitle={`${support_detail?.support_closer?.country_code || ''}${
+                support_detail?.support_closer?.phone_number || '2232131213'
+              }`}
             />
             <ProfileField
               title={'Hourly Rate ($)'}
@@ -251,7 +210,7 @@ const SupportHome = ({navigation}) => {
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
                   <CetificationCard
-                    title={item?.image}
+                    title={item?.certificate}
                     subtitle="12.32mb"
                     style={{fontSize: 14}}
                   />
@@ -260,7 +219,7 @@ const SupportHome = ({navigation}) => {
             </>
           )}
         </View>
-        <View>
+        <View style={styles.secondCon}>
           {reviews.length > 0 && (
             <View style={styles.cardViewCon}>
               <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
@@ -326,10 +285,18 @@ const SupportHome = ({navigation}) => {
             </View>
           )}
         </View>
+        <AppButton
+          width={'43%'}
+          borderColor={colors.p2}
+          title="View All Reviews"
+          textStyle={{fontSize: size.tiny}}
+          onPress={() => {
+            navigation?.navigate('SupportUserReviews');
+          }}
+        />
       </ScrollView>
-      <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
 };
 
-export default SupportHome;
+export default SupportProfie;

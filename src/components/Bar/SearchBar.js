@@ -3,11 +3,12 @@ import React from 'react';
 import {appIcons, colors, family, size} from '../../shared/exporter';
 import {Input} from 'react-native-elements';
 
-export const SearchBar = () => {
+export const SearchBar = ({onChangeText}) => {
   return (
     <View style={styles.container}>
       <Input
         placeholder={'Search'}
+        onChangeText={onChangeText}
         leftIcon={<Image source={appIcons.search} style={styles.iconStyle} />}
         style={styles.inputStyle}
         inputContainerStyle={styles.inputContainerStyle}
