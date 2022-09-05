@@ -12,11 +12,11 @@ const Splash = ({navigation}) => {
   //Data
   useEffect(() => {
     handleAppEntry();
-    handlerNotifications();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!');
-    });
-    return unsubscribe;
+    // handlerNotifications();
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   console.log('A new FCM message arrived!');
+    // });
+    // return unsubscribe;
   }, []);
 
   const handleAppEntry = async () => {
@@ -42,12 +42,12 @@ const Splash = ({navigation}) => {
     }, 2500);
   };
 
-  const handlerNotifications = () => {
-    //Request Permissions and get Token
-    requestPermission();
-    //Notification Listner
-    // Notification_Listner(dispatch, navigation);
-  };
+  // const handlerNotifications = () => {
+  //   //Request Permissions and get Token
+  //   requestPermission();
+  //   //Notification Listner
+  //   // Notification_Listner(dispatch, navigation);
+  // };
 
   return (
     <View style={styles.rootContainer}>
