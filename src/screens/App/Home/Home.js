@@ -39,6 +39,9 @@ import {
   get_buyer_properties,
   get_recent_properties,
 } from '../../../redux/actions';
+import {localNotificationService} from '../../../shared/service/notification-service/LocalNotificationService';
+import {fcmService} from '../../../shared/service/notification-service/FCMService';
+
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [hideAds, setHideAds] = useState(false);
@@ -96,6 +99,76 @@ const Home = ({navigation}) => {
         </View>
       </TouchableOpacity>
     );
+  };
+  useEffect(() => {
+    //  console.log("OK")
+    setupNotifications();
+  }, []);
+
+  // ==== Notification Code ========
+  const setupNotifications = () => {
+    fcmService.registerAppWithFCM();
+    fcmService.register(onRegister, onNotification, onOpenNotification);
+    localNotificationService.configure(onOpenNotification);
+  };
+
+  const onRegister = async token => {
+    try {
+      sendFCMTokenToServer(token);
+    } catch (err) {}
+  };
+
+  const onNotification = async (notifyRes, remoteMessage) => {
+    console.log('[remoteMessage home]', remoteMessage);
+    console.log('[notifyRes home]', notifyRes);
+    try {
+      let notify = {
+        ...remoteMessage.data,
+        ...remoteMessage.notification,
+      };
+
+      const options = {
+        soundName: 'default',
+        playSound: true,
+      };
+
+      localNotificationService.showNotification(
+        '0',
+        notify.title,
+        notify.body,
+        notify,
+        options,
+      );
+    } catch (err) {
+      console.log('[errrr]', err);
+      //  alert("err in home!!", err);
+    }
+  };
+
+  const onOpenNotification = async (notify, remoteMessage) => {
+    console.log('NOTIFICATION PAYLOAD  ', notify);
+  };
+
+  const sendFCMTokenToServer = async fcmToken => {
+    console.log('[FCM TOKEN==>]', fcmToken);
+    // try {
+    //   if (fcmToken) {
+    //     console.log('[FCM Token]\n\n\n\n', fcmToken);
+    //     try {
+    //       let data = new FormData();
+    //       data.append('token', fcmToken);
+    //       const cbSuccess = res => {
+    //         console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
+    //       };
+    //       const cbFailure = err => {};
+    //       dispatch(sendFCMtoken(data, token, cbSuccess, cbFailure));
+    //     } catch (err) {
+    //       setLoading(false);
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.log('[error]', error);
+    // }
   };
 
   //Get Properties
