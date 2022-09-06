@@ -17,6 +17,8 @@ import {
   ReviewCard,
   ReviewHeader,
 } from '../../../components';
+import {get_filter_review_properties} from '../../../redux/actions';
+import {useDispatch} from 'react-redux';
 
 const SupportUserReviews = ({navigation}) => {
   const [reviews, setReviews] = useState([
@@ -51,7 +53,22 @@ const SupportUserReviews = ({navigation}) => {
   ]);
   const [choseStar, setchoseStar] = useState(0);
   const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch(null);
 
+  const onPressStar = async star => {
+    //on Success
+    const onSuccess = async res => {
+      console.log('Get Success', res);
+      setchoseStar(star);
+      setVisible(false);
+    };
+    //on Failure
+    const onFailure = async () => {};
+    const requestBody = {
+      rating: star,
+    };
+    dispatch(get_filter_review_properties(requestBody, onSuccess, onFailure));
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -65,8 +82,7 @@ const SupportUserReviews = ({navigation}) => {
             setVisible(!visible);
           }}
           onPressItem={res => {
-            setchoseStar(res);
-            setVisible(false);
+            onPressStar(res);
           }}
           star={choseStar}
         />

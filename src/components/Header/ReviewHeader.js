@@ -14,7 +14,7 @@ export const ReviewHeader = ({
 }) => {
   return (
     <View style={styles.starContainer}>
-      <Text style={styles.reviewtext}>{title || 'Reviews(43)'}</Text>
+      <Text style={styles.reviewtext}>{`Reviews (${title})`}</Text>
       <View style={styles.itemContainer}>
         <TouchableOpacity style={styles.aiRow} onPress={onPresMenu}>
           <AppStarRating
@@ -40,6 +40,7 @@ export const ReviewHeader = ({
                 onPress={() => onPressItem(item)}
                 style={styles.menuItem}>
                 <AppStarRating
+                  onPressStar={() => onPressItem(item)}
                   rating={5}
                   starStyle={[styles.starStyle, {margin: 3}]}
                   disabled={false}
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     paddingHorizontal: 5,
     color: colors.b10,
-    border: 1.5,
+    border: 2,
   },
   aiRow: {
     flexDirection: 'row',

@@ -291,7 +291,7 @@ const SupportProfie = ({navigation}) => {
           title="View All Reviews"
           textStyle={{fontSize: size.tiny}}
           onPress={() => {
-            navigation?.navigate('SupportUserReviews');
+            navigation?.navigate('SupportUserReviews', {item: reviews});
           }}
         />
       </ScrollView>

@@ -4,6 +4,7 @@ import {
   getAllPropertiesRequest,
   getBuyerDataRequest,
   getFilteredPropertiesRequest,
+  getFilterReviewRequest,
   getRecentPropertiesRequest,
   setAddressRequest,
   setBuyerDataRequest,
@@ -94,4 +95,5 @@ export function* rootSaga() {
   //Support Users
   yield fork(getSupportUserDataRequest);
   yield fork(setSupportUserRequest);
+  yield fork(getFilterReviewRequest);
 }

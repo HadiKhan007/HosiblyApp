@@ -49,7 +49,7 @@ const SupportHome = ({navigation}) => {
   const [data, setData] = useState([]);
   const [userImage, setUserImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState(null);
   const [profileVisitors, setProfileVisitors] = useState([]);
   const {userInfo} = useSelector(state => state?.auth);
   const {support_detail} = useSelector(state => state?.supportReducer);
@@ -85,6 +85,7 @@ const SupportHome = ({navigation}) => {
     }
   };
 
+  //Get Rating
   const getRatings = async () => {
     const check = await checkConnected();
     if (check) {
@@ -101,12 +102,14 @@ const SupportHome = ({navigation}) => {
           error?.response?.status,
           error?.response?.data,
         );
-        Alert.alert('Error', msg || 'Something went wrong!');
+        // Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
     }
   };
+
+  //Profile Visitor
   const getProfileVisitors = async () => {
     const check = await checkConnected();
     if (check) {
@@ -124,7 +127,7 @@ const SupportHome = ({navigation}) => {
           error?.response?.status,
           error?.response?.data,
         );
-        Alert.alert('Error', msg || 'Something went wrong!');
+        // Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
@@ -283,29 +286,33 @@ const SupportHome = ({navigation}) => {
               </View>
             </View>
           )}
-          {reviews?.length > 0 && (
+          {!reviews?.review?.length > 0 && (
             <View style={styles.cardViewCon}>
               <View style={styles.starContainer}>
-                <Text style={styles.reviewtext}>Your Reviews(43)</Text>
+                <Text style={styles.reviewtext}>
+                  Your Reviews ({reviews?.total_reviews || 0})
+                </Text>
                 <AppStarRating
                   starStyle={styles.starRating}
                   disabled={true}
-                  rating={support_detail?.support_closer?.rating}
+                  rating={reviews?.total_reviews}
                   maxStars={5}
                   fullStarColor={colors.y1}
                   starSize={size.medium}
                 />
               </View>
               <FlatList
-                data={reviews}
+                data={reviews?.reviews}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
                     <ReviewCard
                       id={item.id}
-                      title={item.title}
-                      description={item.description}
-                      image={item.image}
+                      title={item?.reviewed_user_name}
+                      description={item?.review}
+                      rating={item?.rating}
+                      star={5}
+                      image={{uri: item?.reviewed_user_image || profile_uri}}
                     />
                   );
                 }}
@@ -317,7 +324,7 @@ const SupportHome = ({navigation}) => {
                       title="View All Reviews"
                       textStyle={{fontSize: size.tiny}}
                       onPress={() => {
-                        navigation?.navigate('SupportReviews');
+                        navigation?.navigate('SupportReviews', {item: reviews});
                       }}
                     />
                   );
