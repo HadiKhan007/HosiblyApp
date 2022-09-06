@@ -31,6 +31,7 @@ import {
   networkText,
   profile_uri,
   responseValidator,
+  shortenBytes,
   size,
   spacing,
   WP,
@@ -96,12 +97,11 @@ const SupportHome = ({navigation}) => {
           setReviews(res);
         }
       } catch (error) {
-        console.log(error);
         let msg = responseValidator(
           error?.response?.status,
           error?.response?.data,
         );
-        // Alert.alert('Error', msg || 'Something went wrong!');
+        Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
@@ -124,7 +124,7 @@ const SupportHome = ({navigation}) => {
           error?.response?.status,
           error?.response?.data,
         );
-        // Alert.alert('Error', msg || 'Something went wrong!');
+        Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
       Alert.alert('Error', networkText);
@@ -251,8 +251,8 @@ const SupportHome = ({navigation}) => {
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
                   <CetificationCard
-                    title={item?.image}
-                    subtitle="12.32mb"
+                    title={item?.certificate}
+                    subtitle={shortenBytes(item?.size)}
                     style={{fontSize: 14}}
                   />
                 );
@@ -261,12 +261,12 @@ const SupportHome = ({navigation}) => {
           )}
         </View>
         <View>
-          {reviews.length > 0 && (
+          {profileVisitors?.visitor?.length > 0 && (
             <View style={styles.cardViewCon}>
               <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
               <View style={spacing.py4}>
                 <FlatList
-                  data={reviews}
+                  data={profileVisitors?.visitor}
                   renderItem={() => {
                     return (
                       <View style={spacing.pr2}>
