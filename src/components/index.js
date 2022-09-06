@@ -39,6 +39,7 @@ export * from './Modal/ListModal';
 export * from './Modal/CardOptionModal';
 export * from './Modal/DelPaymentCard';
 export * from './Modal/ChatModal';
+export * from './Modal/ProfileModel';
 
 //Box
 export * from './Box/DividerBox';

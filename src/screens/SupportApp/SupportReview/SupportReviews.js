@@ -36,12 +36,12 @@ const SupportReviews = ({route}) => {
     const check = await checkConnected();
     if (check) {
       try {
+        setchoseStar(star);
         const requestBody = {
           rating: star,
         };
         //on Success
         const onSuccess = async res => {
-          setchoseStar(star);
           setVisible(false);
           setReviews(res?.reviews);
           setTotalRating(res?.total_reviews);
