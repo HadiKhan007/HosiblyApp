@@ -48,6 +48,7 @@ import {
   getSupportUserDataRequest,
   setSupportUserRequest,
 } from './support-user-sega/support-user-sega';
+import { ConversationSaga } from './conversation-saga/conversation-saga';
 
 export function* rootSaga() {
   yield fork(loginRequest);
@@ -94,4 +95,6 @@ export function* rootSaga() {
   //Support Users
   yield fork(getSupportUserDataRequest);
   yield fork(setSupportUserRequest);
+  // Conversation
+  yield fork(ConversationSaga)
 }

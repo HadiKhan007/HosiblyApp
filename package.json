@@ -31,6 +31,8 @@
     "installLibs": "yarn add @react-native-async-storage/async-storage @react-native-community/masked-view @react-navigation/bottom-tabs @react-navigation/native @react-navigation/stack react-native-gesture-handler react-native-reanimated react-native-safe-area-context react-native-screens react-native-elements react-native-vector-icons react-redux redux redux-devtools-extension redux-logger redux-persist redux-saga"
   },
   "dependencies": {
+    "@kesha-antonov/react-native-action-cable": "^1.1.0",
+    "@rails/actioncable": "^7.0.3-1",
     "@react-native-async-storage/async-storage": "^1.17.7",
     "@react-native-community/netinfo": "^9.1.0",
     "@react-native-community/push-notification-ios": "^1.10.1",
