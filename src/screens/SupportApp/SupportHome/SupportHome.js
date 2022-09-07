@@ -78,7 +78,7 @@ const SupportHome = ({navigation}) => {
           Alert.alert('Error', res);
         };
         const requestBody = {
-          support_closer_id: support_detail?.support_closer?.id,
+          support_closer_id: userInfo?.user.id,
         };
         dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
       } catch (error) {}
@@ -170,9 +170,9 @@ const SupportHome = ({navigation}) => {
             <Text style={styles.h1}>
               {support_detail?.support_closer?.full_name || 'username'}
             </Text>
-            <Text style={styles.h2}>
+            {/* <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
-            </Text>
+            </Text> */}
             <View style={styles.aiRow}>
               <View style={styles.starCon}>
                 <Image style={styles.starStyle} source={appIcons.star} />
@@ -219,6 +219,7 @@ const SupportHome = ({navigation}) => {
                     />
                   );
                 }}
+                showsHorizontalScrollIndicator={false}
                 keyExtractor={index => index?.toString()}
               />
             }
@@ -288,6 +289,7 @@ const SupportHome = ({navigation}) => {
                       </TouchableOpacity>
                     );
                   }}
+                  showsHorizontalScrollIndicator={false}
                   horizontal={true}
                 />
               </View>

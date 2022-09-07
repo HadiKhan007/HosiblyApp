@@ -19,7 +19,8 @@ import {
   ReviewHeader,
 } from '../../../components';
 import {get_filter_review_properties} from '../../../redux/actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
 
 const SupportReviews = ({route}) => {
   const [reviews, setReviews] = useState([]);
@@ -27,28 +28,36 @@ const SupportReviews = ({route}) => {
   const [choseStar, setchoseStar] = useState(5);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch(null);
+  const isFocus = useIsFocused(null);
+  const {userInfo} = useSelector(state => state?.auth);
 
   useEffect(() => {
-    setReviews(route?.params?.item?.reviews?.filter(item => item?.rating == 5));
-  }, []);
+    if (isFocus) {
+      setReviews(
+        route?.params?.item?.reviews?.filter(item => item?.rating == 5),
+      );
+    }
+  }, [isFocus]);
 
   const getStarRating = async star => {
     const check = await checkConnected();
     if (check) {
       try {
+        setVisible(false);
         setchoseStar(star);
         const requestBody = {
           rating: star,
+          support_closer_id: userInfo?.user?.id,
         };
         //on Success
         const onSuccess = async res => {
-          setVisible(false);
+          console.log(res);
           setReviews(res?.reviews);
           setTotalRating(res?.total_reviews);
         };
         //on Failure
         const onFailure = async res => {
-          // Alert.alert('Error', res);
+          Alert.alert('Error', res);
         };
         dispatch(
           get_filter_review_properties(requestBody, onSuccess, onFailure),
@@ -61,7 +70,7 @@ const SupportReviews = ({route}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <MyStatusBar />
+      <MyStatusBar backgroundColor={colors.w2} />
       <View style={spacing.my2}>
         <BackHeader subtitle={'Reviews'} />
       </View>

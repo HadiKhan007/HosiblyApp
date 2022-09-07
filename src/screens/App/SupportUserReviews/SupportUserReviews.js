@@ -20,7 +20,8 @@ import {
   ReviewHeader,
 } from '../../../components';
 import {get_filter_review_properties} from '../../../redux/actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
 
 const SupportUserReviews = ({navigation, route}) => {
   const [reviews, setReviews] = useState([]);
@@ -28,18 +29,26 @@ const SupportUserReviews = ({navigation, route}) => {
   const [choseStar, setchoseStar] = useState(5);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch(null);
+  const isFocus = useIsFocused(null);
+  const {support_detail} = useSelector(state => state?.supportReducer);
 
   useEffect(() => {
-    setReviews(route?.params?.item?.reviews?.filter(item => item?.rating == 5));
-  }, []);
+    if (isFocus) {
+      setReviews(
+        route?.params?.item?.reviews?.filter(item => item?.rating == 5),
+      );
+    }
+  }, [isFocus]);
 
   const getStarRating = async star => {
     const check = await checkConnected();
     if (check) {
       try {
+        setVisible(false);
         setchoseStar(star);
         const requestBody = {
           rating: star,
+          support_closer_id: support_detail?.support_closer?.id,
         };
         //on Success
         const onSuccess = async res => {

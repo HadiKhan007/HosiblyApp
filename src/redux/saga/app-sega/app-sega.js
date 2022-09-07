@@ -163,7 +163,7 @@ function* getBuyerData(params) {
 //Get Filtered Reviews
 
 export function* getFilterReviewRequest() {
-  yield takeLatest(types.GET_FILTERED_PROPERTIES_REQUEST, getFilterReview);
+  yield takeLatest(types.GET_FILTERED_REVIEWS_REQUEST, getFilterReview);
 }
 function* getFilterReview(params) {
   try {

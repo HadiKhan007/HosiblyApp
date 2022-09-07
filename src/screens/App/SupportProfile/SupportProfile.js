@@ -43,6 +43,7 @@ import {
   getSupportReviewsApi,
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
+import RNFS from 'react-native-fs';
 
 const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -109,6 +110,19 @@ const SupportProfie = ({navigation}) => {
     }
   };
 
+  //Download Multiple Files
+  const downloadFiles = async item => {
+    setIsLoading(true);
+    console.log(item?.certificate);
+    const promise = RNFS.downloadFile({
+      fromUrl: item?.certificate,
+      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
+    });
+    setTimeout(() => {
+      setIsLoading(false);
+      Alert.alert('Success', 'Downloading Completed');
+    }, 5000);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -131,9 +145,9 @@ const SupportProfie = ({navigation}) => {
             <Text style={styles.h1}>
               {support_detail?.support_closer.full_name || 'username'}
             </Text>
-            <Text style={styles.h2}>
+            {/* <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
-            </Text>
+            </Text> */}
             <View style={styles.aiRow}>
               <View style={styles.starCon}>
                 <Image style={styles.starStyle} source={appIcons.star} />
@@ -213,7 +227,11 @@ const SupportProfie = ({navigation}) => {
               <Text style={styles.text3}>Uploaded Documents</Text>
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
-                  <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      downloadFiles(item);
+                    }}>
                     <CetificationCard
                       title={item?.certificate}
                       subtitle={shortenBytes(item?.size)}
@@ -315,6 +333,7 @@ const SupportProfie = ({navigation}) => {
           navigation?.navigate('PersonChat');
         }}
       />
+      <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
 };
