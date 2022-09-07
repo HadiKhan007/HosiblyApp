@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {useState} from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
@@ -40,7 +41,7 @@ export const ProfileModal = ({
 
         <View style={styles.rowContainer}>
           <Text style={[styles.ratingTxtStyle, {color: colors.p1}]}>
-            5 min ago
+            Last {moment(data?.visitor_viewed_time).fromNow()}
           </Text>
         </View>
         <TouchableOpacity
@@ -67,8 +68,7 @@ export const ProfileModal = ({
           />
         </TouchableOpacity>
         <Image
-          resizeMode="contain"
-          source={appImages.personPh}
+          source={{uri: data?.visitor_image || profile_uri}}
           style={styles.imgStyle}
         />
         <Text style={styles.nameTxtStyle}>{data?.visitor_name || ''}</Text>

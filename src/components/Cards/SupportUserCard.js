@@ -10,7 +10,6 @@ import {
 import StarRating from 'react-native-star-rating';
 
 export const SupportUserCard = ({item}) => {
-  console.log(item);
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>

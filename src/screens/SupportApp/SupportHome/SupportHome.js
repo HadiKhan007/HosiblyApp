@@ -78,7 +78,7 @@ const SupportHome = ({navigation}) => {
           Alert.alert('Error', res);
         };
         const requestBody = {
-          support_closer_id: userInfo?.user?.id,
+          support_closer_id: support_detail?.support_closer?.id,
         };
         dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
       } catch (error) {}
