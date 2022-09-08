@@ -1,14 +1,7 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  colors,
-  WP,
-  family,
-  size,
-  appIcons,
-  appImages,
-} from '../../shared/exporter';
+import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 
 export const ChatModal = ({type, show, onPressHide, name, source}) => {
   return (
@@ -24,7 +17,11 @@ export const ChatModal = ({type, show, onPressHide, name, source}) => {
             style={styles.crossIconStyle}
           />
         </TouchableOpacity>
-        <Image resizeMode="contain" source={source} style={styles.imgStyle} />
+        <Image
+          resizeMode="contain"
+          source={{uri: source}}
+          style={styles.imgStyle}
+        />
         <Text style={styles.nameTxtStyle}>{name}</Text>
         <Text style={styles.descTxtStyle}>
           {type} {type == 'Delete' ? 'conversation' : 'user'}?

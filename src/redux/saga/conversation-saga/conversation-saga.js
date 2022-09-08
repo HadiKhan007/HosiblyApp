@@ -180,7 +180,7 @@ function* getAllMessages(params) {
 }
 function* deleteConversation(params) {
   try {
-    const res = yield API.deleteConversation();
+    const res = yield API.deleteConversation(params?.id);
     if (res) {
       yield put({
         type: types.DELETE_CONVERSATION_SUCCESS,
@@ -201,7 +201,7 @@ function* deleteConversation(params) {
 
 function* createConversation(params) {
   try {
-    const res = yield API.createConversation();
+    const res = yield API.createConversation(params?.params);
     if (res) {
       yield put({
         type: types.CREATE_CONVERSATION_SUCCESS,

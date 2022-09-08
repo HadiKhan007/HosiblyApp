@@ -33,9 +33,9 @@ const ENDPOINTS = {
   UPDATE_SUPPORT_CONST: 'update_support_closer_profile',
 
   // Conversation
-  CREATE_CONVERSATION: '',
+  CREATE_CONVERSATION: 'conversations',
   GET_CONVERSATION_LIST: 'conversations',
-  DELETE_CONVERSATION: '',
+  DELETE_CONVERSATION: 'conversations',
   GET_ALL_MESSAGES: 'messages/get_messages',
   SEND_MESSAGE: 'messages',
   READ_MESSAGES: 'conversations/read_messages',

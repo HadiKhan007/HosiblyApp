@@ -44,6 +44,7 @@ import {
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
 import RNFS from 'react-native-fs';
+import {createConversationRequest} from '../../../redux/actions';
 
 const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -123,6 +124,39 @@ const SupportProfie = ({navigation}) => {
       Alert.alert('Success', 'Downloading Completed');
     }, 5000);
   };
+
+  const handleChat = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const data = new FormData();
+        data.append(
+          'conversation[recipient_id]',
+          support_detail?.support_closer?.id,
+        );
+        setIsLoading(true);
+        const onSuccess = res => {
+          setIsLoading(false);
+          navigation?.navigate('PersonChat', {
+            id: res?.conversation?.id,
+            avatar: res?.conversation?.avatar,
+            name: res?.conversation?.full_name,
+            recipientID: res?.conversation?.recipient_id,
+          });
+        };
+        const onFailure = res => {
+          setIsLoading(false);
+        };
+        dispatch(createConversationRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -160,9 +194,7 @@ const SupportProfie = ({navigation}) => {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => {
-                navigation?.navigate('PersonChat');
-              }}
+              onPress={() => handleChat()}
               style={styles.iconCon}>
               <Image style={styles.iconStyle} source={appIcons.messageIcon} />
             </TouchableOpacity>

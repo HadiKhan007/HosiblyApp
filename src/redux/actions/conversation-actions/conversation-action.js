@@ -23,10 +23,10 @@ export const getconversationListRequest = (cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const deleteConversationRequest = (params, cbSuccess, cbFailure) => {
+export const deleteConversationRequest = (id, cbSuccess, cbFailure) => {
   return {
     type: TYPES.DELETE_CONVERSATION_REQUEST,
-    params,
+    id,
     cbSuccess,
     cbFailure,
   };

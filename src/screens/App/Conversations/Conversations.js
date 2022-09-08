@@ -1,15 +1,31 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {ChatModal, AppLoader} from '../../../components';
-import {appIcons, appImages, checkConnected} from '../../../shared/exporter';
+import {
+  appIcons,
+  appImages,
+  checkConnected,
+  networkText,
+} from '../../../shared/exporter';
 import styles from './styles';
-import {getconversationListRequest} from '../../../redux/actions';
+import {
+  deleteConversationRequest,
+  getconversationListRequest,
+} from '../../../redux/actions';
 
 import {useSelector, useDispatch} from 'react-redux';
 
 const Conversations = ({navigation}) => {
-  const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  const [data, setData] = useState([]);
+  const [item, setItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,9 +89,7 @@ const Conversations = ({navigation}) => {
               </View>
             ) : null}
           </View>
-          <Text style={styles.descTxtStyle}>
-            {item?.item?.message ? item?.item?.message : 'Draft'}
-          </Text>
+          <Text style={styles.descTxtStyle}>{item?.item?.message}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -96,8 +110,11 @@ const Conversations = ({navigation}) => {
           activeOpacity={0.7}
           style={styles.delBtnStyle}
           onPress={() => {
+            setItem(data?.item);
             closeRow(rowMap, data?.index);
-            setShowModal(true);
+            setTimeout(() => {
+              setShowModal(true);
+            }, 500);
           }}>
           <Image
             resizeMode="contain"
@@ -108,6 +125,29 @@ const Conversations = ({navigation}) => {
         </TouchableOpacity>
       </View>
     );
+  };
+
+  const deleteConvo = async () => {
+    setShowModal(false);
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setIsLoading(true);
+        const onSuccess = res => {
+          console.log('Res is ==> ', res);
+          getAllConversationList();
+        };
+        const onFailure = res => {
+          setIsLoading(false);
+        };
+        dispatch(deleteConversationRequest(item?.id, onSuccess, onFailure));
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+      Alert.alert('Error', networkText);
+    }
   };
 
   return (
@@ -148,7 +188,9 @@ const Conversations = ({navigation}) => {
       <ChatModal
         type={'Delete'}
         show={showModal}
-        onPressHide={() => setShowModal(false)}
+        onPressHide={deleteConvo}
+        name={item?.full_name}
+        source={item?.avatar}
       />
       <AppLoader loading={isLoading} />
     </SafeAreaView>

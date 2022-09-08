@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Image,
-  Alert,
   FlatList,
   TextInput,
   SafeAreaView,
@@ -29,10 +28,9 @@ import {
   appIcons,
   appImages,
   platformOrientedCode,
-  checkConnected,
 } from '../../../../shared/exporter';
 import styles from './styles';
-import {chat, networkText} from '../../../../shared/utilities/constant';
+import {chat} from '../../../../shared/utilities/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHAT_URL} from '../../../../shared/utilities/endpoints';
 import {
@@ -40,10 +38,9 @@ import {
   getAllMessagesRequest,
   readMessagesRequest,
   blockUserRequest,
-  createConversationRequest,
 } from '../../../../redux/actions';
 
-const PersonChat = ({navigation, route}) => {
+const AdminChat = ({navigation, route}) => {
   const isFocus = useIsFocused();
   const [fresh, setFresh] = useState(true);
   const [message, setMessage] = useState('');
@@ -266,35 +263,6 @@ const PersonChat = ({navigation, route}) => {
     }
   };
 
-  const handleChat = async () => {
-    const check = await checkConnected();
-    if (check) {
-      try {
-        const data = new FormData();
-        data.append('conversation[recipient_id]');
-        setIsLoading(true);
-        const onSuccess = res => {
-          setIsLoading(false);
-          navigation?.navigate('AdminChat', {
-            id: res?.conversation?.id,
-            avatar: res?.conversation?.avatar,
-            name: res?.conversation?.full_name,
-            recipientID: res?.conversation?.recipient_id,
-          });
-        };
-        const onFailure = res => {
-          setIsLoading(false);
-        };
-        dispatch(createConversationRequest(data, onSuccess, onFailure));
-      } catch (error) {
-        setIsLoading(false);
-      }
-    } else {
-      setIsLoading(false);
-      Alert.alert('Error', networkText);
-    }
-  };
-
   const hideItemClick = type => {
     setShowMenu(false);
     setModalType(type);
@@ -302,12 +270,9 @@ const PersonChat = ({navigation, route}) => {
       setShowModal(true);
     }, 500);
   };
-
   const handleModal = () => {
     if (modalType == 'Report') {
       setShowModal(false);
-      handleChat();
-      navigation.navigate('AdminChat');
     } else if (modalType == 'Block') {
       blockUser();
       setShowModal(false);
@@ -447,4 +412,4 @@ const PersonChat = ({navigation, route}) => {
   );
 };
 
-export default PersonChat;
+export default AdminChat;
