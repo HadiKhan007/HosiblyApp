@@ -17,10 +17,10 @@ export const createConversation = async params => {
   );
   return res.data;
 };
-export const deleteConversation = async params => {
-  const res = await axios.post(
-    `${BASE_URL}${ENDPOINTS.DELETE_CONVERSATION}`,
-    params,
+
+export const deleteConversation = async id => {
+  const res = await axios.delete(
+    `${BASE_URL}${ENDPOINTS.DELETE_CONVERSATION}/${id}`,
     {
       headers: {
         Accept: 'application/json',

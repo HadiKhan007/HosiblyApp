@@ -7,6 +7,7 @@ import AllSales from '../../screens/App/Home/AllSales';
 import PropertyDetails from '../../screens/App/Home/PropertyDetails';
 import PersonDetails from '../../screens/App/Home/PersonDetails';
 import PersonChat from '../../screens/App/Home/PersonChat';
+import AdminChat from '../../screens/App/Home/AdminChat';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ function HomeStack(props) {
       <Stack.Screen name="PropertyDetails" component={PropertyDetails} />
       <Stack.Screen name="PersonDetails" component={PersonDetails} />
       <Stack.Screen name="PersonChat" component={PersonChat} />
+      <Stack.Screen name="AdminChat" component={AdminChat} />
     </Stack.Navigator>
   );
 }
