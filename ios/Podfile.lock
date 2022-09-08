@@ -503,33 +503,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNReanimated (2.10.0):
-    - DoubleConversion
-    - FBLazyVector
-    - FBReactNativeSpec
-    - glog
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
-    - React-callinvoker
+  - RNReanimated (1.13.4):
     - React-Core
-    - React-Core/DevSupport
-    - React-Core/RCTWebSocket
-    - React-CoreModules
-    - React-cxxreact
-    - React-jsi
-    - React-jsiexecutor
-    - React-jsinspector
-    - React-RCTActionSheet
-    - React-RCTAnimation
-    - React-RCTBlob
-    - React-RCTImage
-    - React-RCTLinking
-    - React-RCTNetwork
-    - React-RCTSettings
-    - React-RCTText
-    - ReactCommon/turbomodule/core
-    - Yoga
   - RNScreens (3.17.0):
     - React-Core
     - React-RCTImage
@@ -856,7 +831,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 920eb17f5b1e15dae6e5ed1904045f8f90e0b11e
   RNGoogleSignin: b2179ba653c759b936404a7746fc5302f9de6a5a
   RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
-  RNReanimated: c38d82b0e910e2478439686c58c02bac6e4232e9
+  RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b

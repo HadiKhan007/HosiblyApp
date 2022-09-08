@@ -1,4 +1,5 @@
 const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
+const CHAT_URL = 'ws://housibly.herokuapp.com/cable?';
 
 const ENDPOINTS = {
   REGISTER: 'signup.json',
@@ -32,17 +33,18 @@ const ENDPOINTS = {
   UPDATE_SUPPORT_CONST: 'update_support_closer_profile',
 
   // Conversation
-  CREATE_CONVERSATION:'',
-  GET_CONVERSATION_LIST:'',
-  DELETE_CONVERSATION:'',
-  GET_ALL_MESSAGES:'',
-  READ_MESSAGES:'',
-  REPORT_USER:'',
-  BLOCK_USER:'',
-  GET_BLOCK_USER_LIST:'',
-  UNBLOCK_USER:'',
-  GET_NOTIFICATION_LIST:'',
-  SEND_FCM:''
+  CREATE_CONVERSATION: '',
+  GET_CONVERSATION_LIST: 'conversations',
+  DELETE_CONVERSATION: '',
+  GET_ALL_MESSAGES: 'messages/get_messages',
+  SEND_MESSAGE: 'messages',
+  READ_MESSAGES: 'conversations/read_messages',
+  REPORT_USER: '',
+  BLOCK_USER: 'block_unblock_user',
+  GET_BLOCK_USER_LIST: 'blocked_users',
+  UNBLOCK_USER: '',
+  GET_NOTIFICATION_LIST: '',
+  SEND_FCM: '',
 };
 
-export {BASE_URL, ENDPOINTS};
+export {BASE_URL, ENDPOINTS, CHAT_URL};
