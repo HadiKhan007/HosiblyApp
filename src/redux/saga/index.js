@@ -4,6 +4,7 @@ import {
   getAllPropertiesRequest,
   getBuyerDataRequest,
   getFilteredPropertiesRequest,
+  getFilterReviewRequest,
   getRecentPropertiesRequest,
   setAddressRequest,
   setBuyerDataRequest,
@@ -48,7 +49,7 @@ import {
   getSupportUserDataRequest,
   setSupportUserRequest,
 } from './support-user-sega/support-user-sega';
-import { ConversationSaga } from './conversation-saga/conversation-saga';
+import {ConversationSaga} from './conversation-saga/conversation-saga';
 
 export function* rootSaga() {
   yield fork(loginRequest);
@@ -95,6 +96,7 @@ export function* rootSaga() {
   //Support Users
   yield fork(getSupportUserDataRequest);
   yield fork(setSupportUserRequest);
+  yield fork(getFilterReviewRequest);
   // Conversation
-  yield fork(ConversationSaga)
+  yield fork(ConversationSaga);
 }

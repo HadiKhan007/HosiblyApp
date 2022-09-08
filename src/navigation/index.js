@@ -36,9 +36,12 @@ import Video from '../screens/App/Video';
 import PropertyInfo from '../screens/App/Home/PropertyInfo';
 import SupportBottomTab from './tabs/SupportBottomTab';
 import ClosureStack from './SupportStack/ClosureStack';
-import SupportClosureStack from './stacks/SupportClosureStack';
 import PersonChat from '../screens/App/Home/PersonChat';
 import SupportEditProfile from '../screens/SupportApp/SupportEditProfile';
+import SupportProfile from '../screens/App/SupportProfile';
+import SearchSupportClosure from '../screens/App/SearchSupportClosure';
+import SupportUserReviews from '../screens/App/SupportUserReviews';
+import SupportAddReview from '../screens/App/SupportAddReview';
 
 const AppStack = createNativeStackNavigator();
 
@@ -90,10 +93,17 @@ const MainAppNav = () => {
           component={AddMorePropertyDetail}
         />
 
+        <AppStack.Screen name="SupportProfile" component={SupportProfile} />
         <AppStack.Screen
-          name={'SupportClosureStack'}
-          component={SupportClosureStack}
+          name="SearchSupportClosure"
+          component={SearchSupportClosure}
         />
+        <AppStack.Screen
+          name="SupportUserReviews"
+          component={SupportUserReviews}
+        />
+        <AppStack.Screen name="SupportAddReview" component={SupportAddReview} />
+
         {/* Support Closure Screens */}
         <AppStack.Screen name={'SupportApp'} component={SupportBottomTab} />
         <AppStack.Screen

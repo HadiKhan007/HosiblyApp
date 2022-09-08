@@ -27,6 +27,7 @@ const ENDPOINTS = {
   DELETE_BOOKMARKS: 'bookmarks',
   GET_QUERIES: 'tickets',
   ADD_QUERY: 'tickets',
+  REVIEW_CONST: 'reviews',
 
   // Support
   UPDATE_SUPPORT_CONST: 'update_support_closer_profile',

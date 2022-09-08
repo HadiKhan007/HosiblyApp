@@ -197,6 +197,9 @@ const styles = StyleSheet.create({
     fontFamily: family.Gilroy_SemiBold,
     paddingBottom: 10,
   },
+  secondCon: {
+    paddingVertical: 10,
+  },
 });
 
 export default styles;

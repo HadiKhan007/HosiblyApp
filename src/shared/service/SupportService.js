@@ -36,7 +36,7 @@ export const getSupportUserProfileApi = async params => {
 };
 //Get Reveiws
 export const getSupportReviewsApi = async params => {
-  const res = await axios.post(`${BASE_URL}reviews`, params, {
+  const res = await axios.post(`${BASE_URL}reviews/get_reviews`, params, {
     headers: {
       auth_token: await GetToken(),
       Accept: 'application/json',

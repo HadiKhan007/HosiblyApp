@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
-import {WP} from '../../shared/exporter';
+import {colors, WP} from '../../shared/exporter';
 
 export const UserCard = ({image, height, width}) => {
   return (
@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 15,
+    backgroundColor: colors.g10,
   },
 });

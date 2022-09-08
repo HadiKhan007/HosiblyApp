@@ -65,3 +65,13 @@ export const get_buyer_properties = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+//Get All preferences
+export const get_filter_review_properties = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_FILTERED_REVIEWS_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
