@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Alert} from 'react-native';
-import {BASE_URL, ENDPOINTS, responseValidator} from '../exporter';
+import {BASE_URL, ENDPOINTS} from '../exporter';
 import {GetToken} from '../utilities/headers';
 
 export const getSupportUsersApi = async () => {

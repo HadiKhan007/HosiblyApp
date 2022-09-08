@@ -30,6 +30,19 @@ const ENDPOINTS = {
 
   // Support
   UPDATE_SUPPORT_CONST: 'update_support_closer_profile',
+
+  // Conversation
+  CREATE_CONVERSATION:'',
+  GET_CONVERSATION_LIST:'',
+  DELETE_CONVERSATION:'',
+  GET_ALL_MESSAGES:'',
+  READ_MESSAGES:'',
+  REPORT_USER:'',
+  BLOCK_USER:'',
+  GET_BLOCK_USER_LIST:'',
+  UNBLOCK_USER:'',
+  GET_NOTIFICATION_LIST:'',
+  SEND_FCM:''
 };
 
 export {BASE_URL, ENDPOINTS};
