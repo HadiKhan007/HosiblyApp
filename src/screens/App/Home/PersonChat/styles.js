@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   personImgStyle: {
     width: WP('22'),
     height: WP('22'),
-    borderRadius: 15,
+    borderRadius: WP('22'),
+    backgroundColor: '#ccc',
   },
   nameTxtStyle: {
     color: colors.b1,
@@ -50,7 +51,8 @@ const styles = StyleSheet.create({
   inputStyles: {
     width: '88%',
     paddingRight: 5,
-    color: colors.p8,
+    // color: colors.p8,
+    color: '#000',
     alignSelf: 'center',
     fontSize: size.xsmall,
     textAlignVertical: 'top',

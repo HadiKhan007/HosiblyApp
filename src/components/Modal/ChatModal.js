@@ -10,7 +10,7 @@ import {
   appImages,
 } from '../../shared/exporter';
 
-export const ChatModal = ({type, show, onPressHide}) => {
+export const ChatModal = ({type, show, onPressHide, name, source}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
@@ -24,12 +24,8 @@ export const ChatModal = ({type, show, onPressHide}) => {
             style={styles.crossIconStyle}
           />
         </TouchableOpacity>
-        <Image
-          resizeMode="contain"
-          source={appImages.person1}
-          style={styles.imgStyle}
-        />
-        <Text style={styles.nameTxtStyle}>Aspen Franci</Text>
+        <Image resizeMode="contain" source={source} style={styles.imgStyle} />
+        <Text style={styles.nameTxtStyle}>{name}</Text>
         <Text style={styles.descTxtStyle}>
           {type} {type == 'Delete' ? 'conversation' : 'user'}?
         </Text>
@@ -66,6 +62,8 @@ const styles = StyleSheet.create({
     width: WP('25'),
     height: WP('25'),
     alignSelf: 'center',
+    backgroundColor: '#ccc',
+    borderRadius: WP('25'),
   },
   nameTxtStyle: {
     color: colors.b1,

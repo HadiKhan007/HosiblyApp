@@ -16,10 +16,9 @@ export const createConversationRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const getconversationListRequest = (params, cbSuccess, cbFailure) => {
+export const getconversationListRequest = (cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_CONVERSATION_LIST_REQUEST,
-    params,
     cbSuccess,
     cbFailure,
   };
@@ -64,10 +63,10 @@ export const blockUserRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const getBlockUserListRequest = (params, cbSuccess, cbFailure) => {
+export const getBlockUserListRequest = (cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_BLOCK_USER_LIST_REQUEST,
-    params,
+    // params,
     cbSuccess,
     cbFailure,
   };
@@ -83,6 +82,14 @@ export const unBlockUserRequest = (params, cbSuccess, cbFailure) => {
 export const getNotificationListRequest = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_NOTIFICATION_LIST_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+export const sendMessage = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.SEND_MESSAGES_REQUEST,
     params,
     cbSuccess,
     cbFailure,

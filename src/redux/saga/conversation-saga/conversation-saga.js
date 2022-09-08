@@ -15,6 +15,7 @@ export function* ConversationSaga() {
   yield takeLatest(types.GET_BLOCK_USER_LIST_REQUEST, getBlockUserList);
   yield takeLatest(types.GET_NOTIFICATION_LIST_REQUEST, getNotificationList);
   yield takeLatest(types.SEND_FCM_REQUEST, sendFcmToken);
+  yield takeLatest(types.SEND_MESSAGES_REQUEST, sendMessages);
 }
 function* sendFcmToken(params) {
   try {
@@ -67,9 +68,8 @@ function* getBlockUserList(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
     yield put({
-      type: types.GET_BLOCK_USER_LIST_REQUEST,
+      type: types.GET_BLOCK_USER_LIST_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);
@@ -100,7 +100,7 @@ function* unBlockUserProfile(params) {
 
 function* blockUserProfile(params) {
   try {
-    const res = yield API.blockUSer();
+    const res = yield API.blockUSer(params);
     if (res) {
       yield put({
         type: types.BLOCK_USER_SUCCESS,
@@ -141,7 +141,7 @@ function* reportUserProfile(params) {
 }
 function* readAllMessages(params) {
   try {
-    const res = yield API.readMessages();
+    const res = yield API.readMessages(params);
     if (res) {
       yield put({
         type: types.READ_MESSAGES_SUCCESS,
@@ -161,7 +161,7 @@ function* readAllMessages(params) {
 }
 function* getAllMessages(params) {
   try {
-    const res = yield API.getAllMessages();
+    const res = yield API.getAllMessages(params);
     if (res) {
       yield put({
         type: types.GET_ALL_MESSAGES_SUCCESS,
@@ -170,7 +170,6 @@ function* getAllMessages(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
     yield put({
       type: types.GET_ALL_MESSAGES_FAILURE,
       payload: null,
@@ -234,6 +233,26 @@ function* getConversationList(params) {
     console.log(error);
     yield put({
       type: types.GET_CONVERSATION_LIST_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+function* sendMessages(params) {
+  try {
+    const res = yield API.send_message(params);
+    if (res) {
+      yield put({
+        type: types.SEND_MESSAGES_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.SEND_MESSAGES_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

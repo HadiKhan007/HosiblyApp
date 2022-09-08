@@ -13,7 +13,7 @@ import {
 import {Icon} from 'react-native-elements';
 import {MyStatusBar} from '..';
 
-export const ChatHeader = ({rightIcon = false, onPressIcon}) => {
+export const ChatHeader = ({rightIcon = false, onPressIcon, name, source}) => {
   const navigation = useNavigation();
 
   return (
@@ -32,10 +32,10 @@ export const ChatHeader = ({rightIcon = false, onPressIcon}) => {
           </TouchableOpacity>
           <Image
             resizeMode="contain"
-            source={appImages.person3}
+            source={source}
             style={styles.personImgStyle}
           />
-          <Text style={styles.nameTxtStyle}>Aspen Franci</Text>
+          <Text style={styles.nameTxtStyle}>{name}</Text>
         </View>
         <TouchableOpacity activeOpacity={0.7} onPress={onPressIcon}>
           <Icon
@@ -72,6 +72,8 @@ const styles = StyleSheet.create({
     width: WP('8'),
     height: WP('8'),
     marginHorizontal: WP('3'),
+    backgroundColor: '#ccc',
+    borderRadius: WP('8'),
   },
   nameTxtStyle: {
     color: colors.b1,
