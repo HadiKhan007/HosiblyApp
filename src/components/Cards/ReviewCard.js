@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {colors, family, size, WP} from '../../shared/exporter';
 import {AppStarRating, UserCard} from '..';
 
-export const ReviewCard = ({id, title, description, image, star}) => {
+export const ReviewCard = ({id, title, description, image, star, rating}) => {
   return (
     <View key={id} style={styles.topView}>
       <UserCard image={image} height={61} width={61} />
@@ -17,6 +17,7 @@ export const ReviewCard = ({id, title, description, image, star}) => {
               maxStars={star}
               fullStarColor={colors.starcolor}
               starSize={size.tiny}
+              rating={rating}
             />
           )}
         </View>

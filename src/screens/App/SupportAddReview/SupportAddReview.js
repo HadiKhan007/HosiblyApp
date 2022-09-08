@@ -6,6 +6,7 @@ import {
   checkConnected,
   colors,
   networkText,
+  profile_uri,
   responseValidator,
   size,
   spacing,
@@ -29,8 +30,6 @@ export default SupportAddReview = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const {support_detail} = useSelector(state => state?.supportReducer);
 
-  const dispatch = useDispatch(null);
-
   //On Add Reviews
   const onAddReviewa = async () => {
     const check = await checkConnected();
@@ -39,7 +38,7 @@ export default SupportAddReview = ({navigation}) => {
         if (rating && description) {
           setLoading(true);
           const form = new FormData();
-          form.append('support_closer_id', support_detail?.id);
+          form.append('support_closer_id', support_detail?.support_closer?.id);
           form.append('review[description]', description);
           form?.append('review[rating]', rating);
           const res = await addSupportReviewApi(form);
@@ -76,10 +75,18 @@ export default SupportAddReview = ({navigation}) => {
       <View style={styles.contentContainer}>
         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.imageContainer}>
-            <Image style={styles.imagestyle} source={appImages.personImg} />
+            <Image
+              style={styles.imagestyle}
+              source={{
+                uri:
+                  support_detail?.support_closer?.profile_images || profile_uri,
+              }}
+            />
           </View>
 
-          <Text style={styles.nametext}>Harden Eusaff</Text>
+          <Text style={styles.nametext}>
+            {support_detail?.support_closer?.full_name || ''}
+          </Text>
 
           <View style={spacing.my4}>
             <TextBox

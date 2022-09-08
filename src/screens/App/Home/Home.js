@@ -15,6 +15,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   AppButton,
   AppHeader,
+  AppLoader,
   PersonDetailsModal,
   Spacer,
 } from '../../../components';
@@ -38,7 +39,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   get_buyer_properties,
   get_recent_properties,
+  get_suuport_users,
+  selected_suuport_user_data,
 } from '../../../redux/actions';
+import {setProfileVisitApi} from '../../../shared/service/AppService';
 import {localNotificationService} from '../../../shared/service/notification-service/LocalNotificationService';
 import {fcmService} from '../../../shared/service/notification-service/FCMService';
 
@@ -54,6 +58,7 @@ const Home = ({navigation}) => {
   const {recent_properties, buyer_data} = useSelector(
     state => state?.appReducer,
   );
+  const {support_users} = useSelector(state => state?.supportReducer);
   const {userInfo} = useSelector(state => state?.auth);
   const {userProfile} = useSelector(state => state?.settings);
 
@@ -64,24 +69,53 @@ const Home = ({navigation}) => {
 
   const seeAllItemClick = () => {
     setShowMenu(false);
-    setTimeout(() => {
-      setShowModal(true);
-    }, 500);
+    navigation?.navigate('SearchSupportClosure');
+  };
+
+  const selectedItem = async item => {
+    setLoading(true);
+    const onSuccess = async res => {
+      navigation?.navigate('SupportProfile');
+      setLoading(false);
+    };
+    const onFailure = async res => {
+      setLoading(false);
+      Alert.alert('Error', res);
+    };
+    const requestBody = {
+      support_closer_id: item?.id,
+    };
+    const body = {
+      user_id: item?.id,
+    };
+    const res = await setProfileVisitApi(body);
+    if (res) {
+      dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+    } else {
+      setLoading(false);
+      Alert.alert('Error', 'Something went wrong!');
+    }
   };
 
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation?.navigate('SupportClosureStack');
+          selectedItem(item);
         }}
         style={styles.itemContainer}>
         <View style={styles.itemInnerRow}>
-          <Image source={appImages.personImg} style={styles.personImgStyle} />
+          <Image
+            source={{uri: item?.support_closer_image}}
+            style={styles.personImgStyle}
+          />
           <View style={styles.txtContainer}>
-            <Text style={styles.itemNameStyle}>Harden Eusaff</Text>
-            <Text style={styles.h1TxtStyle}>Corporate Home X</Text>
-            <Text style={styles.h2TxtStyle}>Home Inspector</Text>
+            <Text style={styles.itemNameStyle}>{item?.full_name || ''}</Text>
+            <Text style={styles.h1TxtStyle} numberOfLines={1}>
+              {' '}
+              {item?.description || ''}
+            </Text>
+            <Text style={styles.h2TxtStyle}>{item?.professions || ''}</Text>
           </View>
         </View>
         <View>
@@ -175,6 +209,7 @@ const Home = ({navigation}) => {
   useEffect(() => {
     if (isFocus) {
       getProperties();
+      getSupportUser();
     }
   }, [isFocus]);
 
@@ -237,6 +272,23 @@ const Home = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
+  //Get Support User
+  const getSupportUser = async () => {
+    const check = await checkConnected();
+    if (check) {
+      const onSuccess = async res => {
+        console.log('Success');
+      };
+      const onFailure = async res => {
+        Alert.alert('Error', res);
+      };
+      dispatch(get_suuport_users(null, onSuccess, onFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <AppHeader
@@ -275,7 +327,7 @@ const Home = ({navigation}) => {
               sliderWidth={scrWidth}
               sliderHeight={scrHeight}
               itemWidth={scrWidth / 1.15}
-              data={[1, 2, 3]}
+              data={support_users?.support_closer?.slice(0, 3)}
               renderItem={renderItem}
             />
           )}
@@ -366,6 +418,7 @@ const Home = ({navigation}) => {
           onPressHide={() => setShowModal(false)}
         />
       </ScrollView>
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

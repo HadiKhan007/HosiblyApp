@@ -21,6 +21,7 @@ import {
   ProfileField,
   UserCard,
   ReviewCard,
+  ProfileModal,
 } from '../../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
@@ -32,6 +33,7 @@ import {
   networkText,
   profile_uri,
   responseValidator,
+  shortenBytes,
   size,
   spacing,
 } from '../../../shared/exporter';
@@ -41,12 +43,15 @@ import {
   getSupportReviewsApi,
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
+import RNFS from 'react-native-fs';
 
 const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState(null);
+  const [showModal, setshowModal] = useState(false);
+  const [viewProfile, setviewProfile] = useState(false);
+  const [currentUser, setcurrentUser] = useState(null);
   const [profileVisitors, setProfileVisitors] = useState([]);
 
   const {support_detail} = useSelector(state => state?.supportReducer);
@@ -66,7 +71,7 @@ const SupportProfie = ({navigation}) => {
         const requestBody = {
           support_closer_id: support_detail?.support_closer?.id,
         };
-        console.log(requestBody);
+
         const res = await getSupportReviewsApi(requestBody);
         if (res) {
           setReviews(res);
@@ -105,6 +110,19 @@ const SupportProfie = ({navigation}) => {
     }
   };
 
+  //Download Multiple Files
+  const downloadFiles = async item => {
+    setIsLoading(true);
+    console.log(item?.certificate);
+    const promise = RNFS.downloadFile({
+      fromUrl: item?.certificate,
+      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
+    });
+    setTimeout(() => {
+      setIsLoading(false);
+      Alert.alert('Success', 'Downloading Completed');
+    }, 5000);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -127,9 +145,9 @@ const SupportProfie = ({navigation}) => {
             <Text style={styles.h1}>
               {support_detail?.support_closer.full_name || 'username'}
             </Text>
-            <Text style={styles.h2}>
+            {/* <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
-            </Text>
+            </Text> */}
             <View style={styles.aiRow}>
               <View style={styles.starCon}>
                 <Image style={styles.starStyle} source={appIcons.star} />
@@ -209,32 +227,43 @@ const SupportProfie = ({navigation}) => {
               <Text style={styles.text3}>Uploaded Documents</Text>
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
-                  <CetificationCard
-                    title={item?.certificate}
-                    subtitle="12.32mb"
-                    style={{fontSize: 14}}
-                  />
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      downloadFiles(item);
+                    }}>
+                    <CetificationCard
+                      title={item?.certificate}
+                      subtitle={shortenBytes(item?.size)}
+                      style={{fontSize: 14}}
+                    />
+                  </TouchableOpacity>
                 );
               })}
             </>
           )}
         </View>
         <View style={styles.secondCon}>
-          {reviews.length > 0 && (
+          {profileVisitors?.visitor?.length > 0 && (
             <View style={styles.cardViewCon}>
               <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
               <View style={spacing.py4}>
                 <FlatList
-                  data={reviews}
-                  renderItem={() => {
+                  data={profileVisitors?.visitor}
+                  renderItem={({item}) => {
                     return (
-                      <View style={spacing.pr2}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setshowModal(true);
+                          setcurrentUser(item);
+                        }}
+                        style={spacing.pr2}>
                         <UserCard
                           height={61}
                           width={61}
-                          image={appImages.hanna}
+                          image={{uri: item?.visitor_image || profile_uri}}
                         />
-                      </View>
+                      </TouchableOpacity>
                     );
                   }}
                   horizontal={true}
@@ -242,59 +271,69 @@ const SupportProfie = ({navigation}) => {
               </View>
             </View>
           )}
-          {reviews?.length > 0 && (
+          {reviews?.reviews?.length > 0 && (
             <View style={styles.cardViewCon}>
               <View style={styles.starContainer}>
-                <Text style={styles.reviewtext}>Your Reviews(43)</Text>
+                <Text style={styles.reviewtext}>
+                  Your Reviews ({reviews?.total_reviews || 0})
+                </Text>
                 <AppStarRating
                   starStyle={styles.starRating}
                   disabled={true}
-                  rating={support_detail?.support_closer?.rating}
+                  rating={reviews?.total_reviews}
                   maxStars={5}
                   fullStarColor={colors.y1}
                   starSize={size.medium}
                 />
               </View>
               <FlatList
-                data={reviews}
+                data={reviews?.reviews}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
                     <ReviewCard
                       id={item.id}
-                      title={item.title}
-                      description={item.description}
-                      image={item.image}
-                    />
-                  );
-                }}
-                ListFooterComponent={() => {
-                  return (
-                    <AppButton
-                      width={'43%'}
-                      borderColor={colors.p2}
-                      title="View All Reviews"
-                      textStyle={{fontSize: size.tiny}}
-                      onPress={() => {
-                        navigation?.navigate('SupportReviews');
-                      }}
+                      title={item?.reviewed_user_name}
+                      description={item?.review}
+                      rating={item?.rating}
+                      star={5}
+                      image={{uri: item?.reviewed_user_image || profile_uri}}
                     />
                   );
                 }}
               />
             </View>
           )}
+          <AppButton
+            width={'43%'}
+            borderColor={colors.p2}
+            title="View All Reviews"
+            textStyle={{fontSize: size.tiny}}
+            onPress={() => {
+              navigation?.navigate('SupportUserReviews', {
+                item: reviews,
+              });
+            }}
+          />
         </View>
-        <AppButton
-          width={'43%'}
-          borderColor={colors.p2}
-          title="View All Reviews"
-          textStyle={{fontSize: size.tiny}}
-          onPress={() => {
-            navigation?.navigate('SupportUserReviews');
-          }}
-        />
       </ScrollView>
+      <ProfileModal
+        data={currentUser}
+        show={showModal}
+        onPressHide={() => {
+          setshowModal(false);
+          setviewProfile(false);
+        }}
+        viewProfile={viewProfile}
+        setviewProfile={() => {
+          setviewProfile(true);
+        }}
+        onPressMsg={() => {
+          setshowModal(false);
+          navigation?.navigate('PersonChat');
+        }}
+      />
+      <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
 };

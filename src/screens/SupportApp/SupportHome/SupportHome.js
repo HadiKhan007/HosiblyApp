@@ -20,6 +20,7 @@ import {
   ProfileField,
   UserCard,
   ReviewCard,
+  ProfileModal,
 } from '../../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
@@ -31,6 +32,7 @@ import {
   networkText,
   profile_uri,
   responseValidator,
+  shortenBytes,
   size,
   spacing,
   WP,
@@ -45,10 +47,11 @@ import {
 
 const SupportHome = ({navigation}) => {
   const dispatch = useDispatch(null);
-  const [data, setData] = useState([]);
-  const [userImage, setUserImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState(null);
+  const [showModal, setshowModal] = useState(false);
+  const [viewProfile, setviewProfile] = useState(false);
+  const [currentUser, setcurrentUser] = useState(null);
   const [profileVisitors, setProfileVisitors] = useState([]);
   const {userInfo} = useSelector(state => state?.auth);
   const {support_detail} = useSelector(state => state?.supportReducer);
@@ -75,7 +78,7 @@ const SupportHome = ({navigation}) => {
           Alert.alert('Error', res);
         };
         const requestBody = {
-          support_closer_id: userInfo?.user?.id,
+          support_closer_id: userInfo?.user.id,
         };
         dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
       } catch (error) {}
@@ -84,6 +87,7 @@ const SupportHome = ({navigation}) => {
     }
   };
 
+  //Get Rating
   const getRatings = async () => {
     const check = await checkConnected();
     if (check) {
@@ -96,7 +100,6 @@ const SupportHome = ({navigation}) => {
           setReviews(res);
         }
       } catch (error) {
-        console.log(error);
         let msg = responseValidator(
           error?.response?.status,
           error?.response?.data,
@@ -107,6 +110,8 @@ const SupportHome = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
+  //Profile Visitor
   const getProfileVisitors = async () => {
     const check = await checkConnected();
     if (check) {
@@ -165,9 +170,9 @@ const SupportHome = ({navigation}) => {
             <Text style={styles.h1}>
               {support_detail?.support_closer?.full_name || 'username'}
             </Text>
-            <Text style={styles.h2}>
+            {/* <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
-            </Text>
+            </Text> */}
             <View style={styles.aiRow}>
               <View style={styles.starCon}>
                 <Image style={styles.starStyle} source={appIcons.star} />
@@ -214,6 +219,7 @@ const SupportHome = ({navigation}) => {
                     />
                   );
                 }}
+                showsHorizontalScrollIndicator={false}
                 keyExtractor={index => index?.toString()}
               />
             }
@@ -251,8 +257,8 @@ const SupportHome = ({navigation}) => {
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
                   <CetificationCard
-                    title={item?.image}
-                    subtitle="12.32mb"
+                    title={item?.certificate}
+                    subtitle={shortenBytes(item?.size)}
                     style={{fontSize: 14}}
                   />
                 );
@@ -261,51 +267,61 @@ const SupportHome = ({navigation}) => {
           )}
         </View>
         <View>
-          {reviews.length > 0 && (
+          {profileVisitors?.visitor?.length > 0 && (
             <View style={styles.cardViewCon}>
               <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
               <View style={spacing.py4}>
                 <FlatList
-                  data={reviews}
-                  renderItem={() => {
+                  data={profileVisitors?.visitor}
+                  renderItem={({item}) => {
                     return (
-                      <View style={spacing.pr2}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setshowModal(true);
+                          setcurrentUser(item);
+                        }}
+                        style={spacing.pr2}>
                         <UserCard
                           height={61}
                           width={61}
-                          image={appImages.hanna}
+                          image={{uri: item?.visitor_image || profile_uri}}
                         />
-                      </View>
+                      </TouchableOpacity>
                     );
                   }}
+                  showsHorizontalScrollIndicator={false}
                   horizontal={true}
                 />
               </View>
             </View>
           )}
-          {reviews?.length > 0 && (
+          {reviews?.reviews?.length > 0 && (
             <View style={styles.cardViewCon}>
               <View style={styles.starContainer}>
-                <Text style={styles.reviewtext}>Your Reviews(43)</Text>
+                <Text style={styles.reviewtext}>
+                  Your Reviews ({reviews?.total_reviews || 0})
+                </Text>
                 <AppStarRating
                   starStyle={styles.starRating}
                   disabled={true}
-                  rating={support_detail?.support_closer?.rating}
+                  rating={reviews?.total_reviews}
                   maxStars={5}
                   fullStarColor={colors.y1}
                   starSize={size.medium}
                 />
               </View>
               <FlatList
-                data={reviews}
+                data={reviews?.reviews}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
                     <ReviewCard
                       id={item.id}
-                      title={item.title}
-                      description={item.description}
-                      image={item.image}
+                      title={item?.reviewed_user_name}
+                      description={item?.review}
+                      rating={item?.rating}
+                      star={5}
+                      image={{uri: item?.reviewed_user_image || profile_uri}}
                     />
                   );
                 }}
@@ -317,7 +333,7 @@ const SupportHome = ({navigation}) => {
                       title="View All Reviews"
                       textStyle={{fontSize: size.tiny}}
                       onPress={() => {
-                        navigation?.navigate('SupportReviews');
+                        navigation?.navigate('SupportReviews', {item: reviews});
                       }}
                     />
                   );
@@ -328,6 +344,22 @@ const SupportHome = ({navigation}) => {
         </View>
       </ScrollView>
       <AppLoader loading={isLoading} />
+      <ProfileModal
+        data={currentUser}
+        show={showModal}
+        onPressHide={() => {
+          setshowModal(false);
+          setviewProfile(false);
+        }}
+        viewProfile={viewProfile}
+        setviewProfile={() => {
+          setviewProfile(true);
+        }}
+        onPressMsg={() => {
+          setshowModal(false);
+          navigation?.navigate('PersonChat');
+        }}
+      />
     </SafeAreaView>
   );
 };

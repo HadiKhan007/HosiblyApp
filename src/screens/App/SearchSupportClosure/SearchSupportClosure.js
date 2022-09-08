@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {
+  AppLoader,
   BackHeader,
   MyStatusBar,
   SearchBar,
@@ -26,12 +27,14 @@ import {
   get_suuport_users,
   selected_suuport_user_data,
 } from '../../../redux/actions';
+import {setProfileVisitApi} from '../../../shared/service/AppService';
 
 const SearchSupportClosure = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setfilteredData] = useState([]);
   const [supportData, setSupportData] = useState([]);
+  const {support_users} = useSelector(state => state?.supportReducer);
   const dispatch = useDispatch(null);
 
   //Get Suppport User
@@ -44,12 +47,10 @@ const SearchSupportClosure = ({navigation}) => {
     const check = await checkConnected();
     if (check) {
       const onSuccess = async res => {
-        setSupportData(res?.support_closer);
-        setfilteredData(res?.support_closer);
-        setLoading(false);
+        setSupportData(support_users?.support_closer);
+        setfilteredData(support_users?.support_closer);
       };
       const onFailure = async res => {
-        setLoading(false);
         Alert.alert('Error', res);
       };
       dispatch(get_suuport_users(null, onSuccess, onFailure));
@@ -69,6 +70,7 @@ const SearchSupportClosure = ({navigation}) => {
   };
 
   const selectedItem = async item => {
+    setLoading(true);
     const onSuccess = async res => {
       navigation?.navigate('SupportProfile');
       setLoading(false);
@@ -80,7 +82,16 @@ const SearchSupportClosure = ({navigation}) => {
     const requestBody = {
       support_closer_id: item?.id,
     };
-    dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+    const body = {
+      user_id: item?.id,
+    };
+    const res = await setProfileVisitApi(body);
+    if (res) {
+      dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+    } else {
+      setLoading(false);
+      Alert.alert('Error', 'Something went wrong!');
+    }
   };
 
   return (
@@ -113,6 +124,7 @@ const SearchSupportClosure = ({navigation}) => {
           />
         </View>
       </View>
+      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

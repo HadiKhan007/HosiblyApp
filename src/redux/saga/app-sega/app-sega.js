@@ -1,5 +1,6 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
+import {getFilterReviewApi} from '../../../shared/service/AppService';
 import {
   addBuyerPreferences,
   getAllProperties,
@@ -152,6 +153,31 @@ function* getBuyerData(params) {
     console.log(error);
     yield put({
       type: types.GET_BUYER_DATA_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+//Get Filtered Reviews
+
+export function* getFilterReviewRequest() {
+  yield takeLatest(types.GET_FILTERED_REVIEWS_REQUEST, getFilterReview);
+}
+function* getFilterReview(params) {
+  try {
+    const res = yield getFilterReviewApi(params?.params);
+
+    yield put({
+      type: types.GET_FILTERED_REVIEWS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_FILTERED_REVIEWS_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

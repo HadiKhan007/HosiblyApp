@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: WP('3.85'),
     flex: 1,
+    paddingBottom: 10,
   },
 });
 
