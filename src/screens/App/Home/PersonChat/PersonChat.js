@@ -30,6 +30,7 @@ import {
   appImages,
   platformOrientedCode,
   checkConnected,
+  family,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {chat, networkText} from '../../../../shared/utilities/constant';
@@ -62,6 +63,7 @@ const PersonChat = ({navigation, route}) => {
   const [name, setname] = useState(route?.params?.name);
   const [avatar, setavatar] = useState(route?.params?.avatar);
   const [recipientID, setRecipientId] = useState(route?.params?.recipientID);
+  const [isBlock, setisBlock] = useState(route?.params?.isBlock);
 
   const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
   const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
@@ -345,7 +347,7 @@ const PersonChat = ({navigation, route}) => {
         name={name || ' '}
         source={avatar ? {uri: avatar} : appImages.person3}
         onPressIcon={() => setShowMenu(true)}
-        rightIcon
+        rightIcon={isBlock ? false : true}
       />
       <View style={styles.menuContainer}>
         <Menu
@@ -391,73 +393,77 @@ const PersonChat = ({navigation, route}) => {
       ) : (
         <View style={styles.noRecordsView}>
           <Text style={styles.noRecords}>
-            {isLoading ? '' : 'No message found'}
+            {loadingAllMessages ? '' : 'No message found'}
           </Text>
         </View>
       )}
       <KeyboardAvoidingView
         behavior={platformOrientedCode('height', 'padding')}>
-        <View style={styles.inputView}>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              placeholder={'Type here...'}
-              value={message}
-              ellipsizeMode="tail"
-              multiline
-              maxHeight={75}
-              onChangeText={text => setMessage(text)}
-              placeholderTextColor={colors.g40}
-              style={styles.inputStyles}
-            />
-            {visibility ? (
-              <ActivityIndicator
-                animating
-                size={'small'}
-                color={colors.p1}
-                style={{left: 3}}
+        {isBlock ? (
+          <Text style={styles.blockText}>You are blocked</Text>
+        ) : (
+          <View style={styles.inputView}>
+            <View style={styles.inputWrapper}>
+              <TextInput
+                placeholder={'Type here...'}
+                value={message}
+                ellipsizeMode="tail"
+                multiline
+                maxHeight={75}
+                onChangeText={text => setMessage(text)}
+                placeholderTextColor={colors.g40}
+                style={styles.inputStyles}
               />
-            ) : (
-              <Icon
-                name={'send'}
-                type={'ionicons'}
-                size={22}
-                color={colors.g16}
-                onPress={() => onSend()}
+              {visibility ? (
+                <ActivityIndicator
+                  animating
+                  size={'small'}
+                  color={colors.p1}
+                  style={{left: 3}}
+                />
+              ) : (
+                <Icon
+                  name={'send'}
+                  type={'ionicons'}
+                  size={22}
+                  color={colors.g16}
+                  onPress={() => onSend()}
+                />
+              )}
+            </View>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => showGallery()}>
+              <Image
+                source={
+                  galleryImage == ''
+                    ? appIcons.galleryIcon
+                    : {
+                        uri: platformOrientedCode(
+                          galleryImage?.path,
+                          galleryImage?.sourceURL,
+                        ),
+                      }
+                }
+                style={[styles.iconStyle, {marginRight: 7}]}
               />
-            )}
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
+              <Image
+                resizeMode="contain"
+                source={
+                  cameraImage == ''
+                    ? appIcons.cameraIcon
+                    : {
+                        uri: platformOrientedCode(
+                          cameraImage?.path,
+                          cameraImage?.sourceURL,
+                        ),
+                      }
+                }
+                style={[styles.iconStyle, {marginLeft: 7}]}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => showGallery()}>
-            <Image
-              source={
-                galleryImage == ''
-                  ? appIcons.galleryIcon
-                  : {
-                      uri: platformOrientedCode(
-                        galleryImage?.path,
-                        galleryImage?.sourceURL,
-                      ),
-                    }
-              }
-              style={[styles.iconStyle, {marginRight: 7}]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
-            <Image
-              resizeMode="contain"
-              source={
-                cameraImage == ''
-                  ? appIcons.cameraIcon
-                  : {
-                      uri: platformOrientedCode(
-                        cameraImage?.path,
-                        cameraImage?.sourceURL,
-                      ),
-                    }
-              }
-              style={[styles.iconStyle, {marginLeft: 7}]}
-            />
-          </TouchableOpacity>
-        </View>
+        )}
         {showModal && (
           <ChatModal
             type={modalType}

@@ -45,7 +45,7 @@ function* sendFcmToken(params) {
 }
 function* getNotificationList(params) {
   try {
-    const res = yield API.getNotificationList();
+    const res = yield API.getAllNotificationList();
     if (res) {
       yield put({
         type: types.GET_NOTIFICATION_LIST_SUCCESS,
@@ -186,7 +186,6 @@ function* getAllMessages(params) {
 }
 
 function* getAllAdminMessages(params) {
-  console.log('GET MEESage ADMIN SAGA', params);
   try {
     const res = yield API.getAllAdminMessages(params?.id);
     if (res) {
@@ -310,7 +309,6 @@ function* sendMessages(params) {
 }
 
 function* sendMessagesToAdmin(params) {
-  console.log('params send admin', params);
   try {
     const res = yield API.sendMessageToAdmin(params);
     if (res) {

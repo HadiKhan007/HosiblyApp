@@ -101,10 +101,9 @@ export const unBlockUserRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const getNotificationListRequest = (params, cbSuccess, cbFailure) => {
+export const getNotificationListRequest = (cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_NOTIFICATION_LIST_REQUEST,
-    params,
     cbSuccess,
     cbFailure,
   };

@@ -75,6 +75,7 @@ const Conversations = ({navigation}) => {
             avatar: item?.item?.avatar,
             name: item?.item?.full_name,
             recipientID: item?.item?.recipient_id,
+            isBlock: item?.item?.is_blocked,
           })
         }>
         <Image
