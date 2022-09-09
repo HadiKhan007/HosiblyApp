@@ -23,6 +23,7 @@ import {
 } from '../../../redux/actions';
 
 import {useSelector, useDispatch} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
 
 const Conversations = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -31,11 +32,13 @@ const Conversations = ({navigation}) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-
+  const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllConversationList();
-  }, []);
+    if (isFocus) {
+      getAllConversationList();
+    }
+  }, [isFocus]);
 
   const {userInfo} = useSelector(state => state?.auth);
 
@@ -157,7 +160,7 @@ const Conversations = ({navigation}) => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    getAllConversationList;
+    getAllConversationList();
   }, [refreshing]);
 
   return (
