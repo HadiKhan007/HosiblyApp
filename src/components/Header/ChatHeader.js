@@ -35,16 +35,18 @@ export const ChatHeader = ({rightIcon = false, onPressIcon, name, source}) => {
             source={source}
             style={styles.personImgStyle}
           />
-          <Text style={styles.nameTxtStyle}>{name}</Text>
+          <Text style={styles.nameTxtStyle}>{name || 'Admin'} </Text>
         </View>
-        <TouchableOpacity activeOpacity={0.7} onPress={onPressIcon}>
-          <Icon
-            name={'dots-three-horizontal'}
-            type={'entypo'}
-            size={22}
-            color={colors.b1}
-          />
-        </TouchableOpacity>
+        {rightIcon ? (
+          <TouchableOpacity activeOpacity={0.7} onPress={onPressIcon}>
+            <Icon
+              name={'dots-three-horizontal'}
+              type={'entypo'}
+              size={22}
+              color={colors.b1}
+            />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </>
   );

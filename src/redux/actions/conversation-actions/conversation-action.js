@@ -16,6 +16,18 @@ export const createConversationRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+export const createAdminConversationRequest = (
+  params,
+  cbSuccess,
+  cbFailure,
+) => {
+  return {
+    type: TYPES.CREATE_ADMIN_CONVERSATION_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
 export const getconversationListRequest = (cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_CONVERSATION_LIST_REQUEST,
@@ -23,10 +35,10 @@ export const getconversationListRequest = (cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const deleteConversationRequest = (params, cbSuccess, cbFailure) => {
+export const deleteConversationRequest = (id, cbSuccess, cbFailure) => {
   return {
     type: TYPES.DELETE_CONVERSATION_REQUEST,
-    params,
+    id,
     cbSuccess,
     cbFailure,
   };
@@ -39,6 +51,16 @@ export const getAllMessagesRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+export const getAllAdminMessagesRequest = (id, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_ALL_ADMIN_MESSAGES_REQUEST,
+    id,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
 export const readMessagesRequest = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.READ_MESSAGES_REQUEST,
@@ -91,6 +113,16 @@ export const sendMessage = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.SEND_MESSAGES_REQUEST,
     params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+export const sendMessageToAdmin = (params, id, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.SEND_ADMIN_MESSAGES_REQUEST,
+    params,
+    id,
     cbSuccess,
     cbFailure,
   };

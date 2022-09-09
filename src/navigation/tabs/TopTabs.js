@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView, Platform} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {colors, family, size} from '../../shared/exporter';
 
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     flex: 1,
     backgroundColor: colors.white,
+    paddingTop: Platform.OS == 'android' ? 40 : 0,
   },
   tabLabelStyle: {
     fontSize: size.xsmall,

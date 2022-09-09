@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Image,
-  Alert,
   FlatList,
   TextInput,
   SafeAreaView,
@@ -29,10 +28,10 @@ import {
   appIcons,
   appImages,
   platformOrientedCode,
-  checkConnected,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
-import {chat, networkText} from '../../../../shared/utilities/constant';
+import {chat} from '../../../../shared/utilities/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHAT_URL} from '../../../../shared/utilities/endpoints';
 import {
@@ -40,12 +39,11 @@ import {
   getAllMessagesRequest,
   readMessagesRequest,
   blockUserRequest,
-  createConversationRequest,
-  reportUserRequest,
-  createAdminConversationRequest,
+  getAllAdminMessagesRequest,
+  sendMessageToAdmin,
 } from '../../../../redux/actions';
-// let ticketId = 0;
-const PersonChat = ({navigation, route}) => {
+
+const AdminChat = ({navigation, route}) => {
   const isFocus = useIsFocused();
   const [fresh, setFresh] = useState(true);
   const [message, setMessage] = useState('');
@@ -74,11 +72,12 @@ const PersonChat = ({navigation, route}) => {
   }, [isFocus]);
 
   useEffect(() => {
+    console.log('id for CHANNEL ', id);
     try {
       subscribe(
         {
-          channel: 'ConversationChannel',
-          channel_key: `conversations_${id}`,
+          channel: 'SupportConversationChannel',
+          channel_key: `support_conversations_${id}`,
         },
         {
           received: msg => {
@@ -100,8 +99,9 @@ const PersonChat = ({navigation, route}) => {
   }, [allMessages]);
 
   useEffect(() => {
-    getMesssgeList();
-    readMessage();
+    getAdminMesssgeList();
+    // readMessage();
+    console.log('ADMIN CHAT SCREEN');
   }, [isFocus]);
 
   //Gallery Handlers
@@ -127,12 +127,9 @@ const PersonChat = ({navigation, route}) => {
     }, 400);
   };
 
-  const getMesssgeList = () => {
-    console.log('getMesssgeList');
+  const getAdminMesssgeList = () => {
     setLoadingAllMessages(true);
     try {
-      const data = new FormData();
-      data.append('conversation_id', id);
       const cbSuccess = res => {
         setLoadingAllMessages(false);
         setAllMessages(res?.messages);
@@ -140,7 +137,7 @@ const PersonChat = ({navigation, route}) => {
       const cbFailure = err => {
         setLoadingAllMessages(false);
       };
-      dispatch(getAllMessagesRequest(data, cbSuccess, cbFailure));
+      dispatch(getAllAdminMessagesRequest(id, cbSuccess, cbFailure));
     } catch (err) {
       setLoadingAllMessages(false);
     }
@@ -230,7 +227,6 @@ const PersonChat = ({navigation, route}) => {
         name: galleryImage.fileName || 'image',
       };
       const data = new FormData();
-      data.append('conversation_id', id);
       if (message) {
         data.append('message[body]', message);
       }
@@ -238,6 +234,7 @@ const PersonChat = ({navigation, route}) => {
         data.append('message[image]', imgObj);
       }
       const cbSuccess = res => {
+        console.log('ADMIN MESSGAE SENT SUCCESSFULY');
         setVisibility(false);
         setMessage('');
         setGalleryImage('');
@@ -247,76 +244,10 @@ const PersonChat = ({navigation, route}) => {
         setVisibility(false);
       };
       console.log('message data', data);
-      dispatch(sendMessage(data, cbSuccess, cbFailure));
+      dispatch(sendMessageToAdmin(data, id, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);
       setVisibility(false);
-    }
-  };
-
-  const blockUser = () => {
-    try {
-      const data = new FormData();
-      data.append('user_id', recipientID);
-      data.append('is_blocked', true);
-      const cbSuccess = res => {
-        alert('User added in blacklist.');
-        navigation.goBack();
-      };
-      const cbFailure = err => {};
-      dispatch(blockUserRequest(data, cbSuccess, cbFailure));
-    } catch (err) {
-      console.log('[err]', err);
-      setVisibility(false);
-    }
-  };
-
-  const reportUser = () => {
-    try {
-      const data = new FormData();
-      data.append('reported_user', recipientID);
-      const cbSuccess = res => {
-        // ticketId = res?.ticket_generate?.id;
-        handleAdminChat(res?.ticket_generate?.id);
-      };
-      const cbFailure = err => {};
-      dispatch(reportUserRequest(data, cbSuccess, cbFailure));
-    } catch (err) {
-      console.log('[err] report err', err);
-      setVisibility(false);
-    }
-  };
-
-  const handleAdminChat = async ticketId => {
-    console.log('ticketId', ticketId);
-    // return;
-    const check = await checkConnected();
-    if (check) {
-      try {
-        const data = new FormData();
-        data.append('support_id', ticketId);
-        setIsLoading(true);
-        const onSuccess = res => {
-          setIsLoading(false);
-          console.log('CREATE CONVO ID ', res);
-          navigation?.navigate('AdminChat', {
-            id: res?.conversation?.id,
-            recipientID: res?.conversation?.recipient_id,
-          });
-        };
-        const onFailure = res => {
-          console.log('CREATE CONVO ID err ', res);
-
-          setIsLoading(false);
-        };
-        dispatch(createAdminConversationRequest(data, onSuccess, onFailure));
-      } catch (error) {
-        setIsLoading(false);
-        console.log('CREATE CONVO catch ', error);
-      }
-    } else {
-      setIsLoading(false);
-      Alert.alert('Error', networkText);
     }
   };
 
@@ -327,25 +258,21 @@ const PersonChat = ({navigation, route}) => {
       setShowModal(true);
     }, 500);
   };
-
   const handleModal = () => {
     if (modalType == 'Report') {
       setShowModal(false);
-      handleAdminChat();
-      reportUser();
     } else if (modalType == 'Block') {
-      blockUser();
-      setShowModal(false);
+      // blockUser();
     }
   };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
-        name={name || ' '}
-        source={avatar ? {uri: avatar} : appImages.person3}
-        onPressIcon={() => setShowMenu(true)}
-        rightIcon
+        name={'Housibly'}
+        source={appLogos.roundLogo}
+        onPressIcon={() => setShowMenu(false)}
+        // rightIcon={false}
       />
       <View style={styles.menuContainer}>
         <Menu
@@ -462,7 +389,8 @@ const PersonChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
-            onPress={() => handleModal()}
+            // onPressHide={() => alert('Ok')}
+            onPressHide={() => alert('ok')}
             name={name}
             source={avatar ? {uri: avatar} : appImages.person3}
           />
@@ -472,4 +400,4 @@ const PersonChat = ({navigation, route}) => {
   );
 };
 
-export default PersonChat;
+export default AdminChat;
