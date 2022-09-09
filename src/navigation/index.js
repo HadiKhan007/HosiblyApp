@@ -18,6 +18,7 @@ import PrivacyPolicy from '../screens/App/Profile/PrivacyPolicy';
 import Support from '../screens/App/Profile/Support';
 import SupportQuery from '../screens/App/Profile/SupportQuery';
 import SupportChat from '../screens/App/Profile/SupportChat';
+import AdminChat from '../screens/App/Home/AdminChat';
 import FAQ from '../screens/App/Profile/FAQ';
 import BlockedList from '../screens/App/Profile/BlockedList';
 import MapScreen from '../screens/App/Home/MapScreen';
@@ -68,6 +69,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'Support'} component={Support} />
         <AppStack.Screen name={'SupportQuery'} component={SupportQuery} />
         <AppStack.Screen name={'SupportChat'} component={SupportChat} />
+        <AppStack.Screen name={'AdminChat'} component={AdminChat} />
         <AppStack.Screen name={'FAQ'} component={FAQ} />
         <AppStack.Screen name={'BlockedList'} component={BlockedList} />
         <AppStack.Screen name={'NewMessages'} component={NewMessages} />

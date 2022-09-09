@@ -30,10 +30,10 @@ const BlockedList = ({navigation}) => {
   const unBlockUser = () => {
     try {
       const data = new FormData();
-      console.log('Params ==> ', data);
-      data.append('user_id', item?.id);
+      data.append('user_id', item?.blocked_user_id);
       data.append('is_blocked', false);
       const cbSuccess = res => {
+        setShowModal(false);
         getAllBlockedUsers();
       };
       const cbFailure = err => {};
@@ -50,7 +50,6 @@ const BlockedList = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
-          console.log('LIST ==> ', res?.blocked_users);
           setData(res?.blocked_users);
           setIsLoading(false);
         };

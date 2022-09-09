@@ -32,7 +32,6 @@ export const ChatHeader = ({rightIcon = false, onPressIcon, name, source}) => {
             />
           </TouchableOpacity>
           <Image
-            resizeMode="contain"
             source={source ? {uri: source} : appLogos.roundLogo}
             style={styles.personImgStyle}
           />
