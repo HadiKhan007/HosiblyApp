@@ -25,7 +25,7 @@ export function* ConversationSaga() {
 }
 function* sendFcmToken(params) {
   try {
-    const res = yield API.sendFcm();
+    const res = yield API.sendFcm(params?.params);
     if (res) {
       yield put({
         type: types.SEND_FCM_SUCCESS,

@@ -31,7 +31,6 @@ import {
   appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
-import {chat} from '../../../../shared/utilities/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHAT_URL} from '../../../../shared/utilities/endpoints';
 import {
@@ -72,7 +71,6 @@ const AdminChat = ({navigation, route}) => {
   }, [isFocus]);
 
   useEffect(() => {
-    console.log('id for CHANNEL ', id);
     try {
       subscribe(
         {
@@ -132,7 +130,8 @@ const AdminChat = ({navigation, route}) => {
     try {
       const cbSuccess = res => {
         setLoadingAllMessages(false);
-        setAllMessages(res?.messages);
+        console.log('get message admin ', res);
+        // setAllMessages(res?.messages);
       };
       const cbFailure = err => {
         setLoadingAllMessages(false);
@@ -143,24 +142,21 @@ const AdminChat = ({navigation, route}) => {
     }
   };
 
-  const readMessage = () => {
-    try {
-      const data = new FormData();
-      data.append('conversation_id', id);
-      const cbSuccess = res => {
-        console.log('READ MESSAGAE==> OK');
-      };
-      const cbFailure = err => {
-        console.log('Read msg err ==> ', err);
-      };
-      dispatch(readMessagesRequest(data, cbSuccess, cbFailure));
-    } catch (err) {}
-  };
+  // const readMessage = () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append('conversation_id', id);
+  //     const cbSuccess = res => {
+  //       console.log('READ MESSAGAE==> OK');
+  //     };
+  //     const cbFailure = err => {
+  //       console.log('Read msg err ==> ', err);
+  //     };
+  //     dispatch(readMessagesRequest(data, cbSuccess, cbFailure));
+  //   } catch (err) {}
+  // };
 
   const renderItem = ({item, index}) => {
-    // {
-    //   console.log('ITEM ', item);
-    // }
     return (
       <View style={styles.msgContainer}>
         {item?.user_id === userInfo?.user?.id ? (
@@ -243,7 +239,6 @@ const AdminChat = ({navigation, route}) => {
       const cbFailure = err => {
         setVisibility(false);
       };
-      console.log('message data', data);
       dispatch(sendMessageToAdmin(data, id, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);
@@ -251,20 +246,13 @@ const AdminChat = ({navigation, route}) => {
     }
   };
 
-  const hideItemClick = type => {
-    setShowMenu(false);
-    setModalType(type);
-    setTimeout(() => {
-      setShowModal(true);
-    }, 500);
-  };
-  const handleModal = () => {
-    if (modalType == 'Report') {
-      setShowModal(false);
-    } else if (modalType == 'Block') {
-      // blockUser();
-    }
-  };
+  // const hideItemClick = type => {
+  //   setShowMenu(false);
+  //   setModalType(type);
+  //   setTimeout(() => {
+  //     setShowModal(true);
+  //   }, 500);
+  // };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -274,7 +262,7 @@ const AdminChat = ({navigation, route}) => {
         onPressIcon={() => setShowMenu(false)}
         // rightIcon={false}
       />
-      <View style={styles.menuContainer}>
+      {/* <View style={styles.menuContainer}>
         <Menu
           visible={showMenu}
           style={styles.menuStyle}
@@ -292,7 +280,7 @@ const AdminChat = ({navigation, route}) => {
             <Text style={styles.menuTxtStyle}>Block User</Text>
           </MenuItem>
         </Menu>
-      </View>
+      </View> */}
       <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
       {allMessages?.length > 0 ? (
         <FlatList

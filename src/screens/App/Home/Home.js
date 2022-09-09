@@ -41,6 +41,7 @@ import {
   get_recent_properties,
   get_suuport_users,
   selected_suuport_user_data,
+  send_FCM_Request,
 } from '../../../redux/actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
 import {localNotificationService} from '../../../shared/service/notification-service/LocalNotificationService';
@@ -182,27 +183,26 @@ const Home = ({navigation}) => {
   const onOpenNotification = async (notify, remoteMessage) => {
     console.log('NOTIFICATION PAYLOAD  ', notify);
   };
-
   const sendFCMTokenToServer = async fcmToken => {
     console.log('[FCM TOKEN==>]', fcmToken);
-    // try {
-    //   if (fcmToken) {
-    //     console.log('[FCM Token]\n\n\n\n', fcmToken);
-    //     try {
-    //       let data = new FormData();
-    //       data.append('token', fcmToken);
-    //       const cbSuccess = res => {
-    //         console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
-    //       };
-    //       const cbFailure = err => {};
-    //       dispatch(sendFCMtoken(data, token, cbSuccess, cbFailure));
-    //     } catch (err) {
-    //       setLoading(false);
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.log('[error]', error);
-    // }
+    try {
+      if (fcmToken) {
+        console.log('[FCM Token inner]\n', fcmToken);
+        try {
+          let data = new FormData();
+          data.append('token', fcmToken);
+          const cbSuccess = res => {
+            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
+          };
+          const cbFailure = err => {};
+          dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
+        } catch (err) {
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.log('[error]', error);
+    }
   };
 
   //Get Properties
