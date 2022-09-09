@@ -57,7 +57,6 @@ export const Notification_Listner = (dispatch, navigation) => {
     onClickNotification(remoteMessage, dispatch, navigation);
   });
   messaging().onMessage(async remoteMessage => {
-    console.log('Remote Notitifcation', remoteMessage);
     LocalNotification(remoteMessage, dispatch, navigation);
   });
   messaging().getInitialNotification(async remoteMessage => {
@@ -67,13 +66,13 @@ export const Notification_Listner = (dispatch, navigation) => {
   });
 };
 
-export const LocalNotification = (notify, dispatch, navigation) => {
+export const LocalNotification = (data, dispatch, navigation) => {
   PushNotification.localNotification({
-    channelId: 'FairFight',
-    title: notify?.notification?.title,
+    channelId: 'Housibly',
+    title: data?.notification?.title || 'New Message Arrived',
     smallIcon: 'ic_notification',
     largeIcon: 'ic_launcher',
-    message: notify?.notification?.body,
+    message: data?.notification?.body,
     vibrate: true, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
     playSound: true, // (optional) default: true
@@ -82,8 +81,8 @@ export const LocalNotification = (notify, dispatch, navigation) => {
   });
   PushNotification.createChannel(
     {
-      channelId: 'FairFight', // (required)
-      channelName: 'FairFight', // (required)
+      channelId: 'Housibly', // (required)
+      channelName: 'Housibly', // (required)
       channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
       soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
       importance: Importance.HIGH, // (optional) default: 4. Int value of the Android notification importance
@@ -98,7 +97,7 @@ export const LocalNotification = (notify, dispatch, navigation) => {
     },
     onNotification: function (notification) {
       if (notification.userInteraction) {
-        onClickNotification(notify, dispatch, navigation);
+        onClickNotification(data, dispatch, navigation);
       } else {
         console.log('User received notification');
       }
@@ -117,5 +116,11 @@ export const LocalNotification = (notify, dispatch, navigation) => {
 };
 
 const onClickNotification = (notify, dispatch, navigation) => {
-  console.log('Notification', notify);
+  const notifyObj = JSON.parse(notify?.data?.recipient);
+  navigation.navigate('PersonChat', {
+    id: notify?.data?.conversation_id,
+    avatar: notify?.data?.avatar,
+    name: notifyObj.full_name,
+    recipientID: notifyObj?.id,
+  });
 };

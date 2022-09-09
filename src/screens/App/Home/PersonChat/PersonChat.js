@@ -87,7 +87,6 @@ const PersonChat = ({navigation, route}) => {
           received: msg => {
             console.log('MESSAGE Res ==> ', msg);
             setAllMessages(allMessages => [msg, ...allMessages]);
-            // setAllMessages(allMessages => [msg?.image, ...allMessages]);
           },
           connected: () => {
             console.log('Connected');
