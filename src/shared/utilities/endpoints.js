@@ -48,7 +48,7 @@ const ENDPOINTS = {
   GET_BLOCK_USER_LIST: 'blocked_users',
   UNBLOCK_USER: '',
   GET_NOTIFICATION_LIST: '',
-  SEND_FCM: '',
+  SEND_FCM: 'conversations/notification_token',
 };
 
 export {BASE_URL, ENDPOINTS, CHAT_URL};

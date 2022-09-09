@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Alert,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {ChatModal, AppLoader} from '../../../components';
@@ -29,6 +30,7 @@ const Conversations = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -45,13 +47,16 @@ const Conversations = ({navigation}) => {
         const onSuccess = res => {
           setData(res);
           setIsLoading(false);
+          setRefreshing(false);
         };
         const onFailure = res => {
           setIsLoading(false);
+          setRefreshing(false);
         };
         dispatch(getconversationListRequest(onSuccess, onFailure));
       } catch (error) {
         setIsLoading(false);
+        setRefreshing(false);
       }
     } else {
       setIsLoading(false);
@@ -134,7 +139,6 @@ const Conversations = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
-          console.log('Res is ==> ', res);
           getAllConversationList();
         };
         const onFailure = res => {
@@ -149,6 +153,11 @@ const Conversations = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    getAllConversationList;
+  }, [refreshing]);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -173,6 +182,9 @@ const Conversations = ({navigation}) => {
               rowMap[rowKey].closeRow();
             }, 2000);
           }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flStyle}
           keyExtractor={(item, index) => index.toString()}

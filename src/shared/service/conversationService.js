@@ -196,6 +196,7 @@ export const getNotificationList = async params => {
   return res.data;
 };
 export const sendFcm = async params => {
+  console.log('FCM PARAM SERVICE', params);
   const res = await axios.post(`${BASE_URL}${ENDPOINTS.SEND_FCM}`, params, {
     headers: {
       Accept: 'application/json',

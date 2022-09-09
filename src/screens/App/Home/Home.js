@@ -41,8 +41,10 @@ import {
   get_recent_properties,
   get_suuport_users,
   selected_suuport_user_data,
+  send_FCM_Request,
 } from '../../../redux/actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
@@ -132,6 +134,31 @@ const Home = ({navigation}) => {
       </TouchableOpacity>
     );
   };
+  useEffect(() => {
+    sendFCMTokenToServer();
+  }, []);
+
+  const sendFCMTokenToServer = async () => {
+    const fcmToken = await AsyncStorage.getItem('fcmToken');
+    try {
+      if (fcmToken) {
+        try {
+          let data = new FormData();
+          data.append('token', fcmToken);
+          const cbSuccess = res => {
+            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
+          };
+          const cbFailure = err => {};
+          dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
+        } catch (err) {
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.log('[error]', error);
+    }
+  };
+
   //Get Properties
   useEffect(() => {
     if (isFocus) {
