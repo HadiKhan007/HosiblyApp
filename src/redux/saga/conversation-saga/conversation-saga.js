@@ -45,12 +45,13 @@ function* sendFcmToken(params) {
 }
 function* getNotificationList(params) {
   try {
-    const res = yield API.getNotificationList();
+    const res = yield API.getAllNotificationList();
     if (res) {
       yield put({
         type: types.GET_NOTIFICATION_LIST_SUCCESS,
         payload: res,
       });
+      console.log('NOTIFICATION LISt   ', res);
       params?.cbSuccess(res);
     }
   } catch (error) {

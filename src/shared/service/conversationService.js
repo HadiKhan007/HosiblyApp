@@ -181,20 +181,17 @@ export const getBlockUSerList = async () => {
   return res.data;
 };
 
-export const getNotificationList = async params => {
-  const res = await axios.post(
-    `${BASE_URL}${ENDPOINTS.GET_NOTIFICATION_LIST}`,
-    params,
-    {
-      headers: {
-        Accept: 'application/json',
-        auth_token: await GetToken(),
-        'Content-Type': 'multipart/form-data',
-      },
+export const getAllNotificationList = async () => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_NOTIFICATION_LIST}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
     },
-  );
+  });
   return res.data;
 };
+
 export const sendFcm = async params => {
   console.log('FCM PARAM SERVICE', params);
   const res = await axios.post(`${BASE_URL}${ENDPOINTS.SEND_FCM}`, params, {

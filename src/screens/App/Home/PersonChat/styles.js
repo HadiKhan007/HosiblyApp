@@ -167,6 +167,12 @@ const styles = StyleSheet.create({
     width: WP('6'),
     height: WP('6'),
   },
+  blockText: {
+    color: colors.b1,
+    fontFamily: family.SamsungSans_Regular,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
 });
 
 export default styles;

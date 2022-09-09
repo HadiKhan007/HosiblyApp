@@ -47,7 +47,7 @@ const ENDPOINTS = {
   BLOCK_USER: 'block_unblock_user',
   GET_BLOCK_USER_LIST: 'blocked_users',
   UNBLOCK_USER: '',
-  GET_NOTIFICATION_LIST: '',
+  GET_NOTIFICATION_LIST: 'messages/get_notification',
   SEND_FCM: 'conversations/notification_token',
 };
 
