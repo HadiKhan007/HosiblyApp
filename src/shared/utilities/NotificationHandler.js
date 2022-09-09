@@ -54,12 +54,10 @@ const getFcmToken = async () => {
 
 export const Notification_Listner = (dispatch, navigation) => {
   messaging().onNotificationOpenedApp(async remoteMessage => {
-    const notificationObj = JSON.parse(remoteMessage?.data?.recipient);
-    onClickNotification(notificationObj, dispatch, navigation);
+    onClickNotification(remoteMessage, dispatch, navigation);
   });
   messaging().onMessage(async remoteMessage => {
-    const notificationObj = JSON.parse(remoteMessage?.data?.recipient);
-    LocalNotification(notificationObj, dispatch, navigation);
+    LocalNotification(remoteMessage, dispatch, navigation);
   });
   messaging().getInitialNotification(async remoteMessage => {
     if (remoteMessage) {
@@ -68,13 +66,14 @@ export const Notification_Listner = (dispatch, navigation) => {
   });
 };
 
-export const LocalNotification = (notify, dispatch, navigation) => {
+export const LocalNotification = (data, dispatch, navigation) => {
+  console.log('dads', data?.notification);
   PushNotification.localNotification({
     channelId: 'Housibly',
-    title: 'dasdsa',
+    title: data?.notification?.title || 'New Message Arrived',
     smallIcon: 'ic_notification',
     largeIcon: 'ic_launcher',
-    message: 'asdsa',
+    message: data?.notification?.body,
     vibrate: true, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
     playSound: true, // (optional) default: true
@@ -98,9 +97,8 @@ export const LocalNotification = (notify, dispatch, navigation) => {
       console.log('TOKEN:', token);
     },
     onNotification: function (notification) {
-      console.log(notification);
       if (notification.userInteraction) {
-        onClickNotification(notify, dispatch, navigation);
+        onClickNotification(data, dispatch, navigation);
       } else {
         console.log('User received notification');
       }
@@ -119,10 +117,11 @@ export const LocalNotification = (notify, dispatch, navigation) => {
 };
 
 const onClickNotification = (notify, dispatch, navigation) => {
+  const notifyObj = JSON.parse(notify?.data?.recipient);
   navigation.navigate('PersonChat', {
-    id: notify?.id,
-    avatar: notify?.avatar,
-    name: notify?.full_name,
-    recipientID: notify?.id,
+    id: notify?.data?.conversation_id,
+    avatar: notify?.data?.avatar,
+    name: notifyObj.full_name,
+    recipientID: notifyObj?.id,
   });
 };
