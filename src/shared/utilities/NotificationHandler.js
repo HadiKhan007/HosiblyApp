@@ -67,7 +67,6 @@ export const Notification_Listner = (dispatch, navigation) => {
 };
 
 export const LocalNotification = (data, dispatch, navigation) => {
-  console.log('dads', data?.notification);
   PushNotification.localNotification({
     channelId: 'Housibly',
     title: data?.notification?.title || 'New Message Arrived',
