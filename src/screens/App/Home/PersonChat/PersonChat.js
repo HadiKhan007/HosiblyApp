@@ -41,8 +41,10 @@ import {
   readMessagesRequest,
   blockUserRequest,
   createConversationRequest,
+  reportUserRequest,
+  createAdminConversationRequest,
 } from '../../../../redux/actions';
-
+// let ticketId = 0;
 const PersonChat = ({navigation, route}) => {
   const isFocus = useIsFocused();
   const [fresh, setFresh] = useState(true);
@@ -257,7 +259,10 @@ const PersonChat = ({navigation, route}) => {
       const data = new FormData();
       data.append('user_id', recipientID);
       data.append('is_blocked', true);
-      const cbSuccess = res => {};
+      const cbSuccess = res => {
+        alert('User added in blacklist.');
+        navigation.goBack();
+      };
       const cbFailure = err => {};
       dispatch(blockUserRequest(data, cbSuccess, cbFailure));
     } catch (err) {
@@ -266,28 +271,48 @@ const PersonChat = ({navigation, route}) => {
     }
   };
 
-  const handleChat = async () => {
+  const reportUser = () => {
+    try {
+      const data = new FormData();
+      data.append('reported_user', recipientID);
+      const cbSuccess = res => {
+        // ticketId = res?.ticket_generate?.id;
+        handleAdminChat(res?.ticket_generate?.id);
+      };
+      const cbFailure = err => {};
+      dispatch(reportUserRequest(data, cbSuccess, cbFailure));
+    } catch (err) {
+      console.log('[err] report err', err);
+      setVisibility(false);
+    }
+  };
+
+  const handleAdminChat = async ticketId => {
+    console.log('ticketId', ticketId);
+    // return;
     const check = await checkConnected();
     if (check) {
       try {
         const data = new FormData();
-        data.append('conversation[recipient_id]');
+        data.append('support_id', ticketId);
         setIsLoading(true);
         const onSuccess = res => {
           setIsLoading(false);
+          console.log('CREATE CONVO ID ', res);
           navigation?.navigate('AdminChat', {
             id: res?.conversation?.id,
-            avatar: res?.conversation?.avatar,
-            name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
           });
         };
         const onFailure = res => {
+          console.log('CREATE CONVO ID err ', res);
+
           setIsLoading(false);
         };
-        dispatch(createConversationRequest(data, onSuccess, onFailure));
+        dispatch(createAdminConversationRequest(data, onSuccess, onFailure));
       } catch (error) {
         setIsLoading(false);
+        console.log('CREATE CONVO catch ', error);
       }
     } else {
       setIsLoading(false);
@@ -306,8 +331,8 @@ const PersonChat = ({navigation, route}) => {
   const handleModal = () => {
     if (modalType == 'Report') {
       setShowModal(false);
-      handleChat();
-      navigation.navigate('AdminChat');
+      handleAdminChat();
+      reportUser();
     } else if (modalType == 'Block') {
       blockUser();
       setShowModal(false);
@@ -437,7 +462,7 @@ const PersonChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
-            onPressHide={() => handleModal()}
+            onPress={() => handleModal()}
             name={name}
             source={avatar ? {uri: avatar} : appImages.person3}
           />

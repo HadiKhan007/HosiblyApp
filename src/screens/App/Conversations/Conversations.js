@@ -188,7 +188,8 @@ const Conversations = ({navigation}) => {
       <ChatModal
         type={'Delete'}
         show={showModal}
-        onPressHide={deleteConvo}
+        onPressHide={() => setShowModal(false)}
+        onPress={deleteConvo}
         name={item?.full_name}
         source={item?.avatar}
       />

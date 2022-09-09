@@ -3,14 +3,14 @@ import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {colors, WP, family, size, appIcons} from '../../shared/exporter';
 
-export const ChatModal = ({type, show, onPressHide, name, source}) => {
+export const ChatModal = ({type, show, onPressHide, onPress, name, source}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.crossIconView}
-          onPress={() => onPressHide()}>
+          onPress={onPressHide}>
           <Image
             resizeMode="contain"
             source={appIcons.crossIcon}
@@ -29,7 +29,7 @@ export const ChatModal = ({type, show, onPressHide, name, source}) => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.buttonStyle(type)}
-          onPress={() => onPressHide()}>
+          onPress={onPress}>
           <Text style={styles.btnTxtStyle}>{type}</Text>
         </TouchableOpacity>
       </View>

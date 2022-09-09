@@ -28,6 +28,7 @@ import {
   appIcons,
   appImages,
   platformOrientedCode,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {chat} from '../../../../shared/utilities/constant';
@@ -38,6 +39,8 @@ import {
   getAllMessagesRequest,
   readMessagesRequest,
   blockUserRequest,
+  getAllAdminMessagesRequest,
+  sendMessageToAdmin,
 } from '../../../../redux/actions';
 
 const AdminChat = ({navigation, route}) => {
@@ -69,11 +72,12 @@ const AdminChat = ({navigation, route}) => {
   }, [isFocus]);
 
   useEffect(() => {
+    console.log('id for CHANNEL ', id);
     try {
       subscribe(
         {
-          channel: 'ConversationChannel',
-          channel_key: `conversations_${id}`,
+          channel: 'SupportConversationChannel',
+          channel_key: `support_conversations_${id}`,
         },
         {
           received: msg => {
@@ -95,8 +99,9 @@ const AdminChat = ({navigation, route}) => {
   }, [allMessages]);
 
   useEffect(() => {
-    getMesssgeList();
-    readMessage();
+    getAdminMesssgeList();
+    // readMessage();
+    console.log('ADMIN CHAT SCREEN');
   }, [isFocus]);
 
   //Gallery Handlers
@@ -122,12 +127,9 @@ const AdminChat = ({navigation, route}) => {
     }, 400);
   };
 
-  const getMesssgeList = () => {
-    console.log('getMesssgeList');
+  const getAdminMesssgeList = () => {
     setLoadingAllMessages(true);
     try {
-      const data = new FormData();
-      data.append('conversation_id', id);
       const cbSuccess = res => {
         setLoadingAllMessages(false);
         setAllMessages(res?.messages);
@@ -135,7 +137,7 @@ const AdminChat = ({navigation, route}) => {
       const cbFailure = err => {
         setLoadingAllMessages(false);
       };
-      dispatch(getAllMessagesRequest(data, cbSuccess, cbFailure));
+      dispatch(getAllAdminMessagesRequest(id, cbSuccess, cbFailure));
     } catch (err) {
       setLoadingAllMessages(false);
     }
@@ -225,7 +227,6 @@ const AdminChat = ({navigation, route}) => {
         name: galleryImage.fileName || 'image',
       };
       const data = new FormData();
-      data.append('conversation_id', id);
       if (message) {
         data.append('message[body]', message);
       }
@@ -233,6 +234,7 @@ const AdminChat = ({navigation, route}) => {
         data.append('message[image]', imgObj);
       }
       const cbSuccess = res => {
+        console.log('ADMIN MESSGAE SENT SUCCESSFULY');
         setVisibility(false);
         setMessage('');
         setGalleryImage('');
@@ -242,21 +244,7 @@ const AdminChat = ({navigation, route}) => {
         setVisibility(false);
       };
       console.log('message data', data);
-      dispatch(sendMessage(data, cbSuccess, cbFailure));
-    } catch (err) {
-      console.log('[err]', err);
-      setVisibility(false);
-    }
-  };
-
-  const blockUser = () => {
-    try {
-      const data = new FormData();
-      data.append('user_id', recipientID);
-      data.append('is_blocked', true);
-      const cbSuccess = res => {};
-      const cbFailure = err => {};
-      dispatch(blockUserRequest(data, cbSuccess, cbFailure));
+      dispatch(sendMessageToAdmin(data, id, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);
       setVisibility(false);
@@ -274,18 +262,17 @@ const AdminChat = ({navigation, route}) => {
     if (modalType == 'Report') {
       setShowModal(false);
     } else if (modalType == 'Block') {
-      blockUser();
-      setShowModal(false);
+      // blockUser();
     }
   };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
-        name={name || ' '}
-        source={avatar ? {uri: avatar} : appImages.person3}
-        onPressIcon={() => setShowMenu(true)}
-        rightIcon
+        name={'Housibly'}
+        source={appLogos.roundLogo}
+        onPressIcon={() => setShowMenu(false)}
+        // rightIcon={false}
       />
       <View style={styles.menuContainer}>
         <Menu
@@ -402,7 +389,8 @@ const AdminChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
-            onPressHide={() => handleModal()}
+            // onPressHide={() => alert('Ok')}
+            onPressHide={() => alert('ok')}
             name={name}
             source={avatar ? {uri: avatar} : appImages.person3}
           />
