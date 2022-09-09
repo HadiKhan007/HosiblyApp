@@ -150,9 +150,7 @@ const Home = ({navigation}) => {
           };
           const cbFailure = err => {};
           dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
-        } catch (err) {
-          setLoading(false);
-        }
+        } catch (err) {}
       }
     } catch (error) {
       console.log('[error]', error);

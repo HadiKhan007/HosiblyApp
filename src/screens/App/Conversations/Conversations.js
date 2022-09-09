@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {ChatModal, AppLoader} from '../../../components';
+import {ChatModal, AppLoader, MyStatusBar} from '../../../components';
 import {
   appIcons,
   appImages,
@@ -161,6 +161,7 @@ const Conversations = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <MyStatusBar />
       {userInfo?.user?.profile_type === 'want_support_closer' && (
         <Text style={styles.headerTxtStyle}>Messages</Text>
       )}

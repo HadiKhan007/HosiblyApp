@@ -38,11 +38,16 @@ import {
 } from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
-import {selected_suuport_user_data} from '../../../redux/actions';
+import {
+  createConversationRequest,
+  selected_suuport_user_data,
+  send_FCM_Request,
+} from '../../../redux/actions';
 import {
   getSupportReviewsApi,
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SupportHome = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -63,6 +68,29 @@ const SupportHome = ({navigation}) => {
       getProfileVisitors();
     }
   }, [isFocus]);
+
+  useEffect(() => {
+    sendFCMTokenToServer();
+  }, []);
+
+  const sendFCMTokenToServer = async () => {
+    const fcmToken = await AsyncStorage.getItem('fcmToken');
+    try {
+      if (fcmToken) {
+        try {
+          let data = new FormData();
+          data.append('token', fcmToken);
+          const cbSuccess = res => {
+            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
+          };
+          const cbFailure = err => {};
+          dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
+        } catch (err) {}
+      }
+    } catch (error) {
+      console.log('[error]', error);
+    }
+  };
 
   //Get Profile Data
   const getprofileData = async () => {
@@ -131,6 +159,36 @@ const SupportHome = ({navigation}) => {
         // Alert.alert('Error', msg || 'Something went wrong!');
       }
     } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  //Handle Chat
+  const handleChat = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const data = new FormData();
+        data.append('conversation[recipient_id]', currentUser?.visitor_id);
+        setIsLoading(true);
+        const onSuccess = res => {
+          setIsLoading(false);
+          navigation?.navigate('PersonChat', {
+            id: res?.conversation?.id,
+            avatar: res?.conversation?.avatar,
+            name: res?.conversation?.full_name,
+            recipientID: res?.conversation?.recipient_id,
+          });
+        };
+        const onFailure = res => {
+          setIsLoading(false);
+        };
+        dispatch(createConversationRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
       Alert.alert('Error', networkText);
     }
   };
@@ -358,7 +416,8 @@ const SupportHome = ({navigation}) => {
         }}
         onPressMsg={() => {
           setshowModal(false);
-          navigation?.navigate('PersonChat');
+
+          handleChat();
         }}
       />
     </SafeAreaView>

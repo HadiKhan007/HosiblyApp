@@ -54,11 +54,12 @@ const getFcmToken = async () => {
 
 export const Notification_Listner = (dispatch, navigation) => {
   messaging().onNotificationOpenedApp(async remoteMessage => {
-    onClickNotification(remoteMessage, dispatch, navigation);
+    const notificationObj = JSON.parse(remoteMessage?.data?.recipient);
+    onClickNotification(notificationObj, dispatch, navigation);
   });
   messaging().onMessage(async remoteMessage => {
-    console.log('Remote Notitifcation', remoteMessage);
-    LocalNotification(remoteMessage, dispatch, navigation);
+    const notificationObj = JSON.parse(remoteMessage?.data?.recipient);
+    LocalNotification(notificationObj, dispatch, navigation);
   });
   messaging().getInitialNotification(async remoteMessage => {
     if (remoteMessage) {
@@ -69,11 +70,11 @@ export const Notification_Listner = (dispatch, navigation) => {
 
 export const LocalNotification = (notify, dispatch, navigation) => {
   PushNotification.localNotification({
-    channelId: 'FairFight',
-    title: notify?.notification?.title,
+    channelId: 'Housibly',
+    title: 'dasdsa',
     smallIcon: 'ic_notification',
     largeIcon: 'ic_launcher',
-    message: notify?.notification?.body,
+    message: 'asdsa',
     vibrate: true, // (optional) default: true
     vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
     playSound: true, // (optional) default: true
@@ -82,8 +83,8 @@ export const LocalNotification = (notify, dispatch, navigation) => {
   });
   PushNotification.createChannel(
     {
-      channelId: 'FairFight', // (required)
-      channelName: 'FairFight', // (required)
+      channelId: 'Housibly', // (required)
+      channelName: 'Housibly', // (required)
       channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
       soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
       importance: Importance.HIGH, // (optional) default: 4. Int value of the Android notification importance
@@ -97,6 +98,7 @@ export const LocalNotification = (notify, dispatch, navigation) => {
       console.log('TOKEN:', token);
     },
     onNotification: function (notification) {
+      console.log(notification);
       if (notification.userInteraction) {
         onClickNotification(notify, dispatch, navigation);
       } else {
@@ -117,5 +119,10 @@ export const LocalNotification = (notify, dispatch, navigation) => {
 };
 
 const onClickNotification = (notify, dispatch, navigation) => {
-  console.log('Notification', notify);
+  navigation.navigate('PersonChat', {
+    id: notify?.id,
+    avatar: notify?.avatar,
+    name: notify?.full_name,
+    recipientID: notify?.id,
+  });
 };
