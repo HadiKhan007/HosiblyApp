@@ -26,7 +26,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {
   appIcons,
-  appImages,
   checkConnected,
   colors,
   networkText,
@@ -154,7 +153,9 @@ const SupportHome = ({navigation}) => {
           }
         />
       </View>
-      <ScrollView contentContainerStyle={{paddingBottom: WP('15')}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: WP('15')}}>
         <View style={styles.contentContainer}>
           <View style={spacing.py4}>
             <View style={styles.imgCon}>
@@ -304,14 +305,14 @@ const SupportHome = ({navigation}) => {
                 <AppStarRating
                   starStyle={styles.starRating}
                   disabled={true}
-                  rating={reviews?.total_reviews}
+                  rating={reviews?.average_rating}
                   maxStars={5}
                   fullStarColor={colors.y1}
                   starSize={size.medium}
                 />
               </View>
               <FlatList
-                data={reviews?.reviews}
+                data={reviews?.reviews?.slice(0, 3)}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
@@ -325,22 +326,22 @@ const SupportHome = ({navigation}) => {
                     />
                   );
                 }}
-                ListFooterComponent={() => {
-                  return (
-                    <AppButton
-                      width={'43%'}
-                      borderColor={colors.p2}
-                      title="View All Reviews"
-                      textStyle={{fontSize: size.tiny}}
-                      onPress={() => {
-                        navigation?.navigate('SupportReviews', {item: reviews});
-                      }}
-                    />
-                  );
-                }}
               />
             </View>
           )}
+          <View style={spacing.my6}>
+            <AppButton
+              width={'43%'}
+              borderColor={colors.p2}
+              title="View All Reviews"
+              textStyle={{fontSize: size.tiny}}
+              onPress={() => {
+                navigation?.navigate('SupportReviews', {
+                  item: reviews,
+                });
+              }}
+            />
+          </View>
         </View>
       </ScrollView>
       <AppLoader loading={isLoading} />

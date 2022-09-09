@@ -113,7 +113,6 @@ const SupportProfie = ({navigation}) => {
   //Download Multiple Files
   const downloadFiles = async item => {
     setIsLoading(true);
-    console.log(item?.certificate);
     const promise = RNFS.downloadFile({
       fromUrl: item?.certificate,
       toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
@@ -280,14 +279,14 @@ const SupportProfie = ({navigation}) => {
                 <AppStarRating
                   starStyle={styles.starRating}
                   disabled={true}
-                  rating={reviews?.total_reviews}
+                  rating={reviews?.average_rating}
                   maxStars={5}
                   fullStarColor={colors.y1}
                   starSize={size.medium}
                 />
               </View>
               <FlatList
-                data={reviews?.reviews}
+                data={reviews?.reviews?.slice(0, 3)}
                 keyExtractor={(item, index) => index}
                 renderItem={({item, index}) => {
                   return (
@@ -304,17 +303,19 @@ const SupportProfie = ({navigation}) => {
               />
             </View>
           )}
-          <AppButton
-            width={'43%'}
-            borderColor={colors.p2}
-            title="View All Reviews"
-            textStyle={{fontSize: size.tiny}}
-            onPress={() => {
-              navigation?.navigate('SupportUserReviews', {
-                item: reviews,
-              });
-            }}
-          />
+          <View style={spacing.my6}>
+            <AppButton
+              width={'43%'}
+              borderColor={colors.p2}
+              title="View All Reviews"
+              textStyle={{fontSize: size.tiny}}
+              onPress={() => {
+                navigation?.navigate('SupportUserReviews', {
+                  item: reviews,
+                });
+              }}
+            />
+          </View>
         </View>
       </ScrollView>
       <ProfileModal
