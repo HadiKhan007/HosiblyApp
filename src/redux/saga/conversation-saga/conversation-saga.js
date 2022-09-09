@@ -51,7 +51,6 @@ function* getNotificationList(params) {
         type: types.GET_NOTIFICATION_LIST_SUCCESS,
         payload: res,
       });
-      console.log('NOTIFICATION LISt   ', res);
       params?.cbSuccess(res);
     }
   } catch (error) {
@@ -187,7 +186,6 @@ function* getAllMessages(params) {
 }
 
 function* getAllAdminMessages(params) {
-  console.log('GET MEESage ADMIN SAGA', params);
   try {
     const res = yield API.getAllAdminMessages(params?.id);
     if (res) {
@@ -311,7 +309,6 @@ function* sendMessages(params) {
 }
 
 function* sendMessagesToAdmin(params) {
-  console.log('params send admin', params);
   try {
     const res = yield API.sendMessageToAdmin(params);
     if (res) {
