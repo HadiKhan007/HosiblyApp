@@ -28,9 +28,9 @@ import {
   appIcons,
   appImages,
   platformOrientedCode,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
-import {chat} from '../../../../shared/utilities/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHAT_URL} from '../../../../shared/utilities/endpoints';
 import {
@@ -38,6 +38,8 @@ import {
   getAllMessagesRequest,
   readMessagesRequest,
   blockUserRequest,
+  getAllAdminMessagesRequest,
+  sendMessageToAdmin,
 } from '../../../../redux/actions';
 
 const AdminChat = ({navigation, route}) => {
@@ -72,8 +74,8 @@ const AdminChat = ({navigation, route}) => {
     try {
       subscribe(
         {
-          channel: 'ConversationChannel',
-          channel_key: `conversations_${id}`,
+          channel: 'SupportConversationChannel',
+          channel_key: `support_conversations_${id}`,
         },
         {
           received: msg => {
@@ -95,8 +97,9 @@ const AdminChat = ({navigation, route}) => {
   }, [allMessages]);
 
   useEffect(() => {
-    getMesssgeList();
-    readMessage();
+    getAdminMesssgeList();
+    // readMessage();
+    console.log('ADMIN CHAT SCREEN');
   }, [isFocus]);
 
   //Gallery Handlers
@@ -122,43 +125,38 @@ const AdminChat = ({navigation, route}) => {
     }, 400);
   };
 
-  const getMesssgeList = () => {
-    console.log('getMesssgeList');
+  const getAdminMesssgeList = () => {
     setLoadingAllMessages(true);
     try {
-      const data = new FormData();
-      data.append('conversation_id', id);
       const cbSuccess = res => {
         setLoadingAllMessages(false);
-        setAllMessages(res?.messages);
+        console.log('get message admin ', res);
+        // setAllMessages(res?.messages);
       };
       const cbFailure = err => {
         setLoadingAllMessages(false);
       };
-      dispatch(getAllMessagesRequest(data, cbSuccess, cbFailure));
+      dispatch(getAllAdminMessagesRequest(id, cbSuccess, cbFailure));
     } catch (err) {
       setLoadingAllMessages(false);
     }
   };
 
-  const readMessage = () => {
-    try {
-      const data = new FormData();
-      data.append('conversation_id', id);
-      const cbSuccess = res => {
-        console.log('READ MESSAGAE==> OK');
-      };
-      const cbFailure = err => {
-        console.log('Read msg err ==> ', err);
-      };
-      dispatch(readMessagesRequest(data, cbSuccess, cbFailure));
-    } catch (err) {}
-  };
+  // const readMessage = () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append('conversation_id', id);
+  //     const cbSuccess = res => {
+  //       console.log('READ MESSAGAE==> OK');
+  //     };
+  //     const cbFailure = err => {
+  //       console.log('Read msg err ==> ', err);
+  //     };
+  //     dispatch(readMessagesRequest(data, cbSuccess, cbFailure));
+  //   } catch (err) {}
+  // };
 
   const renderItem = ({item, index}) => {
-    // {
-    //   console.log('ITEM ', item);
-    // }
     return (
       <View style={styles.msgContainer}>
         {item?.user_id === userInfo?.user?.id ? (
@@ -225,7 +223,6 @@ const AdminChat = ({navigation, route}) => {
         name: galleryImage.fileName || 'image',
       };
       const data = new FormData();
-      data.append('conversation_id', id);
       if (message) {
         data.append('message[body]', message);
       }
@@ -233,6 +230,7 @@ const AdminChat = ({navigation, route}) => {
         data.append('message[image]', imgObj);
       }
       const cbSuccess = res => {
+        console.log('ADMIN MESSGAE SENT SUCCESSFULY');
         setVisibility(false);
         setMessage('');
         setGalleryImage('');
@@ -241,53 +239,30 @@ const AdminChat = ({navigation, route}) => {
       const cbFailure = err => {
         setVisibility(false);
       };
-      console.log('message data', data);
-      dispatch(sendMessage(data, cbSuccess, cbFailure));
+      dispatch(sendMessageToAdmin(data, id, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);
       setVisibility(false);
     }
   };
 
-  const blockUser = () => {
-    try {
-      const data = new FormData();
-      data.append('user_id', recipientID);
-      data.append('is_blocked', true);
-      const cbSuccess = res => {};
-      const cbFailure = err => {};
-      dispatch(blockUserRequest(data, cbSuccess, cbFailure));
-    } catch (err) {
-      console.log('[err]', err);
-      setVisibility(false);
-    }
-  };
-
-  const hideItemClick = type => {
-    setShowMenu(false);
-    setModalType(type);
-    setTimeout(() => {
-      setShowModal(true);
-    }, 500);
-  };
-  const handleModal = () => {
-    if (modalType == 'Report') {
-      setShowModal(false);
-    } else if (modalType == 'Block') {
-      blockUser();
-      setShowModal(false);
-    }
-  };
+  // const hideItemClick = type => {
+  //   setShowMenu(false);
+  //   setModalType(type);
+  //   setTimeout(() => {
+  //     setShowModal(true);
+  //   }, 500);
+  // };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
-        name={name || ' '}
-        source={avatar ? {uri: avatar} : appImages.person3}
-        onPressIcon={() => setShowMenu(true)}
-        rightIcon
+        name={'Housibly'}
+        source={appLogos.roundLogo}
+        onPressIcon={() => setShowMenu(false)}
+        // rightIcon={false}
       />
-      <View style={styles.menuContainer}>
+      {/* <View style={styles.menuContainer}>
         <Menu
           visible={showMenu}
           style={styles.menuStyle}
@@ -305,7 +280,7 @@ const AdminChat = ({navigation, route}) => {
             <Text style={styles.menuTxtStyle}>Block User</Text>
           </MenuItem>
         </Menu>
-      </View>
+      </View> */}
       <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
       {allMessages?.length > 0 ? (
         <FlatList
@@ -402,7 +377,8 @@ const AdminChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
-            onPressHide={() => handleModal()}
+            // onPressHide={() => alert('Ok')}
+            onPressHide={() => alert('ok')}
             name={name}
             source={avatar ? {uri: avatar} : appImages.person3}
           />

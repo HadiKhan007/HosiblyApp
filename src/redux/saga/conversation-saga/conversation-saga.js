@@ -5,9 +5,14 @@ import * as types from '../../actions/types';
 
 export function* ConversationSaga() {
   yield takeLatest(types.CREATE_CONVERSATION_REQUEST, createConversation);
+  yield takeLatest(
+    types.CREATE_ADMIN_CONVERSATION_REQUEST,
+    createAdminConversation,
+  );
   yield takeLatest(types.GET_CONVERSATION_LIST_REQUEST, getConversationList);
   yield takeLatest(types.DELETE_CONVERSATION_REQUEST, deleteConversation);
   yield takeLatest(types.GET_ALL_MESSAGES_REQUEST, getAllMessages);
+  yield takeLatest(types.GET_ALL_ADMIN_MESSAGES_REQUEST, getAllAdminMessages);
   yield takeLatest(types.READ_MESSAGES_REQUEST, readAllMessages);
   yield takeLatest(types.REPORT_USER_REQUEST, reportUserProfile);
   yield takeLatest(types.BLOCK_USER_REQUEST, blockUserProfile);
@@ -16,10 +21,11 @@ export function* ConversationSaga() {
   yield takeLatest(types.GET_NOTIFICATION_LIST_REQUEST, getNotificationList);
   yield takeLatest(types.SEND_FCM_REQUEST, sendFcmToken);
   yield takeLatest(types.SEND_MESSAGES_REQUEST, sendMessages);
+  yield takeLatest(types.SEND_ADMIN_MESSAGES_REQUEST, sendMessagesToAdmin);
 }
 function* sendFcmToken(params) {
   try {
-    const res = yield API.sendFcm();
+    const res = yield API.sendFcm(params?.params);
     if (res) {
       yield put({
         type: types.SEND_FCM_SUCCESS,
@@ -39,7 +45,7 @@ function* sendFcmToken(params) {
 }
 function* getNotificationList(params) {
   try {
-    const res = yield API.getNotificationList();
+    const res = yield API.getAllNotificationList();
     if (res) {
       yield put({
         type: types.GET_NOTIFICATION_LIST_SUCCESS,
@@ -101,13 +107,13 @@ function* unBlockUserProfile(params) {
 function* blockUserProfile(params) {
   try {
     const res = yield API.blockUSer(params);
-    if (res) {
-      yield put({
-        type: types.BLOCK_USER_SUCCESS,
-        payload: res,
-      });
-      params?.cbSuccess(res);
-    }
+    // if (res) {
+    yield put({
+      type: types.BLOCK_USER_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+    // }
   } catch (error) {
     console.log(error);
     yield put({
@@ -121,7 +127,7 @@ function* blockUserProfile(params) {
 
 function* reportUserProfile(params) {
   try {
-    const res = yield API.reportUSer();
+    const res = yield API.reportUSer(params);
     if (res) {
       yield put({
         type: types.REPORT_USER_SUCCESS,
@@ -178,6 +184,27 @@ function* getAllMessages(params) {
     params?.cbFailure(msg);
   }
 }
+
+function* getAllAdminMessages(params) {
+  try {
+    const res = yield API.getAllAdminMessages(params?.id);
+    if (res) {
+      yield put({
+        type: types.GET_ALL_ADMIN_MESSAGES_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    yield put({
+      type: types.GET_ALL_ADMIN_MESSAGES_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
 function* deleteConversation(params) {
   try {
     const res = yield API.deleteConversation(params?.id);
@@ -219,6 +246,27 @@ function* createConversation(params) {
     params?.cbFailure(msg);
   }
 }
+function* createAdminConversation(params) {
+  try {
+    const res = yield API.createAdminConversation(params?.params);
+    if (res) {
+      yield put({
+        type: types.CREATE_ADMIN_CONVERSATION_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.CREATE_ADMIN_CONVERSATION_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
 function* getConversationList(params) {
   try {
     const res = yield API.getConversationList();
@@ -253,6 +301,27 @@ function* sendMessages(params) {
     console.log(error);
     yield put({
       type: types.SEND_MESSAGES_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+function* sendMessagesToAdmin(params) {
+  try {
+    const res = yield API.sendMessageToAdmin(params);
+    if (res) {
+      yield put({
+        type: types.SEND_ADMIN_MESSAGES_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.SEND_ADMIN_MESSAGES_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

@@ -1,17 +1,43 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image, FlatList, SafeAreaView} from 'react-native';
-import {appImages} from '../../../shared/exporter';
+import {appImages, checkConnected} from '../../../shared/exporter';
 import styles from './styles';
-
-import {useSelector} from 'react-redux';
+import {getNotificationListRequest} from '../../../redux/actions';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Notifications = () => {
-  const [data, setData] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-  ]);
+  const [data, setData] = useState([1, 2, 3]);
   const [isLoading, setIsLoading] = useState(false);
-
   const {userInfo} = useSelector(state => state?.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('NOTIFICATION SCREEN');
+    getNotificationList();
+  }, []);
+
+  const getNotificationList = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setIsLoading(true);
+        const onSuccess = res => {
+          console.log('RES notify ', res);
+          setData(res);
+          setIsLoading(false);
+        };
+        const onFailure = res => {
+          setIsLoading(false);
+        };
+        dispatch(getNotificationListRequest(onSuccess, onFailure));
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   const renderItem = () => {
     return (

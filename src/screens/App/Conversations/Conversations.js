@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,10 @@ import {
   Alert,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {ChatModal, AppLoader} from '../../../components';
+import {ChatModal, AppLoader, MyStatusBar} from '../../../components';
 import {
   appIcons,
   appImages,
@@ -22,6 +23,7 @@ import {
 } from '../../../redux/actions';
 
 import {useSelector, useDispatch} from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
 
 const Conversations = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -29,11 +31,14 @@ const Conversations = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [refreshing, setRefreshing] = useState(false);
+  const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllConversationList();
-  }, []);
+    if (isFocus) {
+      getAllConversationList();
+    }
+  }, [isFocus]);
 
   const {userInfo} = useSelector(state => state?.auth);
 
@@ -45,13 +50,16 @@ const Conversations = ({navigation}) => {
         const onSuccess = res => {
           setData(res);
           setIsLoading(false);
+          setRefreshing(false);
         };
         const onFailure = res => {
           setIsLoading(false);
+          setRefreshing(false);
         };
         dispatch(getconversationListRequest(onSuccess, onFailure));
       } catch (error) {
         setIsLoading(false);
+        setRefreshing(false);
       }
     } else {
       setIsLoading(false);
@@ -70,6 +78,7 @@ const Conversations = ({navigation}) => {
             avatar: item?.item?.avatar,
             name: item?.item?.full_name,
             recipientID: item?.item?.recipient_id,
+            isBlock: item?.item?.is_blocked,
           })
         }>
         <Image
@@ -134,7 +143,6 @@ const Conversations = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
-          console.log('Res is ==> ', res);
           getAllConversationList();
         };
         const onFailure = res => {
@@ -150,8 +158,14 @@ const Conversations = ({navigation}) => {
     }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    getAllConversationList();
+  }, [refreshing]);
+
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <MyStatusBar />
       {userInfo?.user?.profile_type === 'want_support_closer' && (
         <Text style={styles.headerTxtStyle}>Messages</Text>
       )}
@@ -173,6 +187,9 @@ const Conversations = ({navigation}) => {
               rowMap[rowKey].closeRow();
             }, 2000);
           }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flStyle}
           keyExtractor={(item, index) => index.toString()}
@@ -188,7 +205,8 @@ const Conversations = ({navigation}) => {
       <ChatModal
         type={'Delete'}
         show={showModal}
-        onPressHide={deleteConvo}
+        onPressHide={() => setShowModal(false)}
+        onPress={deleteConvo}
         name={item?.full_name}
         source={item?.avatar}
       />

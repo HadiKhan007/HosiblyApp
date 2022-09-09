@@ -33,9 +33,7 @@ const SupportReviews = ({route}) => {
 
   useEffect(() => {
     if (isFocus) {
-      setReviews(
-        route?.params?.item?.reviews?.filter(item => item?.rating == 5),
-      );
+      getStarRating(5);
     }
   }, [isFocus]);
 

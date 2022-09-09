@@ -90,6 +90,6 @@ export {
 export {commonStyles} from './theme/commonStyles';
 export {
   requestPermission,
-  // LocalNotification,
-  // Notification_Listner,
+  LocalNotification,
+  Notification_Listner,
 } from './utilities/NotificationHandler';

@@ -60,14 +60,14 @@ const BuyTab = ({navigation, buyer_data}) => {
         />
         <RenderRow
           item={{
-            title: `Min Price (${buyer_data?.preference?.price_unit})`,
+            title: `Min Price (${buyer_data?.preference?.price_unit || 'USD'})`,
             property: buyer_data?.preference?.min_price || 'N/A',
             index: 1,
           }}
         />
         <RenderRow
           item={{
-            title: `Max Price (${buyer_data?.preference?.price_unit})`,
+            title: `Max Price (${buyer_data?.preference?.price_unit || 'USD'})`,
             property: buyer_data?.preference?.max_price || 'N/A',
             index: 2,
           }}

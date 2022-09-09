@@ -30,6 +30,7 @@ import {
   appImages,
   platformOrientedCode,
   checkConnected,
+  family,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {chat, networkText} from '../../../../shared/utilities/constant';
@@ -41,8 +42,10 @@ import {
   readMessagesRequest,
   blockUserRequest,
   createConversationRequest,
+  reportUserRequest,
+  createAdminConversationRequest,
 } from '../../../../redux/actions';
-
+// let ticketId = 0;
 const PersonChat = ({navigation, route}) => {
   const isFocus = useIsFocused();
   const [fresh, setFresh] = useState(true);
@@ -60,6 +63,7 @@ const PersonChat = ({navigation, route}) => {
   const [name, setname] = useState(route?.params?.name);
   const [avatar, setavatar] = useState(route?.params?.avatar);
   const [recipientID, setRecipientId] = useState(route?.params?.recipientID);
+  const [isBlock, setisBlock] = useState(route?.params?.isBlock);
 
   const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
   const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
@@ -80,8 +84,8 @@ const PersonChat = ({navigation, route}) => {
         },
         {
           received: msg => {
-            console.log('MESSAGE  ', msg?.body);
-            setAllMessages(allMessages => [msg?.body, ...allMessages]);
+            console.log('MESSAGE  ', msg);
+            setAllMessages(allMessages => [msg, ...allMessages]);
             // setAllMessages(allMessages => [msg?.image, ...allMessages]);
           },
           connected: () => {
@@ -257,7 +261,10 @@ const PersonChat = ({navigation, route}) => {
       const data = new FormData();
       data.append('user_id', recipientID);
       data.append('is_blocked', true);
-      const cbSuccess = res => {};
+      const cbSuccess = res => {
+        alert('User added in blacklist.');
+        navigation.goBack();
+      };
       const cbFailure = err => {};
       dispatch(blockUserRequest(data, cbSuccess, cbFailure));
     } catch (err) {
@@ -266,28 +273,48 @@ const PersonChat = ({navigation, route}) => {
     }
   };
 
-  const handleChat = async () => {
+  const reportUser = () => {
+    try {
+      const data = new FormData();
+      data.append('reported_user', recipientID);
+      const cbSuccess = res => {
+        // ticketId = res?.ticket_generate?.id;
+        handleAdminChat(res?.ticket_generate?.id);
+      };
+      const cbFailure = err => {};
+      dispatch(reportUserRequest(data, cbSuccess, cbFailure));
+    } catch (err) {
+      console.log('[err] report err', err);
+      setVisibility(false);
+    }
+  };
+
+  const handleAdminChat = async ticketId => {
+    console.log('ticketId', ticketId);
+    // return;
     const check = await checkConnected();
     if (check) {
       try {
         const data = new FormData();
-        data.append('conversation[recipient_id]');
+        data.append('support_id', ticketId);
         setIsLoading(true);
         const onSuccess = res => {
           setIsLoading(false);
+          console.log('CREATE CONVO ID ', res);
           navigation?.navigate('AdminChat', {
             id: res?.conversation?.id,
-            avatar: res?.conversation?.avatar,
-            name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
           });
         };
         const onFailure = res => {
+          console.log('CREATE CONVO ID err ', res);
+
           setIsLoading(false);
         };
-        dispatch(createConversationRequest(data, onSuccess, onFailure));
+        dispatch(createAdminConversationRequest(data, onSuccess, onFailure));
       } catch (error) {
         setIsLoading(false);
+        console.log('CREATE CONVO catch ', error);
       }
     } else {
       setIsLoading(false);
@@ -306,8 +333,8 @@ const PersonChat = ({navigation, route}) => {
   const handleModal = () => {
     if (modalType == 'Report') {
       setShowModal(false);
-      handleChat();
-      navigation.navigate('AdminChat');
+      handleAdminChat();
+      reportUser();
     } else if (modalType == 'Block') {
       blockUser();
       setShowModal(false);
@@ -320,7 +347,7 @@ const PersonChat = ({navigation, route}) => {
         name={name || ' '}
         source={avatar ? {uri: avatar} : appImages.person3}
         onPressIcon={() => setShowMenu(true)}
-        rightIcon
+        rightIcon={isBlock ? false : true}
       />
       <View style={styles.menuContainer}>
         <Menu
@@ -366,78 +393,82 @@ const PersonChat = ({navigation, route}) => {
       ) : (
         <View style={styles.noRecordsView}>
           <Text style={styles.noRecords}>
-            {isLoading ? '' : 'No message found'}
+            {loadingAllMessages ? '' : 'No message found'}
           </Text>
         </View>
       )}
       <KeyboardAvoidingView
         behavior={platformOrientedCode('height', 'padding')}>
-        <View style={styles.inputView}>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              placeholder={'Type here...'}
-              value={message}
-              ellipsizeMode="tail"
-              multiline
-              maxHeight={75}
-              onChangeText={text => setMessage(text)}
-              placeholderTextColor={colors.g40}
-              style={styles.inputStyles}
-            />
-            {visibility ? (
-              <ActivityIndicator
-                animating
-                size={'small'}
-                color={colors.p1}
-                style={{left: 3}}
+        {isBlock ? (
+          <Text style={styles.blockText}>You are blocked</Text>
+        ) : (
+          <View style={styles.inputView}>
+            <View style={styles.inputWrapper}>
+              <TextInput
+                placeholder={'Type here...'}
+                value={message}
+                ellipsizeMode="tail"
+                multiline
+                maxHeight={75}
+                onChangeText={text => setMessage(text)}
+                placeholderTextColor={colors.g40}
+                style={styles.inputStyles}
               />
-            ) : (
-              <Icon
-                name={'send'}
-                type={'ionicons'}
-                size={22}
-                color={colors.g16}
-                onPress={() => onSend()}
+              {visibility ? (
+                <ActivityIndicator
+                  animating
+                  size={'small'}
+                  color={colors.p1}
+                  style={{left: 3}}
+                />
+              ) : (
+                <Icon
+                  name={'send'}
+                  type={'ionicons'}
+                  size={22}
+                  color={colors.g16}
+                  onPress={() => onSend()}
+                />
+              )}
+            </View>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => showGallery()}>
+              <Image
+                source={
+                  galleryImage == ''
+                    ? appIcons.galleryIcon
+                    : {
+                        uri: platformOrientedCode(
+                          galleryImage?.path,
+                          galleryImage?.sourceURL,
+                        ),
+                      }
+                }
+                style={[styles.iconStyle, {marginRight: 7}]}
               />
-            )}
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
+              <Image
+                resizeMode="contain"
+                source={
+                  cameraImage == ''
+                    ? appIcons.cameraIcon
+                    : {
+                        uri: platformOrientedCode(
+                          cameraImage?.path,
+                          cameraImage?.sourceURL,
+                        ),
+                      }
+                }
+                style={[styles.iconStyle, {marginLeft: 7}]}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => showGallery()}>
-            <Image
-              source={
-                galleryImage == ''
-                  ? appIcons.galleryIcon
-                  : {
-                      uri: platformOrientedCode(
-                        galleryImage?.path,
-                        galleryImage?.sourceURL,
-                      ),
-                    }
-              }
-              style={[styles.iconStyle, {marginRight: 7}]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
-            <Image
-              resizeMode="contain"
-              source={
-                cameraImage == ''
-                  ? appIcons.cameraIcon
-                  : {
-                      uri: platformOrientedCode(
-                        cameraImage?.path,
-                        cameraImage?.sourceURL,
-                      ),
-                    }
-              }
-              style={[styles.iconStyle, {marginLeft: 7}]}
-            />
-          </TouchableOpacity>
-        </View>
+        )}
         {showModal && (
           <ChatModal
             type={modalType}
             show={showModal}
-            onPressHide={() => handleModal()}
+            onPress={() => handleModal()}
             name={name}
             source={avatar ? {uri: avatar} : appImages.person3}
           />

@@ -41,10 +41,10 @@ import {
   get_recent_properties,
   get_suuport_users,
   selected_suuport_user_data,
+  send_FCM_Request,
 } from '../../../redux/actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
-import {localNotificationService} from '../../../shared/service/notification-service/LocalNotificationService';
-import {fcmService} from '../../../shared/service/notification-service/FCMService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
@@ -135,74 +135,26 @@ const Home = ({navigation}) => {
     );
   };
   useEffect(() => {
-    //  console.log("OK")
-    setupNotifications();
+    sendFCMTokenToServer();
   }, []);
 
-  // ==== Notification Code ========
-  const setupNotifications = () => {
-    fcmService.registerAppWithFCM();
-    fcmService.register(onRegister, onNotification, onOpenNotification);
-    localNotificationService.configure(onOpenNotification);
-  };
-
-  const onRegister = async token => {
+  const sendFCMTokenToServer = async () => {
+    const fcmToken = await AsyncStorage.getItem('fcmToken');
     try {
-      sendFCMTokenToServer(token);
-    } catch (err) {}
-  };
-
-  const onNotification = async (notifyRes, remoteMessage) => {
-    console.log('[remoteMessage home]', remoteMessage);
-    console.log('[notifyRes home]', notifyRes);
-    try {
-      let notify = {
-        ...remoteMessage.data,
-        ...remoteMessage.notification,
-      };
-
-      const options = {
-        soundName: 'default',
-        playSound: true,
-      };
-
-      localNotificationService.showNotification(
-        '0',
-        notify.title,
-        notify.body,
-        notify,
-        options,
-      );
-    } catch (err) {
-      console.log('[errrr]', err);
-      //  alert("err in home!!", err);
+      if (fcmToken) {
+        try {
+          let data = new FormData();
+          data.append('token', fcmToken);
+          const cbSuccess = res => {
+            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
+          };
+          const cbFailure = err => {};
+          dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
+        } catch (err) {}
+      }
+    } catch (error) {
+      console.log('[error]', error);
     }
-  };
-
-  const onOpenNotification = async (notify, remoteMessage) => {
-    console.log('NOTIFICATION PAYLOAD  ', notify);
-  };
-
-  const sendFCMTokenToServer = async fcmToken => {
-    console.log('[FCM TOKEN==>]', fcmToken);
-    // try {
-    //   if (fcmToken) {
-    //     console.log('[FCM Token]\n\n\n\n', fcmToken);
-    //     try {
-    //       let data = new FormData();
-    //       data.append('token', fcmToken);
-    //       const cbSuccess = res => {
-    //         console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
-    //       };
-    //       const cbFailure = err => {};
-    //       dispatch(sendFCMtoken(data, token, cbSuccess, cbFailure));
-    //     } catch (err) {
-    //       setLoading(false);
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.log('[error]', error);
-    // }
   };
 
   //Get Properties
@@ -288,6 +240,8 @@ const Home = ({navigation}) => {
       Alert.alert('Error', networkText);
     }
   };
+
+  //Send Fcm Token
 
   return (
     <SafeAreaView style={styles.rootContainer}>
