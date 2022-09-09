@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {AppHeader, BackHeader, ChatModal} from '../../../../components';
-import {appImages, checkConnected} from '../../../../shared/exporter';
+import {appImages, appLogos, checkConnected} from '../../../../shared/exporter';
 import styles from './styles';
 import {
   getBlockUserListRequest,
@@ -18,6 +18,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 const BlockedList = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [item, setItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -25,16 +26,17 @@ const BlockedList = ({navigation}) => {
   useEffect(() => {
     getAllBlockedUsers();
   }, []);
-  const unBlockUser = item => {
+
+  const unBlockUser = () => {
     try {
       const data = new FormData();
-      data.append('user_id', item?.item?.id);
+      console.log('Params ==> ', data);
+      data.append('user_id', item?.id);
       data.append('is_blocked', false);
       const cbSuccess = res => {
         getAllBlockedUsers();
       };
       const cbFailure = err => {};
-      console.log('message data', data);
       dispatch(blockUserRequest(data, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);
@@ -48,6 +50,7 @@ const BlockedList = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
+          console.log('LIST ==> ', res?.blocked_users);
           setData(res?.blocked_users);
           setIsLoading(false);
         };
@@ -71,32 +74,26 @@ const BlockedList = ({navigation}) => {
       <View style={styles.itemContainer}>
         <Image
           source={
-            item?.item?.profile_image
-              ? {uri: item?.item?.profile_image}
-              : appImages.person2
+            item?.item?.avatar
+              ? {uri: item?.item?.avatar}
+              : appLogos.supportLogo
           }
           style={styles.imgStyle}
         />
         <View style={{flex: 1}}>
-          <Text style={styles.labelTxtStyle}>{item?.item?.name}</Text>
+          <Text style={styles.labelTxtStyle}>{item?.item?.full_name}</Text>
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.buttonStyle}
-            onPress={() => setShowModal(true)}>
+            onPress={() => {
+              setItem(item?.item);
+              setTimeout(() => {
+                setShowModal(true);
+              }, 500);
+            }}>
             <Text style={styles.btnTxtStyle}>Unblock</Text>
           </TouchableOpacity>
         </View>
-        <ChatModal
-          type={'Unblock'}
-          show={showModal}
-          onPressHide={() => [setShowModal(false), unBlockUser(item)]}
-          name={item?.item?.name}
-          source={
-            item?.item?.profile_image
-              ? {uri: item?.item?.profile_image}
-              : appImages.person3
-          }
-        />
       </View>
     );
   };
@@ -120,6 +117,14 @@ const BlockedList = ({navigation}) => {
           </Text>
         </View>
       )}
+      <ChatModal
+        type={'Unblock'}
+        show={showModal}
+        name={item?.full_name}
+        source={item?.avatar}
+        onPress={() => unBlockUser()}
+        onPressHide={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 };

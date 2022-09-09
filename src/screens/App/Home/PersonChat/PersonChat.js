@@ -31,6 +31,7 @@ import {
   platformOrientedCode,
   checkConnected,
   family,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {chat, networkText} from '../../../../shared/utilities/constant';
@@ -84,8 +85,8 @@ const PersonChat = ({navigation, route}) => {
         },
         {
           received: msg => {
-            console.log('MESSAGE  ', msg?.body);
-            setAllMessages(allMessages => [msg?.body, ...allMessages]);
+            console.log('MESSAGE Res ==> ', msg);
+            setAllMessages(allMessages => [msg, ...allMessages]);
             // setAllMessages(allMessages => [msg?.image, ...allMessages]);
           },
           connected: () => {
@@ -345,7 +346,7 @@ const PersonChat = ({navigation, route}) => {
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
         name={name || ' '}
-        source={avatar ? {uri: avatar} : appImages.person3}
+        source={avatar}
         onPressIcon={() => setShowMenu(true)}
         rightIcon={isBlock ? false : true}
       />
@@ -382,7 +383,7 @@ const PersonChat = ({navigation, route}) => {
               <View style={styles.personView}>
                 <Image
                   resizeMode="contain"
-                  source={avatar ? {uri: avatar} : appImages.person3}
+                  source={avatar ? {uri: avatar} : appLogos.roundLogo}
                   style={styles.personImgStyle}
                 />
                 <Text style={styles.nameTxtStyle}>{name || ''}</Text>
@@ -468,9 +469,10 @@ const PersonChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
+            onPressHide={() => setShowModal(false)}
             onPress={() => handleModal()}
             name={name}
-            source={avatar ? {uri: avatar} : appImages.person3}
+            source={avatar}
           />
         )}
       </KeyboardAvoidingView>

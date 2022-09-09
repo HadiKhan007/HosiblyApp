@@ -13,6 +13,7 @@ import {ChatModal, AppLoader} from '../../../components';
 import {
   appIcons,
   appImages,
+  appLogos,
   checkConnected,
   networkText,
 } from '../../../shared/exporter';
@@ -80,7 +81,9 @@ const Conversations = ({navigation}) => {
         }>
         <Image
           source={
-            item?.item?.avatar ? {uri: item?.item?.avatar} : appImages.person3
+            item?.item?.avatar
+              ? {uri: item?.item?.avatar}
+              : appLogos.supportLogo
           }
           style={styles.imgStyle}
         />
