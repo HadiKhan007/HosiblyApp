@@ -118,26 +118,4 @@ export const LocalNotification = (notify, dispatch, navigation) => {
 
 const onClickNotification = (notify, dispatch, navigation) => {
   console.log('Notification', notify);
-  const notificationObj = notify?.data;
-  const dataObj = JSON?.parse(notificationObj?.data);
-  switch (notificationObj?.type) {
-    case 'Event created':
-      navigation?.navigate('Notifications', {item: dataObj});
-      break;
-    case 'Stream started':
-      navigation?.navigate('EventDetails', {item: dataObj, showLink: true});
-      break;
-    case 'Event accepted by opponent':
-      navigation?.navigate('Notifications', {item: dataObj});
-      break;
-    case 'Stream ended':
-      navigation?.navigate('StreamEnded', {item: dataObj});
-      break;
-    // case 'Event accepted by opponent':
-    //   navigation?.navigate('NewsFeed', {item: dataObj});
-    //   break;
-
-    default:
-      break;
-  }
 };
