@@ -1,22 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {View, Text, Image, StatusBar} from 'react-native';
-import {useSelector} from 'react-redux';
-import {requestPermission} from '../../shared/exporter';
+import {useDispatch, useSelector} from 'react-redux';
+import {Notification_Listner, requestPermission} from '../../shared/exporter';
 import {appLogos} from '../../shared/theme/assets';
 import styles from './styles';
 import messaging from '@react-native-firebase/messaging';
 
 const Splash = ({navigation}) => {
   const {userInfo} = useSelector(state => state?.auth);
+  const dispatch = useDispatch();
   //Data
   useEffect(() => {
     handleAppEntry();
-    // handlerNotifications();
-    // const unsubscribe = messaging().onMessage(async remoteMessage => {
-    //   console.log('A new FCM message arrived!');
-    // });
-    // return unsubscribe;
+    handlerNotifications();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!');
+    });
+    return unsubscribe;
   }, []);
 
   const handleAppEntry = async () => {
@@ -42,12 +43,11 @@ const Splash = ({navigation}) => {
     }, 2500);
   };
 
-  // const handlerNotifications = () => {
-  //   //Request Permissions and get Token
-  //   requestPermission();
-  //   //Notification Listner
-  //   // Notification_Listner(dispatch, navigation);
-  // };
+  const handlerNotifications = () => {
+    //Request Permissions and get Token
+    requestPermission();
+    Notification_Listner(dispatch, navigation);
+  };
 
   return (
     <View style={styles.rootContainer}>
