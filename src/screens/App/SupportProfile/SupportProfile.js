@@ -29,6 +29,7 @@ import {
   appIcons,
   appImages,
   checkConnected,
+  checkphoneCode,
   colors,
   networkText,
   profile_uri,
@@ -200,7 +201,12 @@ const SupportProfie = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 Linking.openURL(
-                  `tel:${support_detail?.support_closer?.country_code || ''}${
+                  `tel:${
+                    support_detail?.support_closer?.country_code?.charAt(0) ==
+                    '+'
+                      ? support_detail?.support_closer?.country_code
+                      : `+${support_detail?.support_closer?.country_code}` || ''
+                  }${
                     support_detail?.support_closer?.phone_number || '2232131213'
                   }`,
                 );
@@ -211,12 +217,13 @@ const SupportProfie = ({navigation}) => {
           </View>
           <View style={spacing.my4}>
             <Text style={styles.desc}>
-              {support_detail?.description || 'Describe something'}
+              {support_detail?.support_closer?.description ||
+                'Describe something'}
             </Text>
           </View>
           <Divider color={colors.g18} />
           <View style={spacing.py4}>
-            {support_detail?.professions?.map(item => {
+            {support_detail?.support_closer?.professions?.map(item => {
               return (
                 <ProfileField
                   title={'Profession'}

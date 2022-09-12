@@ -48,6 +48,7 @@ import {
   getSupportVisitorApi,
 } from '../../../shared/service/SupportService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNFS from 'react-native-fs';
 
 const SupportHome = ({navigation}) => {
   const dispatch = useDispatch(null);
@@ -193,6 +194,18 @@ const SupportHome = ({navigation}) => {
     }
   };
 
+  //Download Multiple Files
+  const downloadFiles = async item => {
+    setIsLoading(true);
+    const promise = RNFS.downloadFile({
+      fromUrl: item?.certificate,
+      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
+    });
+    setTimeout(() => {
+      setIsLoading(false);
+      Alert.alert('Success', 'Downloading Completed');
+    }, 5000);
+  };
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
@@ -244,6 +257,7 @@ const SupportHome = ({navigation}) => {
               </View>
             </View>
             <TouchableOpacity
+              activeOpacity={0.7}
               onPress={() => {
                 navigation?.navigate('SupportEditProfile');
               }}
@@ -291,8 +305,10 @@ const SupportHome = ({navigation}) => {
             />
             <ProfileField
               title={'Phone Number'}
-              subtitle={`+${
-                support_detail?.support_closer?.country_code || ''
+              subtitle={`${
+                support_detail?.support_closer?.country_code.charAt(0) == '+'
+                  ? support_detail?.support_closer?.country_code || ''
+                  : `+${support_detail?.support_closer?.country_code}` || ''
               }${support_detail?.support_closer?.phone_number || '2232131213'}`}
             />
             <ProfileField
@@ -315,11 +331,17 @@ const SupportHome = ({navigation}) => {
               <Text style={styles.text3}>Uploaded Documents</Text>
               {support_detail?.support_closer?.certificates?.map(item => {
                 return (
-                  <CetificationCard
-                    title={item?.certificate}
-                    subtitle={shortenBytes(item?.size)}
-                    style={{fontSize: 14}}
-                  />
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      downloadFiles(item);
+                    }}>
+                    <CetificationCard
+                      title={item?.certificate}
+                      subtitle={shortenBytes(item?.size)}
+                      style={{fontSize: 14}}
+                    />
+                  </TouchableOpacity>
                 );
               })}
             </>

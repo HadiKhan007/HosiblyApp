@@ -91,7 +91,7 @@ const VerifyPhone = ({navigation}) => {
                 <AppInput
                   onChangeText={handleChange('contact')}
                   renderErrorMessage={true}
-                  placeholder={`+${country?.callingCode[0]}23 456 789`}
+                  placeholder={`${country?.callingCode[0]}23 456 789`}
                   value={values.contact}
                   onBlur={() => setFieldTouched('contact')}
                   blurOnSubmit={false}

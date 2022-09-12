@@ -147,10 +147,10 @@ const SupportEditProfile = ({navigation, route}) => {
       }
       data.append('user[full_name]', values?.fullname);
       data.append('user[email]', values?.email || '');
-      data.append('user[phone_number]', values?.phone || '');
+      data.append('user[phone_number]', phone || '');
       data.append('user[description]', values?.bio || '');
-      // data.append('user[country_name]', cca2 || '');
-      // data.append('user[country_code]', country?.callingCode[0] || '');
+      data.append('user[country_name]', cca2 || '');
+      data.append('user[country_code]', country?.callingCode[0] || '');
       professionList?.forEach(item => {
         data.append('user[titles][]', item?.title);
       });
@@ -221,7 +221,8 @@ const SupportEditProfile = ({navigation, route}) => {
             useEffect(() => {
               setFieldValue(
                 'hourly_rate',
-                support_detail?.support_closer?.hourly_rate || 0,
+                JSON.stringify(support_detail?.support_closer?.hourly_rate) ||
+                  0,
               );
               setFieldValue(
                 'fullname',

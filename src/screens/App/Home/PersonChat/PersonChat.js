@@ -227,9 +227,9 @@ const PersonChat = ({navigation, route}) => {
     setVisibility(true);
     try {
       const imgObj = {
-        uri: galleryImage.path,
-        type: galleryImage.mime,
-        name: galleryImage.fileName || 'image',
+        uri: galleryImage.path || cameraImage?.path,
+        type: galleryImage.mime || cameraImage?.mime,
+        name: galleryImage.fileName || cameraImage?.fileName || 'image',
       };
       const data = new FormData();
       data.append('conversation_id', id);
@@ -415,16 +415,12 @@ const PersonChat = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
               <Image
-                resizeMode="contain"
                 source={
-                  cameraImage == ''
-                    ? appIcons.cameraIcon
-                    : {
-                        uri: platformOrientedCode(
-                          cameraImage?.path,
-                          cameraImage?.sourceURL,
-                        ),
+                  cameraImage
+                    ? {
+                        uri: cameraImage?.path,
                       }
+                    : appIcons.cameraIcon
                 }
                 style={[styles.iconStyle, {marginLeft: 7}]}
               />
