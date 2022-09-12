@@ -110,7 +110,6 @@ export const getAllAdminMessages = async id => {
       headers: {
         Accept: 'application/json',
         auth_token: await GetToken(),
-        'Content-Type': 'multipart/form-data',
       },
     },
   );

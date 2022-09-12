@@ -10,6 +10,7 @@ import {
   OTPVerify,
   resendOTP,
   addInfo,
+  logoutUser,
 } from '../../../shared/service/AuthService';
 import * as types from '../../actions/types';
 
@@ -189,6 +190,7 @@ export function* logoutRequestSega() {
 }
 function* logout(params) {
   try {
+    const res = yield logoutUser(params?.params);
     yield put({
       type: types.LOGOUT_REQUEST_SUCCESS,
       payload: params,

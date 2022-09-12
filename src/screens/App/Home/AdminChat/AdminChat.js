@@ -53,7 +53,6 @@ const AdminChat = ({navigation, route}) => {
   const [galleryImage, setGalleryImage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
   const [modalType, setModalType] = useState('report');
-  const [loadingAllMessages, setLoadingAllMessages] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
   const [id, setId] = useState(route?.params?.id);
   const [name, setname] = useState(route?.params?.name);
@@ -93,7 +92,7 @@ const AdminChat = ({navigation, route}) => {
     return () => {
       unsubscribe();
     };
-  }, [allMessages]);
+  }, []);
 
   useEffect(() => {
     getAdminMesssgeList();
@@ -123,19 +122,15 @@ const AdminChat = ({navigation, route}) => {
   };
 
   const getAdminMesssgeList = () => {
-    setLoadingAllMessages(true);
     try {
       const cbSuccess = res => {
-        setLoadingAllMessages(false);
-        setAllMessages(res?.messages);
+        if (res) {
+          setAllMessages(res?.messages);
+        }
       };
-      const cbFailure = err => {
-        setLoadingAllMessages(false);
-      };
+      const cbFailure = err => {};
       dispatch(getAllAdminMessagesRequest(id, cbSuccess, cbFailure));
-    } catch (err) {
-      setLoadingAllMessages(false);
-    }
+    } catch (err) {}
   };
 
   const renderItem = ({item, index}) => {
@@ -156,15 +151,15 @@ const AdminChat = ({navigation, route}) => {
                   }}
                 />
               ) : null}
-              {item.body && (
+              {item?.body ? (
                 <Text
                   style={[
                     styles.senderMsgStyles,
                     {paddingTop: item?.image ? 10 : null},
                   ]}>
-                  {item.body}
+                  {item?.body}
                 </Text>
-              )}
+              ) : null}
             </View>
           </View>
         ) : (
@@ -183,15 +178,15 @@ const AdminChat = ({navigation, route}) => {
                     }}
                   />
                 ) : null}
-                {item.body && (
+                {item?.body ? (
                   <Text
                     style={[
                       styles.receiverMsgStyles,
                       {paddingTop: item?.image ? 10 : null},
                     ]}>
-                    {item.body}
+                    {item?.body}
                   </Text>
-                )}
+                ) : null}
               </View>
             </View>
           </View>

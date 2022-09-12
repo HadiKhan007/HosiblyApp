@@ -18,14 +18,9 @@ export const ChatModal = ({type, show, onPressHide, onPress, name, source}) => {
           activeOpacity={0.7}
           style={styles.crossIconView}
           onPress={onPressHide}>
-          <Image
-            resizeMode="contain"
-            source={appIcons.crossIcon}
-            style={styles.crossIconStyle}
-          />
+          <Image source={appIcons.crossIcon} style={styles.crossIconStyle} />
         </TouchableOpacity>
         <Image
-          resizeMode="contain"
           source={source ? {uri: source} : appLogos.roundLogo}
           style={styles.imgStyle}
         />

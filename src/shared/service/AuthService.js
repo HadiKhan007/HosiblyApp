@@ -68,8 +68,14 @@ export const resetPassword = async (route, params) => {
   return res.data;
 };
 
-export const logoutUser = () => {
-  return HTTP_CLIENT.post(ENDPOINTS.LOGOUT);
+export const logoutUser = async params => {
+  const res = await axios.post(`${BASE_URL}conversations/logout`, params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      auth_token: await GetToken(),
+    },
+  });
+  return res.data;
 };
 
 export const resendOTP = async params => {

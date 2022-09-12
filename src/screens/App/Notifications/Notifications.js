@@ -52,7 +52,6 @@ const Notifications = ({navigation}) => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -60,7 +59,8 @@ const Notifications = ({navigation}) => {
             id: item?.conversation_id,
             avatar: item?.sender_avatar,
             name: item?.sender_name,
-            recipientID: item?.sender_id,
+            recipientID: item?.recipient_id,
+            isBlock: item?.isBlock,
           });
         }}
         style={styles.itemContainer}>

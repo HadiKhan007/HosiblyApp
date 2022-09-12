@@ -196,6 +196,7 @@ const SupportHome = ({navigation}) => {
 
   //Download Multiple Files
   const downloadFiles = async item => {
+    console.log(item?.certificate);
     setIsLoading(true);
     const promise = RNFS.downloadFile({
       fromUrl: item?.certificate,

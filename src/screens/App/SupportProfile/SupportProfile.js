@@ -241,9 +241,11 @@ const SupportProfie = ({navigation}) => {
             />
             <ProfileField
               title={'Phone Number'}
-              subtitle={`${support_detail?.support_closer?.country_code || ''}${
-                support_detail?.support_closer?.phone_number || '2232131213'
-              }`}
+              subtitle={`${
+                support_detail?.support_closer?.country_code?.charAt(0) == '+'
+                  ? support_detail?.support_closer?.country_code || ''
+                  : `+${support_detail?.support_closer?.country_code}` || ''
+              }${support_detail?.support_closer?.phone_number || '2232131213'}`}
             />
             <ProfileField
               title={'Hourly Rate ($)'}
