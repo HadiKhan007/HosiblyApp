@@ -9,6 +9,7 @@ import {
   appImages,
   appIcons,
   platformOrientedCode,
+  appLogos,
 } from '../../shared/exporter';
 import {Icon} from 'react-native-elements';
 import {MyStatusBar} from '..';
@@ -31,8 +32,7 @@ export const ChatHeader = ({rightIcon = false, onPressIcon, name, source}) => {
             />
           </TouchableOpacity>
           <Image
-            resizeMode="contain"
-            source={source}
+            source={source ? {uri: source} : appLogos.roundLogo}
             style={styles.personImgStyle}
           />
           <Text style={styles.nameTxtStyle}>{name || 'Admin'} </Text>

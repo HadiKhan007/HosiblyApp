@@ -69,7 +69,7 @@ export const Notification_Listner = (dispatch, navigation) => {
 export const LocalNotification = (data, dispatch, navigation) => {
   PushNotification.localNotification({
     channelId: 'Housibly',
-    title: data?.notification?.title || 'New Message Arrived',
+    title: data?.data?.title || 'New Message Arrived',
     smallIcon: 'ic_notification',
     largeIcon: 'ic_launcher',
     message: data?.notification?.body,

@@ -196,6 +196,7 @@ function* getAllAdminMessages(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
+    console.log('Error', error);
     yield put({
       type: types.GET_ALL_ADMIN_MESSAGES_FAILURE,
       payload: null,
@@ -257,7 +258,6 @@ function* createAdminConversation(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
     yield put({
       type: types.CREATE_ADMIN_CONVERSATION_FAILURE,
       payload: null,

@@ -7,6 +7,7 @@ import {
   colors,
   commonStyles,
   networkText,
+  responseValidator,
   size,
   spacing,
 } from '../../../shared/exporter';
@@ -22,11 +23,12 @@ import {
 import {get_filter_review_properties} from '../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/core';
+import {getSupportReviewsApi} from '../../../shared/service/SupportService';
 
 const SupportUserReviews = ({navigation, route}) => {
   const [reviews, setReviews] = useState([]);
   const [totalRating, setTotalRating] = useState(0);
-  const [choseStar, setchoseStar] = useState(5);
+  const [choseStar, setchoseStar] = useState('');
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch(null);
   const isFocus = useIsFocused(null);
@@ -34,10 +36,11 @@ const SupportUserReviews = ({navigation, route}) => {
 
   useEffect(() => {
     if (isFocus) {
-      getStarRating(5);
+      getRatings();
     }
   }, [isFocus]);
 
+  //Get Star Rating
   const getStarRating = async star => {
     const check = await checkConnected();
     if (check) {
@@ -62,6 +65,31 @@ const SupportUserReviews = ({navigation, route}) => {
           get_filter_review_properties(requestBody, onSuccess, onFailure),
         );
       } catch (error) {}
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+  //Get Rating
+  const getRatings = async () => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const requestBody = {
+          support_closer_id: support_detail?.support_closer?.id,
+        };
+        const res = await getSupportReviewsApi(requestBody);
+        if (res) {
+          setReviews(res?.reviews);
+          setTotalRating(res?.total_reviews);
+          setchoseStar('');
+        }
+      } catch (error) {
+        let msg = responseValidator(
+          error?.response?.status,
+          error?.response?.data,
+        );
+        // Alert.alert('Error', msg || 'Something went wrong!');
+      }
     } else {
       Alert.alert('Error', networkText);
     }

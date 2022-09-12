@@ -1,18 +1,31 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, FlatList, SafeAreaView} from 'react-native';
-import {appImages, checkConnected} from '../../../shared/exporter';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  SafeAreaView,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  appImages,
+  checkConnected,
+  networkText,
+  profile_uri,
+} from '../../../shared/exporter';
 import styles from './styles';
 import {getNotificationListRequest} from '../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
 
-const Notifications = () => {
+const Notifications = ({navigation}) => {
   const [data, setData] = useState([1, 2, 3]);
   const [isLoading, setIsLoading] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('NOTIFICATION SCREEN');
     getNotificationList();
   }, []);
 
@@ -22,8 +35,7 @@ const Notifications = () => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
-          console.log('RES notify ', res);
-          setData(res);
+          setData(res?.notification);
           setIsLoading(false);
         };
         const onFailure = res => {
@@ -39,18 +51,31 @@ const Notifications = () => {
     }
   };
 
-  const renderItem = () => {
+  const renderItem = ({item}) => {
     return (
-      <View style={styles.itemContainer}>
-        <Image source={appImages.person1} style={styles.imgStyle} />
+      <TouchableOpacity
+        onPress={() => {
+          navigation?.navigate('PersonChat', {
+            id: item?.conversation_id,
+            avatar: item?.sender_avatar,
+            name: item?.sender_name,
+            recipientID: item?.recipient_id,
+            isBlock: item?.isBlock,
+          });
+        }}
+        style={styles.itemContainer}>
+        <Image
+          source={{uri: item?.sender_avatar || profile_uri}}
+          style={styles.imgStyle}
+        />
         <View style={{flex: 1}}>
-          <Text style={styles.labelTxtStyle}>Update your profile</Text>
-          <Text style={styles.descTxtStyle}>
-            Hey! Please update your profile...
+          <Text style={styles.labelTxtStyle}>{item?.title}</Text>
+          <Text style={styles.descTxtStyle}>{item?.action}</Text>
+          <Text style={styles.timeTxtStyle}>
+            {moment(item?.updated_at).fromNow()}
           </Text>
-          <Text style={styles.timeTxtStyle}>3 min ago</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

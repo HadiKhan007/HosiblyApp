@@ -95,9 +95,11 @@ const Profile = ({navigation}) => {
           />
           <ProfileField
             title={'Phone Number'}
-            subtitle={`${data?.country_code || ''}${
-              data?.phone_number || '2232131213'
-            }`}
+            subtitle={`${
+              data?.country_code?.charAt(0) == '+'
+                ? data?.country_code
+                : `+${data?.country_code}` || ''
+            }${data?.phone_number || '2232131213'}`}
           />
         </View>
       </View>

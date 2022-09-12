@@ -53,7 +53,6 @@ const AdminChat = ({navigation, route}) => {
   const [galleryImage, setGalleryImage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
   const [modalType, setModalType] = useState('report');
-  const [loadingAllMessages, setLoadingAllMessages] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
   const [id, setId] = useState(route?.params?.id);
   const [name, setname] = useState(route?.params?.name);
@@ -81,7 +80,6 @@ const AdminChat = ({navigation, route}) => {
           received: msg => {
             console.log('MESSAGE  ', msg?.body);
             setAllMessages(allMessages => [msg?.body, ...allMessages]);
-            // setAllMessages(allMessages => [msg?.image, ...allMessages]);
           },
           connected: () => {
             console.log('Connected');
@@ -94,12 +92,10 @@ const AdminChat = ({navigation, route}) => {
     return () => {
       unsubscribe();
     };
-  }, [allMessages]);
+  }, []);
 
   useEffect(() => {
     getAdminMesssgeList();
-    // readMessage();
-    console.log('ADMIN CHAT SCREEN');
   }, [isFocus]);
 
   //Gallery Handlers
@@ -126,35 +122,16 @@ const AdminChat = ({navigation, route}) => {
   };
 
   const getAdminMesssgeList = () => {
-    setLoadingAllMessages(true);
     try {
       const cbSuccess = res => {
-        setLoadingAllMessages(false);
-        console.log('get message admin ', res);
-        // setAllMessages(res?.messages);
+        if (res) {
+          setAllMessages(res?.messages);
+        }
       };
-      const cbFailure = err => {
-        setLoadingAllMessages(false);
-      };
+      const cbFailure = err => {};
       dispatch(getAllAdminMessagesRequest(id, cbSuccess, cbFailure));
-    } catch (err) {
-      setLoadingAllMessages(false);
-    }
+    } catch (err) {}
   };
-
-  // const readMessage = () => {
-  //   try {
-  //     const data = new FormData();
-  //     data.append('conversation_id', id);
-  //     const cbSuccess = res => {
-  //       console.log('READ MESSAGAE==> OK');
-  //     };
-  //     const cbFailure = err => {
-  //       console.log('Read msg err ==> ', err);
-  //     };
-  //     dispatch(readMessagesRequest(data, cbSuccess, cbFailure));
-  //   } catch (err) {}
-  // };
 
   const renderItem = ({item, index}) => {
     return (
@@ -174,13 +151,15 @@ const AdminChat = ({navigation, route}) => {
                   }}
                 />
               ) : null}
-              <Text
-                style={[
-                  styles.senderMsgStyles,
-                  {paddingTop: item?.image ? 10 : null},
-                ]}>
-                {item.body}
-              </Text>
+              {item?.body ? (
+                <Text
+                  style={[
+                    styles.senderMsgStyles,
+                    {paddingTop: item?.image ? 10 : null},
+                  ]}>
+                  {item?.body}
+                </Text>
+              ) : null}
             </View>
           </View>
         ) : (
@@ -199,13 +178,15 @@ const AdminChat = ({navigation, route}) => {
                     }}
                   />
                 ) : null}
-                <Text
-                  style={[
-                    styles.receiverMsgStyles,
-                    {paddingTop: item?.image ? 10 : null},
-                  ]}>
-                  {item.body}
-                </Text>
+                {item?.body ? (
+                  <Text
+                    style={[
+                      styles.receiverMsgStyles,
+                      {paddingTop: item?.image ? 10 : null},
+                    ]}>
+                    {item?.body}
+                  </Text>
+                ) : null}
               </View>
             </View>
           </View>
@@ -246,41 +227,13 @@ const AdminChat = ({navigation, route}) => {
     }
   };
 
-  // const hideItemClick = type => {
-  //   setShowMenu(false);
-  //   setModalType(type);
-  //   setTimeout(() => {
-  //     setShowModal(true);
-  //   }, 500);
-  // };
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
         name={'Housibly'}
-        source={appLogos.roundLogo}
+        source={''}
         onPressIcon={() => setShowMenu(false)}
-        // rightIcon={false}
       />
-      {/* <View style={styles.menuContainer}>
-        <Menu
-          visible={showMenu}
-          style={styles.menuStyle}
-          onRequestClose={() => setShowMenu(false)}>
-          <MenuItem
-            style={styles.menuItemStyle}
-            textStyle={styles.menuTxtStyle}
-            onPress={() => hideItemClick('Report')}>
-            <Text style={[styles.menuTxtStyle, {left: 1.5}]}>Report User</Text>
-          </MenuItem>
-          <MenuItem
-            style={styles.menuItemStyle}
-            textStyle={styles.menuTxtStyle}
-            onPress={() => hideItemClick('Block')}>
-            <Text style={styles.menuTxtStyle}>Block User</Text>
-          </MenuItem>
-        </Menu>
-      </View> */}
       <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
       {allMessages?.length > 0 ? (
         <FlatList
@@ -295,10 +248,10 @@ const AdminChat = ({navigation, route}) => {
               <View style={styles.personView}>
                 <Image
                   resizeMode="contain"
-                  source={avatar ? {uri: avatar} : appImages.person3}
+                  source={appLogos.roundLogo}
                   style={styles.personImgStyle}
                 />
-                <Text style={styles.nameTxtStyle}>{name || ''}</Text>
+                <Text style={styles.nameTxtStyle}>{'Housibly'}</Text>
               </View>
             );
           }}
@@ -380,7 +333,7 @@ const AdminChat = ({navigation, route}) => {
             // onPressHide={() => alert('Ok')}
             onPressHide={() => alert('ok')}
             name={name}
-            source={avatar ? {uri: avatar} : appImages.person3}
+            source={avatar}
           />
         )}
       </KeyboardAvoidingView>

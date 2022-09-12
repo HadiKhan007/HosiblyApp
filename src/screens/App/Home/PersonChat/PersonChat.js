@@ -31,6 +31,7 @@ import {
   platformOrientedCode,
   checkConnected,
   family,
+  appLogos,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {chat, networkText} from '../../../../shared/utilities/constant';
@@ -84,9 +85,8 @@ const PersonChat = ({navigation, route}) => {
         },
         {
           received: msg => {
-            console.log('MESSAGE  ', msg);
+            console.log('MESSAGE Res ==> ', msg);
             setAllMessages(allMessages => [msg, ...allMessages]);
-            // setAllMessages(allMessages => [msg?.image, ...allMessages]);
           },
           connected: () => {
             console.log('Connected');
@@ -227,9 +227,9 @@ const PersonChat = ({navigation, route}) => {
     setVisibility(true);
     try {
       const imgObj = {
-        uri: galleryImage.path,
-        type: galleryImage.mime,
-        name: galleryImage.fileName || 'image',
+        uri: galleryImage.path || cameraImage?.path,
+        type: galleryImage.mime || cameraImage?.mime,
+        name: galleryImage.fileName || cameraImage?.fileName || 'image',
       };
       const data = new FormData();
       data.append('conversation_id', id);
@@ -278,47 +278,16 @@ const PersonChat = ({navigation, route}) => {
       const data = new FormData();
       data.append('reported_user', recipientID);
       const cbSuccess = res => {
-        // ticketId = res?.ticket_generate?.id;
-        handleAdminChat(res?.ticket_generate?.id);
+        navigation?.navigate('AdminChat', {
+          id: res?.conversation?.id,
+          recipientID: res?.conversation?.recipient_id,
+        });
       };
       const cbFailure = err => {};
       dispatch(reportUserRequest(data, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err] report err', err);
       setVisibility(false);
-    }
-  };
-
-  const handleAdminChat = async ticketId => {
-    console.log('ticketId', ticketId);
-    // return;
-    const check = await checkConnected();
-    if (check) {
-      try {
-        const data = new FormData();
-        data.append('support_id', ticketId);
-        setIsLoading(true);
-        const onSuccess = res => {
-          setIsLoading(false);
-          console.log('CREATE CONVO ID ', res);
-          navigation?.navigate('AdminChat', {
-            id: res?.conversation?.id,
-            recipientID: res?.conversation?.recipient_id,
-          });
-        };
-        const onFailure = res => {
-          console.log('CREATE CONVO ID err ', res);
-
-          setIsLoading(false);
-        };
-        dispatch(createAdminConversationRequest(data, onSuccess, onFailure));
-      } catch (error) {
-        setIsLoading(false);
-        console.log('CREATE CONVO catch ', error);
-      }
-    } else {
-      setIsLoading(false);
-      Alert.alert('Error', networkText);
     }
   };
 
@@ -333,7 +302,6 @@ const PersonChat = ({navigation, route}) => {
   const handleModal = () => {
     if (modalType == 'Report') {
       setShowModal(false);
-      handleAdminChat();
       reportUser();
     } else if (modalType == 'Block') {
       blockUser();
@@ -345,7 +313,7 @@ const PersonChat = ({navigation, route}) => {
     <SafeAreaView style={styles.rootContainer}>
       <ChatHeader
         name={name || ' '}
-        source={avatar ? {uri: avatar} : appImages.person3}
+        source={avatar}
         onPressIcon={() => setShowMenu(true)}
         rightIcon={isBlock ? false : true}
       />
@@ -381,8 +349,7 @@ const PersonChat = ({navigation, route}) => {
             return (
               <View style={styles.personView}>
                 <Image
-                  resizeMode="contain"
-                  source={avatar ? {uri: avatar} : appImages.person3}
+                  source={avatar ? {uri: avatar} : appLogos.roundLogo}
                   style={styles.personImgStyle}
                 />
                 <Text style={styles.nameTxtStyle}>{name || ''}</Text>
@@ -448,16 +415,12 @@ const PersonChat = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => showCamera()}>
               <Image
-                resizeMode="contain"
                 source={
-                  cameraImage == ''
-                    ? appIcons.cameraIcon
-                    : {
-                        uri: platformOrientedCode(
-                          cameraImage?.path,
-                          cameraImage?.sourceURL,
-                        ),
+                  cameraImage
+                    ? {
+                        uri: cameraImage?.path,
                       }
+                    : appIcons.cameraIcon
                 }
                 style={[styles.iconStyle, {marginLeft: 7}]}
               />
@@ -468,9 +431,10 @@ const PersonChat = ({navigation, route}) => {
           <ChatModal
             type={modalType}
             show={showModal}
+            onPressHide={() => setShowModal(false)}
             onPress={() => handleModal()}
             name={name}
-            source={avatar ? {uri: avatar} : appImages.person3}
+            source={avatar}
           />
         )}
       </KeyboardAvoidingView>

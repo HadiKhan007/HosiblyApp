@@ -14,8 +14,12 @@ const Settings = ({navigation}) => {
   const dispatch = useDispatch(null);
 
   const logout = async () => {
+    const token = await AsyncStorage.getItem('fcmToken');
+    const body = {
+      mtoken: token,
+    };
     dispatch(
-      logoutRequset(null, () => {
+      logoutRequset(body, () => {
         GoogleSignin.signOut();
         AsyncStorage.removeItem('usertoken');
         navigation.dispatch(

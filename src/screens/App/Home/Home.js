@@ -11,7 +11,6 @@ import {
 import {Icon} from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import {Menu, MenuItem} from 'react-native-material-menu';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   AppButton,
   AppHeader,
@@ -134,6 +133,7 @@ const Home = ({navigation}) => {
       </TouchableOpacity>
     );
   };
+
   useEffect(() => {
     sendFCMTokenToServer();
   }, []);

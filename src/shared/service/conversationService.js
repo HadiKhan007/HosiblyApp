@@ -103,14 +103,13 @@ export const getAllMessages = async params => {
 };
 
 export const getAllAdminMessages = async id => {
-  const res = await axios.get(
+  const res = await axios.post(
     `${BASE_URL}${ENDPOINTS.GET_ALL_ADMIN_MESSAGES}/${id}/get_messages`,
-    // params?.params,
+    {},
     {
       headers: {
         Accept: 'application/json',
         auth_token: await GetToken(),
-        'Content-Type': 'multipart/form-data',
       },
     },
   );
