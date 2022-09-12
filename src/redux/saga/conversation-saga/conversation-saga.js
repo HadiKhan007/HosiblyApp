@@ -257,7 +257,6 @@ function* createAdminConversation(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
     yield put({
       type: types.CREATE_ADMIN_CONVERSATION_FAILURE,
       payload: null,

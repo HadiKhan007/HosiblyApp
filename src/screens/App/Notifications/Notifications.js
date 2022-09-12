@@ -12,7 +12,6 @@ const Notifications = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('NOTIFICATION SCREEN');
     getNotificationList();
   }, []);
 
@@ -22,7 +21,6 @@ const Notifications = () => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
-          console.log('RES notify ', res);
           setData(res);
           setIsLoading(false);
         };

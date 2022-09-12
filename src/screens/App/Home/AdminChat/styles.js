@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     width: WP('22'),
     height: WP('22'),
     borderRadius: WP('22'),
-    backgroundColor: '#ccc',
   },
   nameTxtStyle: {
     color: colors.b1,

@@ -28,7 +28,10 @@ import styles from './styles';
 
 // redux stuff
 import {useDispatch} from 'react-redux';
-import {getQueries} from '../../../../redux/actions';
+import {
+  createAdminConversationRequest,
+  getQueries,
+} from '../../../../redux/actions';
 
 const Support = ({navigation}) => {
   const isFocus = useIsFocused();
@@ -69,12 +72,41 @@ const Support = ({navigation}) => {
     }
   };
 
+  const handleAdminChat = async ticket => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const data = new FormData();
+        data.append('support_id', ticket?.id);
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          navigation?.navigate('AdminChat', {
+            id: res?.conversation?.id,
+            recipientID: res?.conversation?.recipient_id,
+          });
+        };
+        const onFailure = res => {
+          console.log('CREATE CONVO ID err ', res);
+          setLoading(false);
+        };
+        dispatch(createAdminConversationRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        setLoading(false);
+        console.log('CREATE CONVO catch ', error);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.itemContainer(item?.image)}
-        onPress={() => navigation.navigate('SupportChat')}>
+        onPress={() => handleAdminChat(item?.ticket)}>
         <View style={styles.rowContainer}>
           <Image source={appLogos.supportLogo} style={styles.imgStyle} />
           <View style={{flex: 1}}>
