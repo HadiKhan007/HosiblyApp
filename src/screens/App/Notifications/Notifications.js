@@ -60,7 +60,7 @@ const Notifications = ({navigation}) => {
             avatar: item?.sender_avatar,
             name: item?.sender_name,
             recipientID: item?.recipient_id,
-            isBlock: item?.isBlock,
+            isBlock: item?.is_blocked,
           });
         }}
         style={styles.itemContainer}>

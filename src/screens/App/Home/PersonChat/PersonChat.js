@@ -359,6 +359,7 @@ const PersonChat = ({navigation, route}) => {
           </Text>
         </View>
       )}
+      {console.log('ISBLOCK===>  ', isBlock)}
       <KeyboardAvoidingView
         behavior={platformOrientedCode('height', 'padding')}>
         {isBlock ? (

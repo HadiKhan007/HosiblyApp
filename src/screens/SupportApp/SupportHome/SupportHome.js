@@ -179,6 +179,7 @@ const SupportHome = ({navigation}) => {
             avatar: res?.conversation?.avatar,
             name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
+            isBlock: res?.conversation?.is_blocked,
           });
         };
         const onFailure = res => {
