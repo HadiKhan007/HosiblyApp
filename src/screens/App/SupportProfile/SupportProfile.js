@@ -97,6 +97,7 @@ const SupportProfie = ({navigation}) => {
       try {
         const res = await getSupportVisitorApi();
         if (res) {
+          console.log(res);
           setProfileVisitors(res);
         }
       } catch (error) {
@@ -142,6 +143,7 @@ const SupportProfie = ({navigation}) => {
             avatar: res?.conversation?.avatar,
             name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
+            isBlock: res?.conversation?.is_blocked,
           });
         };
         const onFailure = res => {
