@@ -77,6 +77,11 @@ const PersonChat = ({navigation, route}) => {
   }, [isFocus]);
 
   useEffect(() => {
+    getMesssgeList();
+    readMessage();
+  }, [isFocus]);
+
+  useEffect(() => {
     try {
       subscribe(
         {
@@ -99,12 +104,7 @@ const PersonChat = ({navigation, route}) => {
     return () => {
       unsubscribe();
     };
-  }, [allMessages]);
-
-  useEffect(() => {
-    getMesssgeList();
-    readMessage();
-  }, [isFocus]);
+  }, []);
 
   //Gallery Handlers
   const showGallery = () => {
@@ -130,7 +130,6 @@ const PersonChat = ({navigation, route}) => {
   };
 
   const getMesssgeList = () => {
-    console.log('getMesssgeList');
     setLoadingAllMessages(true);
     try {
       const data = new FormData();
@@ -163,9 +162,6 @@ const PersonChat = ({navigation, route}) => {
   };
 
   const renderItem = ({item, index}) => {
-    // {
-    //   console.log('ITEM ', item);
-    // }
     return (
       <View style={styles.msgContainer}>
         {item?.user_id === userInfo?.user?.id ? (
@@ -248,7 +244,6 @@ const PersonChat = ({navigation, route}) => {
       const cbFailure = err => {
         setVisibility(false);
       };
-      console.log('message data', data);
       dispatch(sendMessage(data, cbSuccess, cbFailure));
     } catch (err) {
       console.log('[err]', err);

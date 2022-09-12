@@ -19,17 +19,13 @@ import {
   GalleryCard,
   MyStatusBar,
   ProfileField,
-  UserCard,
   ReviewCard,
-  ProfileModal,
 } from '../../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {
   appIcons,
-  appImages,
   checkConnected,
-  checkphoneCode,
   colors,
   networkText,
   profile_uri,
@@ -40,10 +36,7 @@ import {
 } from '../../../shared/exporter';
 import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
-import {
-  getSupportReviewsApi,
-  getSupportVisitorApi,
-} from '../../../shared/service/SupportService';
+import {getSupportReviewsApi} from '../../../shared/service/SupportService';
 import RNFS from 'react-native-fs';
 import {createConversationRequest} from '../../../redux/actions';
 
@@ -51,10 +44,6 @@ const SupportProfie = ({navigation}) => {
   const dispatch = useDispatch(null);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState(null);
-  const [showModal, setshowModal] = useState(false);
-  const [viewProfile, setviewProfile] = useState(false);
-  const [currentUser, setcurrentUser] = useState(null);
-  const [profileVisitors, setProfileVisitors] = useState([]);
 
   const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
@@ -62,7 +51,6 @@ const SupportProfie = ({navigation}) => {
   useEffect(() => {
     if (isFocus) {
       getRatings();
-      getProfileVisitors();
     }
   }, [isFocus]);
 
@@ -77,27 +65,6 @@ const SupportProfie = ({navigation}) => {
         const res = await getSupportReviewsApi(requestBody);
         if (res) {
           setReviews(res);
-        }
-      } catch (error) {
-        console.log(error);
-        let msg = responseValidator(
-          error?.response?.status,
-          error?.response?.data,
-        );
-        Alert.alert('Error', msg || 'Something went wrong!');
-      }
-    } else {
-      Alert.alert('Error', networkText);
-    }
-  };
-
-  const getProfileVisitors = async () => {
-    const check = await checkConnected();
-    if (check) {
-      try {
-        const res = await getSupportVisitorApi();
-        if (res) {
-          setProfileVisitors(res);
         }
       } catch (error) {
         console.log(error);
@@ -284,33 +251,6 @@ const SupportProfie = ({navigation}) => {
           )}
         </View>
         <View style={styles.secondCon}>
-          {profileVisitors?.visitor?.length > 0 && (
-            <View style={styles.cardViewCon}>
-              <Text style={styles.reviewtext}>Who Viewed Your Profile?</Text>
-              <View style={spacing.py4}>
-                <FlatList
-                  data={profileVisitors?.visitor}
-                  renderItem={({item}) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setshowModal(true);
-                          setcurrentUser(item);
-                        }}
-                        style={spacing.pr2}>
-                        <UserCard
-                          height={61}
-                          width={61}
-                          image={{uri: item?.visitor_image || profile_uri}}
-                        />
-                      </TouchableOpacity>
-                    );
-                  }}
-                  horizontal={true}
-                />
-              </View>
-            </View>
-          )}
           {reviews?.reviews?.length > 0 && (
             <View style={styles.cardViewCon}>
               <View style={styles.starContainer}>
@@ -359,22 +299,6 @@ const SupportProfie = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-      <ProfileModal
-        data={currentUser}
-        show={showModal}
-        onPressHide={() => {
-          setshowModal(false);
-          setviewProfile(false);
-        }}
-        viewProfile={viewProfile}
-        setviewProfile={() => {
-          setviewProfile(true);
-        }}
-        onPressMsg={() => {
-          setshowModal(false);
-          navigation?.navigate('PersonChat');
-        }}
-      />
       <AppLoader loading={isLoading} />
     </SafeAreaView>
   );
