@@ -18,16 +18,20 @@ import styles from './styles';
 import {getNotificationListRequest} from '../../../redux/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
+import {useIsFocused} from '@react-navigation/core';
 
 const Notifications = ({navigation}) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
   const dispatch = useDispatch();
+  const isFocus = useIsFocused(null);
 
   useEffect(() => {
-    getNotificationList();
-  }, []);
+    if (isFocus) {
+      getNotificationList();
+    }
+  }, [isFocus]);
 
   const getNotificationList = async () => {
     const check = await checkConnected();

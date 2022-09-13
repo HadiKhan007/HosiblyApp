@@ -56,8 +56,8 @@ const PersonChat = ({navigation, route}) => {
   const [galleryImage, setGalleryImage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
   const [modalType, setModalType] = useState('report');
+  const [isBlock, setIsBlock] = useState(route?.params?.isBlock);
   const [loadingAllMessages, setLoadingAllMessages] = useState(false);
-  const [isBlock, setisBlock] = useState(route?.params?.isBlock);
   const {userInfo} = useSelector(state => state?.auth);
   const {id, name, avatar, recipientID, sender_id} = route?.params;
   const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
@@ -85,7 +85,6 @@ const PersonChat = ({navigation, route}) => {
           received: msg => {
             console.log('MESSAGE Res ==> ', msg);
             setAllMessages(allMessages => [msg, ...allMessages]);
-            // setisBlock(true);
           },
           connected: () => {
             console.log('Connected');
@@ -230,6 +229,9 @@ const PersonChat = ({navigation, route}) => {
         data.append('message[image]', imgObj);
       }
       const cbSuccess = res => {
+        if (res.message?.is_blocked) {
+          setIsBlock(true);
+        }
         setVisibility(false);
         setMessage('');
         setGalleryImage('');
