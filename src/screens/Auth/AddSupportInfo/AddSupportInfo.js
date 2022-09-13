@@ -52,8 +52,8 @@ const AddSupportInfo = ({navigation}) => {
   const onSubmit = async values => {
     const check = await checkConnected();
     if (check) {
-      setLoading(true);
       if (professionList[0].title) {
+        setLoading(true);
         const body = {
           description: values?.desc,
           avatar: values?.image,
@@ -68,6 +68,7 @@ const AddSupportInfo = ({navigation}) => {
         };
         dispatch(setSupportClosureRequest(body, addInfoSuccess));
       } else {
+        setLoading(false);
         Alert.alert('Error', 'At least one profession required!');
       }
     } else {

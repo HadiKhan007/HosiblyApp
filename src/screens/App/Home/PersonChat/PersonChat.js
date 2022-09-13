@@ -42,9 +42,7 @@ import {
   getAllMessagesRequest,
   readMessagesRequest,
   blockUserRequest,
-  createConversationRequest,
   reportUserRequest,
-  createAdminConversationRequest,
 } from '../../../../redux/actions';
 // let ticketId = 0;
 const PersonChat = ({navigation, route}) => {
@@ -60,15 +58,9 @@ const PersonChat = ({navigation, route}) => {
   const [modalType, setModalType] = useState('report');
   const [loadingAllMessages, setLoadingAllMessages] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
-  const [id, setId] = useState(route?.params?.id);
-  const [name, setname] = useState(route?.params?.name);
-  const [avatar, setavatar] = useState(route?.params?.avatar);
-  const [recipientID, setRecipientId] = useState(route?.params?.recipientID);
-  const [isBlock, setisBlock] = useState(route?.params?.isBlock);
-
+  const {id, name, avatar, recipientID, isBlock, sender_id} = route?.params;
   const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
   const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
@@ -254,11 +246,20 @@ const PersonChat = ({navigation, route}) => {
   const blockUser = () => {
     try {
       const data = new FormData();
-      data.append('user_id', recipientID);
+      data.append(
+        'user_id',
+        recipientID != userInfo?.user?.id ? recipientID : sender_id,
+      );
       data.append('is_blocked', true);
       const cbSuccess = res => {
-        alert('User added in blacklist.');
-        navigation.goBack();
+        Alert.alert('Success', 'User added in blacklist.', [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.goBack();
+            },
+          },
+        ]);
       };
       const cbFailure = err => {};
       dispatch(blockUserRequest(data, cbSuccess, cbFailure));
@@ -359,11 +360,12 @@ const PersonChat = ({navigation, route}) => {
           </Text>
         </View>
       )}
-      {console.log('ISBLOCK===>  ', isBlock)}
       <KeyboardAvoidingView
         behavior={platformOrientedCode('height', 'padding')}>
         {isBlock ? (
-          <Text style={styles.blockText}>You are blocked</Text>
+          <View style={styles.blockStyle}>
+            <Text style={styles.blockText}>Conversation is Blocked</Text>
+          </View>
         ) : (
           <View style={styles.inputView}>
             <View style={styles.inputWrapper}>

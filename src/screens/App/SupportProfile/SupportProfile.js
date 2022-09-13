@@ -84,7 +84,7 @@ const SupportProfie = ({navigation}) => {
     setIsLoading(true);
     const promise = RNFS.downloadFile({
       fromUrl: item?.certificate,
-      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
+      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.pdf`,
     });
     setTimeout(() => {
       setIsLoading(false);
@@ -109,6 +109,7 @@ const SupportProfie = ({navigation}) => {
             avatar: res?.conversation?.avatar,
             name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
+            sender_id: res?.conversation?.sender_id,
             isBlock: res?.conversation?.is_blocked,
           });
         };

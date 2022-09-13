@@ -168,10 +168,21 @@ const styles = StyleSheet.create({
     height: WP('6'),
   },
   blockText: {
-    color: colors.b1,
-    fontFamily: family.SamsungSans_Regular,
+    color: colors.w1,
+    fontFamily: family.Gilroy_Bold,
     textAlignVertical: 'center',
     textAlign: 'center',
+    fontSize: size.large,
+    letterSpacing: 1,
+  },
+  blockStyle: {
+    backgroundColor: colors.p1,
+    height: 80,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopLeftRadius: 20,
+    borderTopEndRadius: 20,
   },
 });
 
