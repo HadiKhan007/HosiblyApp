@@ -38,30 +38,49 @@ import {Divider, Icon} from 'react-native-elements';
 import {CetificationCard} from '../../../components/Cards/CertificationCard';
 import {getSupportReviewsApi} from '../../../shared/service/SupportService';
 import RNFS from 'react-native-fs';
-import {createConversationRequest} from '../../../redux/actions';
+import {
+  createConversationRequest,
+  selected_suuport_user_data,
+} from '../../../redux/actions';
 
-const SupportProfie = ({navigation}) => {
+const SupportProfie = ({navigation, route}) => {
   const dispatch = useDispatch(null);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState(null);
-
   const {support_detail} = useSelector(state => state?.supportReducer);
   const isFocus = useIsFocused(null);
+
   //Get Data
   useEffect(() => {
     if (isFocus) {
-      getRatings();
+      getSupportProfile();
     }
   }, [isFocus]);
 
+  //Get Support Profiles
+  const getSupportProfile = () => {
+    setIsLoading(true);
+    const requestBody = {
+      support_closer_id: route?.params?.item?.id,
+    };
+    const onSuccess = async res => {
+      getRatings();
+      setIsLoading(false);
+    };
+    const onFailure = async res => {
+      setIsLoading(false);
+      Alert.alert('Error', res);
+    };
+    dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+  };
+  //Get Ratings
   const getRatings = async () => {
     const check = await checkConnected();
     if (check) {
       try {
         const requestBody = {
-          support_closer_id: support_detail?.support_closer?.id,
+          support_closer_id: route?.params?.item?.id,
         };
-
         const res = await getSupportReviewsApi(requestBody);
         if (res) {
           setReviews(res);
@@ -91,7 +110,7 @@ const SupportProfie = ({navigation}) => {
       Alert.alert('Success', 'Downloading Completed');
     }, 5000);
   };
-
+  //Handle chat
   const handleChat = async () => {
     const check = await checkConnected();
     if (check) {
@@ -146,7 +165,7 @@ const SupportProfie = ({navigation}) => {
               />
             </View>
             <Text style={styles.h1}>
-              {support_detail?.support_closer.full_name || 'username'}
+              {support_detail?.support_closer?.full_name || 'username'}
             </Text>
             {/* <Text style={styles.h2}>
               Company {support_detail?.support_closer?.full_name || 'username'}
@@ -231,7 +250,7 @@ const SupportProfie = ({navigation}) => {
               />
             </>
           )}
-          {support_detail?.support_closer?.certificates.length > 0 && (
+          {support_detail?.support_closer?.certificates?.length > 0 && (
             <>
               <Text style={styles.text3}>Uploaded Documents</Text>
               {support_detail?.support_closer?.certificates?.map(item => {

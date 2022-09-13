@@ -28,6 +28,7 @@ import {
   selected_suuport_user_data,
 } from '../../../redux/actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
+import {useIsFocused} from '@react-navigation/core';
 
 const SearchSupportClosure = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -35,12 +36,15 @@ const SearchSupportClosure = ({navigation}) => {
   const [filteredData, setfilteredData] = useState([]);
   const [supportData, setSupportData] = useState([]);
   const {support_users} = useSelector(state => state?.supportReducer);
+  const isFocus = useIsFocused(null);
   const dispatch = useDispatch(null);
 
   //Get Suppport User
   useEffect(() => {
-    getSupportUser();
-  }, []);
+    if (isFocus) {
+      getSupportUser();
+    }
+  }, [isFocus]);
 
   //Get Support User
   const getSupportUser = async () => {
@@ -71,23 +75,13 @@ const SearchSupportClosure = ({navigation}) => {
 
   const selectedItem = async item => {
     setLoading(true);
-    const onSuccess = async res => {
-      navigation?.navigate('SupportProfile');
-      setLoading(false);
-    };
-    const onFailure = async res => {
-      setLoading(false);
-      Alert.alert('Error', res);
-    };
-    const requestBody = {
-      support_closer_id: item?.id,
-    };
     const body = {
       user_id: item?.id,
     };
     const res = await setProfileVisitApi(body);
     if (res) {
-      dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+      setLoading(false);
+      navigation?.navigate('SupportProfile', {item: item});
     } else {
       setLoading(false);
       Alert.alert('Error', 'Something went wrong!');
