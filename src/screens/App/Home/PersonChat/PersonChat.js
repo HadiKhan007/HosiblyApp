@@ -57,8 +57,9 @@ const PersonChat = ({navigation, route}) => {
   const [allMessages, setAllMessages] = useState([]);
   const [modalType, setModalType] = useState('report');
   const [loadingAllMessages, setLoadingAllMessages] = useState(false);
+  const [isBlock, setisBlock] = useState(route?.params?.isBlock);
   const {userInfo} = useSelector(state => state?.auth);
-  const {id, name, avatar, recipientID, isBlock, sender_id} = route?.params;
+  const {id, name, avatar, recipientID, sender_id} = route?.params;
   const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
   const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
   const dispatch = useDispatch();
@@ -84,6 +85,7 @@ const PersonChat = ({navigation, route}) => {
           received: msg => {
             console.log('MESSAGE Res ==> ', msg);
             setAllMessages(allMessages => [msg, ...allMessages]);
+            // setisBlock(true);
           },
           connected: () => {
             console.log('Connected');
