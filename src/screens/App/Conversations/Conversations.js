@@ -94,13 +94,13 @@ const Conversations = ({navigation}) => {
         <View style={{flex: 1}}>
           <View style={styles.innerRow}>
             <Text style={styles.labelTxtStyle}>{item?.item?.full_name}</Text>
-            {item?.item?.unread_message > 0 ? (
+            {/* {item?.item?.unread_message > 0 ? (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
                   {item?.item?.unread_message}
                 </Text>
               </View>
-            ) : null}
+            ) : null} */}
           </View>
           <Text style={styles.descTxtStyle}>{item?.item?.message}</Text>
         </View>
