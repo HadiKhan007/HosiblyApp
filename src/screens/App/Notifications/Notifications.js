@@ -20,7 +20,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 
 const Notifications = ({navigation}) => {
-  const [data, setData] = useState([1, 2, 3]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {userInfo} = useSelector(state => state?.auth);
   const dispatch = useDispatch();
