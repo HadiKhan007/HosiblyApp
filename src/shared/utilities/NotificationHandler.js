@@ -122,5 +122,6 @@ const onClickNotification = (notify, dispatch, navigation) => {
     avatar: notify?.data?.avatar,
     name: notifyObj.full_name,
     recipientID: notifyObj?.id,
+    
   });
 };

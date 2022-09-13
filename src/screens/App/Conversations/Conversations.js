@@ -73,15 +73,16 @@ const Conversations = ({navigation}) => {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.itemContainer}
-        onPress={() =>
+        onPress={() => {
           navigation.navigate('PersonChat', {
             id: item?.item?.id,
             avatar: item?.item?.avatar,
             name: item?.item?.full_name,
             recipientID: item?.item?.recipient_id,
+            sender_id: item?.item?.sender_id,
             isBlock: item?.item?.is_blocked,
-          })
-        }>
+          });
+        }}>
         <Image
           source={
             item?.item?.avatar

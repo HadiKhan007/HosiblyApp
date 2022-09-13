@@ -179,6 +179,8 @@ const SupportHome = ({navigation}) => {
             avatar: res?.conversation?.avatar,
             name: res?.conversation?.full_name,
             recipientID: res?.conversation?.recipient_id,
+            isBlock: res?.conversation?.is_blocked,
+            sender_id: res?.conversation?.sender_id,
           });
         };
         const onFailure = res => {
@@ -196,17 +198,17 @@ const SupportHome = ({navigation}) => {
 
   //Download Multiple Files
   const downloadFiles = async item => {
-    console.log(item?.certificate);
     setIsLoading(true);
     const promise = RNFS.downloadFile({
       fromUrl: item?.certificate,
-      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.png`,
+      toFile: `${RNFS.DownloadDirectoryPath}/download_${Math.random()}.pdf`,
     });
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert('Success', 'Downloading Completed');
     }, 5000);
   };
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />

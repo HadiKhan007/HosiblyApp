@@ -50,6 +50,7 @@ const BlockedList = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
+          console.log('BLOCK ', res);
           setData(res?.blocked_users);
           setIsLoading(false);
         };
