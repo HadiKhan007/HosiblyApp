@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -31,7 +35,6 @@
 			</array>
 		</dict>
 	</array>
-	
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -49,10 +52,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-    <array>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-    </array>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Housibly used for media</string>
 	<key>NSCameraUsageDescription</key>
@@ -111,8 +110,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

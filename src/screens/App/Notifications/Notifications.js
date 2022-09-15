@@ -64,6 +64,7 @@ const Notifications = ({navigation}) => {
             avatar: item?.sender_avatar,
             name: item?.sender_name,
             recipientID: item?.recipient_id,
+            sender_id: item?.sender_id,
             isBlock: item?.is_blocked,
           });
         }}

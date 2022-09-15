@@ -73,23 +73,13 @@ const Home = ({navigation}) => {
 
   const selectedItem = async item => {
     setLoading(true);
-    const onSuccess = async res => {
-      navigation?.navigate('SupportProfile');
-      setLoading(false);
-    };
-    const onFailure = async res => {
-      setLoading(false);
-      Alert.alert('Error', res);
-    };
-    const requestBody = {
-      support_closer_id: item?.id,
-    };
     const body = {
       user_id: item?.id,
     };
     const res = await setProfileVisitApi(body);
     if (res) {
-      dispatch(selected_suuport_user_data(requestBody, onSuccess, onFailure));
+      setLoading(false);
+      navigation?.navigate('SupportProfile', {item: item});
     } else {
       setLoading(false);
       Alert.alert('Error', 'Something went wrong!');
