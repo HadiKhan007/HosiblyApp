@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import MapView, {Marker, Polygon} from 'react-native-maps';
 import {appIcons, colors} from '../../shared/exporter';
+
 export const MapComponent = () => {
   return (
     <View style={styles.container}>
