@@ -1,13 +1,19 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
+  Text,
   Image,
   Platform,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {AppButton, BackHeader, MyStatusBar} from '../../../../components';
+import {
+  AppButton,
+  BackHeader,
+  PostalCode,
+  MyStatusBar,
+} from '../../../../components';
 import MapView, {PROVIDER_GOOGLE, Marker, Polygon} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import {styles, customStyle} from './styles';
@@ -16,7 +22,9 @@ import {
   colors,
   scrHeight,
   scrWidth,
+  size,
 } from '../../../../shared/exporter';
+import {allIcons} from '../../../../shared/utilities/constant';
 
 const ASPECT_RATIO = scrWidth / scrHeight;
 const LATITUDE = 37.78825;
@@ -37,8 +45,11 @@ const MapScreen = () => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [zipCode, setZipCode] = useState('');
   const [polygons, setPolygons] = useState([]);
   const [editing, setEditing] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [mapIcons, setMapIcons] = useState(allIcons);
   const [creatingHole, setCreatingHole] = useState(false);
 
   useEffect(() => {
@@ -123,34 +134,38 @@ const MapScreen = () => {
     }
   };
 
+  const renderIcons = ({item, index}) => {
+    return (
+      <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+        <Image
+          resizeMode="contain"
+          source={item?.icon}
+          style={styles.imgStyle}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const searchByCode = code => {
+    setZipCode(code);
+  };
+
   return (
     <View style={styles.rootContainer}>
       <MyStatusBar backgroundColor={colors.over1} barStyle={'light-content'} />
       <View style={styles.headerStyle}>
         <BackHeader tintColor={colors.white} />
       </View>
-      <View style={styles.container}>
+      <View style={styles.flContainer}>
         <View style={styles.itemCon}>
-          <FlatList
-            data={[1, 2, 3, 4, 5]}
-            renderItem={() => {
-              return (
-                <TouchableOpacity style={styles.btnCon}>
-                  <Image
-                    source={appIcons.apple}
-                    style={{height: 20, width: 20}}
-                  />
-                </TouchableOpacity>
-              );
-            }}
-          />
+          <FlatList data={mapIcons} renderItem={renderIcons} />
         </View>
         <MapView
           ref={mapRef}
           userLocationCalloutEnabled={true}
           showsUserLocation={true}
           initialRegion={region}
-          provider={PROVIDER_GOOGLE}
+          provider={'google'}
           customMapStyle={customStyle}
           style={[styles.container]}
           onPress={e => onPress(e)}
@@ -184,6 +199,49 @@ const MapScreen = () => {
           )}
         </MapView>
       </View>
+      <View style={styles.bottomView}>
+        {zipCode != '' ? (
+          <>
+            <View style={styles.postalCodeContainer}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setZipCode('')}
+                style={styles.iconContainer}>
+                <Image
+                  resizeMode="contain"
+                  source={appIcons.cross}
+                  style={styles.iconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.txtStyle}>{zipCode}</Text>
+            </View>
+          </>
+        ) : null}
+        <View style={styles.buttonsContainer}>
+          <AppButton
+            width="47%"
+            bgColor={colors.g2}
+            fontSize={size.tiny}
+            borderColor={colors.g2}
+            style={{marginRight: 6}}
+            shadowColor={'transparent'}
+            title="Enter Zip/Postal Code"
+            onPress={() => setShowModal(true)}
+          />
+          <AppButton
+            width="47%"
+            fontSize={size.tiny}
+            style={{marginLeft: 6}}
+            borderColor={colors.p2}
+            title="View All Matches"
+          />
+        </View>
+      </View>
+      <PostalCode
+        show={showModal}
+        searchByCode={searchByCode}
+        onPressHide={() => setShowModal(false)}
+      />
     </View>
   );
 };

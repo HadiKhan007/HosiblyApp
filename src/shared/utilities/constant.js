@@ -1211,6 +1211,29 @@ const buyer_vacant_input = [
   },
 ];
 
+const allIcons = [
+  {
+    id: 0,
+    icon: appIcons.addressIcon,
+  },
+  {
+    id: 1,
+    icon: appIcons.direction,
+  },
+  {
+    id: 2,
+    icon: appIcons.zoomOut,
+  },
+  {
+    id: 3,
+    icon: appIcons.zoomIn,
+  },
+  {
+    id: 4,
+    icon: appIcons.school,
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -1257,4 +1280,5 @@ export {
   buyer_vacant_input,
   buyer_vacant_list,
   select_option_list,
+  allIcons,
 };

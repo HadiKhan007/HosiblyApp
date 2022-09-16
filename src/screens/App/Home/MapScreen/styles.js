@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {WP, colors} from '../../../../shared/exporter';
+import {WP, colors, size, family} from '../../../../shared/exporter';
 
 export const styles = StyleSheet.create({
   rootContainer: {
@@ -20,20 +20,59 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  itemCon: {
+  flContainer: {
     top: 100,
     right: 20,
     zIndex: 1,
     position: 'absolute',
   },
-  btnCon: {
-    width: 45,
-    height: 45,
-    borderRadius: 45,
-    marginVertical: 5,
+  imgStyle: {
+    width: WP('12'),
+    height: WP('12'),
+    marginBottom: WP('2.5'),
+  },
+  bottomView: {
+    bottom: 8,
+    alignSelf: 'center',
+    position: 'absolute',
     alignItems: 'center',
+    paddingHorizontal: WP('5'),
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    zIndex: 999,
+    left: WP('5'),
+    width: WP('5'),
+    top: WP('-1.5'),
+    height: WP('5'),
+    borderRadius: 13,
+    alignItems: 'center',
+    alignSelf: 'flex-end',
     justifyContent: 'center',
-    backgroundColor: colors.g28,
+    backgroundColor: colors.g47,
+  },
+  iconStyle: {
+    width: WP('2'),
+    height: WP('2'),
+    tintColor: colors.b1,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+  },
+  postalCodeContainer: {
+    height: WP('7'),
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: WP('9'),
+    justifyContent: 'center',
+    paddingHorizontal: WP('3'),
+    backgroundColor: colors.white,
+  },
+  txtStyle: {
+    color: colors.b1,
+    bottom: WP('2.5'),
+    fontSize: size.xsmall,
+    fontFamily: family.Gilroy_SemiBold,
   },
 });
 

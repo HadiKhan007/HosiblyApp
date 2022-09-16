@@ -81,9 +81,7 @@ const SupportHome = ({navigation}) => {
         try {
           let data = new FormData();
           data.append('token', fcmToken);
-          const cbSuccess = res => {
-            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
-          };
+          const cbSuccess = res => {};
           const cbFailure = err => {};
           dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
         } catch (err) {}

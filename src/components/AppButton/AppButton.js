@@ -22,15 +22,18 @@ const AppButton = ({
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      style={styles.buttonStyle(
-        width,
-        height,
-        bgColor,
-        borderRadius,
-        borderColor,
-        shadowColor,
-        marginVertical,
-      )}>
+      style={[
+        styles.buttonStyle(
+          width,
+          height,
+          bgColor,
+          borderRadius,
+          borderColor,
+          shadowColor,
+          marginVertical,
+        ),
+        style,
+      ]}>
       {icon && <Image source={icon} style={[styles.imgStyle, style]} />}
       <Text style={[styles.buttonTextStyle(textColor, fontSize), textStyle]}>
         {title}

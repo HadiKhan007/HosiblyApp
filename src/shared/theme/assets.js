@@ -105,6 +105,10 @@ export const appIcons = {
   blockIcon: require('../../assets/icons/block_icon.png'),
   call2: require('../../assets/icons/call2.png'),
   emptyStar: require('../../assets/icons/emptyStar.png'),
+  direction: require('../../assets/icons/direction.png'),
+  zoomOut: require('../../assets/icons/zoom_out.png'),
+  zoomIn: require('../../assets/icons/zoom_in.png'),
+  school: require('../../assets/icons/school.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),
