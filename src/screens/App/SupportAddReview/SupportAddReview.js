@@ -53,8 +53,10 @@ export default SupportAddReview = ({navigation}) => {
               },
             ]);
           }
+        } else if (description === '') {
+          Alert.alert('Error', 'Please Add Review!');
         } else {
-          Alert.alert('Error', 'Please add reviews!');
+          Alert.alert('Error', 'Please Add Rating!');
         }
       } catch (error) {
         setLoading(false);

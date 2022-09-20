@@ -129,6 +129,7 @@ const SupportReviews = ({route}) => {
                 </View>
               );
             }}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>

@@ -7,22 +7,32 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
 import {
   AppButton,
   BackHeader,
   PostalCode,
   MyStatusBar,
+  GuildlinesModal,
+  SearchByAddress,
 } from '../../../../components';
-import MapView, {PROVIDER_GOOGLE, Marker, Polygon} from 'react-native-maps';
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  Polygon,
+  Callout,
+} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import {styles, customStyle} from './styles';
 import {
   appIcons,
+  appImages,
   colors,
   scrHeight,
   scrWidth,
   size,
+  WP,
 } from '../../../../shared/exporter';
 import {allIcons} from '../../../../shared/utilities/constant';
 
@@ -37,7 +47,25 @@ const mapOptions = {
   scrollEnabled: true,
 };
 
-const MapScreen = () => {
+const markersArr = [
+  {
+    latitude: 37.79825,
+    longitude: -122.4824,
+    img: appImages.person1,
+  },
+  {
+    latitude: 37.75825,
+    longitude: -122.4624,
+    img: appImages.person1,
+  },
+  {
+    latitude: 37.72825,
+    longitude: -122.4124,
+    img: appImages.person1,
+  },
+];
+
+const MapScreen = ({navigation}) => {
   const mapRef = useRef(null);
   const [region, setRegion] = useState({
     latitude: LATITUDE,
@@ -45,12 +73,15 @@ const MapScreen = () => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [show, setShow] = useState(false);
   const [zipCode, setZipCode] = useState('');
   const [polygons, setPolygons] = useState([]);
   const [editing, setEditing] = useState(null);
+  const [showSlide, setShowSlide] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [mapIcons, setMapIcons] = useState(allIcons);
   const [creatingHole, setCreatingHole] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -101,7 +132,8 @@ const MapScreen = () => {
   };
 
   const finish = () => {
-    console.log('Polygons are ==> ', [...polygons, editing]);
+    let coords = [...polygons, editing];
+    console.log('Polygons are ==> ', coords);
     setPolygons([...polygons, editing]);
     setEditing(null);
     setCreatingHole(false);
@@ -136,7 +168,11 @@ const MapScreen = () => {
 
   const renderIcons = ({item, index}) => {
     return (
-      <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate('SchoolDetails')}>
+        {/* onPress={() => navigation.navigate('ViewProperty')}> */}
+        {/* onPress={() => setShowAddressModal(true)}> */}
         <Image
           resizeMode="contain"
           source={item?.icon}
@@ -150,6 +186,16 @@ const MapScreen = () => {
     setZipCode(code);
   };
 
+  const onPressDone = () => {
+    console.log('into on press done');
+    setShowSlide(0);
+    setShow(false);
+  };
+
+  const searchAddress = address => {
+    console.log('Address is ==> ', address);
+  };
+
   return (
     <View style={styles.rootContainer}>
       <MyStatusBar backgroundColor={colors.over1} barStyle={'light-content'} />
@@ -160,45 +206,69 @@ const MapScreen = () => {
         <View style={styles.itemCon}>
           <FlatList data={mapIcons} renderItem={renderIcons} />
         </View>
-        <MapView
-          ref={mapRef}
-          userLocationCalloutEnabled={true}
-          showsUserLocation={true}
-          initialRegion={region}
-          provider={'google'}
-          customMapStyle={customStyle}
-          style={[styles.container]}
-          onPress={e => onPress(e)}
-          {...mapOptions}>
-          <Marker
-            coordinate={{
-              latitude: region?.latitude,
-              longitude: region?.longitude,
-            }}
-            title={'Current Location'}
-          />
-          {polygons.map(polygon => (
-            <Polygon
-              key={polygon.id}
-              coordinates={polygon.coordinates}
-              holes={polygon.holes}
-              fillColor={colors.p1}
-              strokeColor={colors.white}
-              strokeWidth={2}
-            />
-          ))}
-          {editing && (
-            <Polygon
-              key={editing.id}
-              coordinates={editing.coordinates}
-              holes={editing.holes}
-              fillColor={colors.p1}
-              strokeColor={colors.white}
-              strokeWidth={2}
-            />
-          )}
-        </MapView>
       </View>
+      <MapView
+        ref={mapRef}
+        style={{flex: 1}}
+        userLocationCalloutEnabled={true}
+        showsUserLocation={true}
+        initialRegion={region}
+        provider={PROVIDER_GOOGLE}
+        customMapStyle={customStyle}
+        onPress={e => onPress(e)}
+        {...mapOptions}>
+        {markersArr?.map(item => {
+          let coordinates = {
+            latitude: item?.latitude,
+            longitude: item?.longitude,
+          };
+          return (
+            <Marker coordinate={coordinates}>
+              <Callout
+                tooltip
+                onPress={() => navigation.navigate('PropertyDetail')}>
+                <View style={styles.calloutStyle}>
+                  <Text style={styles.calloutImgContainer}>
+                    <Image
+                      resizeMode="cover"
+                      source={appImages.hanna}
+                      style={styles.calloutImgStyle}
+                    />
+                  </Text>
+                </View>
+              </Callout>
+              <View style={styles.imageContainer}>
+                <Image
+                  resizeMode="contain"
+                  source={appIcons.buyHome}
+                  style={styles.markerStyle}
+                />
+              </View>
+            </Marker>
+          );
+        })}
+
+        {polygons.map(polygon => (
+          <Polygon
+            key={polygon.id}
+            coordinates={polygon.coordinates}
+            holes={polygon.holes}
+            fillColor={colors.p1}
+            strokeColor={colors.white}
+            strokeWidth={2}
+          />
+        ))}
+        {editing && (
+          <Polygon
+            key={editing.id}
+            coordinates={editing.coordinates}
+            holes={editing.holes}
+            fillColor={colors.p1}
+            strokeColor={colors.white}
+            strokeWidth={2}
+          />
+        )}
+      </MapView>
       <View style={styles.bottomView}>
         {zipCode != '' ? (
           <>
@@ -228,6 +298,7 @@ const MapScreen = () => {
             title="Enter Zip/Postal Code"
             onPress={() => setShowModal(true)}
           />
+          <View style={{width: WP('4')}} />
           <AppButton
             width="47%"
             fontSize={size.tiny}
@@ -237,11 +308,29 @@ const MapScreen = () => {
           />
         </View>
       </View>
-      <PostalCode
-        show={showModal}
-        searchByCode={searchByCode}
-        onPressHide={() => setShowModal(false)}
-      />
+      {showModal && (
+        <PostalCode
+          show={showModal}
+          searchByCode={searchByCode}
+          onPressHide={() => setShowModal(false)}
+        />
+      )}
+      {showAddressModal && (
+        <SearchByAddress
+          show={showAddressModal}
+          onPress={searchAddress}
+          onPressHide={() => setShowAddressModal(false)}
+        />
+      )}
+      {show && (
+        <GuildlinesModal
+          show={show}
+          activeIndex={showSlide}
+          onPressHide={() => setShow(false)}
+          buttonClick={() => setShowSlide(showSlide + 1)}
+          onPressDone={onPressDone}
+        />
+      )}
     </View>
   );
 };

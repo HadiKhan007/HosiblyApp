@@ -43,6 +43,8 @@ import SupportProfile from '../screens/App/SupportProfile';
 import SearchSupportClosure from '../screens/App/SearchSupportClosure';
 import SupportUserReviews from '../screens/App/SupportUserReviews';
 import SupportAddReview from '../screens/App/SupportAddReview';
+import ViewProperty from '../screens/App/Home/ViewProperty';
+import SchoolDetails from '../screens/App/Home/SchoolDetails';
 
 const AppStack = createNativeStackNavigator();
 
@@ -115,6 +117,8 @@ const MainAppNav = () => {
         <AppStack.Screen name={'ClosureStack'} component={ClosureStack} />
         {/* Chat */}
         <AppStack.Screen name={'PersonChat'} component={PersonChat} />
+        <AppStack.Screen name={'ViewProperty'} component={ViewProperty} />
+        <AppStack.Screen name={'SchoolDetails'} component={SchoolDetails} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

@@ -95,7 +95,11 @@ const Home = ({navigation}) => {
         style={styles.itemContainer}>
         <View style={styles.itemInnerRow}>
           <Image
-            source={{uri: item?.support_closer_image}}
+            source={
+              item?.support_closer_image
+                ? {uri: item?.support_closer_image}
+                : appImages.ph
+            }
             style={styles.personImgStyle}
           />
           <View style={styles.txtContainer}>

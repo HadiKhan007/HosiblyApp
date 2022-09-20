@@ -131,6 +131,7 @@ const SupportUserReviews = ({navigation, route}) => {
                 </View>
               );
             }}
+            showsVerticalScrollIndicator={false}
           />
         </View>
         <AppButton

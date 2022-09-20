@@ -10,7 +10,7 @@ import {
   appLogos,
 } from '../../shared/exporter';
 
-export const ChatModal = ({type, show, onPressHide, onPress, name, source}) => {
+export const ContactModal = ({show, onPressHide, onPress, name, source}) => {
   return (
     <Modal onBackdropPress={onPressHide} isVisible={show}>
       <View style={styles.modalContainer}>
@@ -26,13 +26,13 @@ export const ChatModal = ({type, show, onPressHide, onPress, name, source}) => {
         />
         <Text style={styles.nameTxtStyle}>{name}</Text>
         <Text style={styles.descTxtStyle}>
-          {type} {type == 'Delete' ? 'conversation' : 'user'}?
+          Are you sure you want to{'\n'}contact this seller?
         </Text>
         <TouchableOpacity
           activeOpacity={0.7}
-          style={styles.buttonStyle(type)}
+          style={styles.buttonStyle}
           onPress={onPress}>
-          <Text style={styles.btnTxtStyle}>{type}</Text>
+          <Text style={styles.btnTxtStyle}>CONTACT</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -75,28 +75,21 @@ const styles = StyleSheet.create({
     color: colors.b1,
     textAlign: 'center',
     alignSelf: 'center',
-    fontSize: size.tiny,
-    paddingTop: WP('2'),
+    paddingTop: WP('5'),
+    fontSize: size.medium,
     paddingHorizontal: WP('2'),
-    fontFamily: family.Gilroy_Medium,
+    fontFamily: family.Gilroy_Regular,
   },
-  buttonStyle: type => {
-    return {
-      width: WP('25'),
-      borderRadius: 15,
-      height: WP('7.7'),
-      marginTop: WP('5'),
-      alignSelf: 'center',
-      alignItems: 'center',
-      marginBottom: WP('6'),
-      justifyContent: 'center',
-      backgroundColor:
-        type === 'Block'
-          ? colors.b9
-          : type === 'Delete'
-          ? colors.s1
-          : colors.p2,
-    };
+  buttonStyle: {
+    width: WP('25'),
+    borderRadius: 15,
+    height: WP('7.7'),
+    marginTop: WP('5'),
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: WP('6'),
+    justifyContent: 'center',
+    backgroundColor: colors.p2,
   },
   btnTxtStyle: {
     color: colors.white,

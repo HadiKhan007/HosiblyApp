@@ -1,5 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {WP, colors, size, family} from '../../../../shared/exporter';
+import {
+  WP,
+  colors,
+  size,
+  family,
+  platformOrientedCode,
+  scrWidth,
+  scrHeight,
+} from '../../../../shared/exporter';
 
 export const styles = StyleSheet.create({
   rootContainer: {
@@ -15,10 +23,33 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     position: 'absolute',
     justifyContent: 'flex-end',
-    backgroundColor: colors.over1,
+    // backgroundColor: colors.over1,
   },
   container: {
     flex: 1,
+  },
+  calloutStyle: {
+    borderRadius: 15,
+    paddingTop: 9,
+    paddingBottom: 5,
+    paddingHorizontal: 7,
+    backgroundColor: colors.white,
+  },
+  calloutImgContainer: {
+    borderRadius: 10,
+  },
+  calloutImgStyle: {
+    width: 141,
+    height: 141,
+    borderRadius: 10,
+  },
+  imageContainer: {
+    width: 155,
+    alignItems: 'center',
+  },
+  markerStyle: {
+    width: 40,
+    height: 35,
   },
   flContainer: {
     top: 100,
