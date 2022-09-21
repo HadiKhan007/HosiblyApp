@@ -40,6 +40,10 @@ export * from './Modal/CardOptionModal';
 export * from './Modal/DelPaymentCard';
 export * from './Modal/ChatModal';
 export * from './Modal/ProfileModel';
+export * from './Modal/PostalCode';
+export * from './Modal/GuildlinesModal';
+export * from './Modal/ContactModal';
+export * from './Modal/SearchByAddress';
 
 //Box
 export * from './Box/DividerBox';

@@ -1211,6 +1211,44 @@ const buyer_vacant_input = [
   },
 ];
 
+const allIcons = [
+  {
+    id: 0,
+    icon: appIcons.addressIcon,
+  },
+  {
+    id: 1,
+    icon: appIcons.direction,
+  },
+  {
+    id: 2,
+    icon: appIcons.zoomOut,
+  },
+  {
+    id: 3,
+    icon: appIcons.zoomIn,
+  },
+  {
+    id: 4,
+    icon: appIcons.school,
+  },
+];
+
+const guildLines = [
+  {
+    id: 1,
+    img: appIcons.step1,
+    title: 'Step 1',
+    desc: 'Drag to expand the border. You can also drag each side however you like depending on the location that you wanted.',
+  },
+  {
+    id: 2,
+    img: appIcons.step2,
+    title: 'Step 2',
+    desc: `Drag to expand the border. You can also drag each side however you like depending on the location that you wanted.`,
+  },
+];
+
 export {
   IOS,
   ANDROID,
@@ -1257,4 +1295,6 @@ export {
   buyer_vacant_input,
   buyer_vacant_list,
   select_option_list,
+  allIcons,
+  guildLines,
 };

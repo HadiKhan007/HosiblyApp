@@ -56,7 +56,7 @@ const ScheduleDay = ({navigation}) => {
           });
         }),
         week_days?.forEach(item => {
-          if (item?.day) {
+          if (item?.selected) {
             form.append('user[working_days][]', item?.day);
           }
         });

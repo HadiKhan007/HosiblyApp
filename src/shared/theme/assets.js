@@ -32,6 +32,7 @@ export const appImages = {
   Carter: require('../../assets/images/Carter.png'),
   Press: require('../../assets/images/Press.png'),
   James: require('../../assets/images/James.png'),
+  ph: require('../../assets/images/ph.png'),
 };
 
 export const appIcons = {
@@ -105,6 +106,12 @@ export const appIcons = {
   blockIcon: require('../../assets/icons/block_icon.png'),
   call2: require('../../assets/icons/call2.png'),
   emptyStar: require('../../assets/icons/emptyStar.png'),
+  direction: require('../../assets/icons/direction.png'),
+  zoomOut: require('../../assets/icons/zoom_out.png'),
+  zoomIn: require('../../assets/icons/zoom_in.png'),
+  school: require('../../assets/icons/school.png'),
+  step1: require('../../assets/icons/step1.png'),
+  step2: require('../../assets/icons/step2.png'),
 
   //Home Icons
   type: require('../../assets/icons/Type.png'),

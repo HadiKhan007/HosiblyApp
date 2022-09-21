@@ -15,6 +15,7 @@ export const BackHeader = ({
   tintColor = colors.b1,
   onPressRight,
   noBackIcon,
+  left = 0,
 }) => {
   const navigation = useNavigation();
 
@@ -48,7 +49,9 @@ export const BackHeader = ({
           )}
         </View>
         <View style={styles.center}>
-          {subtitle && <Text style={styles.subStyle}>{subtitle}</Text>}
+          {subtitle && (
+            <Text style={[styles.subStyle, {left}]}>{subtitle}</Text>
+          )}
         </View>
         <View>{rightIcon}</View>
         {isBox && (

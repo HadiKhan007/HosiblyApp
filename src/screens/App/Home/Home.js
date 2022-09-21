@@ -95,7 +95,11 @@ const Home = ({navigation}) => {
         style={styles.itemContainer}>
         <View style={styles.itemInnerRow}>
           <Image
-            source={{uri: item?.support_closer_image}}
+            source={
+              item?.support_closer_image
+                ? {uri: item?.support_closer_image}
+                : appImages.ph
+            }
             style={styles.personImgStyle}
           />
           <View style={styles.txtContainer}>
@@ -135,9 +139,7 @@ const Home = ({navigation}) => {
         try {
           let data = new FormData();
           data.append('token', fcmToken);
-          const cbSuccess = res => {
-            console.log('[Notification sent to server Yeaaaaaaaah!!!!]');
-          };
+          const cbSuccess = res => {};
           const cbFailure = err => {};
           dispatch(send_FCM_Request(data, cbSuccess, cbFailure));
         } catch (err) {}
@@ -197,7 +199,6 @@ const Home = ({navigation}) => {
         setLoading(true);
         const onSuccess = res => {
           setLoading(false);
-          console.log('On Buyer prop Success');
         };
         const onFailure = res => {
           setLoading(false);
@@ -219,9 +220,7 @@ const Home = ({navigation}) => {
   const getSupportUser = async () => {
     const check = await checkConnected();
     if (check) {
-      const onSuccess = async res => {
-        console.log('Success');
-      };
+      const onSuccess = async res => {};
       const onFailure = async res => {
         Alert.alert('Error', res);
       };

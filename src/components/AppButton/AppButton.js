@@ -9,28 +9,31 @@ const AppButton = ({
   height = WP('11.7'),
   bgColor = colors.p2,
   textColor = colors.white,
-  style,
+  style = {},
   icon,
   textStyle,
   borderRadius = 40,
   borderColor,
   shadowColor = colors.p1,
   fontSize = size.large,
-  marginVertical,
+  marginVertical = 5,
 }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      style={styles.buttonStyle(
-        width,
-        height,
-        bgColor,
-        borderRadius,
-        borderColor,
-        shadowColor,
-        marginVertical,
-      )}>
+      style={[
+        styles.buttonStyle(
+          width,
+          height,
+          bgColor,
+          borderRadius,
+          borderColor,
+          shadowColor,
+          marginVertical,
+        ),
+        {style},
+      ]}>
       {icon && <Image source={icon} style={[styles.imgStyle, style]} />}
       <Text style={[styles.buttonTextStyle(textColor, fontSize), textStyle]}>
         {title}
@@ -65,6 +68,7 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.34,
       shadowRadius: 6.27,
+      elevation: 10,
       borderWidth: 1,
       marginVertical: marginVertical || 5,
       borderColor: borderColor || colors.p1,
