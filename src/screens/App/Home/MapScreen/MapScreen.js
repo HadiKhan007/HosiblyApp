@@ -5,6 +5,7 @@ import {
   Image,
   Platform,
   FlatList,
+  StatusBar,
   SafeAreaView,
   TouchableOpacity,
   PermissionsAndroid,
@@ -13,7 +14,6 @@ import {
   AppButton,
   BackHeader,
   PostalCode,
-  MyStatusBar,
   GuildlinesModal,
   SearchByAddress,
 } from '../../../../components';
@@ -132,11 +132,18 @@ const MapScreen = ({navigation}) => {
   };
 
   const finish = () => {
-    let coords = [...polygons, editing];
-    console.log('Polygons are ==> ', coords);
-    setPolygons([...polygons, editing]);
-    setEditing(null);
-    setCreatingHole(false);
+    console.log('polygons ==> ', polygons);
+    console.log('editing ==> ', editing);
+    if (editing?.coordinates?.length > 0) {
+      let coords = [...polygons, editing];
+      console.log('Polygons are ==> ', coords);
+      setPolygons([...polygons, editing]);
+      setEditing(null);
+      setCreatingHole(false);
+      // Hit API...
+    } else {
+      alert('Please first draw polygon.');
+    }
   };
 
   const onPress = e => {
@@ -166,13 +173,31 @@ const MapScreen = ({navigation}) => {
     }
   };
 
+  const handlePress = ({press}) => {
+    switch (press) {
+      case 'guides':
+        setShow(true);
+        break;
+      case 'polygon':
+        finish();
+        break;
+      case 'zoomin':
+        onZoomInPress(true);
+        break;
+      case 'zoomout':
+        onZoomOutPress(true);
+        break;
+      case 'school':
+        setShowAddressModal(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const renderIcons = ({item, index}) => {
     return (
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => navigation.navigate('SchoolDetails')}>
-        {/* onPress={() => navigation.navigate('ViewProperty')}> */}
-        {/* onPress={() => setShowAddressModal(true)}> */}
+      <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
         <Image
           resizeMode="contain"
           source={item?.icon}
@@ -196,9 +221,23 @@ const MapScreen = ({navigation}) => {
     console.log('Address is ==> ', address);
   };
 
+  const onZoomInPress = () => {
+    mapRef?.current?.getCamera().then(cam => {
+      cam.zoom -= 1;
+      mapRef?.current?.animateCamera(cam);
+    });
+  };
+
+  const onZoomOutPress = () => {
+    mapRef?.current?.getCamera().then(cam => {
+      cam.zoom += 1;
+      mapRef?.current?.animateCamera(cam);
+    });
+  };
+
   return (
     <View style={styles.rootContainer}>
-      <MyStatusBar backgroundColor={colors.over1} barStyle={'light-content'} />
+      <StatusBar barStyle={'light-content'} />
       <View style={styles.headerStyle}>
         <BackHeader tintColor={colors.white} />
       </View>
@@ -226,7 +265,7 @@ const MapScreen = ({navigation}) => {
             <Marker coordinate={coordinates}>
               <Callout
                 tooltip
-                onPress={() => navigation.navigate('PropertyDetail')}>
+                onPress={() => navigation.navigate('ViewProperty')}>
                 <View style={styles.calloutStyle}>
                   <Text style={styles.calloutImgContainer}>
                     <Image
@@ -247,7 +286,6 @@ const MapScreen = ({navigation}) => {
             </Marker>
           );
         })}
-
         {polygons.map(polygon => (
           <Polygon
             key={polygon.id}
@@ -305,6 +343,7 @@ const MapScreen = ({navigation}) => {
             style={{marginLeft: 6}}
             borderColor={colors.p2}
             title="View All Matches"
+            onPress={() => navigation.navigate('AllMatches')}
           />
         </View>
       </View>

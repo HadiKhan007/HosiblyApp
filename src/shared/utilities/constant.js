@@ -1214,23 +1214,41 @@ const buyer_vacant_input = [
 const allIcons = [
   {
     id: 0,
+    press: 'guides',
     icon: appIcons.addressIcon,
   },
   {
     id: 1,
+    press: 'polygon',
     icon: appIcons.direction,
   },
   {
     id: 2,
+    press: 'zoomin',
     icon: appIcons.zoomOut,
   },
   {
     id: 3,
+    press: 'zoomout',
     icon: appIcons.zoomIn,
   },
   {
     id: 4,
+    press: 'school',
     icon: appIcons.school,
+  },
+];
+
+const zoomIcons = [
+  {
+    id: 1,
+    press: 'zoomin',
+    icon: appIcons.zoomOut,
+  },
+  {
+    id: 2,
+    press: 'zoomout',
+    icon: appIcons.zoomIn,
   },
 ];
 
@@ -1297,4 +1315,5 @@ export {
   select_option_list,
   allIcons,
   guildLines,
+  zoomIcons,
 };
