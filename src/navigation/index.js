@@ -22,6 +22,7 @@ import AdminChat from '../screens/App/Home/AdminChat';
 import FAQ from '../screens/App/Profile/FAQ';
 import BlockedList from '../screens/App/Profile/BlockedList';
 import MapScreen from '../screens/App/Home/MapScreen';
+import MapProperty from '../screens/App/Home/MapProperty';
 import AddPropertyDetails from '../screens/App/Home/AddPropertyDetails';
 import PayMethod from '../screens/App/Profile/PayMethod';
 import AllCards from '../screens/App/Profile/AllCards';
@@ -76,6 +77,7 @@ const MainAppNav = () => {
         <AppStack.Screen name={'BlockedList'} component={BlockedList} />
         <AppStack.Screen name={'NewMessages'} component={NewMessages} />
         <AppStack.Screen name={'MapScreen'} component={MapScreen} />
+        <AppStack.Screen name={'MapProperty'} component={MapProperty} />
         <AppStack.Screen name={'AddCard'} component={AddCard} />
         <AppStack.Screen name={'EditCard'} component={EditCard} />
         <AppStack.Screen name={'AddPropertyDesc'} component={AddPropertyDes} />
