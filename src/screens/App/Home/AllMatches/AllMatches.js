@@ -14,7 +14,7 @@ import {appIcons, colors, family, size, WP} from '../../../../shared/exporter';
 import {allMatches} from '../../../../shared/utilities/constant';
 import styles from './styles';
 
-const AllMatches = () => {
+const AllMatches = ({navigation}) => {
   const [showMenu, setShowMenu] = useState(false);
   const [filterType, setFilterType] = useState('All');
 
@@ -146,6 +146,7 @@ const AllMatches = () => {
           title="View On Map"
           borderColor={colors.p2}
           textStyle={styles.tabTxtStyle}
+          onPress={() => navigation.navigate('MapScreen')}
         />
       </View>
     </SafeAreaView>

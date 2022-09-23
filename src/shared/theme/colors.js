@@ -81,6 +81,7 @@ export const colors = {
   g45: 'rgba(196, 196, 196, 0.25)',
   g46: '#E4E4E4',
   g47: '#C4C4C4',
+  g48: '#rgba(56, 56, 56, 0.9)',
 
   //Green
   gr1: '#00A66C',

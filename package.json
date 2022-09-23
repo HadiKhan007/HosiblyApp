@@ -27,7 +27,7 @@
     "rnuc_production": "$(npm bin)/rnuc .env.yaml",
     "gradlewClean": "cd android && ./gradlew clean && cd ..",
     "assembleRelease": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk/release && cd ..",
-    "bundleRelease": "cd android && ./gradlew bundleRelease && open app/build/",
+    "bundleRelease": "cd android && ./gradlew bundleRelease && open app/build/outputs",
     "installLibs": "yarn add @react-native-async-storage/async-storage @react-native-community/masked-view @react-navigation/bottom-tabs @react-navigation/native @react-navigation/stack react-native-gesture-handler react-native-reanimated react-native-safe-area-context react-native-screens react-native-elements react-native-vector-icons react-redux redux redux-devtools-extension redux-logger redux-persist redux-saga"
   },
   "dependencies": {

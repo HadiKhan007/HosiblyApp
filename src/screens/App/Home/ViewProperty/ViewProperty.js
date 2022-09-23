@@ -259,8 +259,8 @@ const ViewProperty = ({navigation}) => {
               title={'View on Map'}
               fontSize={size.tiny}
               borderColor={colors.g21}
-              onPress={() => navigation.navigate('PropertyOnMap')}
               shadowColor={colors.white}
+              onPress={() => navigation.navigate('MapProperty')}
             />
             <AppButton
               width={'45%'}

@@ -359,6 +359,29 @@ const BuyTab = ({navigation, buyer_data}) => {
           {addresses.map((item, index) => {
             return <AddressesRow item={item} index={index} />;
           })}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('MapScreen')}>
+          <ImageBackground
+            source={appImages.map}
+            style={styles.mapImgStyle}
+            imageStyle={{borderRadius: 7}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation?.navigate('MapScreen');
+              }}>
+              <Image source={appIcons.addressIcon} style={styles.iconStyle} />
+            </TouchableOpacity>
+            <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <View style={styles.infoRowContainer}>
+          <Text style={styles.propertyTxtStyle}>Dream Addresses</Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => setShowAddressModal(true)}>
+            <Image source={appIcons.infoIcon} style={styles.infoIconStyle} />
+          </TouchableOpacity>
         </View>
         <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
         <AppButton
