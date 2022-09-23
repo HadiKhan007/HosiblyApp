@@ -1,13 +1,35 @@
 import {Text, View, TouchableOpacity, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {appIcons, appImages} from '../../../shared/theme/assets';
 import styles from './styles';
 import {AppButton, BackHeader, MyStatusBar} from '../../../components';
 import {colors} from '../../../shared/exporter';
+import {useDispatch} from 'react-redux';
+import {createSubscriptionAction} from '../../../redux/actions/support-app-actions/support-app-actions';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const SubscriptionDetail = ({navigation, route}) => {
-  const proceedToPayment = () => {};
+  const dispatch = useDispatch();
+  const [item, setitem] = useState(route?.params?.item);
+  const proceedToPayment = () => {
+    try {
+      const data = new FormData();
+      data.append('price_id', item?.stripe_price_id);
+      const cbSuccess = res => {
+        console.log('Subscribe PACKAGE Success ==> ', res);
+      };
+      const cbFailure = err => {
+        console.log('ERROR ', err);
+      };
+      dispatch(createSubscriptionAction(data, cbSuccess, cbFailure));
+    } catch (error) {
+      console.log('ERROR ', error);
+    }
+  };
+  {
+    console.log('ROUTE ', item);
+  }
   return (
     <View style={styles.rootContainer}>
       <MyStatusBar backgroundColor={colors.bl1} barStyle={'light-content'} />
@@ -21,7 +43,9 @@ const SubscriptionDetail = ({navigation, route}) => {
             colors={colors.gr2}>
             <View style={styles.arrowcon}>
               <BackHeader tintColor={colors.white} />
-              <Text style={styles.text}>{route?.params?.item?.title}</Text>
+              <Text style={styles.text}>
+                ${item?.price}/{item?.name}
+              </Text>
             </View>
           </LinearGradient>
           <View style={styles.midContainer}>
@@ -36,9 +60,10 @@ const SubscriptionDetail = ({navigation, route}) => {
               title="Proceed To Payment"
               width="80%"
               shadowColor={colors.btn_shadow}
-              onPress={() => {
-                navigation.navigate('SubscriptionSuccess', route?.params?.item);
-              }}
+              onPress={
+                () => proceedToPayment()
+                // navigation.navigate('SubscriptionSuccess', route?.params?.item);
+              }
             />
           </View>
         </View>

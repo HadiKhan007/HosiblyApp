@@ -83,11 +83,16 @@ const PersonChat = ({navigation, route}) => {
         },
         {
           received: msg => {
-            console.log('MESSAGE Res ==> ', msg);
-            setAllMessages(allMessages => [msg, ...allMessages]);
+            console.log('MESSAGE Res ==> ', msg?.messages);
+            if (msg?.messages?.is_blocked) {
+              setIsBlock(true);
+            } else {
+              setAllMessages(allMessages => [msg?.messages, ...allMessages]);
+              setIsBlock(false);
+            }
           },
           connected: () => {
-            console.log('Connected');
+            console.log('PersonChat Connected');
           },
         },
       );
@@ -128,6 +133,7 @@ const PersonChat = ({navigation, route}) => {
       const data = new FormData();
       data.append('conversation_id', id);
       const cbSuccess = res => {
+        // console.log('\n\nGET MESSAGE API ==>\n ', res?.messages);
         setLoadingAllMessages(false);
         setAllMessages(res?.messages);
       };
@@ -144,9 +150,7 @@ const PersonChat = ({navigation, route}) => {
     try {
       const data = new FormData();
       data.append('conversation_id', id);
-      const cbSuccess = res => {
-        console.log('READ MESSAGAE==> OK');
-      };
+      const cbSuccess = res => {};
       const cbFailure = err => {
         console.log('Read msg err ==> ', err);
       };
@@ -229,11 +233,11 @@ const PersonChat = ({navigation, route}) => {
         data.append('message[image]', imgObj);
       }
       const cbSuccess = res => {
+        setMessage('');
         if (res.message?.is_blocked) {
           setIsBlock(true);
         }
         setVisibility(false);
-        setMessage('');
         setGalleryImage('');
         setCameraImage('');
       };
@@ -256,14 +260,14 @@ const PersonChat = ({navigation, route}) => {
       );
       data.append('is_blocked', true);
       const cbSuccess = res => {
-        Alert.alert('Success', 'User added in blacklist.', [
-          {
-            text: 'OK',
-            onPress: () => {
-              navigation.goBack();
-            },
-          },
-        ]);
+        // Alert.alert('Success', 'User added in blacklist.', [
+        //   {
+        //     text: 'OK',
+        //     onPress: () => {
+        //       // navigation.goBack();
+        //     },
+        //   },
+        // ]);
       };
       const cbFailure = err => {};
       dispatch(blockUserRequest(data, cbSuccess, cbFailure));

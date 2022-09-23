@@ -55,7 +55,7 @@ const AddCard = ({navigation, route}) => {
             Alert.alert('Error', res);
             console.log('On Add Card Failure', res);
           };
-
+          console.log('data?.token?.id', form);
           dispatch(add_card_request(form, onSuccess, onFailure));
         } else {
           setIsLoading(false);

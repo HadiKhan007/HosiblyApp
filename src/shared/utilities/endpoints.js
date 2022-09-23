@@ -51,6 +51,14 @@ const ENDPOINTS = {
   UNBLOCK_USER: '',
   GET_NOTIFICATION_LIST: 'messages/get_notification',
   SEND_FCM: 'conversations/notification_token',
+  GET_DREAM_ADRRESS: 'dream_addresses',
+  DELETE_DREAM_ADDRESS: 'dream_addresses',
+  CREATE_DREAM_ADDRESS: 'dream_addresses',
+  // Payment
+  GET_PAYMENT_PACKAGE: 'get_pakeges',
+  CREATE_SUBSCRIPTION: 'create_subscription',
+  CANCEL_SUBSCRIPTION: 'cancel_subscription',
+  GET_SUBSCRIPTION: 'get_subscription',
 };
 
 export {BASE_URL, ENDPOINTS, CHAT_URL};
