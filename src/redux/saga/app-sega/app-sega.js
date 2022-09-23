@@ -1,6 +1,11 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
-import {getFilterReviewApi} from '../../../shared/service/AppService';
+import {
+  getFilterReviewApi,
+  getDreamAddress,
+  deleteDreamAddress,
+  createDreamAddress,
+} from '../../../shared/service/AppService';
 import {
   addBuyerPreferences,
   getAllProperties,
@@ -178,6 +183,68 @@ function* getFilterReview(params) {
     console.log(error);
     yield put({
       type: types.GET_FILTERED_REVIEWS_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+// Dream address
+
+export function* DreamAddressRequest() {
+  yield takeLatest(types.GET_DREAM_ADDRESS_REQUEST, getDreamAddressSaga);
+  yield takeLatest(types.DELETE_DREAM_ADDRESS_REQUEST, deleteDreamAddressSaga);
+  yield takeLatest(types.DREAM_ADDRESS_SEARCH_REQUEST, searchDreamAddressSaga);
+}
+function* getDreamAddressSaga(params) {
+  try {
+    const res = yield getDreamAddress(params);
+    yield put({
+      type: types.GET_DREAM_ADDRESS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_DREAM_ADDRESS_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+function* deleteDreamAddressSaga(params) {
+  try {
+    const res = yield deleteDreamAddress(params?.id);
+
+    yield put({
+      type: types.DELETE_DREAM_ADDRESS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.DELETE_DREAM_ADDRESS_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+function* searchDreamAddressSaga(params) {
+  try {
+    const res = yield createDreamAddress(params?.data);
+    yield put({
+      type: types.DREAM_ADDRESS_SEARCH_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.DREAM_ADDRESS_SEARCH_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

@@ -9,7 +9,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {ChatModal, AppLoader, MyStatusBar} from '../../../components';
+import {
+  ChatModal,
+  AppLoader,
+  MyStatusBar,
+  useActionCable,
+  useChannel,
+} from '../../../components';
 import {
   appIcons,
   appImages,
@@ -25,6 +31,7 @@ import {
 
 import {useSelector, useDispatch} from 'react-redux';
 import {useIsFocused} from '@react-navigation/core';
+import {CHAT_URL} from '../../../shared/utilities/endpoints';
 
 const Conversations = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -33,6 +40,15 @@ const Conversations = ({navigation}) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const {userInfo} = useSelector(state => state?.auth);
+  const {actionCable} = useActionCable(CHAT_URL, userInfo?.user?.auth_token);
+  const [readMessage, setreadMessage] = useState(0);
+
+  // const {actionCable} = useActionCable(
+  //   `${BASE_URL}cable/${userInfo?.user?.id}`,
+  // );
+
+  const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -41,7 +57,34 @@ const Conversations = ({navigation}) => {
     }
   }, [isFocus]);
 
-  const {userInfo} = useSelector(state => state?.auth);
+  useEffect(() => {
+    try {
+      subscribe(
+        {
+          channel: 'ChatListChannel',
+          channel_key: `user_chat_list_id${userInfo?.user?.id}`,
+        },
+        {
+          received: msg => {
+            console.log('Chat list Res ==> ', msg);
+            // setAllMessages(allMessages => [msg, ...allMessages]);
+            console.log('msg?.data', msg?.data);
+            setData(msg?.data);
+
+            // setreadMessage(msg?.data[0]?.unread_message);
+          },
+          connected: () => {
+            console.log('Chat list Connected');
+          },
+        },
+      );
+    } catch (err) {
+      console.log('err', err);
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const getAllConversationList = async () => {
     const check = await checkConnected();
@@ -49,6 +92,7 @@ const Conversations = ({navigation}) => {
       try {
         setIsLoading(true);
         const onSuccess = res => {
+          console.log('get conversation list==>', res);
           setData(res);
           setIsLoading(false);
           setRefreshing(false);
@@ -94,13 +138,13 @@ const Conversations = ({navigation}) => {
         <View style={{flex: 1}}>
           <View style={styles.innerRow}>
             <Text style={styles.labelTxtStyle}>{item?.item?.full_name}</Text>
-            {/* {item?.item?.unread_message > 0 ? (
+            {item?.item?.unread_message > 0 ? (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
                   {item?.item?.unread_message}
                 </Text>
               </View>
-            ) : null} */}
+            ) : null}
           </View>
           <Text style={styles.descTxtStyle}>{item?.item?.message}</Text>
         </View>
@@ -169,7 +213,7 @@ const Conversations = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <MyStatusBar />
+      {/* <MyStatusBar backgroundColor="red" /> */}
       {userInfo?.user?.profile_type === 'want_support_closer' && (
         <Text style={styles.headerTxtStyle}>Messages</Text>
       )}

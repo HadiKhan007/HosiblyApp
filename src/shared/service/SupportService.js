@@ -72,3 +72,58 @@ export const updateSupportUserData = async params => {
   );
   return res.data;
 };
+// Payment package
+
+export const paymentPackageApi = async params => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_PAYMENT_PACKAGE}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};
+export const createSubscription = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.CREATE_SUBSCRIPTION}`,
+    params,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  console.log('LOG SUBSCRIPTION==> ', res?.data);
+  return res.data;
+};
+export const cancelSubscription = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.CANCEL_SUBSCRIPTION}`,
+    params,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};
+export const getSubscription = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.GET_SUBSCRIPTION}`,
+    params,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};

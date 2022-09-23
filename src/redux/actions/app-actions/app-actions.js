@@ -75,3 +75,27 @@ export const get_filter_review_properties = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+// Dream Address
+export const dreamAddressSearch = (data, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.DREAM_ADDRESS_SEARCH_REQUEST,
+    data,
+    cbSuccess,
+    cbFailure,
+  };
+};
+export const getDreamAddressAction = (cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_DREAM_ADDRESS_REQUEST,
+    cbSuccess,
+    cbFailure,
+  };
+};
+export const deleteDreamAddressAction = (id, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.DELETE_DREAM_ADDRESS_REQUEST,
+    id,
+    cbSuccess,
+    cbFailure,
+  };
+};
