@@ -8,6 +8,7 @@ import {
   getRecentPropertiesRequest,
   setAddressRequest,
   setBuyerDataRequest,
+  DreamAddressRequest,
 } from './app-sega/app-sega';
 
 import {
@@ -48,6 +49,7 @@ import {
 import {
   getSupportUserDataRequest,
   setSupportUserRequest,
+  getPaymentPackage,
 } from './support-user-sega/support-user-sega';
 import {ConversationSaga} from './conversation-saga/conversation-saga';
 
@@ -99,4 +101,8 @@ export function* rootSaga() {
   yield fork(getFilterReviewRequest);
   // Conversation
   yield fork(ConversationSaga);
+  // Dream address
+  yield fork(DreamAddressRequest);
+  // Payment Package
+  yield fork(getPaymentPackage);
 }

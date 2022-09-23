@@ -28,3 +28,40 @@ export const setProfileVisitApi = async params => {
   });
   return res.data;
 };
+export const getDreamAddress = async params => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_DREAM_ADRRESS}`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+    },
+  });
+  return res.data;
+};
+
+export const deleteDreamAddress = async params => {
+  const res = await axios.delete(
+    `${BASE_URL}${ENDPOINTS.DELETE_DREAM_ADDRESS}/${params}`,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        Accept: 'application/json',
+      },
+    },
+  );
+  return res.data;
+};
+export const createDreamAddress = async params => {
+  console.log('PARAMS ', params);
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.CREATE_DREAM_ADDRESS}`,
+    params,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};

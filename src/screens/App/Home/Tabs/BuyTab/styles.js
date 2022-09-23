@@ -223,6 +223,8 @@ const styles = StyleSheet.create({
     color: colors.g16,
     fontSize: size.tiny,
     fontFamily: family.Gilroy_Medium,
+    lineHeight: 15,
+    width: WP('84'),
   },
   crossIconStyle: {
     width: 8,
