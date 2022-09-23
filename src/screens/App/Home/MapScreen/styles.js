@@ -29,14 +29,15 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   calloutStyle: {
-    borderRadius: 15,
     paddingTop: 9,
+    borderRadius: 15,
     paddingBottom: 5,
     paddingHorizontal: 7,
     backgroundColor: colors.white,
   },
   calloutImgContainer: {
     borderRadius: 10,
+    backgroundColor: 'green',
   },
   calloutImgStyle: {
     width: 141,
@@ -64,6 +65,7 @@ export const styles = StyleSheet.create({
   },
   bottomView: {
     bottom: 8,
+    width: '100%',
     alignSelf: 'center',
     position: 'absolute',
     alignItems: 'center',
@@ -88,7 +90,10 @@ export const styles = StyleSheet.create({
     tintColor: colors.b1,
   },
   buttonsContainer: {
+    width: '100%',
+    bottom: 8,
     flexDirection: 'row',
+    position: 'absolute',
   },
   postalCodeContainer: {
     height: WP('7'),

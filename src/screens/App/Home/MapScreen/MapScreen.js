@@ -6,10 +6,10 @@ import {
   Platform,
   FlatList,
   StatusBar,
-  SafeAreaView,
   TouchableOpacity,
   PermissionsAndroid,
 } from 'react-native';
+import {Svg, Image as ImageSvg} from 'react-native-svg';
 import {
   AppButton,
   BackHeader,
@@ -237,7 +237,7 @@ const MapScreen = ({navigation}) => {
 
   return (
     <View style={styles.rootContainer}>
-      <StatusBar barStyle={'light-content'} />
+      <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} />
       <View style={styles.headerStyle}>
         <BackHeader tintColor={colors.white} />
       </View>
@@ -262,27 +262,25 @@ const MapScreen = ({navigation}) => {
             longitude: item?.longitude,
           };
           return (
-            <Marker coordinate={coordinates}>
+            <Marker
+              anchor={{x: 1, y: 1}}
+              pointerEvents="auto"
+              coordinate={coordinates}
+              image={appIcons.buyHome}>
               <Callout
                 tooltip
                 onPress={() => navigation.navigate('ViewProperty')}>
                 <View style={styles.calloutStyle}>
-                  <Text style={styles.calloutImgContainer}>
-                    <Image
-                      resizeMode="cover"
-                      source={appImages.hanna}
-                      style={styles.calloutImgStyle}
+                  <Svg width={141} height={141}>
+                    <ImageSvg
+                      width={'100%'}
+                      height={138}
+                      preserveAspectRatio="xMidYMid slice"
+                      href={appImages.hanna}
                     />
-                  </Text>
+                  </Svg>
                 </View>
               </Callout>
-              <View style={styles.imageContainer}>
-                <Image
-                  resizeMode="contain"
-                  source={appIcons.buyHome}
-                  style={styles.markerStyle}
-                />
-              </View>
             </Marker>
           );
         })}
