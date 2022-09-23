@@ -1,5 +1,7 @@
-const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
-const CHAT_URL = 'ws://housibly.herokuapp.com/cable?';
+// const BASE_URL = 'https://housibly.herokuapp.com/api/v1/';
+// const CHAT_URL = 'ws://housibly.herokuapp.com/cable?';
+const BASE_URL = 'https://demohousibly.herokuapp.com/api/v1/';
+const CHAT_URL = 'https://demohousibly.herokuapp.com/cable?';
 
 const ENDPOINTS = {
   REGISTER: 'signup.json',

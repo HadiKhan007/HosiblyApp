@@ -102,6 +102,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 13,
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: colors.g48,
   },
   imgStyle: {

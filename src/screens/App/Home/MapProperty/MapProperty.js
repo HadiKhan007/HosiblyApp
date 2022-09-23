@@ -119,7 +119,7 @@ const MapProperty = ({navigation}) => {
 
   return (
     <View style={styles.rootContainer}>
-      <StatusBar barStyle={'light-content'} />
+      <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} />
       <View style={styles.headerStyle}>
         <BackHeader tintColor={colors.white} />
       </View>
@@ -136,20 +136,17 @@ const MapProperty = ({navigation}) => {
         customMapStyle={customStyle}>
         <Marker
           coordinate={{
-            latitude: region?.coordinates,
-            longitude: region?.coordinates,
-          }}>
-          <View style={styles.imageContainer}>
-            <Image
-              resizeMode="contain"
-              source={appIcons.buyHome}
-              style={styles.markerStyle}
-            />
-          </View>
-        </Marker>
+            latitude: region?.latitude,
+            longitude: region?.longitude,
+          }}
+          image={appIcons.buyHome}
+        />
       </MapView>
       <View style={styles.bottomView}>
-        <View style={styles.itemContainer}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+          style={styles.itemContainer}>
           <Image source={appImages.person3} style={styles.imgStyle} />
           <View style={{paddingVertical: 5}}>
             <View style={styles.innerRow}>
@@ -179,7 +176,7 @@ const MapProperty = ({navigation}) => {
             </View>
             <Text style={styles.timeTxtStyle}>Last active: 3 days ago</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
