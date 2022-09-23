@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 5,
   },
-
   touch2Opac: {
     width: WP('80'),
     height: 65,
@@ -52,11 +51,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   btntext: {
-    color: colors.p6,
-    fontSize: size.medium,
+    color: colors.b1,
     fontWeight: 'bold',
-    fontfamily: family.Gilroy_Medium,
     textAlign: 'center',
+    fontSize: size.medium,
+    fontfamily: family.Gilroy_Medium,
   },
   btn2text: {
     color: colors.p6,

@@ -182,12 +182,14 @@ const AllCards = ({navigation}) => {
         />
       </View>
       <View style={styles.bottomView}>
-        <AppButton
-          title="Continue"
-          onPress={() => {}}
-          borderColor={colors.white}
-          shadowColor={colors.white}
-        />
+        {payment_card_list.length > 0 && (
+          <AppButton
+            title="Continue"
+            onPress={() => navigation.goBack()}
+            borderColor={colors.white}
+            shadowColor={colors.white}
+          />
+        )}
       </View>
       <DelPaymentCard
         show={show}

@@ -273,19 +273,19 @@ const BuyTab = ({navigation, buyer_data}) => {
               />
             </>
           )}
-
-          <ImageBackground
-            source={appImages.map}
-            style={styles.mapImgStyle}
-            imageStyle={{borderRadius: 7}}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation?.navigate('MapScreen');
-              }}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              navigation?.navigate('MapScreen');
+            }}>
+            <ImageBackground
+              source={appImages.map}
+              style={styles.mapImgStyle}
+              imageStyle={{borderRadius: 7}}>
               <Image source={appIcons.addressIcon} style={styles.iconStyle} />
-            </TouchableOpacity>
-            <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
-          </ImageBackground>
+              <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
+            </ImageBackground>
+          </TouchableOpacity>
           <View style={styles.infoRowContainer}>
             <Text style={styles.propertyTxtStyle}>Dream Addresses</Text>
             <TouchableOpacity
@@ -295,18 +295,7 @@ const BuyTab = ({navigation, buyer_data}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.dividerView} />
-          {/* <TextInput
-          value={address}
-          style={styles.inputStyle}
-          placeholder="Start typing..."
-          placeholderTextColor={colors.g19}
-          onChangeText={txt => setAddress(txt)}
-        /> */}
           <View>
-            {/* <KeyboardAwareScrollView
-              style={commonStyles.flex1}
-              contentContainerStyle={commonStyles.keyboardView}
-              showsVerticalScrollIndicator={false}> */}
             <GooglePlacesAutocomplete
               ref={ref}
               placeholder="Add your dream address"
@@ -318,10 +307,6 @@ const BuyTab = ({navigation, buyer_data}) => {
               textInputProps={{
                 placeholderTextColor: colors.g1,
               }}
-              // clear: () => {
-              //        inputRef.current.clear()
-              //         _handleChangeText('');
-              //       },
               styles={{
                 textInputContainer: {backgroundColor: 'transparent'},
                 textInput: {
@@ -351,7 +336,6 @@ const BuyTab = ({navigation, buyer_data}) => {
                 language: 'en',
               }}
             />
-            {/* </KeyboardAwareScrollView> */}
           </View>
 
           <View style={[styles.dividerView, {marginBottom: WP('4')}]} />
@@ -359,29 +343,6 @@ const BuyTab = ({navigation, buyer_data}) => {
           {addresses.map((item, index) => {
             return <AddressesRow item={item} index={index} />;
           })}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => navigation.navigate('MapScreen')}>
-          <ImageBackground
-            source={appImages.map}
-            style={styles.mapImgStyle}
-            imageStyle={{borderRadius: 7}}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation?.navigate('MapScreen');
-              }}>
-              <Image source={appIcons.addressIcon} style={styles.iconStyle} />
-            </TouchableOpacity>
-            <Text style={styles.addressTxtStyle}>Last Updated: None</Text>
-          </ImageBackground>
-        </TouchableOpacity>
-        <View style={styles.infoRowContainer}>
-          <Text style={styles.propertyTxtStyle}>Dream Addresses</Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => setShowAddressModal(true)}>
-            <Image source={appIcons.infoIcon} style={styles.infoIconStyle} />
-          </TouchableOpacity>
         </View>
         <Spacer androidVal={WP('2')} iOSVal={WP('2')} />
         <AppButton

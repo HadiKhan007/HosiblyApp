@@ -1,5 +1,5 @@
-import {Text, View, TouchableOpacity, Image, StatusBar} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {appImages} from '../../../shared/theme/assets';
 import styles from './styles';
@@ -7,6 +7,8 @@ import {colors} from '../../../shared/exporter';
 import {BackHeader, MyStatusBar} from '../../../components';
 
 const SubscriptionSuccess = ({navigation, route}) => {
+  const [item, setItem] = useState(route?.params?.item);
+
   return (
     <View style={styles.rootContainer}>
       <MyStatusBar backgroundColor={colors.bl1} barStyle={'light-content'} />
@@ -21,7 +23,9 @@ const SubscriptionSuccess = ({navigation, route}) => {
             colors={colors.gr2}>
             <View style={styles.arrowcon}>
               <BackHeader tintColor={colors.white} />
-              <Text style={styles.text}>{route?.params?.title}</Text>
+              <Text style={styles.text}>
+                ${item?.price}/{item?.name}
+              </Text>
               <Text style={styles.subtext}>Subcribed</Text>
             </View>
           </LinearGradient>

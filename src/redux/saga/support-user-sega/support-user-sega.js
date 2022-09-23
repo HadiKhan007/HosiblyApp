@@ -98,7 +98,7 @@ function* createSubcription(params) {
       params?.cbSuccess(res);
     }
   } catch (error) {
-    console.log(error);
+    console.log('ERROR IS ==> ', error?.response);
     yield put({
       type: types.CREATE_SUBSCRIPTION_FAILURE,
       payload: null,

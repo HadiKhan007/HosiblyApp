@@ -1,37 +1,57 @@
-import {Text, View, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
+import {Text, View, Image, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {appIcons, appImages} from '../../../shared/theme/assets';
+import {appImages} from '../../../shared/theme/assets';
 import styles from './styles';
-import {AppButton, BackHeader, MyStatusBar} from '../../../components';
+import {
+  AppButton,
+  BackHeader,
+  MyStatusBar,
+  AppLoader,
+} from '../../../components';
 import {colors} from '../../../shared/exporter';
 import {useDispatch} from 'react-redux';
 import {createSubscriptionAction} from '../../../redux/actions/support-app-actions/support-app-actions';
-import {err} from 'react-native-svg/lib/typescript/xml';
 
 const SubscriptionDetail = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const [item, setitem] = useState(route?.params?.item);
+  const [isLoading, setIsLoading] = useState(false);
+  const [item, setItem] = useState(route?.params?.item);
+
   const proceedToPayment = () => {
     try {
+      setIsLoading(true);
       const data = new FormData();
       data.append('price_id', item?.stripe_price_id);
       const cbSuccess = res => {
-        console.log('Subscribe PACKAGE Success ==> ', res);
+        setIsLoading(false);
+        console.log('Subscribe Package Res ==> ', res);
+        navigation.navigate('SubscriptionSuccess', {item: item});
       };
       const cbFailure = err => {
-        console.log('ERROR ', err);
+        setIsLoading(false);
+        Alert.alert('Add Card', 'Please enter your card first', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+          },
+          {text: 'OK', onPress: () => navigation.navigate('AllCards')},
+        ]);
+        console.log('ERROR => ', err);
       };
       dispatch(createSubscriptionAction(data, cbSuccess, cbFailure));
     } catch (error) {
+      setIsLoading(false);
       console.log('ERROR ', error);
     }
   };
   {
     console.log('ROUTE ', item);
   }
+
   return (
     <View style={styles.rootContainer}>
+      <AppLoader loading={isLoading} />
       <MyStatusBar backgroundColor={colors.bl1} barStyle={'light-content'} />
       <View style={styles.midContainer}>
         <View style={styles.gradientContainer}>
@@ -60,10 +80,7 @@ const SubscriptionDetail = ({navigation, route}) => {
               title="Proceed To Payment"
               width="80%"
               shadowColor={colors.btn_shadow}
-              onPress={
-                () => proceedToPayment()
-                // navigation.navigate('SubscriptionSuccess', route?.params?.item);
-              }
+              onPress={() => proceedToPayment()}
             />
           </View>
         </View>

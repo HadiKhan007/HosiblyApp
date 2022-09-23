@@ -68,7 +68,7 @@ const MapProperty = ({navigation}) => {
           longitudeDelta: LONGITUDE_DELTA,
         };
         setRegion(mapRegion);
-        // mapRef.current.animateToRegion(mapRegion, 1000);
+        mapRef.current.animateToRegion(mapRegion, 1000);
       },
       error => {
         console.log('Error Code ==> ', error.code);
