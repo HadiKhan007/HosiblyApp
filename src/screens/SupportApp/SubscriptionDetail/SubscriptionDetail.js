@@ -45,9 +45,6 @@ const SubscriptionDetail = ({navigation, route}) => {
       console.log('ERROR ', error);
     }
   };
-  {
-    console.log('ROUTE ', item);
-  }
 
   return (
     <View style={styles.rootContainer}>
