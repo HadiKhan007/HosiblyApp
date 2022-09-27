@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     position: 'absolute',
     justifyContent: 'flex-end',
-    // backgroundColor: colors.over1,
   },
   container: {
     flex: 1,

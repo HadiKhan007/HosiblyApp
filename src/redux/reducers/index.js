@@ -4,6 +4,7 @@ import settingsReducers from './settings-reducers/settings-reducers';
 import bookmarksReducers from './bookmarks-reducers/bookmarks-reducers';
 import appReducer from './app-reducers/app-reducers';
 import supportReducer from './support-user-reducers/support-user-reducers';
+import mapReducer from './map-reducers/map-reducers';
 
 import * as types from '../actions/types';
 
@@ -15,6 +16,7 @@ const root_reducer = combineReducers({
   appReducer: appReducer,
   appReducer: appReducer,
   supportReducer: supportReducer,
+  mapReducer: mapReducer,
 });
 
 const rootReducer = (state, action) => {

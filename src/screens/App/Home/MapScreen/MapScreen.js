@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  Alert,
   Platform,
   FlatList,
   StatusBar,
@@ -28,13 +29,18 @@ import {styles, customStyle} from './styles';
 import {
   appIcons,
   appImages,
+  checkConnected,
   colors,
   scrHeight,
   scrWidth,
   size,
   WP,
 } from '../../../../shared/exporter';
-import {allIcons} from '../../../../shared/utilities/constant';
+import {allIcons, networkText} from '../../../../shared/utilities/constant';
+
+// redux stuff
+import {useDispatch, useSelector} from 'react-redux';
+import {searchOnMap} from '../../../../redux/actions';
 
 const ASPECT_RATIO = scrWidth / scrHeight;
 const LATITUDE = 37.78825;
@@ -78,10 +84,16 @@ const MapScreen = ({navigation}) => {
   const [polygons, setPolygons] = useState([]);
   const [editing, setEditing] = useState(null);
   const [showSlide, setShowSlide] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [mapIcons, setMapIcons] = useState(allIcons);
   const [creatingHole, setCreatingHole] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+
+  // redux stuff
+
+  const dispatch = useDispatch();
+  const {userInfo} = useSelector(state => state?.auth);
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -131,16 +143,14 @@ const MapScreen = ({navigation}) => {
     );
   };
 
-  const finish = () => {
-    console.log('polygons ==> ', polygons);
-    console.log('editing ==> ', editing);
+  const finish = async () => {
     if (editing?.coordinates?.length > 0) {
       let coords = [...polygons, editing];
-      console.log('Polygons are ==> ', coords);
       setPolygons([...polygons, editing]);
       setEditing(null);
       setCreatingHole(false);
       // Hit API...
+      findResults(coords, 'polygon');
     } else {
       alert('Please first draw polygon.');
     }
@@ -208,7 +218,9 @@ const MapScreen = ({navigation}) => {
   };
 
   const searchByCode = code => {
+    // hit API...
     setZipCode(code);
+    findResults(code, 'zipCode');
   };
 
   const onPressDone = () => {
@@ -217,8 +229,12 @@ const MapScreen = ({navigation}) => {
     setShow(false);
   };
 
-  const searchAddress = address => {
-    console.log('Address is ==> ', address);
+  const searchAddress = (data, details) => {
+    setShowAddressModal(false);
+    // hit API...
+    console.log('Address is ==> ', data?.description);
+    console.log('Location is ==> ', details?.geometry?.location);
+    findResults(data?.description, 'address');
   };
 
   const onZoomInPress = () => {
@@ -235,8 +251,38 @@ const MapScreen = ({navigation}) => {
     });
   };
 
+  const findResults = async (data, type) => {
+    console.log('Data ==> ', data);
+    console.log('Type ==> ', type);
+    return;
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const params = new FormData();
+        params.append('polygons', data);
+        const onSuccess = res => {
+          setLoading(false);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Buyer prop Failure', res);
+        };
+        dispatch(searchOnMap(params, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
   return (
     <View style={styles.rootContainer}>
+      <AppLoader loading={loading} />
       <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} />
       <View style={styles.headerStyle}>
         <BackHeader tintColor={colors.white} />
@@ -355,7 +401,7 @@ const MapScreen = ({navigation}) => {
       {showAddressModal && (
         <SearchByAddress
           show={showAddressModal}
-          onPress={searchAddress}
+          searchAddress={searchAddress}
           onPressHide={() => setShowAddressModal(false)}
         />
       )}

@@ -50,6 +50,7 @@ const AddPropertyDetails = ({navigation}) => {
   //States for form
   const [propertyType, setPropertyType] = useState({text: 'House'});
   const [title, setTitle] = useState('');
+  const [zipCode, setZipCode] = useState('');
   const [imageArray, setimageArray] = useState([]);
   const [price, setPrice] = useState('');
   const [yeardBuild, setYearBuilt] = useState('');
@@ -131,6 +132,8 @@ const AddPropertyDetails = ({navigation}) => {
   const onPressNext = async () => {
     if (title == '') {
       Alert.alert('Error', 'Title is Required');
+    } else if (zipCode == '') {
+      Alert.alert('Error', 'Zip/Postal Code is Required');
     } else if (price == '') {
       Alert.alert('Error', 'Price is Required');
     } else if (lot == '' && propertyType?.text != 'Condo') {
@@ -143,6 +146,7 @@ const AddPropertyDetails = ({navigation}) => {
       const requestBody = {
         property_type: propertyType?.text,
         title: title,
+        zip_code: zipCode,
         currency_type: currency,
         images: imageArray,
         price: price,
@@ -187,6 +191,8 @@ const AddPropertyDetails = ({navigation}) => {
   const onPressSave = async () => {
     if (title == '') {
       Alert.alert('Error', 'Title is Required');
+    } else if (zipCode == '') {
+      Alert.alert('Error', 'Zip/Postal Code is Required');
     } else if (price == '') {
       Alert.alert('Error', 'Price is Required');
     } else if (lot == '' && propertyType.text != 'Condo') {
@@ -199,6 +205,7 @@ const AddPropertyDetails = ({navigation}) => {
       const requestBody = {
         property_type: propertyType?.text,
         title: title,
+        zip_code: zipCode,
         images: imageArray,
         price: price,
         year_built: yeardBuild,
@@ -240,6 +247,7 @@ const AddPropertyDetails = ({navigation}) => {
       setPropertyType({text: add_property_detail?.property_type});
       setPropertyData({text: add_property_detail?.property_type});
       setTitle(add_property_detail?.title);
+      setZipCode(add_property_detail?.zipCode);
       setimageArray(add_property_detail?.images || []);
       setPrice(add_property_detail?.price || '0');
       setYearBuilt(add_property_detail?.year_built || '0');
@@ -304,6 +312,15 @@ const AddPropertyDetails = ({navigation}) => {
                 setTitle(text);
               }}
               value={title}
+              keyboardType={'default'}
+            />
+            <Divider color={colors.g18} />
+            <FilterInput
+              placeholder={'Zip/Postal'}
+              onChangeText={text => {
+                setZipCode(text);
+              }}
+              value={zipCode}
               keyboardType={'default'}
             />
             <Divider color={colors.g18} />

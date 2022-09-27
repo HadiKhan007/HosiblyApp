@@ -46,11 +46,15 @@ import {
   filterBookmarksRequest,
   deleteBookmarkRequest,
 } from './bookmarks-saga/bookmarks-saga';
+
 import {
   getSupportUserDataRequest,
   setSupportUserRequest,
   getPaymentPackage,
 } from './support-user-sega/support-user-sega';
+
+import {searchOnMap, schoolsOnMap} from './map-saga/map-saga';
+
 import {ConversationSaga} from './conversation-saga/conversation-saga';
 
 export function* rootSaga() {
@@ -99,6 +103,11 @@ export function* rootSaga() {
   yield fork(getSupportUserDataRequest);
   yield fork(setSupportUserRequest);
   yield fork(getFilterReviewRequest);
+
+  // Map Search
+  yield fork(searchOnMap);
+  yield fork(schoolsOnMap);
+
   // Conversation
   yield fork(ConversationSaga);
   // Dream address
