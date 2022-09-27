@@ -29,6 +29,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Formik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {loginRequest, socialLoginRequest} from '../../../redux/actions';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 
 const Login = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +65,7 @@ const Login = ({navigation}) => {
 
   const handleSocialLogin = (provider, token) => {
     const socialLoginSuccess = async res => {
+      console.log('SOCIAL LOGIN RESPONSE==> ', res);
       setIsLoading(false);
       setTimeout(() => {
         navigation?.replace('App');
@@ -78,9 +80,20 @@ const Login = ({navigation}) => {
     const form = new FormData();
     form.append('provider', provider);
     form.append('token', token);
-
-    console.log('Token is => ', token);
     dispatch(socialLoginRequest(form, socialLoginSuccess, socialLoginFailure));
+  };
+  const handleAppleLogin = async () => {
+    // Start the sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+    // console.log('LOGIN Apple SUCCESS==>', appleAuthRequestResponse);
+    handleSocialLogin('apple', appleAuthRequestResponse?.identityToken);
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      throw new Error('Apple Sign-In failed - no identify token returned');
+    }
   };
 
   const onSubmit = async values => {
@@ -164,8 +177,9 @@ const Login = ({navigation}) => {
                     onPress={() => handleGoogleLogin()}
                   />
                   <AppButton
-                    onPress={() => navigation?.navigate('AddSupportInfo')}
-                    title={'Sign up with Apple'}
+                    // onPress={() => navigation?.navigate('AddSupportInfo')}
+                    onPress={() => handleAppleLogin()}
+                    title={'Sign up with Apple..'}
                     icon={appIcons.apple}
                     style={styles.appleStyle}
                     textStyle={styles.btnTextStyle}
