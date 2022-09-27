@@ -100,6 +100,8 @@ export const createSubscription = async params => {
   return res.data;
 };
 export const cancelSubscription = async params => {
+  console.log('CANCEL PARAMS', params);
+
   const res = await axios.post(
     `${BASE_URL}${ENDPOINTS.CANCEL_SUBSCRIPTION}`,
     params,
@@ -114,16 +116,12 @@ export const cancelSubscription = async params => {
   return res.data;
 };
 export const getSubscription = async params => {
-  const res = await axios.post(
-    `${BASE_URL}${ENDPOINTS.GET_SUBSCRIPTION}`,
-    params,
-    {
-      headers: {
-        Accept: 'application/json',
-        auth_token: await GetToken(),
-        'Content-Type': 'multipart/form-data',
-      },
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_SUBSCRIPTION}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
     },
-  );
+  });
   return res.data;
 };

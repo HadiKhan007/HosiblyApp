@@ -6,6 +6,7 @@ import {
   paymentPackageApi,
   createSubscription,
   cancelSubscription,
+  getSubscription,
 } from '../../../shared/service/SupportService';
 
 import * as types from '../../actions/types';
@@ -109,7 +110,7 @@ function* createSubcription(params) {
 }
 function* cancelSubcription(params) {
   try {
-    const res = yield cancelSubscription(params);
+    const res = yield cancelSubscription(params?.params);
     if (res) {
       yield put({
         type: types.CANCEL_SUBSCRIPTION_SUCCESS,
@@ -129,7 +130,7 @@ function* cancelSubcription(params) {
 }
 function* getSubcriptionRequest(params) {
   try {
-    const res = yield cancelSubscription(params);
+    const res = yield getSubscription(params);
     if (res) {
       yield put({
         type: types.GET_SUBSCRIPTION_SUCCESS,

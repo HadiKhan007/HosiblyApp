@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {WP, colors, size, family, scrWidth} from '../../../shared/exporter';
+import {WP, colors, size, family, scrWidth, HP} from '../../../shared/exporter';
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     color: colors.b1,
     textAlign: 'center',
     fontSize: size.xsmall,
+    fontFamily: family.Gilroy_Regular,
+    lineHeight: 20,
   },
   textStyle: {
     fontfamily: family.Gilroy_SemiBold,
@@ -80,6 +82,31 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
   },
+  cardView: {
+    backgroundColor: colors.p6,
+    width: WP('80'),
+    padding: 10,
+    elevation: 1,
+    borderRadius: 15,
+  },
+  cardText: {
+    flex: 0.5,
+    fontFamily: family.Gilroy_Regular,
+    color: colors.g34,
+    paddingRight: WP('1'),
+  },
+  cardTextTitle: {
+    flex: 0.5,
+    fontFamily: family.Gilroy_SemiBold,
+    color: colors.g34,
+  },
+  cardInnerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    marginVertical: HP('0.7'),
+  },
+  // =============
 });
 
 export default styles;
