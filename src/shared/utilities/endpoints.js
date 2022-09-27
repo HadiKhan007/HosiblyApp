@@ -30,6 +30,8 @@ const ENDPOINTS = {
   GET_QUERIES: 'tickets',
   ADD_QUERY: 'tickets',
   REVIEW_CONST: 'reviews',
+  SEARCH_ON_MAP: 'bookmarks', // endpoint is not valid yet
+  SCHOOLS_ON_MAP: 'bookmarks', // endpoint is not valid yet
 
   // Support
   UPDATE_SUPPORT_CONST: 'update_support_closer_profile',

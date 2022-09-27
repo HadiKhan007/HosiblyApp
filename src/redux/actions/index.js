@@ -54,6 +54,9 @@ export {
   selected_suuport_user_data,
 } from './support-app-actions/support-app-actions';
 
+// map search
+export {searchOnMap, schoolsOnMap} from './map-actions/map-actions';
+
 // User Conversation action
 export * from './conversation-actions/conversation-action';
 export * from './support-app-actions/support-app-actions';
