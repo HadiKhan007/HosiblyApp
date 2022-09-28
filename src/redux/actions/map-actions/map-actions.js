@@ -10,10 +10,29 @@ export const searchOnMap = (params, cbSuccess, cbFailure) => {
   };
 };
 
+// property info
+export const getPropertyInfo = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_PROPERTY_INFO_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
 // schools on map
-export const schoolsOnMap = (params, cbSuccess, cbFailure) => {
+export const schoolsOnMap = (cbSuccess, cbFailure) => {
   return {
     type: TYPES.SCHOOLS_ON_MAP_REQUEST,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+// schools on map
+export const getSchoolInfo = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_SCHOOL_INFO_REQUEST,
     params,
     cbSuccess,
     cbFailure,

@@ -55,7 +55,12 @@ export {
 } from './support-app-actions/support-app-actions';
 
 // map search
-export {searchOnMap, schoolsOnMap} from './map-actions/map-actions';
+export {
+  searchOnMap,
+  getPropertyInfo,
+  schoolsOnMap,
+  getSchoolInfo,
+} from './map-actions/map-actions';
 
 // User Conversation action
 export * from './conversation-actions/conversation-action';
