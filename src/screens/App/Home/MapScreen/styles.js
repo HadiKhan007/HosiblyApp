@@ -98,7 +98,7 @@ export const styles = StyleSheet.create({
     height: WP('7'),
     borderRadius: 8,
     alignItems: 'center',
-    marginBottom: WP('9'),
+    marginBottom: WP('20'),
     justifyContent: 'center',
     paddingHorizontal: WP('3'),
     backgroundColor: colors.white,

@@ -199,7 +199,8 @@ const MapScreen = ({navigation}) => {
         onZoomOutPress(true);
         break;
       case 'school':
-        setShowAddressModal(true);
+        // setShowAddressModal(true);
+        navigation.navigate('ViewProperty');
         break;
       default:
         break;

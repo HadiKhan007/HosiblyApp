@@ -28,7 +28,7 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const MapProperty = ({navigation}) => {
+const MapProperty = ({navigation, route}) => {
   const mapRef = useRef(null);
   const [region, setRegion] = useState({
     latitude: LATITUDE,
@@ -36,47 +36,24 @@ const MapProperty = ({navigation}) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [item, setItem] = useState([]);
+
+  console.log('LAT ==> ', route?.params?.item);
+  console.log('LNG ==> ', route?.params?.item?.longitude);
 
   useEffect(() => {
-    if (Platform.OS === 'ios') {
-      getLocation();
-    } else {
-      askForPermissions();
+    setItem(route?.params?.item);
+    return;
+    if (route?.params?.item?.latitude) {
+      let mapRegion = {
+        latitude: route?.params?.item?.latitude,
+        longitude: route?.params?.item?.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      };
+      mapRef.current.animateToRegion(mapRegion, 1000);
     }
   }, []);
-
-  const askForPermissions = async () => {
-    if (Platform.OS === 'android') {
-      await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      ]);
-      getLocation();
-    }
-  };
-
-  const getLocation = () => {
-    if (Platform.OS === 'ios') {
-      Geolocation.requestAuthorization('always');
-    }
-    Geolocation.getCurrentPosition(
-      position => {
-        let mapRegion = {
-          latitude: parseFloat(position.coords.latitude),
-          longitude: parseFloat(position.coords.longitude),
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        };
-        setRegion(mapRegion);
-        mapRef.current.animateToRegion(mapRegion, 1000);
-      },
-      error => {
-        console.log('Error Code ==> ', error.code);
-        console.log('Error Msg ==> ', error.message);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  };
 
   const handlePress = ({press}) => {
     switch (press) {
@@ -147,24 +124,31 @@ const MapProperty = ({navigation}) => {
           activeOpacity={0.7}
           onPress={() => navigation.goBack()}
           style={styles.itemContainer}>
-          <Image source={appImages.person3} style={styles.imgStyle} />
+          <Image
+            source={{
+              uri:
+                (item?.image && item?.image[0]?.url) ||
+                'https://wallpaperaccess.com/full/1700222.jpg',
+            }}
+            style={styles.imgStyle}
+          />
           <View style={{paddingVertical: 5}}>
             <View style={styles.innerRow}>
               <Text numberOfLines={1} style={styles.nameTxtStyle}>
-                Compact Condo
+                {item?.title}
               </Text>
             </View>
             <View style={styles.simpleRow}>
-              <Text style={styles.smallTxtStyle}>$12,000 | </Text>
+              <Text style={styles.smallTxtStyle}>${item?.price} | </Text>
               <Image
                 resizeMode="contain"
                 source={appIcons.bedIcon}
                 style={styles.bedIconStyle}
               />
-              <Text style={styles.smallTxtStyle}>2</Text>
+              <Text style={styles.smallTxtStyle}>{item?.bed_rooms}</Text>
               <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
               <Text resizeMode="contain" style={styles.smallTxtStyle}>
-                2
+                {item?.bath_rooms}
               </Text>
             </View>
             <View style={[styles.simpleRow, {paddingTop: 0}]}>
@@ -172,9 +156,13 @@ const MapProperty = ({navigation}) => {
                 source={appIcons.heartIcon}
                 style={styles.heartIconStyle}
               />
-              <Text style={styles.heartTxtStyle}>75% match</Text>
+              <Text style={styles.heartTxtStyle}>
+                {item?.weight_age || '0'}% match
+              </Text>
             </View>
-            <Text style={styles.timeTxtStyle}>Last active: 3 days ago</Text>
+            <Text style={styles.timeTxtStyle}>
+              Last active: {item?.last_seen}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
