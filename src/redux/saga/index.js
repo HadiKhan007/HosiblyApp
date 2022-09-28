@@ -53,7 +53,12 @@ import {
   getPaymentPackage,
 } from './support-user-sega/support-user-sega';
 
-import {searchOnMap, schoolsOnMap} from './map-saga/map-saga';
+import {
+  searchOnMap,
+  getPropertyInfo,
+  schoolsOnMap,
+  getSchoolInfo,
+} from './map-saga/map-saga';
 
 import {ConversationSaga} from './conversation-saga/conversation-saga';
 
@@ -106,7 +111,9 @@ export function* rootSaga() {
 
   // Map Search
   yield fork(searchOnMap);
+  yield fork(getPropertyInfo);
   yield fork(schoolsOnMap);
+  yield fork(getSchoolInfo);
 
   // Conversation
   yield fork(ConversationSaga);

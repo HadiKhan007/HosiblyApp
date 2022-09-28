@@ -18,6 +18,21 @@ export const search = async params => {
   return res.data;
 };
 
+export const propertyInfo = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.GET_PROPERTY_DETAILS}`,
+    params,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};
+
 export const findSchools = async params => {
   const res = await axios.post(
     `${BASE_URL}${ENDPOINTS.SCHOOLS_ON_MAP}`,
@@ -30,5 +45,16 @@ export const findSchools = async params => {
       },
     },
   );
+  return res.data;
+};
+
+export const schoolInfo = async params => {
+  const res = await axios.post(`${BASE_URL}${ENDPOINTS.GET_SCHOOL}`, params, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return res.data;
 };
