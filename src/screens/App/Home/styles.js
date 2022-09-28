@@ -1,6 +1,7 @@
 import {Platform, StyleSheet} from 'react-native';
 import {
   WP,
+  HP,
   colors,
   size,
   family,
@@ -262,6 +263,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: size.tiny,
     fontFamily: family.Gilroy_SemiBold,
+  },
+  noRecorFound: {
+    textAlign: 'center',
+    paddingTop: HP('10'),
+    fontFamily: family.Gilroy_Regular,
+    fontSize: 18,
+    color: colors.p2,
   },
 });
 

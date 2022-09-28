@@ -17,6 +17,7 @@ import {
   PostalCode,
   GuildlinesModal,
   SearchByAddress,
+  AppLoader,
 } from '../../../../components';
 import MapView, {
   PROVIDER_GOOGLE,

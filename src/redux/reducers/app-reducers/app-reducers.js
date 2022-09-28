@@ -11,6 +11,7 @@ const initialState = {
   filtered_properties: [],
   buyer_preferences: '',
   buyer_data: null,
+  getMatchList: null,
 };
 
 const appReducers = (state = initialState, actions) => {
@@ -114,6 +115,15 @@ const appReducers = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
         filtered_properties: null,
+      };
+    // **************** get match list *******************
+    case TYPES.GET_MATCH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        getMatchList: payload,
       };
 
     case TYPES.SET_ADDRESS_SUCCESS:

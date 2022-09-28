@@ -237,6 +237,7 @@ const AddPropertyDetails = ({navigation}) => {
       const onSuccess = res => {
         Alert.alert('Success', 'Information Saved Successfully');
       };
+
       dispatch(add_property_detail_request(requestBody, onSuccess));
     }
   };
@@ -316,12 +317,12 @@ const AddPropertyDetails = ({navigation}) => {
             />
             <Divider color={colors.g18} />
             <FilterInput
-              placeholder={'Zip/Postal'}
+              placeholder={'Zip/Postal Code'}
               onChangeText={text => {
                 setZipCode(text);
               }}
               value={zipCode}
-              keyboardType={'default'}
+              keyboardType={'decimal-pad'}
             />
             <Divider color={colors.g18} />
             <PriceInput

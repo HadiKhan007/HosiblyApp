@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     width: WP('26.3'),
     height: WP('24.1'),
     marginRight: WP('2.5'),
+    backgroundColor: '#ccc',
   },
   innerRow: {
     flexDirection: 'row',

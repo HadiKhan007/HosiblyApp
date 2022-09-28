@@ -5,6 +5,8 @@ import {
   getDreamAddress,
   deleteDreamAddress,
   createDreamAddress,
+  getMatchList,
+  updateInfoSocialLoginService,
 } from '../../../shared/service/AppService';
 import {
   addBuyerPreferences,
@@ -195,6 +197,13 @@ export function* DreamAddressRequest() {
   yield takeLatest(types.GET_DREAM_ADDRESS_REQUEST, getDreamAddressSaga);
   yield takeLatest(types.DELETE_DREAM_ADDRESS_REQUEST, deleteDreamAddressSaga);
   yield takeLatest(types.DREAM_ADDRESS_SEARCH_REQUEST, searchDreamAddressSaga);
+  yield takeLatest(types.GET_MATCH_LIST_REQUEST, getMyMatchListSaga);
+  yield takeLatest(
+    types.UPDATE_INFO_SOCIAL_LOGIN_REQUEST,
+    updateInfoSocialLogin,
+  );
+
+  //
 }
 function* getDreamAddressSaga(params) {
   try {
@@ -245,6 +254,41 @@ function* searchDreamAddressSaga(params) {
     console.log(error);
     yield put({
       type: types.DREAM_ADDRESS_SEARCH_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+function* getMyMatchListSaga(params) {
+  try {
+    const res = yield getMatchList(params?.data);
+    yield put({
+      type: types.GET_MATCH_LIST_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    yield put({
+      type: types.GET_MATCH_LIST_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+// *********** update info social login
+function* updateInfoSocialLogin(params) {
+  try {
+    const res = yield updateInfoSocialLoginService(params);
+    yield put({
+      type: types.UPDATE_INFO_SOCIAL_LOGIN_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_INFO_SOCIAL_LOGIN_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

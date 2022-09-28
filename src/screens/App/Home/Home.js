@@ -27,6 +27,8 @@ import {
   scrHeight,
   networkText,
   checkConnected,
+  HP,
+  family,
 } from '../../../shared/exporter';
 import styles from './styles';
 // Tabs
@@ -42,14 +44,17 @@ import {
   selected_suuport_user_data,
   send_FCM_Request,
 } from '../../../redux/actions';
+import {getMyMatchListAction} from '../../../redux/actions/app-actions/app-actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SlowBuffer} from 'buffer';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
   const [hideAds, setHideAds] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [selected, setSelected] = useState('buy');
+  const [matchList, setmatchList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const isFocus = useIsFocused(null);
@@ -83,6 +88,25 @@ const Home = ({navigation}) => {
     } else {
       setLoading(false);
       Alert.alert('Error', 'Something went wrong!');
+    }
+  };
+  useEffect(() => {
+    getMyMatchList();
+  }, []);
+
+  const getMyMatchList = () => {
+    setLoading(true);
+    try {
+      const cbSuccess = res => {
+        setmatchList(res);
+        setLoading(false);
+      };
+      const cbFailure = err => {
+        setLoading(false);
+      };
+      dispatch(getMyMatchListAction(cbSuccess, cbFailure));
+    } catch (error) {
+      setLoading(false);
     }
   };
 
@@ -327,7 +351,15 @@ const Home = ({navigation}) => {
           {selected === 'buy' && (
             <BuyTab buyer_data={buyer_data} navigation={navigation} />
           )}
-          {selected === 'matches' && <MatchesTab navigation={navigation} />}
+          {selected === 'matches' &&
+            (matchList.length > 0 ? (
+              <MatchesTab
+                navigation={navigation}
+                data={matchList.slice(0, 10)}
+              />
+            ) : (
+              <Text style={styles.noRecorFound}>No match list found!</Text>
+            ))}
           {selected === 'sell' && (
             <View style={{height: scrWidth / 1.2}}>
               <SellTab properties={recent_properties} navigation={navigation} />
