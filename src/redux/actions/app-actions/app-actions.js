@@ -99,3 +99,10 @@ export const deleteDreamAddressAction = (id, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+export const getMyMatchListAction = (cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_MATCH_LIST_REQUEST,
+    cbSuccess,
+    cbFailure,
+  };
+};

@@ -76,6 +76,10 @@ const PropertyDetail = ({navigation}) => {
           });
         }),
           formdata.append('property[title]', add_property_detail?.title || '');
+        formdata.append(
+          'property[zip_code]',
+          add_property_detail?.zip_code || '',
+        );
         formdata.append('property[price]', add_property_detail?.price || '');
         formdata.append(
           'property[currency_type]',

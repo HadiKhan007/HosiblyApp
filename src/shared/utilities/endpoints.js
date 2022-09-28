@@ -63,6 +63,10 @@ const ENDPOINTS = {
   CREATE_SUBSCRIPTION: 'create_subscription',
   CANCEL_SUBSCRIPTION: 'cancel_subscription',
   GET_SUBSCRIPTION: 'get_subscription',
+  // get match list
+  GET_MATCH_LIST: 'properties/matching_property',
+  // update info social login
+  UPDATE_INFO_SOCIAL_LOGIN: '',
 };
 
 export {BASE_URL, ENDPOINTS, CHAT_URL};

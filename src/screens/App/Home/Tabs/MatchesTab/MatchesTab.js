@@ -1,41 +1,50 @@
 import React from 'react';
 import {Text, View, Image, FlatList} from 'react-native';
-import {appIcons} from '../../../../../shared/exporter';
-import {myMatches} from '../../../../../shared/utilities/constant';
+import {appIcons, appImages} from '../../../../../shared/exporter';
 import styles from './styles';
 
-const MatchesTab = ({navigation}) => {
+const MatchesTab = ({navigation, data}) => {
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.itemContainer}>
-        <Image source={item?.img} style={styles.imgStyle} />
+        <Image
+          source={
+            item?.image?.length > 0 ? {uri: item?.image[0]?.url} : appImages.ph
+          }
+          style={styles.imgStyle}
+        />
         <View style={{paddingVertical: 5}}>
           <View style={styles.innerRow}>
             <Text numberOfLines={1} style={styles.nameTxtStyle}>
-              {item?.name}
+              {item?.title}
             </Text>
-            <View style={styles.txtContainer}>
-              <Text style={styles.newTxtStyle}>New</Text>
-            </View>
+            {item?.is_new ? (
+              <View style={styles.txtContainer}>
+                <Text style={styles.newTxtStyle}>New</Text>
+              </View>
+            ) : null}
           </View>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>$25,000 | </Text>
+            <Text style={styles.smallTxtStyle}>${item?.price} | </Text>
+
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>4</Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || '0'}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              3.5
+              {item?.bath_rooms || '0'}
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 0}]}>
             <Image source={appIcons.heartIcon} style={styles.heartIconStyle} />
-            <Text style={styles.heartTxtStyle}>90% match</Text>
+            <Text style={styles.heartTxtStyle}>{item?.weight_age}% match</Text>
           </View>
-          <Text style={styles.timeTxtStyle}>Last active: 1 day ago</Text>
+          <Text style={styles.timeTxtStyle}>
+            Last active: {item?.last_seen}
+          </Text>
         </View>
       </View>
     );
@@ -52,7 +61,7 @@ const MatchesTab = ({navigation}) => {
         </Text>
       </View>
       <FlatList
-        data={myMatches}
+        data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}

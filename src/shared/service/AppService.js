@@ -51,9 +51,32 @@ export const deleteDreamAddress = async params => {
   return res.data;
 };
 export const createDreamAddress = async params => {
-  console.log('PARAMS ', params);
   const res = await axios.post(
     `${BASE_URL}${ENDPOINTS.CREATE_DREAM_ADDRESS}`,
+    params,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};
+export const getMatchList = async params => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_MATCH_LIST}`, {
+    headers: {
+      auth_token: await GetToken(),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};
+export const updateInfoSocialLoginService = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.UPDATE_INFO_SOCIAL_LOGIN}`,
     params,
     {
       headers: {
