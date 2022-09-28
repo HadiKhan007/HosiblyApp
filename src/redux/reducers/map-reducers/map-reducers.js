@@ -5,7 +5,9 @@ const initialState = {
   isSuccess: false,
   isFailure: false,
   mapResults: null,
+  proeprtyInfo: null,
   schools: null,
+  schoolInfo: null,
 };
 
 const mapReducers = (state = initialState, actions) => {
@@ -25,7 +27,23 @@ const mapReducers = (state = initialState, actions) => {
         loading: false,
         isSuccess: false,
         isFailure: true,
-        mapResults: payload,
+        mapResults: null,
+      };
+    case TYPES.GET_PROPERTY_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        proeprtyInfo: payload,
+      };
+    case TYPES.GET_PROPERTY_INFO_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: false,
+        isFailure: true,
+        proeprtyInfo: null,
       };
     case TYPES.SCHOOLS_ON_MAP_SUCCESS:
       return {
@@ -41,7 +59,23 @@ const mapReducers = (state = initialState, actions) => {
         loading: false,
         isSuccess: false,
         isFailure: true,
-        schools: payload,
+        schools: null,
+      };
+    case TYPES.GET_SCHOOL_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        schoolInfo: payload,
+      };
+    case TYPES.GET_SCHOOL_INFO_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: false,
+        isFailure: true,
+        schoolInfo: null,
       };
     default:
       return state;

@@ -1,6 +1,11 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {responseValidator} from '../../../shared/exporter';
-import {search} from '../../../shared/service/MapService';
+import {
+  findSchools,
+  propertyInfo,
+  schoolInfo,
+  search,
+} from '../../../shared/service/MapService';
 import * as types from '../../actions/types';
 
 // search on map
@@ -29,6 +34,32 @@ function* mapSearch(params) {
   }
 }
 
+// property info
+export function* getPropertyInfo() {
+  yield takeLatest(types.GET_PROPERTY_INFO_REQUEST, getProperty);
+}
+
+function* getProperty(params) {
+  try {
+    const res = yield propertyInfo(params?.params);
+    if (res) {
+      yield put({
+        type: types.GET_PROPERTY_INFO_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_PROPERTY_INFO_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
 // schools on map
 export function* schoolsOnMap() {
   yield takeLatest(types.SCHOOLS_ON_MAP_REQUEST, schoolsSearch);
@@ -36,7 +67,7 @@ export function* schoolsOnMap() {
 
 function* schoolsSearch(params) {
   try {
-    const res = yield findSchools(params?.params);
+    const res = yield findSchools();
     if (res) {
       yield put({
         type: types.SCHOOLS_ON_MAP_SUCCESS,
@@ -48,6 +79,32 @@ function* schoolsSearch(params) {
     console.log(error);
     yield put({
       type: types.SCHOOLS_ON_MAP_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// school info
+export function* getSchoolInfo() {
+  yield takeLatest(types.GET_SCHOOL_INFO_REQUEST, getSchool);
+}
+
+function* getSchool(params) {
+  try {
+    const res = yield schoolInfo(params?.params);
+    if (res) {
+      yield put({
+        type: types.GET_SCHOOL_INFO_SUCCESS,
+        payload: res,
+      });
+      params?.cbSuccess(res);
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_SCHOOL_INFO_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

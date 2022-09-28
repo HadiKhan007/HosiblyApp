@@ -41,7 +41,7 @@ import {allIcons, networkText} from '../../../../shared/utilities/constant';
 
 // redux stuff
 import {useDispatch, useSelector} from 'react-redux';
-import {searchOnMap} from '../../../../redux/actions';
+import {searchOnMap, schoolsOnMap} from '../../../../redux/actions';
 
 const ASPECT_RATIO = scrWidth / scrHeight;
 const LATITUDE = 37.78825;
@@ -151,7 +151,7 @@ const MapScreen = ({navigation}) => {
       setEditing(null);
       setCreatingHole(false);
       // Hit API...
-      findResults(coords, 'polygon');
+      findProperties(coords, 'polygon');
     } else {
       alert('Please first draw polygon.');
     }
@@ -221,7 +221,7 @@ const MapScreen = ({navigation}) => {
   const searchByCode = code => {
     // hit API...
     setZipCode(code);
-    findResults(code, 'zipCode');
+    findProperties(code, 'zipCode');
   };
 
   const onPressDone = () => {
@@ -235,7 +235,7 @@ const MapScreen = ({navigation}) => {
     // hit API...
     console.log('Address is ==> ', data?.description);
     console.log('Location is ==> ', details?.geometry?.location);
-    findResults(data?.description, 'address');
+    findSchools(data?.description, 'address');
   };
 
   const onZoomInPress = () => {
@@ -252,7 +252,7 @@ const MapScreen = ({navigation}) => {
     });
   };
 
-  const findResults = async (data, type) => {
+  const findProperties = async (data, type) => {
     console.log('Data ==> ', data);
     console.log('Type ==> ', type);
     return;
@@ -271,6 +271,35 @@ const MapScreen = ({navigation}) => {
           console.log('On Buyer prop Failure', res);
         };
         dispatch(searchOnMap(params, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  const findSchools = async (data, type) => {
+    console.log('Data ==> ', data);
+    console.log('Type ==> ', type);
+    return;
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const params = new FormData();
+        params.append('polygons', data);
+        const onSuccess = res => {
+          setLoading(false);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+          console.log('On Buyer prop Failure', res);
+        };
+        dispatch(schoolsOnMap(params, onSuccess, onFailure));
       } catch (error) {
         console.log(error);
         setLoading(false);
