@@ -21,15 +21,16 @@ export const getPropertyInfo = (params, cbSuccess, cbFailure) => {
 };
 
 // schools on map
-export const schoolsOnMap = (cbSuccess, cbFailure) => {
+export const schoolsOnMap = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.SCHOOLS_ON_MAP_REQUEST,
+    params,
     cbSuccess,
     cbFailure,
   };
 };
 
-// schools on map
+// school info
 export const getSchoolInfo = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.GET_SCHOOL_INFO_REQUEST,

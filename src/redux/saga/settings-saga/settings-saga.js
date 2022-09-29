@@ -3,11 +3,13 @@ import {responseValidator} from '../../../shared/exporter';
 import {
   addDebitCard,
   addQuery,
+  changeStatus,
   delDebitCard,
   editDebitCard,
   getAllPaymentCards,
   getDefaultCard,
   getQueries,
+  getStatus,
   getUserData,
   setDefaultCard,
   staticPages,
@@ -348,6 +350,57 @@ function* addQueryReq(params) {
     console.log(error);
     yield put({
       type: types.ADD_QUERY_FAILURE,
+      payload: null,
+    });
+
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// *************GET NOTIFY STATUS**************
+export function* getNotifyStatus() {
+  yield takeLatest(types.GET_NOTIFY_STATUS_REQUEST, getNotificationStatus);
+}
+function* getNotificationStatus(params) {
+  try {
+    const res = yield getStatus();
+    yield put({
+      type: types.GET_NOTIFY_STATUS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.GET_NOTIFY_STATUS_FAILURE,
+      payload: null,
+    });
+
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+// *************CHANGE NOTIFY STATUS**************
+export function* changeNotifyStatus() {
+  yield takeLatest(
+    types.CHANGE_NOTIFY_STATUS_REQUEST,
+    changeNotificationStatus,
+  );
+}
+function* changeNotificationStatus(params) {
+  try {
+    const res = yield changeStatus(params?.params);
+    yield put({
+      type: types.CHANGE_NOTIFY_STATUS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: types.CHANGE_NOTIFY_STATUS_FAILURE,
       payload: null,
     });
 

@@ -35,7 +35,7 @@ import styles from './styles';
 import {useDispatch} from 'react-redux';
 import {getPropertyInfo} from '../../../../redux/actions';
 
-const ViewProperty = ({navigation}) => {
+const ViewProperty = ({navigation, route}) => {
   const [item, setItem] = useState([]);
   const [loading, setLoading] = useState(false);
   const [previewImg, setPreviewImg] = useState('');
@@ -46,18 +46,18 @@ const ViewProperty = ({navigation}) => {
   // redux stuff
   const dispatch = useDispatch();
 
-  // Set Preview Image
   useEffect(() => {
     getProperty();
   }, []);
 
   const getProperty = async () => {
+    let id = route?.params?.item?.id;
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
         const params = new FormData();
-        params.append('property_id', '2');
+        params.append('property_id', id);
         const onSuccess = res => {
           setItem(res);
           setLoading(false);

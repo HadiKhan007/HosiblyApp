@@ -29,6 +29,8 @@ const ENDPOINTS = {
   DELETE_BOOKMARKS: 'bookmarks',
   GET_QUERIES: 'tickets',
   ADD_QUERY: 'tickets',
+  GET_STATUS: 'get_notification_setting',
+  CHANGE_STATUS: 'update_notification',
   REVIEW_CONST: 'reviews',
   SEARCH_ON_MAP: 'dream_addresses/fetch_property',
   GET_PROPERTY_DETAILS: 'properties/get_property',

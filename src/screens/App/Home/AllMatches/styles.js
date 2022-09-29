@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: -5,
     borderRadius: 8,
-    height: WP('31'),
     width: scrWidth / 2.6,
+    height: platformOrientedCode(WP('33'), WP('31')),
   },
   menuItemStyle: {
     height: WP('10'),

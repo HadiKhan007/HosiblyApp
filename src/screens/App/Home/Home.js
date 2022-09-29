@@ -51,24 +51,25 @@ import {SlowBuffer} from 'buffer';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
-  const [hideAds, setHideAds] = useState(false);
+  const [hideItem, setHideItem] = useState('');
+  const [matchList, setmatchList] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [selected, setSelected] = useState('buy');
-  const [matchList, setmatchList] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [supportUsers, setSupportUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
   const {recent_properties, buyer_data} = useSelector(
     state => state?.appReducer,
   );
-  const {support_users} = useSelector(state => state?.supportReducer);
   const {userInfo} = useSelector(state => state?.auth);
   const {userProfile} = useSelector(state => state?.settings);
 
   const hideItemClick = () => {
     setShowMenu(false);
-    setHideAds(true);
+    let arr = supportUsers.filter(item => item.id !== hideItem?.id);
+    setSupportUsers(arr);
   };
 
   const seeAllItemClick = () => {
@@ -139,7 +140,10 @@ const Home = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.iconContainer}
-            onPress={() => setShowMenu(true)}>
+            onPress={() => {
+              setShowMenu(true);
+              setHideItem(item);
+            }}>
             <Icon
               type={'entypo'}
               name={'dots-three-horizontal'}
@@ -244,7 +248,9 @@ const Home = ({navigation}) => {
   const getSupportUser = async () => {
     const check = await checkConnected();
     if (check) {
-      const onSuccess = async res => {};
+      const onSuccess = async res => {
+        setSupportUsers(res?.support_closer);
+      };
       const onFailure = async res => {
         Alert.alert('Error', res);
       };
@@ -288,16 +294,14 @@ const Home = ({navigation}) => {
             </View>
             <Image source={appImages.personPh1} style={styles.phImgStyle} />
           </View>
-          {!hideAds && (
-            <Carousel
-              ref={carouselRef}
-              sliderWidth={scrWidth}
-              sliderHeight={scrHeight}
-              itemWidth={scrWidth / 1.15}
-              data={support_users?.support_closer?.slice(0, 3)}
-              renderItem={renderItem}
-            />
-          )}
+          <Carousel
+            ref={carouselRef}
+            sliderWidth={scrWidth}
+            sliderHeight={scrHeight}
+            itemWidth={scrWidth / 1.15}
+            data={supportUsers?.slice(0, 10)}
+            renderItem={renderItem}
+          />
           <View style={styles.menuContainer}>
             <Menu
               visible={showMenu}

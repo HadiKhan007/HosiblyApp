@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
       height: WP('6.15'),
       borderColor: colors.white,
       left: index === 0 ? 0 : -5 * index,
-      backgroundColor: 'red',
+      backgroundColor: colors.g1,
     };
   },
 

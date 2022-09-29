@@ -67,7 +67,7 @@ export function* schoolsOnMap() {
 
 function* schoolsSearch(params) {
   try {
-    const res = yield findSchools();
+    const res = yield findSchools(params?.params);
     if (res) {
       yield put({
         type: types.SCHOOLS_ON_MAP_SUCCESS,

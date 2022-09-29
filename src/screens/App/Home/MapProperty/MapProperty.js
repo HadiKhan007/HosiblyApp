@@ -38,12 +38,8 @@ const MapProperty = ({navigation, route}) => {
   });
   const [item, setItem] = useState([]);
 
-  console.log('LAT ==> ', route?.params?.item);
-  console.log('LNG ==> ', route?.params?.item?.longitude);
-
   useEffect(() => {
     setItem(route?.params?.item);
-    return;
     if (route?.params?.item?.latitude) {
       let mapRegion = {
         latitude: route?.params?.item?.latitude,
@@ -51,6 +47,7 @@ const MapProperty = ({navigation, route}) => {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       };
+      setRegion(mapRegion);
       mapRef.current.animateToRegion(mapRegion, 1000);
     }
   }, []);

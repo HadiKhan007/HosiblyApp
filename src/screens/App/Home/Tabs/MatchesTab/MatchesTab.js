@@ -1,12 +1,17 @@
 import React from 'react';
-import {Text, View, Image, FlatList} from 'react-native';
+import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
 import {appIcons, appImages} from '../../../../../shared/exporter';
 import styles from './styles';
 
 const MatchesTab = ({navigation, data}) => {
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.itemContainer}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          navigation.navigate('ViewProperty', {item: item});
+        }}
+        style={styles.itemContainer}>
         <Image
           source={
             item?.image?.length > 0 ? {uri: item?.image[0]?.url} : appImages.ph
@@ -46,7 +51,7 @@ const MatchesTab = ({navigation, data}) => {
             Last active: {item?.last_seen}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

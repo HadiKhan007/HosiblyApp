@@ -38,6 +38,8 @@ import {
   updateProfileRequest,
   getQueriesSaga,
   addQuerySaga,
+  getNotifyStatus,
+  changeNotifyStatus,
 } from './settings-saga/settings-saga';
 
 import {
@@ -79,6 +81,8 @@ export function* rootSaga() {
   yield fork(getStaticPagesSaga);
   yield fork(getQueriesSaga);
   yield fork(addQuerySaga);
+  yield fork(getNotifyStatus);
+  yield fork(changeNotifyStatus);
 
   //Payments
   yield fork(addcardRequest);
