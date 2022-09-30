@@ -69,6 +69,7 @@ export default SubscriptionPlan = ({navigation}) => {
     setloading(true);
     try {
       const cbSuccess = res => {
+        console.log('SUBSCRIPTION PLAN ', res);
         setsubscribedPackage(res?.subscription);
         setloading(false);
       };
@@ -126,88 +127,90 @@ export default SubscriptionPlan = ({navigation}) => {
   return (
     <SafeAreaView style={styles.rootContainer}>
       <MyStatusBar />
-      <View style={styles.contentContainer}>
-        <BackHeader />
-        <Image source={appImages.bookmark} />
-        <View style={spacing.my4}>
-          <Text style={styles.textStyle}>
-            {subscribedPackage[0]?.status == 'active'
-              ? 'Package Subscribed!'
-              : 'Boost your Profile!'}
-          </Text>
-          <Text style={styles.newtext}>
-            {subscribedPackage[0]?.status == 'active'
-              ? ' Your amount will be deducted automatically after completing selected duration.You can cancel your subscription. '
-              : 'To get more clients easily, you can boost your account and get noticed.'}
-          </Text>
-        </View>
-        {subscribedPackage[0]?.status == 'active' ? (
-          <View>
-            <View style={styles.cardView}>
-              <View style={styles.cardInnerView}>
-                <Text style={styles.cardTextTitle}>Package</Text>
-                <Text style={styles.cardText}>
-                  {subscribedPackage[0]?.subscription_title}
-                </Text>
-              </View>
-              <View style={styles.cardInnerView}>
-                <Text style={styles.cardTextTitle}>Price</Text>
-                <Text style={styles.cardText}>
-                  {subscribedPackage[0]?.price}
-                </Text>
-              </View>
-              <View style={styles.cardInnerView}>
-                <Text style={styles.cardTextTitle}>Status</Text>
-                <Text style={styles.cardText}>
-                  {/* {subscribedPackage[0]?.status} */}
-                  Active
-                </Text>
-              </View>
-
-              <View style={styles.cardInnerView}>
-                <Text style={styles.cardTextTitle}>Start Date:</Text>
-                <Text style={styles.cardText}>
-                  {moment(subscribedPackage[0]?.current_period_start).format(
-                    'L',
-                  )}
-                </Text>
-              </View>
-              <View style={styles.cardInnerView}>
-                <Text style={styles.cardTextTitle}>End Date:</Text>
-                <Text style={styles.cardText}>
-                  {moment(subscribedPackage[0]?.current_period_start).format(
-                    'L',
-                  )}
-                </Text>
-              </View>
-            </View>
-            <View style={{marginTop: HP('2')}}>
-              <AppButton
-                bgColor={colors.r5}
-                borderColor={colors.r5}
-                title={'Cancel Subscription'}
-                width={WP('60')}
-                shadowColor={colors.white}
-                onPress={
-                  // () => cancelSubscription(23)
-                  () =>
-                    cancelSubscription(subscribedPackage[0]?.subscription_id)
-                }
-              />
-            </View>
+      {subscribedPackage != null || undefined ? (
+        <View style={styles.contentContainer}>
+          <BackHeader />
+          <Image source={appImages.bookmark} />
+          <View style={spacing.my4}>
+            <Text style={styles.textStyle}>
+              {subscribedPackage[0]?.status == 'active'
+                ? 'Package Subscribed!'
+                : 'Boost your Profile!'}
+            </Text>
+            <Text style={styles.newtext}>
+              {subscribedPackage[0]?.status == 'active'
+                ? ' Your amount will be deducted automatically after completing selected duration.You can cancel your subscription. '
+                : 'To get more clients easily, you can boost your account and get noticed.'}
+            </Text>
           </View>
-        ) : (
-          subscription?.map((item, index) => {
-            return (
-              <SubscriptionButton
-                item={item}
-                index={index}
-                onPress={() => handleOnPress(item)}
-              />
-            );
-          })
-        )}
-      </View>
+          {subscribedPackage[0]?.status == 'active' ? (
+            <View>
+              <View style={styles.cardView}>
+                <View style={styles.cardInnerView}>
+                  <Text style={styles.cardTextTitle}>Package</Text>
+                  <Text style={styles.cardText}>
+                    {subscribedPackage[0]?.subscription_title}
+                  </Text>
+                </View>
+                <View style={styles.cardInnerView}>
+                  <Text style={styles.cardTextTitle}>Price</Text>
+                  <Text style={styles.cardText}>
+                    {subscribedPackage[0]?.price}
+                  </Text>
+                </View>
+                <View style={styles.cardInnerView}>
+                  <Text style={styles.cardTextTitle}>Status</Text>
+                  <Text style={styles.cardText}>
+                    {/* {subscribedPackage[0]?.status} */}
+                    Active
+                  </Text>
+                </View>
+
+                <View style={styles.cardInnerView}>
+                  <Text style={styles.cardTextTitle}>Start Date:</Text>
+                  <Text style={styles.cardText}>
+                    {moment(subscribedPackage[0]?.current_period_start).format(
+                      'L',
+                    )}
+                  </Text>
+                </View>
+                <View style={styles.cardInnerView}>
+                  <Text style={styles.cardTextTitle}>End Date:</Text>
+                  <Text style={styles.cardText}>
+                    {moment(subscribedPackage[0]?.current_period_start).format(
+                      'L',
+                    )}
+                  </Text>
+                </View>
+              </View>
+              <View style={{marginTop: HP('2')}}>
+                <AppButton
+                  bgColor={colors.r5}
+                  borderColor={colors.r5}
+                  title={'Cancel Subscription'}
+                  width={WP('60')}
+                  shadowColor={colors.white}
+                  onPress={
+                    // () => cancelSubscription(23)
+                    () =>
+                      cancelSubscription(subscribedPackage[0]?.subscription_id)
+                  }
+                />
+              </View>
+            </View>
+          ) : (
+            subscription?.map((item, index) => {
+              return (
+                <SubscriptionButton
+                  item={item}
+                  index={index}
+                  onPress={() => handleOnPress(item)}
+                />
+              );
+            })
+          )}
+        </View>
+      ) : null}
       <View style={styles.footercon}>
         <Image source={appImages.rocket} />
         <AppLoader loading={loading} />

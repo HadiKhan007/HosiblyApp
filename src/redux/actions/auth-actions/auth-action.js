@@ -107,3 +107,12 @@ export const setSupportClosureRequest = (params, callBack) => {
     callBack,
   };
 };
+// update social login request
+export const updateSocialLoginRequest = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.UPDATE_INFO_SOCIAL_LOGIN_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};

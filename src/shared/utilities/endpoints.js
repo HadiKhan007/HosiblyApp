@@ -66,7 +66,10 @@ const ENDPOINTS = {
   // get match list
   GET_MATCH_LIST: 'properties/matching_property',
   // update info social login
-  UPDATE_INFO_SOCIAL_LOGIN: '',
+  UPDATE_INFO_SOCIAL_LOGIN: 'update_social_login',
+  // filter property
+  PROPERTY_FILTER: '',
+  SEARCH_ADDRESS: '',
 };
 
 export {BASE_URL, ENDPOINTS, CHAT_URL};
