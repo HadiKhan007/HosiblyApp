@@ -70,8 +70,8 @@ const ENDPOINTS = {
   // update info social login
   UPDATE_INFO_SOCIAL_LOGIN: 'update_social_login',
   // filter property
-  PROPERTY_FILTER: '',
-  SEARCH_ADDRESS: '',
+  PROPERTY_FILTER: 'dream_addresses/fetch_user',
+  SEARCH_ADDRESS: 'user_match_addresses',
 };
 
 export {BASE_URL, ENDPOINTS, CHAT_URL};

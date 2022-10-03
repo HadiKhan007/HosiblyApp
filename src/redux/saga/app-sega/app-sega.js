@@ -318,7 +318,7 @@ function* propertyFilterSaga(params) {
 
 function* searchbyAddress(params) {
   try {
-    const res = yield searchAddress(params?.params);
+    const res = yield searchAddress(params?.data);
     yield put({
       type: types.SEARCH_BY_ADDRESS_SUCCESS,
       payload: res,
