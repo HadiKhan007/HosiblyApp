@@ -12,6 +12,7 @@ import {
   BackHeader,
   FilterInput,
   MyStatusBar,
+  AppLoader,
 } from '../../../../components';
 import {
   colors,
@@ -32,7 +33,7 @@ const AddAddress = ({navigation}) => {
   const {address} = useSelector(state => state?.appReducer);
   const [data, setdata] = useState([]);
   const dispatch = useDispatch();
-
+  const [loading, setloading] = useState(false);
   const ref = useRef();
 
   // useEffect(() => {
@@ -40,15 +41,24 @@ const AddAddress = ({navigation}) => {
   // }, [ref]);
 
   const getSearchList = value => {
+    setloading(true);
     const data = new FormData();
-    data.append('', value);
+    data.append('address', value);
     try {
       const cbSuccess = res => {
-        setdata(res);
+        setdata(res?.users_detail);
+        setloading(false);
       };
-      const cbFailure = err => {};
+      const cbFailure = err => {
+        setloading(false);
+      };
       dispatch(searchAddress(data, cbSuccess, cbFailure));
-    } catch (error) {}
+    } catch (error) {
+      setloading(false);
+    }
+  };
+  const renderItem = ({item}) => {
+    return <AddressCard item={item} />;
   };
 
   return (
@@ -73,7 +83,6 @@ const AddAddress = ({navigation}) => {
               placeholderTextColor: colors.g1,
               onChangeText: value => {
                 location = value;
-                console.log('val', value);
               },
             }}
             styles={{
@@ -93,13 +102,12 @@ const AddAddress = ({navigation}) => {
                 alignSelf: 'center',
               },
             }}
-            clear={clr => {}}
             onFail={err => {
               console.log('[error while auto complete]', err);
             }}
             onPress={data => {
               location = data?.description;
-              // dispatch(set_address_request(location, () => {}));
+              getSearchList(data?.description);
             }}
             query={{
               key: 'AIzaSyBq3-UEY9QO9X45s8w54-mrwjBQekzDlsA',
@@ -111,15 +119,23 @@ const AddAddress = ({navigation}) => {
           <Text style={[styles.h1, {marginVertical: 10}]}>
             People who searched this address
           </Text>
-          <Text style={[styles.h1, {color: colors.p1}]}>6 entries</Text>
-
-          <FlatList
-            data={[1, 2, 3, 4, 5]}
-            renderItem={() => {
-              return <AddressCard />;
-            }}
-          />
+          {data?.length > 0 ? (
+            <Text style={[styles.h1, {color: colors.p1}]}>
+              {data?.length} entries
+            </Text>
+          ) : null}
+          {data?.length > 0 ? (
+            <FlatList
+              data={data}
+              showsVerticalScrollIndicator={false}
+              keyExtracto={(item, index) => item + index.toString()}
+              renderItem={renderItem}
+            />
+          ) : (
+            <Text style={styles.noFoundText}>No user found!.</Text>
+          )}
         </View>
+        <AppLoader loading={loading} />
       </ScrollView>
     </SafeAreaView>
   );

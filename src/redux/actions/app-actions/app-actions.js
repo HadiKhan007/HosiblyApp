@@ -106,17 +106,18 @@ export const getMyMatchListAction = (cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
-export const propertyFilterAction = (cbSuccess, cbFailure) => {
+export const propertyFilterAction = (data, cbSuccess, cbFailure) => {
   return {
     type: TYPES.PROPERTY_FILTER_REQUEST,
+    data,
     cbSuccess,
     cbFailure,
   };
 };
-export const searchAddress = (params, cbSuccess, cbFailure) => {
+export const searchAddress = (data, cbSuccess, cbFailure) => {
   return {
     type: TYPES.SEARCH_BY_ADDRESS_REQUEST,
-    params,
+    data,
     cbSuccess,
     cbFailure,
   };

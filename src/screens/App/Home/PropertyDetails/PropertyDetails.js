@@ -10,9 +10,16 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useIsFocused} from '@react-navigation/core';
-import {Spacer, BackHeader} from '../../../../components';
+import {Spacer, BackHeader, AppLoader} from '../../../../components';
 import {Menu, MenuItem} from 'react-native-material-menu';
-import {appIcons, colors, family, size, WP} from '../../../../shared/exporter';
+import {
+  appIcons,
+  appImages,
+  colors,
+  family,
+  size,
+  WP,
+} from '../../../../shared/exporter';
 import {
   condoMatches,
   landMatches,
@@ -22,7 +29,6 @@ import {
 import styles from './styles';
 import {propertyFilterAction} from '../../../../redux/actions/app-actions/app-actions';
 import {useDispatch} from 'react-redux';
-import {Value} from 'react-native-reanimated';
 
 const PropertyDetails = ({navigation, route}) => {
   const isFocus = useIsFocused();
@@ -32,6 +38,7 @@ const PropertyDetails = ({navigation, route}) => {
   const [filterType, setFilterType] = useState('Top Match');
   const [showMatchMenu, setShowMatchMenu] = useState(false);
   const [loading, setloading] = useState(false);
+  const [matchedProperty, setmatchedProperty] = useState([]);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
@@ -50,9 +57,11 @@ const PropertyDetails = ({navigation, route}) => {
   }, []);
 
   const getFilteredProperty = type => {
+    let propertyId = route?.params?.item?.id;
+    setloading(true);
     try {
       const data = new FormData();
-      data.append('property_id', 0);
+      data.append('property_id', propertyId);
 
       if (type == 'Dream Address') {
         data.append('dream_address', true);
@@ -63,15 +72,23 @@ const PropertyDetails = ({navigation, route}) => {
       } else if (type == 'Match') {
         data.append('user_preference', true);
       }
-      console.log('DATA==> ', data);
       const cbSuccess = res => {
-        setData(res);
+        if (res?.message === 'No Property available') {
+        } else {
+          setmatchedProperty(res?.property);
+        }
+        // setmatchedProperty(res?.property);
         setShowMenu(false);
         setShowMatchMenu(false);
+        setloading(false);
       };
-      const cbFailure = err => {};
+      const cbFailure = err => {
+        setloading(false);
+      };
+      dispatch(propertyFilterAction(data, cbSuccess, cbFailure));
     } catch (error) {
       setShowMenu(false);
+      setloading(false);
     }
   };
 
@@ -117,7 +134,6 @@ const PropertyDetails = ({navigation, route}) => {
   };
 
   const hideItemClick = type => {
-    console.log('TYPE ', type);
     getFilteredProperty(type);
     setFilterType(type);
     setShowMenu(false);
@@ -125,7 +141,6 @@ const PropertyDetails = ({navigation, route}) => {
   };
 
   const hideMatchClick = type => {
-    console.log('TYPE.. ', type);
     getFilteredProperty(type);
     setShowMenu(false);
     setMatchFilter(type);
@@ -145,9 +160,9 @@ const PropertyDetails = ({navigation, route}) => {
           })
         }>
         <View style={styles.innerRow}>
-          <Image source={item?.img} style={styles.itemImgStyle} />
+          <Image source={appImages.cardBg} style={styles.itemImgStyle} />
           <View style={styles.contentContainer}>
-            <Text style={styles.nameStyle}>{item?.name}</Text>
+            <Text style={styles.nameStyle}>User1</Text>
             <Text style={styles.txtStyle}>
               Budget: <Text style={styles.spanTxtStyle}>$25,000</Text> to{' '}
               <Text style={styles.spanTxtStyle}>$50,000</Text>
@@ -159,11 +174,11 @@ const PropertyDetails = ({navigation, route}) => {
                 size={10}
                 color={colors.r2}
               />
-              <Text style={styles.matchTxtStyle}> {item?.match} match</Text>
+              <Text style={styles.matchTxtStyle}> 90% match</Text>
             </View>
           </View>
         </View>
-        <Image source={item?.matchIcon} style={styles.matchImgStyle} />
+        {/* <Image source={item?.matchIcon} style={styles.matchImgStyle} /> */}
       </TouchableOpacity>
     );
   };
@@ -241,12 +256,12 @@ const PropertyDetails = ({navigation, route}) => {
               onPress={() => hideMatchClick('Match')}>
               <Text>Match</Text>
             </MenuItem>
-            <MenuItem
+            {/* <MenuItem
               style={styles.menuItemStyle}
               textStyle={styles.menuTxtStyle}
               onPress={() => hideMatchClick('Draw Map')}>
               <Text>Draw Map</Text>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               style={styles.menuItemStyle}
               textStyle={styles.menuTxtStyle}
@@ -255,12 +270,17 @@ const PropertyDetails = ({navigation, route}) => {
             </MenuItem>
           </Menu>
         </View>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          keyExtracto={(item, index) => item + index.toString()}
-        />
+        {matchedProperty ? (
+          <FlatList
+            data={matchedProperty}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            keyExtracto={(item, index) => item + index.toString()}
+          />
+        ) : (
+          <Text style={styles.noFoundText}>No data found</Text>
+        )}
+        <AppLoader loading={loading} />
       </View>
     </SafeAreaView>
   );
