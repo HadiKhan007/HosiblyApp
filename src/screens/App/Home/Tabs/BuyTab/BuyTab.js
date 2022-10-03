@@ -340,7 +340,7 @@ const BuyTab = ({navigation, buyer_data}) => {
 
           <View style={[styles.dividerView, {marginBottom: WP('4')}]} />
 
-          {addresses.map((item, index) => {
+          {addresses?.map((item, index) => {
             return <AddressesRow item={item} index={index} />;
           })}
         </View>
