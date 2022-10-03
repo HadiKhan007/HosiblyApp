@@ -11,6 +11,7 @@ export {
   resendOTPRequest,
   addInfoRequest,
   setSupportClosureRequest,
+  updateSocialLoginRequest,
 } from './auth-actions/auth-action';
 // settings actions
 export {

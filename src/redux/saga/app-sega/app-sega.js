@@ -14,6 +14,8 @@ import {
   getBuyerPreferences,
   getFilteredProperties,
   getRecentProperties,
+  filterProperty,
+  searchAddress,
 } from '../../../shared/service/PropertyService';
 
 import * as types from '../../actions/types';
@@ -202,8 +204,9 @@ export function* DreamAddressRequest() {
     types.UPDATE_INFO_SOCIAL_LOGIN_REQUEST,
     updateInfoSocialLogin,
   );
-
-  //
+  yield takeLatest(types.PROPERTY_FILTER_REQUEST, propertyFilterSaga);
+  yield takeLatest(types.SEARCH_BY_ADDRESS_REQUEST, searchbyAddress);
+  // propertyFilterSaga
 }
 function* getDreamAddressSaga(params) {
   try {
@@ -280,7 +283,7 @@ function* getMyMatchListSaga(params) {
 // *********** update info social login
 function* updateInfoSocialLogin(params) {
   try {
-    const res = yield updateInfoSocialLoginService(params);
+    const res = yield updateInfoSocialLoginService(params?.params);
     yield put({
       type: types.UPDATE_INFO_SOCIAL_LOGIN_SUCCESS,
       payload: res,
@@ -289,6 +292,41 @@ function* updateInfoSocialLogin(params) {
   } catch (error) {
     yield put({
       type: types.UPDATE_INFO_SOCIAL_LOGIN_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+function* propertyFilterSaga(params) {
+  try {
+    const res = yield filterProperty(params?.params);
+    yield put({
+      type: types.PROPERTY_FILTER_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    yield put({
+      type: types.PROPERTY_FILTER_FAILURE,
+      payload: null,
+    });
+    let msg = responseValidator(error?.response?.status, error?.response?.data);
+    params?.cbFailure(msg);
+  }
+}
+
+function* searchbyAddress(params) {
+  try {
+    const res = yield searchAddress(params?.params);
+    yield put({
+      type: types.SEARCH_BY_ADDRESS_SUCCESS,
+      payload: res,
+    });
+    params?.cbSuccess(res);
+  } catch (error) {
+    yield put({
+      type: types.SEARCH_BY_ADDRESS_FAILURE,
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);

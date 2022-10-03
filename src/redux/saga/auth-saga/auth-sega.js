@@ -54,6 +54,11 @@ function* socialLoginUser(params) {
         type: types.SOCIAL_LOGIN_REQUEST_SUCCESS,
         payload: res,
       });
+      yield put({
+        type: types.LOGIN_REQUEST_SUCCESS,
+        payload: res,
+      });
+      console.log(res);
       AsyncStorage.setItem('usertoken', res?.user?.auth_token);
       params?.cbSuccess(res);
     } else {
@@ -61,7 +66,10 @@ function* socialLoginUser(params) {
         type: types.SOCIAL_LOGIN_REQUEST_FAILURE,
         payload: null,
       });
-      params?.cbFailure(res?.data);
+      yield put({
+        type: types.LOGIN_REQUEST_FAILURE,
+        payload: res,
+      });
     }
   } catch (error) {
     console.log(error);

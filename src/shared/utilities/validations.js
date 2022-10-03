@@ -11,6 +11,10 @@ export const signupFormFields = {
   contact: '',
   password: '',
 };
+export const socialSignupFormFields = {
+  fullname: '',
+  contact: '',
+};
 
 export const updateFormFields = {
   firstName: '',
@@ -90,6 +94,14 @@ export const SignupVS = yup.object().shape({
     .string()
     .min(6, 'Password must be at least 6 characters')
     .required('Password Required'),
+});
+
+export const SocialLoginSignupVS = yup.object().shape({
+  fullname: yup.string().required('Full Name Required'),
+  contact: yup
+    .number()
+    .typeError('Invalid phone number')
+    .required('Phone number Required'),
 });
 
 export const ForgotPasswordVS = yup.object().shape({

@@ -30,6 +30,7 @@ import {
   size,
   spacing,
   WP,
+  family,
 } from '../../../../shared/exporter';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -40,12 +41,13 @@ import {
   set_address_request,
 } from '../../../../redux/actions';
 import {useIsFocused} from '@react-navigation/core';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 const currency_list = ['USD', 'CA$'];
 const lot_list = ['meter', 'feet'];
 const depth_list = ['meter', 'feet'];
 const size_list = ['sqm', 'sqft'];
-
+let location;
 const AddPropertyDetails = ({navigation}) => {
   //States for form
   const [propertyType, setPropertyType] = useState({text: 'House'});
@@ -73,8 +75,10 @@ const AddPropertyDetails = ({navigation}) => {
 
   const [propertyData, setPropertyData] = useState({text: 'House'});
   const [lotRegularData, setlotRegularData] = useState(null);
+  // const [location, setlocation] = useState('');
 
   const [show, setShow] = useState(false);
+  const ref = useRef();
 
   //Picker States
   const [openPricePicker, setPricePicker] = useState(false);
@@ -151,7 +155,7 @@ const AddPropertyDetails = ({navigation}) => {
         images: imageArray,
         price: price,
         year_built: yeardBuild,
-        address: address,
+        address: location || address,
         unit: unit,
         lot_frontage: lot,
         lot_frontage_unit: lotFrontage,
@@ -209,7 +213,7 @@ const AddPropertyDetails = ({navigation}) => {
         images: imageArray,
         price: price,
         year_built: yeardBuild,
-        address: address,
+        address: location || address,
         unit: unit,
         lot_frontage: lot,
         lot_depth: depth,
@@ -258,9 +262,10 @@ const AddPropertyDetails = ({navigation}) => {
       setPropertySize(add_property_detail?.lot_size || '0');
       setlotRegular({text: add_property_detail?.is_lot_irregular});
       setlotRegularData({text: add_property_detail?.is_lot_irregular});
-      dispatch(
-        set_address_request(add_property_detail?.address || '', () => {}),
-      );
+      // dispatch(
+      //   set_address_request(add_property_detail?.address || '', () => {}),
+      // );
+      dispatch(set_address_request(location || address || '', () => {}));
       setDescription(add_property_detail?.lot_description || '');
       setCurrency(add_property_detail?.currency_type);
       setLotFrontage(add_property_detail?.lot_frontage_unit);
@@ -274,7 +279,8 @@ const AddPropertyDetails = ({navigation}) => {
     } else {
       dispatch(set_address_request('', () => {}));
     }
-  }, []);
+    ref.current?.setAddressText(location);
+  }, [ref]);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -358,23 +364,73 @@ const AddPropertyDetails = ({navigation}) => {
                 />
               </>
             )}
-            {propertyType?.text != 'House' && (
-              <TouchableOpacity
-                onPress={() => {
+            {/*  ===   Auto complete === */}
+
+            <View>
+              <GooglePlacesAutocomplete
+                ref={ref}
+                placeholder="Street Adress"
+                GooglePlacesDetailsQuery={{fields: 'geometry'}}
+                keyboardShouldPersistTaps
+                keepResultsAfterBlur
+                viewIsInsideTabBar
+                fetchDetails={true}
+                textInputProps={{
+                  placeholderTextColor: colors.g1,
+                  // InputComp: TextInput,
+                  onChangeText: value => {
+                    location = value;
+                    dispatch(set_address_request(value, () => {}));
+                    console.log('ONCHANGE==> ', value);
+                  },
+                }}
+                styles={{
+                  textInputContainer: {backgroundColor: 'transparent'},
+                  textInput: {
+                    height: WP('15'),
+                    color: colors.b1,
+                    paddingHorizontal: 2,
+                    fontSize: size.xsmall,
+                    fontFamily: family.Gilroy_Medium,
+                  },
+                  description: {
+                    color: colors.b1,
+                  },
+                  container: {
+                    width: '95%',
+                    alignSelf: 'center',
+                  },
+                }}
+                clear={clr => {}}
+                onFail={err => {
+                  console.log('[error while auto complete]', err);
+                }}
+                onPress={data => {
+                  location = data?.description;
+                  dispatch(set_address_request(location, () => {}));
+                }}
+                query={{
+                  key: 'AIzaSyBq3-UEY9QO9X45s8w54-mrwjBQekzDlsA',
+                  language: 'en',
+                }}
+              />
+            </View>
+
+            {/* <TouchableOpacity
+              onPress={() => {
+                navigation?.navigate('AddAddress');
+              }}>
+              <Divider color={colors.g18} />
+              <FilterInput
+                onPressIn={() => {
                   navigation?.navigate('AddAddress');
-                }}>
-                <Divider color={colors.g18} />
-                <FilterInput
-                  onPressIn={() => {
-                    navigation?.navigate('AddAddress');
-                  }}
-                  editable={false}
-                  keyboardType={'default'}
-                  placeholder={'Street Address'}
-                  value={address}
-                />
-              </TouchableOpacity>
-            )}
+                }}
+                editable={false}
+                keyboardType={'default'}
+                placeholder={'Street Address'}
+                value={address}
+              />
+            </TouchableOpacity> */}
             {propertyType?.text != 'Vacant Land' && (
               <>
                 <Divider color={colors.g18} />

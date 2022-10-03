@@ -65,10 +65,20 @@ const Login = ({navigation}) => {
 
   const handleSocialLogin = (provider, token) => {
     const socialLoginSuccess = async res => {
-      console.log('SOCIAL LOGIN RESPONSE==> ', res);
       setIsLoading(false);
       setTimeout(() => {
-        navigation?.replace('App');
+        if (res?.user?.profile_complete) {
+          if (res?.user?.profile_type === 'want_support_closer') {
+            navigation?.replace('SupportApp');
+          } else {
+            navigation?.replace('App');
+          }
+        } else {
+          navigation?.replace('SignUpPurpose', {
+            socialLoginData: res?.user,
+            login_type: 'social',
+          });
+        }
       }, 500);
     };
     const socialLoginFailure = async err => {
@@ -88,7 +98,6 @@ const Login = ({navigation}) => {
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
-    // console.log('LOGIN Apple SUCCESS==>', appleAuthRequestResponse);
     handleSocialLogin('apple', appleAuthRequestResponse?.identityToken);
     // Ensure Apple returned a user identityToken
     if (!appleAuthRequestResponse.identityToken) {
@@ -105,7 +114,6 @@ const Login = ({navigation}) => {
       form.append('user[password]', values.password);
       const loginSuccess = async res => {
         setIsLoading(false);
-
         if (res?.user?.is_confirmed && res?.user?.is_otp_verified) {
           setTimeout(() => {
             if (res?.user?.profile_type === 'want_support_closer') {
@@ -269,7 +277,9 @@ const Login = ({navigation}) => {
                         title={'Don’t have an account?'}
                         subtitle={'Create One'}
                         onPress={() => {
-                          navigation?.navigate('SignUpPurpose');
+                          navigation?.navigate('SignUpPurpose', {
+                            login_type: 'manual',
+                          });
                         }}
                       />
                     </View>

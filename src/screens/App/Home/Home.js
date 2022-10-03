@@ -63,6 +63,8 @@ const Home = ({navigation}) => {
   const {recent_properties, buyer_data} = useSelector(
     state => state?.appReducer,
   );
+
+  const {support_users} = useSelector(state => state?.supportReducer);
   const {userInfo} = useSelector(state => state?.auth);
   const {userProfile} = useSelector(state => state?.settings);
 
@@ -94,7 +96,6 @@ const Home = ({navigation}) => {
   useEffect(() => {
     getMyMatchList();
   }, []);
-
   const getMyMatchList = () => {
     setLoading(true);
     try {
@@ -110,7 +111,6 @@ const Home = ({navigation}) => {
       setLoading(false);
     }
   };
-
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -376,6 +376,9 @@ const Home = ({navigation}) => {
                   borderColor={colors.p2}
                   shadowColor={colors.white}
                   textStyle={styles.btnTxtStyle}
+                  onPress={() => {
+                    navigation?.navigate('AddAddress');
+                  }}
                 />
                 <View style={{width: WP('3')}} />
                 <AppButton

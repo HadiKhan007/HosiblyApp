@@ -37,6 +37,8 @@ export {
   BudgetBoost,
   editSupportFormFields,
   editSupportProfileFieldsVS,
+  socialSignupFormFields,
+  SocialLoginSignupVS,
 } from './utilities/validations';
 export {
   StatusBarHeight,

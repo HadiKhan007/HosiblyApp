@@ -44,6 +44,7 @@ const PropertyDetail = ({navigation}) => {
   const {add_property_detail} = useSelector(state => state?.appReducer);
   const [previewImg, setPreviewImg] = useState('');
   const [loading, setloading] = useState(false);
+  const [location, setlocation] = useState('');
   const dispatch = useDispatch();
 
   // Set Preview Image

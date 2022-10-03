@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Alert} from 'react-native';
-import {BASE_URL, responseValidator} from '../exporter';
+import {BASE_URL, responseValidator, ENDPOINTS} from '../exporter';
 import {GetToken} from '../utilities/headers';
 
 export const addProperty = async (data, setloading) => {
@@ -72,5 +72,35 @@ export const getBuyerPreferences = async () => {
       'Content-Type': 'multipart/form-data',
     },
   });
+  return res.data;
+};
+
+export const filterProperty = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.PROPERTY_FILTER}`,
+    params,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};
+
+export const searchAddress = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.SEARCH_ADDRESS}`,
+    params,
+    {
+      headers: {
+        auth_token: await GetToken(),
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
   return res.data;
 };

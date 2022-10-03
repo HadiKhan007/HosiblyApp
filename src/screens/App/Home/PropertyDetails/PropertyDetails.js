@@ -20,6 +20,9 @@ import {
   property_image,
 } from '../../../../shared/utilities/constant';
 import styles from './styles';
+import {propertyFilterAction} from '../../../../redux/actions/app-actions/app-actions';
+import {useDispatch} from 'react-redux';
+import {Value} from 'react-native-reanimated';
 
 const PropertyDetails = ({navigation, route}) => {
   const isFocus = useIsFocused();
@@ -28,7 +31,8 @@ const PropertyDetails = ({navigation, route}) => {
   const [matchFilter, setMatchFilter] = useState('Match');
   const [filterType, setFilterType] = useState('Top Match');
   const [showMatchMenu, setShowMatchMenu] = useState(false);
-
+  const [loading, setloading] = useState(false);
+  const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
     return () => navigation.getParent()?.setOptions({tabBarStyle: undefined});
@@ -44,6 +48,32 @@ const PropertyDetails = ({navigation, route}) => {
       setData(landMatches);
     }
   }, []);
+
+  const getFilteredProperty = type => {
+    try {
+      const data = new FormData();
+      data.append('property_id', 0);
+
+      if (type == 'Dream Address') {
+        data.append('dream_address', true);
+      } else if (type == 'Newest First') {
+        data.append('newest_first', true);
+      } else if (type == 'Top Matches') {
+        data.append('top_match', true);
+      } else if (type == 'Match') {
+        data.append('user_preference', true);
+      }
+      console.log('DATA==> ', data);
+      const cbSuccess = res => {
+        setData(res);
+        setShowMenu(false);
+        setShowMatchMenu(false);
+      };
+      const cbFailure = err => {};
+    } catch (error) {
+      setShowMenu(false);
+    }
+  };
 
   const RenderDetails = () => {
     return (
@@ -87,12 +117,19 @@ const PropertyDetails = ({navigation, route}) => {
   };
 
   const hideItemClick = type => {
+    console.log('TYPE ', type);
+    getFilteredProperty(type);
     setFilterType(type);
     setShowMenu(false);
+    setShowMatchMenu(false);
   };
 
   const hideMatchClick = type => {
+    console.log('TYPE.. ', type);
+    getFilteredProperty(type);
+    setShowMenu(false);
     setMatchFilter(type);
+
     setShowMatchMenu(false);
   };
 

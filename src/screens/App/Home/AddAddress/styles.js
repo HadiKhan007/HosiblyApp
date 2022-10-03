@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     fontSize: size.large,
     color: colors.b1,
     fontFamily: family.Gilroy_Bold,
-    marginVertical: 10,
   },
 });
 

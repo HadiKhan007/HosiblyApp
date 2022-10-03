@@ -16,11 +16,16 @@ const SignUpPurpose = ({navigation, route}) => {
   const [selected, setSelected] = useState('want_sell');
   const [show, setShow] = useState(false);
   const [showSlide, setShowSlide] = useState(0);
-
+  const [socialLoginData, setsocialLoginData] = useState(
+    route?.params?.socialLoginData,
+  );
+  const [login_type, setlogin_type] = useState(route?.params?.login_type);
   const handleNavigation = (userType, licensed, contacted) => {
     if (selected == 'want_support_closer') {
       navigation.navigate('SignUp', {
         regPurpose: selected,
+        login_type: login_type,
+        socialLoginData: socialLoginData,
       });
     } else {
       navigation.navigate('SignUp', {
@@ -30,11 +35,12 @@ const SignUpPurpose = ({navigation, route}) => {
           licensed,
           contacted,
         },
+        login_type: login_type,
+        socialLoginData: socialLoginData,
       });
     }
     setShowSlide(0);
   };
-
   return (
     <View style={styles.rootContainer}>
       <StatusBar backgroundColor={'transparent'} translucent={true} />
