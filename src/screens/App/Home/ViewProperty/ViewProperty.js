@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Alert,
+  Image,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
@@ -33,7 +34,11 @@ import styles from './styles';
 
 // redux stuff
 import {useDispatch} from 'react-redux';
-import {getPropertyInfo} from '../../../../redux/actions';
+import {
+  getPropertyInfo,
+  addToBookmarksRequest,
+  createConversationRequest,
+} from '../../../../redux/actions';
 
 const ViewProperty = ({navigation, route}) => {
   const [item, setItem] = useState([]);
@@ -86,9 +91,69 @@ const ViewProperty = ({navigation, route}) => {
     setLengthMore(e.nativeEvent.lines.length >= 6);
   }, []);
 
-  const contactUser = () => {
+  const contactUser = async () => {
     setShowModal(false);
-    console.log('Contact User', item?.user_id);
+    const check = await checkConnected();
+    if (check) {
+      try {
+        const data = new FormData();
+        data.append('conversation[recipient_id]', item?.user_id);
+        setLoading(true);
+        const onSuccess = res => {
+          setLoading(false);
+          console.log('Res is ==> ', res);
+          if (res?.message === `You can't create your own conversation`) {
+            alert('You cannot create your own conversation.');
+          } else {
+            navigation?.navigate('PersonChat', {
+              id: res?.conversation?.id,
+              avatar: res?.conversation?.avatar,
+              name: res?.conversation?.full_name,
+              recipientID: res?.conversation?.recipient_id,
+              sender_id: res?.conversation?.sender_id,
+              isBlock: res?.conversation?.is_blocked,
+            });
+          }
+        };
+        const onFailure = res => {
+          setLoading(false);
+        };
+        dispatch(createConversationRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  const addToBookmark = async id => {
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const onSuccess = res => {
+          alert('Property is bookmarked.');
+          getProperty();
+        };
+        const onFailure = err => {
+          alert(err);
+          console.log('err is => ', err);
+          setLoading(false);
+        };
+        const data = new FormData();
+        data.append('id', id);
+        data.append('bookmark[bookmark_type]', 'property_bookmark');
+        dispatch(addToBookmarksRequest(data, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
   };
 
   return (
@@ -96,7 +161,20 @@ const ViewProperty = ({navigation, route}) => {
       <AppLoader loading={loading} />
       <MyStatusBar />
       <View style={spacing.my2}>
-        <BackHeader subtitle={'Preview'} />
+        <BackHeader
+          subtitle={'Preview'}
+          rightIcon={
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => addToBookmark(item?.id)}>
+              <Image
+                resizeMode="contain"
+                source={appIcons.bookmarksIcon}
+                style={styles.iconStyle(item?.is_bookmark)}
+              />
+            </TouchableOpacity>
+          }
+        />
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>

@@ -94,15 +94,15 @@ const SchoolDetails = ({navigation, route}) => {
       <MyStatusBar />
       <View style={spacing.my2}>
         <BackHeader
-          left={10}
+          left={5}
           subtitle={'School Details'}
-          rightIcon={
-            <Image
-              resizeMode="contain"
-              source={appIcons.bookmarksIcon}
-              style={styles.iconStyle}
-            />
-          }
+          // rightIcon={
+          //   <Image
+          //     resizeMode="contain"
+          //     source={appIcons.bookmarksIcon}
+          //     style={styles.iconStyle}
+          //   />
+          // }
         />
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>

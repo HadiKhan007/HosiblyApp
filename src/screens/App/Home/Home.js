@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Alert,
+  StatusBar,
   ScrollView,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
@@ -114,6 +115,7 @@ const Home = ({navigation}) => {
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
+        activeOpacity={0.7}
         onPress={() => {
           selectedItem(item);
         }}
@@ -264,6 +266,7 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <StatusBar barStyle="dark-content" />
       <AppHeader
         onPressIcon={() => {
           navigation.navigate('Profile');

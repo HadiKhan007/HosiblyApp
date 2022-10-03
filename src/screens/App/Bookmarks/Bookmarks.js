@@ -4,6 +4,7 @@ import {
   View,
   Image,
   Alert,
+  StatusBar,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -215,6 +216,7 @@ const Bookmarks = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <StatusBar barStyle="dark-content" />
       <AppLoader loading={loading} />
       <Spacer androidVal={WP('5')} iOSVal={WP('0')} />
       <Text style={styles.headerTxtStyle}>Bookmarks</Text>
