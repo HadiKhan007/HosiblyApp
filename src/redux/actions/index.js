@@ -28,6 +28,8 @@ export {
   staticPages,
   getQueries,
   addQuery,
+  getNotifyStatus,
+  changeNotifyStatus,
 } from './settings-actions/settings-actions';
 
 export {

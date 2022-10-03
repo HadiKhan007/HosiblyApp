@@ -1,25 +1,10 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Text, View, Alert, Image, SafeAreaView} from 'react-native';
 import {
-  Alert,
-  Text,
-  View,
-  Image,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  AppButton,
   AppLoader,
   BackHeader,
-  ContactModal,
   MyStatusBar,
-  PreviewField,
-  PreviewImageBox,
   PreviewImageCover,
-  PreviewInfoCard,
-  PriceInput,
-  SmallHeading,
 } from '../../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -27,36 +12,55 @@ import {
   checkConnected,
   colors,
   networkText,
-  size,
   spacing,
-  WP,
 } from '../../../../shared/exporter';
 import styles from './styles';
 import {Divider} from 'react-native-elements/dist/divider/Divider';
-import {addProperty} from '../../../../shared/service/PropertyService';
 
 // redux stuff
-import {useDispatch, useSelector} from 'react-redux';
-import {set_address_request} from '../../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {getSchoolInfo} from '../../../../redux/actions';
 
-const SchoolDetails = ({navigation}) => {
-  const [loading, setloading] = useState(false);
-  const [previewImg, setPreviewImg] = useState('');
+const SchoolDetails = ({navigation, route}) => {
+  const [item, setItem] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [textShown, setTextShown] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [lengthMore, setLengthMore] = useState(false);
 
   // redux stuff
   const dispatch = useDispatch();
-  const {add_property_detail} = useSelector(state => state?.appReducer);
 
-  // Set Preview Image
   useEffect(() => {
-    setPreviewImg(
-      add_property_detail?.images[0].path ||
-        'https://wallpaperaccess.com/full/1700222.jpg',
-    );
+    getSchool();
   }, []);
+
+  const getSchool = async () => {
+    let id = route?.params?.item?.id;
+    const check = await checkConnected();
+    if (check) {
+      try {
+        setLoading(true);
+        const params = new FormData();
+        params.append('school_id', id);
+        const onSuccess = res => {
+          console.log('School res ==> ', res);
+          setItem(res);
+          setLoading(false);
+        };
+        const onFailure = res => {
+          setLoading(false);
+          Alert.alert('Error', res);
+        };
+        dispatch(getSchoolInfo(params, onSuccess, onFailure));
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      Alert.alert('Error', networkText);
+    }
+  };
 
   const toggleNumberOfLines = () => {
     setTextShown(!textShown);
@@ -75,7 +79,9 @@ const SchoolDetails = ({navigation}) => {
       <View style={styles.itemContainer}>
         <Text style={styles.titleTxtStyle}>{title}</Text>
         <Text
-          style={type === 'link' ? styles.linkValueTxtStyle : styles.valueTxtStyle}>
+          style={
+            type === 'link' ? styles.linkValueTxtStyle : styles.valueTxtStyle
+          }>
           {value}
         </Text>
       </View>
@@ -84,6 +90,7 @@ const SchoolDetails = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <AppLoader loading={loading} />
       <MyStatusBar />
       <View style={spacing.my2}>
         <BackHeader
@@ -100,7 +107,10 @@ const SchoolDetails = ({navigation}) => {
       </View>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
-          <PreviewImageCover h1={'Summit Height PS'} uri={previewImg} />
+          <PreviewImageCover
+            h1={item?.name}
+            uri={'https://wallpaperaccess.com/full/1700222.jpg'}
+          />
           <View style={spacing.my2}>
             <Text style={styles.header}>Information</Text>
             <Text
@@ -132,10 +142,7 @@ const SchoolDetails = ({navigation}) => {
                 value="Summit@tdsb.on.ca"
                 type="link"
               />
-              <ItemRow
-                title="Address:"
-                value="139 Armour Blvd, North York, ON, M3H 1M1"
-              />
+              <ItemRow title="Address:" value={item?.address} />
               <ItemRow title="Principal:" value="Bill Mah" />
               <ItemRow title="Vice-Principal (s):" value="Vacant" />
               <ItemRow
@@ -154,16 +161,6 @@ const SchoolDetails = ({navigation}) => {
           </View>
         </View>
       </KeyboardAwareScrollView>
-      {showModal && (
-        <ContactModal
-          show={showModal}
-          name={'Aspen Franci'}
-          source={''}
-          onPress={() => contactUser()}
-          onPressHide={() => setShowModal(false)}
-        />
-      )}
-      <AppLoader loading={loading} />
     </SafeAreaView>
   );
 };

@@ -38,7 +38,7 @@ const Notifications = ({navigation}) => {
           If you disable this notification, you will not get notify when someone
           messages you.
         </Text>
-        <Text style={styles.notifyTxtStyle}>Vibrations</Text>
+        {/* <Text style={styles.notifyTxtStyle}>Vibrations</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.txtStyle}>Enable App Vibrations</Text>
           <Switch
@@ -48,7 +48,7 @@ const Notifications = ({navigation}) => {
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );

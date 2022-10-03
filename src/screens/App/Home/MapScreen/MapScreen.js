@@ -40,7 +40,7 @@ import {
 import {allIcons, networkText} from '../../../../shared/utilities/constant';
 
 // redux stuff
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {searchOnMap, schoolsOnMap} from '../../../../redux/actions';
 
 const ASPECT_RATIO = scrWidth / scrHeight;
@@ -53,24 +53,6 @@ let id = 0;
 const mapOptions = {
   scrollEnabled: true,
 };
-
-const markersArr = [
-  {
-    latitude: 37.79825,
-    longitude: -122.4824,
-    img: appImages.person1,
-  },
-  {
-    latitude: 37.75825,
-    longitude: -122.4624,
-    img: appImages.person1,
-  },
-  {
-    latitude: 37.72825,
-    longitude: -122.4124,
-    img: appImages.person1,
-  },
-];
 
 const MapScreen = ({navigation}) => {
   const mapRef = useRef(null);
@@ -86,15 +68,14 @@ const MapScreen = ({navigation}) => {
   const [editing, setEditing] = useState(null);
   const [showSlide, setShowSlide] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [searchType, setSearchType] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [mapIcons, setMapIcons] = useState(allIcons);
+  const [markersList, setMarkersList] = useState([]);
   const [creatingHole, setCreatingHole] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
   // redux stuff
-
   const dispatch = useDispatch();
-  const {userInfo} = useSelector(state => state?.auth);
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -148,10 +129,7 @@ const MapScreen = ({navigation}) => {
     if (editing?.coordinates?.length > 0) {
       let coords = [...polygons, editing];
       setPolygons([...polygons, editing]);
-      setEditing(null);
-      setCreatingHole(false);
-      // Hit API...
-      findProperties(coords, 'polygon');
+      findProperties(coords[0]?.coordinates, 'polygon');
     } else {
       alert('Please first draw polygon.');
     }
@@ -219,7 +197,6 @@ const MapScreen = ({navigation}) => {
   };
 
   const searchByCode = code => {
-    // hit API...
     setZipCode(code);
     findProperties(code, 'zipCode');
   };
@@ -232,10 +209,7 @@ const MapScreen = ({navigation}) => {
 
   const searchAddress = (data, details) => {
     setShowAddressModal(false);
-    // hit API...
-    console.log('Address is ==> ', data?.description);
-    console.log('Location is ==> ', details?.geometry?.location);
-    findSchools(data?.description, 'address');
+    findSchools(details?.geometry?.location);
   };
 
   const onZoomInPress = () => {
@@ -253,49 +227,112 @@ const MapScreen = ({navigation}) => {
   };
 
   const findProperties = async (data, type) => {
-    console.log('Data ==> ', data);
-    console.log('Type ==> ', type);
-    return;
+    setSearchType('property');
+    const params = new FormData();
+    if (type === 'zipCode') {
+      params.append('zip_code', data);
+      params.append('using_zip_code', 'true');
+    } else {
+      params.append('polygon', JSON.stringify(data));
+      params.append('using_polygon', 'true');
+    }
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
-        const params = new FormData();
-        params.append('polygons', data);
         const onSuccess = res => {
           setLoading(false);
+          setEditing(null);
+          setCreatingHole(false);
+          if (res?.message) {
+            setMarkersList([]);
+            alert('Any property does not match.');
+          } else {
+            console.log('Res ==> ', res?.properties);
+            // set markers
+            let markers = res?.properties?.filter(item => {
+              if (item?.latitude) {
+                return {
+                  id: item?.id,
+                  img: item?.image,
+                  latitude: item?.latitude,
+                  longitude: item?.longitude,
+                };
+              }
+            });
+            // setMarkersList(markers);
+            if (type === 'zipCode') {
+              // set current marker
+              let mapRegion = {
+                latitude: parseFloat(res?.properties[0].latitude),
+                longitude: parseFloat(res?.properties[0].longitude),
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+              };
+              setRegion(mapRegion);
+              mapRef.current.animateToRegion(mapRegion, 1000);
+            }
+          }
         };
         const onFailure = res => {
           setLoading(false);
+          setMarkersList([]);
           Alert.alert('Error', res);
-          console.log('On Buyer prop Failure', res);
         };
         dispatch(searchOnMap(params, onSuccess, onFailure));
       } catch (error) {
         console.log(error);
+        setMarkersList([]);
         setLoading(false);
       }
     } else {
       setLoading(false);
+      setMarkersList([]);
       Alert.alert('Error', networkText);
     }
   };
 
-  const findSchools = async (data, type) => {
-    console.log('Data ==> ', data);
-    console.log('Type ==> ', type);
-    return;
+  const findSchools = async location => {
+    setSearchType('school');
     const check = await checkConnected();
     if (check) {
       try {
         setLoading(true);
         const params = new FormData();
-        params.append('polygons', data);
+        params.append(
+          'location_cordinates',
+          JSON.stringify([{longitude: location?.lng, latitude: location?.lat}]),
+        );
         const onSuccess = res => {
           setLoading(false);
+          if (res?.message) {
+            setMarkersList([]);
+            alert('No school match with this address');
+          } else {
+            // set markers
+            let markers = res?.map(item => {
+              return {
+                id: item?.id,
+                img: item?.image,
+                latitude: item?.latitude,
+                longitude: item?.longtitude,
+              };
+            });
+            setMarkersList(markers);
+            // set current marker
+            let mapRegion = {
+              latitude: parseFloat(res[0]?.latitude),
+              longitude: parseFloat(res[0]?.longtitude),
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            };
+            setRegion(mapRegion);
+            mapRef.current.animateToRegion(mapRegion, 1000);
+          }
         };
         const onFailure = res => {
           setLoading(false);
+          setMarkersList([]);
           Alert.alert('Error', res);
           console.log('On Buyer prop Failure', res);
         };
@@ -306,6 +343,7 @@ const MapScreen = ({navigation}) => {
       }
     } else {
       setLoading(false);
+      setMarkersList([]);
       Alert.alert('Error', networkText);
     }
   };
@@ -319,7 +357,7 @@ const MapScreen = ({navigation}) => {
       </View>
       <View style={styles.flContainer}>
         <View style={styles.itemCon}>
-          <FlatList data={mapIcons} renderItem={renderIcons} />
+          <FlatList data={allIcons} renderItem={renderIcons} />
         </View>
       </View>
       <MapView
@@ -332,34 +370,39 @@ const MapScreen = ({navigation}) => {
         customMapStyle={customStyle}
         onPress={e => onPress(e)}
         {...mapOptions}>
-        {markersArr?.map(item => {
-          let coordinates = {
-            latitude: item?.latitude,
-            longitude: item?.longitude,
-          };
-          return (
-            <Marker
-              anchor={{x: 1, y: 1}}
-              pointerEvents="auto"
-              coordinate={coordinates}
-              image={appIcons.buyHome}>
-              <Callout
-                tooltip
-                onPress={() => navigation.navigate('ViewProperty')}>
-                <View style={styles.calloutStyle}>
-                  <Svg width={141} height={141}>
-                    <ImageSvg
-                      width={'100%'}
-                      height={138}
-                      preserveAspectRatio="xMidYMid slice"
-                      href={appImages.hanna}
-                    />
-                  </Svg>
-                </View>
-              </Callout>
-            </Marker>
-          );
-        })}
+        {markersList &&
+          markersList?.map(item => {
+            let coordinates = {
+              latitude: item?.latitude,
+              longitude: item?.longitude,
+            };
+            return (
+              <Marker
+                anchor={{x: 1, y: 1}}
+                pointerEvents="auto"
+                coordinate={coordinates}
+                image={appIcons.buyHome}>
+                <Callout
+                  tooltip
+                  onPress={() => {
+                    searchType === 'property'
+                      ? navigation.navigate('ViewProperty', {item: item})
+                      : navigation.navigate('SchoolDetails', {item: item});
+                  }}>
+                  <View style={styles.calloutStyle}>
+                    <Svg width={141} height={141}>
+                      <ImageSvg
+                        width={'100%'}
+                        height={138}
+                        preserveAspectRatio="xMidYMid slice"
+                        href={item?.img ? {uri: item?.img} : appImages.ph}
+                      />
+                    </Svg>
+                  </View>
+                </Callout>
+              </Marker>
+            );
+          })}
         {polygons.map(polygon => (
           <Polygon
             key={polygon.id}

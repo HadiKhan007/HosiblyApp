@@ -160,3 +160,31 @@ export const addQuery = async params => {
   });
   return res.data;
 };
+
+//get notify status
+export const getStatus = async () => {
+  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_STATUS}`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};
+
+//change notify status
+export const changeStatus = async params => {
+  const res = await axios.post(
+    `${BASE_URL}${ENDPOINTS.CHANGE_STATUS}`,
+    params,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return res.data;
+};

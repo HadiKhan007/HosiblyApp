@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   imagStyle: {
     height: 25,
     width: 25,
+    bottom: 1,
     resizeMode: 'contain',
     marginRight: 10,
   },

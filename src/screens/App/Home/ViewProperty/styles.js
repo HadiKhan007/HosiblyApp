@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: colors.g22,
     marginTop: WP('4'),
+    marginBottom: WP('2'),
     fontSize: size.xsmall,
     fontFamily: family.Gilroy_Medium,
   },

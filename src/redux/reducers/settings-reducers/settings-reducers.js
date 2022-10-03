@@ -11,6 +11,7 @@ const initialState = {
   default_card: null,
   staticData: null,
   queries: null,
+  notifyRes: null,
 };
 
 const settingsReducers = (state = initialState, actions) => {
@@ -255,6 +256,40 @@ const settingsReducers = (state = initialState, actions) => {
         isFailure: false,
       };
     case TYPES.ADD_QUERY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+      };
+
+    //************GET NOTIFY STATUS*************
+    case TYPES.GET_NOTIFY_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        notifyRes: payload,
+      };
+    case TYPES.GET_NOTIFY_STATUS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+        notifyRes: null,
+      };
+
+    //************CHANGE NOTIFY STATUS*************
+    case TYPES.CHANGE_NOTIFY_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isSuccess: true,
+        isFailure: false,
+      };
+    case TYPES.CHANGE_NOTIFY_STATUS_FAILURE:
       return {
         ...state,
         loading: false,

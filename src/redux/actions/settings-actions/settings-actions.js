@@ -131,3 +131,22 @@ export const addQuery = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+//get notify status
+export const getNotifyStatus = (cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.GET_NOTIFY_STATUS_REQUEST,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
+//change notify status
+export const changeNotifyStatus = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.CHANGE_NOTIFY_STATUS_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
