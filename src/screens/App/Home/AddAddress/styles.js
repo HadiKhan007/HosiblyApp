@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
     color: colors.b1,
     fontFamily: family.Gilroy_Bold,
   },
+  noFoundText: {
+    fontSize: size.large,
+    color: colors.p1,
+    fontFamily: family.Gilroy_SemiBold,
+    textAlign: 'center',
+    paddingTop: HP('15'),
+  },
 });
 
 export default styles;

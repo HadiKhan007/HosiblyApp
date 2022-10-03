@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {
   WP,
@@ -7,6 +7,7 @@ import {
   family,
   scrWidth,
   platformOrientedCode,
+  HP,
 } from '../../../../shared/exporter';
 
 let hasNotch = DeviceInfo.hasNotch();
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: -5,
     borderRadius: 8,
-    height: WP('27'),
+    height: platformOrientedCode(WP('22'), WP('20')),
     width: scrWidth / 2.9,
   },
   menuItemStyle: {
@@ -195,6 +196,13 @@ const styles = StyleSheet.create({
     width: WP('11.5'),
     height: WP('11.5'),
     borderRadius: WP('11.5'),
+  },
+  noFoundText: {
+    fontSize: size.large,
+    color: colors.p1,
+    fontFamily: family.Gilroy_SemiBold,
+    textAlign: 'center',
+    paddingTop: HP('15'),
   },
 });
 

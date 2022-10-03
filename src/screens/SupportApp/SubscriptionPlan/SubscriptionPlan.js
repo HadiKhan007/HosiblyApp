@@ -48,6 +48,7 @@ export default SubscriptionPlan = ({navigation}) => {
     setloading(true);
     try {
       const cbSuccess = res => {
+        console.log('SUBSCRIPTION ', res?.message);
         setSubscription(res?.message);
         setloading(false);
       };
@@ -69,8 +70,12 @@ export default SubscriptionPlan = ({navigation}) => {
     setloading(true);
     try {
       const cbSuccess = res => {
-        console.log('SUBSCRIPTION PLAN ', res);
-        setsubscribedPackage(res?.subscription);
+        console.log('res subscribed ', res);
+        if (res?.package == 'No Subscription Available') {
+        } else {
+          setsubscribedPackage(res?.subscription);
+        }
+
         setloading(false);
       };
       const cbFailure = err => {
@@ -90,6 +95,7 @@ export default SubscriptionPlan = ({navigation}) => {
     data.append('subscription_id', id);
     try {
       const cbSuccess = res => {
+        console.log('RES==> ', res);
         Alert.alert('Your subscription has been cancelled.');
         setloading(false);
         getSubscribedPackage();
@@ -160,10 +166,7 @@ export default SubscriptionPlan = ({navigation}) => {
                 </View>
                 <View style={styles.cardInnerView}>
                   <Text style={styles.cardTextTitle}>Status</Text>
-                  <Text style={styles.cardText}>
-                    {/* {subscribedPackage[0]?.status} */}
-                    Active
-                  </Text>
+                  <Text style={styles.cardText}>Active</Text>
                 </View>
 
                 <View style={styles.cardInnerView}>
@@ -183,17 +186,15 @@ export default SubscriptionPlan = ({navigation}) => {
                   </Text>
                 </View>
               </View>
-              <View style={{marginTop: HP('2')}}>
+              <View style={{marginTop: HP('2'), zIndex: 5}}>
                 <AppButton
                   bgColor={colors.r5}
                   borderColor={colors.r5}
                   title={'Cancel Subscription'}
                   width={WP('60')}
                   shadowColor={colors.white}
-                  onPress={
-                    // () => cancelSubscription(23)
-                    () =>
-                      cancelSubscription(subscribedPackage[0]?.subscription_id)
+                  onPress={() =>
+                    cancelSubscription(subscribedPackage[0]?.subscription_id)
                   }
                 />
               </View>
@@ -212,7 +213,7 @@ export default SubscriptionPlan = ({navigation}) => {
         </View>
       ) : null}
       <View style={styles.footercon}>
-        <Image source={appImages.rocket} />
+        <Image style={{zIndex: 0}} source={appImages.rocket} />
         <AppLoader loading={loading} />
       </View>
     </SafeAreaView>

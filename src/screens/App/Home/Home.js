@@ -159,7 +159,6 @@ const Home = ({navigation}) => {
   useEffect(() => {
     sendFCMTokenToServer();
   }, []);
-
   const sendFCMTokenToServer = async () => {
     const fcmToken = await AsyncStorage.getItem('fcmToken');
     try {
