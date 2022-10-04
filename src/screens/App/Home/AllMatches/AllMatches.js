@@ -4,6 +4,7 @@ import {
   View,
   Image,
   FlatList,
+  StatusBar,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -84,6 +85,7 @@ const AllMatches = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <StatusBar barStyle="dark-content" />
       <BackHeader
         title="My Matches"
         txtCenter
@@ -153,13 +155,19 @@ const AllMatches = ({navigation}) => {
           </MenuItem>
         </Menu>
       </View>
-      <FlatList
-        data={getMatchList || {}}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.flStyle}
-      />
+      {getMatchList && getMatchList?.length > 0 ? (
+        <FlatList
+          data={getMatchList}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flStyle}
+        />
+      ) : (
+        <View style={styles.noRecordsView}>
+          <Text style={styles.noRecords}>{'No matches found'}</Text>
+        </View>
+      )}
       <View style={styles.bottomView}>
         <AppButton
           width="34.5%"

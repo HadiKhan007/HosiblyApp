@@ -13,6 +13,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.app_color,
   },
+  iconStyle: isBookMark => {
+    return {
+      width: WP('6.2'),
+      height: WP('6.2'),
+      tintColor: isBookMark ? colors?.p1 : colors.b1,
+    };
+  },
   contentContainer: {
     flex: 1,
     paddingHorizontal: WP('3.85'),

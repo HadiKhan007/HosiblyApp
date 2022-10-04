@@ -115,7 +115,7 @@ const MapScreen = ({navigation}) => {
           longitudeDelta: LONGITUDE_DELTA,
         };
         setRegion(mapRegion);
-        mapRef.current.animateToRegion(mapRegion, 1000);
+        mapRef?.current?.animateToRegion(mapRegion, 1000);
       },
       error => {
         console.log('Error Code ==> ', error.code);
@@ -260,7 +260,7 @@ const MapScreen = ({navigation}) => {
                 };
               }
             });
-            // setMarkersList(markers);
+            setMarkersList(markers);
             if (type === 'zipCode') {
               // set current marker
               let mapRegion = {
@@ -270,7 +270,7 @@ const MapScreen = ({navigation}) => {
                 longitudeDelta: LONGITUDE_DELTA,
               };
               setRegion(mapRegion);
-              mapRef.current.animateToRegion(mapRegion, 1000);
+              mapRef?.current?.animateToRegion(mapRegion, 1000);
             }
           }
         };

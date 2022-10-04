@@ -70,6 +70,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: WP('5'),
     justifyContent: 'space-between',
+    bottom: platformOrientedCode(WP('16'), 8),
   },
   iconContainer: {
     zIndex: 999,
@@ -89,8 +90,8 @@ export const styles = StyleSheet.create({
     tintColor: colors.b1,
   },
   buttonsContainer: {
-    width: '100%',
     bottom: 8,
+    width: '100%',
     flexDirection: 'row',
     position: 'absolute',
   },
