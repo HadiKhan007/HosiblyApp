@@ -116,12 +116,11 @@ export const LocalNotification = (data, dispatch, navigation) => {
 };
 
 const onClickNotification = (notify, dispatch, navigation) => {
-  const notifyObj = JSON.parse(notify?.data?.recipient);
+  const notifyObj = JSON.parse(notify?.data?.sender);
   navigation.navigate('PersonChat', {
     id: notify?.data?.conversation_id,
     avatar: notify?.data?.avatar,
     name: notifyObj.full_name,
     recipientID: notifyObj?.id,
-    
   });
 };
