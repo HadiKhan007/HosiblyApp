@@ -54,7 +54,6 @@ export const SearchByAddress = ({show, searchAddress, onPressHide}) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 0.9,
     borderRadius: 8,
     backgroundColor: 'transparent',
   },
