@@ -116,12 +116,15 @@ export const cancelSubscription = async params => {
   return res.data;
 };
 export const getSubscription = async params => {
-  const res = await axios.get(`${BASE_URL}${ENDPOINTS.GET_SUBSCRIPTION}`, {
-    headers: {
-      Accept: 'application/json',
-      auth_token: await GetToken(),
-      'Content-Type': 'multipart/form-data',
+  const res = await axios.get(
+    `${BASE_URL}${ENDPOINTS.GET_SUBSCRIPTION_HISTORY}`,
+    {
+      headers: {
+        Accept: 'application/json',
+        auth_token: await GetToken(),
+        'Content-Type': 'multipart/form-data',
+      },
     },
-  });
+  );
   return res.data;
 };

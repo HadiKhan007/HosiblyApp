@@ -3,8 +3,8 @@ import {Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {appImages} from '../../../shared/theme/assets';
 import styles from './styles';
-import {colors} from '../../../shared/exporter';
-import {BackHeader, MyStatusBar} from '../../../components';
+import {colors, HP, spacing, WP} from '../../../shared/exporter';
+import {AppButton, BackHeader, MyStatusBar} from '../../../components';
 
 const SubscriptionSuccess = ({navigation, route}) => {
   const [item, setItem] = useState(route?.params?.item);
@@ -35,8 +35,17 @@ const SubscriptionSuccess = ({navigation, route}) => {
               Your account is now subscribed to account booster. This will
               attract more potential clients.
             </Text>
+            <View style={{zIndex: 5}}>
+              <AppButton
+                title={'Done'}
+                width={WP('60')}
+                shadowColor={colors.btn_shadow}
+                onPress={() => navigation.navigate('SubscriptionPlan')}
+              />
+            </View>
           </View>
         </View>
+
         <View style={styles.footercon}>
           <Image source={appImages.rocketluancher} />
         </View>

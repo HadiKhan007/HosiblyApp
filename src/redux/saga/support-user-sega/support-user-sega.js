@@ -136,6 +136,7 @@ function* getSubcriptionRequest(params) {
         type: types.GET_SUBSCRIPTION_SUCCESS,
         payload: res,
       });
+
       params?.cbSuccess(res);
     }
   } catch (error) {
