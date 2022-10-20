@@ -133,7 +133,7 @@ const PersonChat = ({navigation, route}) => {
       const data = new FormData();
       data.append('conversation_id', id);
       const cbSuccess = res => {
-        // console.log('\n\nGET MESSAGE API ==>\n ', res?.messages);
+        // console.log('\n\nGET MESSAGE API ==>\n ', res);
         setLoadingAllMessages(false);
         setAllMessages(res?.messages);
       };

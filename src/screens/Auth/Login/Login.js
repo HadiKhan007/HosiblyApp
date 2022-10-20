@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Platform,
+} from 'react-native';
 import {
   AppButton,
   AppInput,
@@ -184,17 +191,19 @@ const Login = ({navigation}) => {
                     shadowColor={colors.white}
                     onPress={() => handleGoogleLogin()}
                   />
-                  <AppButton
-                    // onPress={() => navigation?.navigate('AddSupportInfo')}
-                    onPress={() => handleAppleLogin()}
-                    title={'Sign up with Apple..'}
-                    icon={appIcons.apple}
-                    style={styles.appleStyle}
-                    textStyle={styles.btnTextStyle}
-                    bgColor={colors.white}
-                    borderColor={colors.g3}
-                    shadowColor={colors.white}
-                  />
+                  {Platform.OS == 'ios' && (
+                    <AppButton
+                      // onPress={() => navigation?.navigate('AddSupportInfo')}
+                      onPress={() => handleAppleLogin()}
+                      title={'Sign up with Apple..'}
+                      icon={appIcons.apple}
+                      style={styles.appleStyle}
+                      textStyle={styles.btnTextStyle}
+                      bgColor={colors.white}
+                      borderColor={colors.g3}
+                      shadowColor={colors.white}
+                    />
+                  )}
                   <DividerBox />
                 </View>
                 <View>
@@ -238,7 +247,7 @@ const Login = ({navigation}) => {
                       By creating account, you agree to our{' '}
                       <Text
                         onPress={() => {
-                          navigation.navigate('TermsConditions');
+                          navigation.navigate('Terms');
                         }}
                         style={[
                           styles.footerText,

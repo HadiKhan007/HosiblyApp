@@ -26,9 +26,9 @@ const SellTab = ({navigation, properties}) => {
             <Text numberOfLines={1} style={styles.nameTxtStyle}>
               {item?.title}
             </Text>
-            <View style={styles.txtContainer}>
+            {/* <View style={styles.txtContainer}>
               <Text style={styles.newTxtStyle}>{properties.length}</Text>
-            </View>
+            </View> */}
           </View>
           <View style={styles.simpleRow}>
             <Text style={styles.smallTxtStyle}>

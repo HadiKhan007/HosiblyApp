@@ -188,3 +188,15 @@ export const changeStatus = async params => {
   );
   return res.data;
 };
+
+//Get Transaction History
+export const get_transaction_history = async () => {
+  const res = await axios.get(`${BASE_URL}get_sub_history`, {
+    headers: {
+      Accept: 'application/json',
+      auth_token: await GetToken(),
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+};

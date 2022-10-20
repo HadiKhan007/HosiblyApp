@@ -51,10 +51,9 @@ const Conversations = ({navigation}) => {
   const {subscribe, unsubscribe, send, connected} = useChannel(actionCable);
   const isFocus = useIsFocused(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (isFocus) {
-      getAllConversationList();
-    }
+    getAllConversationList();
   }, [isFocus]);
 
   useEffect(() => {
@@ -119,7 +118,7 @@ const Conversations = ({navigation}) => {
         style={styles.itemContainer}
         onPress={() => {
           navigation.navigate('PersonChat', {
-            id: item?.item?.id,
+            id: item?.item?.conversation_id || item?.item?.id,
             avatar: item?.item?.avatar,
             name: item?.item?.full_name,
             recipientID: item?.item?.recipient_id,
