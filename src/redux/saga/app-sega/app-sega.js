@@ -272,6 +272,7 @@ function* getMyMatchListSaga(params) {
     });
     params?.cbSuccess(res);
   } catch (error) {
+    console.log(error);
     yield put({
       type: types.GET_MATCH_LIST_FAILURE,
       payload: null,

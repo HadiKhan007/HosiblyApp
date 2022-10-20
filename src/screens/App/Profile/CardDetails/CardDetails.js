@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -6,6 +7,7 @@ import {
   SafeAreaView,
   ImageBackground,
   Alert,
+  FlatList,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -29,6 +31,7 @@ import {
   networkText,
   WP,
 } from '../../../../shared/exporter';
+import {get_transaction_history} from '../../../../shared/service/SettingsService';
 import styles from './styles';
 
 const CardDetails = ({navigation, route}) => {
@@ -36,6 +39,7 @@ const CardDetails = ({navigation, route}) => {
   const [method, setMethod] = useState('cards');
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
   const dispatch = useDispatch(null);
 
   const RenderRow = ({title, value}) => {
@@ -68,6 +72,22 @@ const CardDetails = ({navigation, route}) => {
         'payment[id]': card_detail?.card?.id,
       };
       dispatch(delete_card_request(requestBody, onSuccess, onFailure));
+    } else {
+      Alert.alert('Error', networkText);
+    }
+  };
+
+  useEffect(() => {
+    getTransactionHistory();
+  }, []);
+
+  const getTransactionHistory = async () => {
+    const check = await checkConnected();
+    if (check) {
+      const res = await get_transaction_history();
+      if (res) {
+        setTransactionHistory(res?.packages);
+      }
     } else {
       Alert.alert('Error', networkText);
     }
@@ -126,18 +146,30 @@ const CardDetails = ({navigation, route}) => {
           value="31901 Thornridge Cir. Shiloh, Hawaii 81063"
         /> */}
         <Text style={styles.transTxtStyle}>Last Transactions</Text>
-        <View style={styles.itemContainer}>
-          <View style={styles.row}>
-            <View style={styles.logoContainer}>
-              <Image source={appLogos.appLogo} style={styles.imgStyle} />
-            </View>
-            <View>
-              <Text style={styles.txtStyle}>Housibly</Text>
-              <Text style={styles.timeTxtStyle}>2 hr ago</Text>
-            </View>
-          </View>
-          <Text style={styles.valTxtStyle}>$100.00</Text>
-        </View>
+        <FlatList
+          data={transactionHistory}
+          renderItem={({item}) => {
+            return (
+              <View style={styles.itemContainer}>
+                <View style={styles.row}>
+                  <View style={styles.logoContainer}>
+                    <Image source={appLogos.appLogo} style={styles.imgStyle} />
+                  </View>
+                  <View>
+                    <Text style={styles.txtStyle}>
+                      {item?.subscription_title || ''}
+                    </Text>
+                    <Text style={styles.timeTxtStyle}>
+                      {moment(item?.created_at).fromNow()}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={styles.valTxtStyle}>${item?.price}</Text>
+              </View>
+            );
+          }}
+          keyExtractor={item => item?.toString()}
+        />
         <Spacer androidVal={WP('5.5')} iOSVal={WP('5.5')} />
       </KeyboardAwareScrollView>
       <View style={styles.bottomView}>
