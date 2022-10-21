@@ -31,38 +31,31 @@ import styles from './styles';
 const PropertyInfo = ({navigation, route}) => {
   const isFocus = useIsFocused();
   const [previewImg, setPreviewImg] = useState('');
-
+  const {item} = route?.params;
   const RenderDetails = () => {
     return (
       <TouchableOpacity activeOpacity={0.7} style={styles.detailsContainer}>
         <Image
           source={{
-            uri:
-              previewImg ||
-              route?.params?.item?.image[0]?.url ||
-              property_image,
+            uri: previewImg || item?.image[0]?.url || property_image,
           }}
           style={styles.imgStyle}
         />
         <View>
           <Text numberOfLines={2} style={styles.nameTxtStyle}>
-            {route?.params?.item?.title || ''}
+            {item?.title || ''}
           </Text>
           <View style={styles.simpleRow}>
-            <Text style={styles.smallTxtStyle}>
-              {`$${route?.params?.item?.price}`} |{' '}
-            </Text>
+            <Text style={styles.smallTxtStyle}>{`$${item?.price}`} | </Text>
             <Image
               resizeMode="contain"
               source={appIcons.bedIcon}
               style={styles.bedIconStyle}
             />
-            <Text style={styles.smallTxtStyle}>
-              {route?.params?.item?.bed_rooms || 0}
-            </Text>
+            <Text style={styles.smallTxtStyle}>{item?.bed_rooms || 0}</Text>
             <Image source={appIcons.bathIcon} style={styles.bathIconStyle} />
             <Text resizeMode="contain" style={styles.smallTxtStyle}>
-              {route?.params?.item?.bath_rooms || 0}
+              {item?.bath_rooms || 0}
             </Text>
           </View>
         </View>
@@ -97,7 +90,7 @@ const PropertyInfo = ({navigation, route}) => {
       <RenderDetails />
       <View style={styles.h80}>
         <FlatList
-          data={route?.params?.item?.image}
+          data={item?.image}
           renderItem={({item}) => {
             return (
               <TouchableOpacity
@@ -119,9 +112,96 @@ const PropertyInfo = ({navigation, route}) => {
 
       <View style={styles.container}>
         <Text style={styles.headTxtStyle}>Preference</Text>
-        {homeDetails?.map((item, index) => {
-          return <RenderRow item={item} index={index} />;
-        })}
+        <RenderRow
+          item={{
+            id: 1,
+            title: 'Budget',
+            property: item?.price || 0,
+            isHave: item?.price && true,
+          }}
+        />
+        {item?.property_type == 'House' && 'Condo' && (
+          <>
+            <RenderRow
+              item={{
+                id: 2,
+                title: 'Bedrooms',
+                property: item?.bed_rooms || 0,
+                isHave: item?.bed_rooms && true,
+              }}
+            />
+
+            <RenderRow
+              item={{
+                id: 3,
+                title: 'Bathrooms',
+                property: item?.bath_rooms || 0,
+                isHave: item?.bath_rooms && true,
+              }}
+            />
+            <RenderRow
+              item={{
+                id: 8,
+                title: 'Living Space',
+                property: item?.living_spaces || 'N/A',
+                isHave: item?.living_spaces && true,
+              }}
+            />
+
+            <RenderRow
+              item={{
+                id: 9,
+                title: 'Parking Spots Req.',
+                property: item?.total_parking_spaces || '',
+                isHave: item?.total_parking_spaces && true,
+              }}
+            />
+
+            <RenderRow
+              item={{
+                id: 10,
+                title: 'Garage Spots Req.',
+                property: item?.garage_spaces || '',
+                isHave: item?.garage_spaces && true,
+              }}
+            />
+          </>
+        )}
+
+        <RenderRow
+          item={{
+            id: 4,
+            title: 'Property Types',
+            property: item?.property_type || '',
+            isHave: item?.property_type && true,
+          }}
+        />
+
+        <RenderRow
+          item={{
+            id: 5,
+            title: 'Property Styles',
+            property: item?.house_style || item?.condo_style || 'N/A',
+            isHave: (item?.house_style && true) || (item?.condo_style && true),
+          }}
+        />
+
+        <RenderRow
+          item={{
+            id: 6,
+            title: 'Min Lot Forntage',
+            property: item?.lot_frontage_feet || 0,
+            isHave: item?.lot_frontage_feet && true,
+          }}
+        />
+        <RenderRow
+          item={{
+            id: 7,
+            title: 'Lot Size (ft)',
+            property: item?.lot_size_feet || 0,
+            isHave: item?.lot_size_feet && true,
+          }}
+        />
       </View>
     </SafeAreaView>
   );

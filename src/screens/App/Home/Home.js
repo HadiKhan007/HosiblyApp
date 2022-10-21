@@ -48,7 +48,7 @@ import {
 import {getMyMatchListAction} from '../../../redux/actions/app-actions/app-actions';
 import {setProfileVisitApi} from '../../../shared/service/AppService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SlowBuffer} from 'buffer';
+import Geocoder from 'react-native-geocoding';
 
 const Home = ({navigation}) => {
   const carouselRef = useRef(null);
@@ -96,6 +96,7 @@ const Home = ({navigation}) => {
   };
   useEffect(() => {
     getMyMatchList();
+    getCurrentLocation();
   }, []);
   const getMyMatchList = () => {
     setLoading(true);
@@ -262,6 +263,20 @@ const Home = ({navigation}) => {
   };
 
   //Send Fcm Token
+
+  const getCurrentLocation = async () => {
+    Geolocation.getCurrentPosition(position => {
+      const {latitude, longitude} = position?.coords;
+      Geocoder.from(latitude, longitude)
+        .then(json => {
+          var addressComponent = json.results[0]?.formatted_address;
+          console.log(addressComponent);
+        })
+        .catch(error => {
+          console.log('error', error);
+        });
+    });
+  };
 
   return (
     <SafeAreaView style={styles.rootContainer}>
