@@ -65,6 +65,7 @@ const ENDPOINTS = {
   CREATE_SUBSCRIPTION: 'create_subscription',
   CANCEL_SUBSCRIPTION: 'cancel_subscription',
   GET_SUBSCRIPTION: 'get_subscription',
+  GET_SUBSCRIPTION_HISTORY: 'get_sub_history',
   // get match list
   GET_MATCH_LIST: 'properties/matching_property',
   // update info social login

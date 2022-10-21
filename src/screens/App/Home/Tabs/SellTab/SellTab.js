@@ -10,6 +10,7 @@ import {BlankField} from '../../../../../components';
 
 const SellTab = ({navigation, properties}) => {
   const renderItem = ({item, index}) => {
+    console.log('IMAGES:  ', item);
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -46,20 +47,20 @@ const SellTab = ({navigation, properties}) => {
             </Text>
           </View>
           <View style={[styles.simpleRow, {paddingTop: 2}]}>
-            {[1, 2, 3, 4, 5, 6, 7]?.map((item, index) => {
+            {item?.image?.map((i, index) => {
               return (
                 index < 4 && (
                   <Image
-                    source={appImages.personPh}
+                    source={{uri: i?.url}}
                     style={styles.personImgStyle(index)}
                   />
                 )
               );
             })}
-            {[1, 2, 3, 4, 5, 6].length > 4 && (
+            {item?.image?.length > 4 && (
               <View style={styles.countContainer}>
                 <Text style={styles.countTxtStyle}>
-                  +{[1, 2, 3, 4, 5, 6]?.length - 4}
+                  +{item?.image?.length - 4}
                 </Text>
               </View>
             )}

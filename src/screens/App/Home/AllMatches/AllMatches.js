@@ -26,6 +26,7 @@ const AllMatches = ({navigation}) => {
   const [showMenu, setShowMenu] = useState(false);
   const [filterType, setFilterType] = useState('All');
   const {getMatchList} = useSelector(state => state?.appReducer);
+  console.log('MAtches: => ', getMatchList);
 
   const renderItem = ({item, index}) => {
     return (

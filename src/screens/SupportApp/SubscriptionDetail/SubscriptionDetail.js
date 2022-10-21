@@ -23,6 +23,7 @@ const SubscriptionDetail = ({navigation, route}) => {
       setIsLoading(true);
       const data = new FormData();
       data.append('price_id', item?.stripe_price_id);
+      data.append('package_id', item?.id);
       const cbSuccess = res => {
         setIsLoading(false);
         console.log('Subscribe Package Res ==> ', res);
