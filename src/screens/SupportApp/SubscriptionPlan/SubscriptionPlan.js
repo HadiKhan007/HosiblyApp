@@ -171,6 +171,12 @@ export default SubscriptionPlan = ({navigation}) => {
                     </Text>
                   </View>
                   <View style={styles.cardInnerView}>
+                    <Text style={styles.cardTextTitle}>Type</Text>
+                    <Text style={styles.cardText}>
+                      {subscribedPackage?.type || ''}
+                    </Text>
+                  </View>
+                  <View style={styles.cardInnerView}>
                     <Text style={styles.cardTextTitle}>Status</Text>
                     <Text style={styles.cardText}>Active</Text>
                   </View>

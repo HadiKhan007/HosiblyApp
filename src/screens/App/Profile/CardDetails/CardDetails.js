@@ -86,7 +86,8 @@ const CardDetails = ({navigation, route}) => {
     if (check) {
       const res = await get_transaction_history();
       if (res) {
-        setTransactionHistory(res?.packages);
+        console.log('RES:  =>', res);
+        setTransactionHistory(res?.subscription);
       }
     } else {
       Alert.alert('Error', networkText);
@@ -146,30 +147,34 @@ const CardDetails = ({navigation, route}) => {
           value="31901 Thornridge Cir. Shiloh, Hawaii 81063"
         /> */}
         <Text style={styles.transTxtStyle}>Last Transactions</Text>
-        <FlatList
+        {/* <FlatList
           data={transactionHistory}
           renderItem={({item}) => {
-            return (
-              <View style={styles.itemContainer}>
-                <View style={styles.row}>
-                  <View style={styles.logoContainer}>
-                    <Image source={appLogos.appLogo} style={styles.imgStyle} />
-                  </View>
-                  <View>
-                    <Text style={styles.txtStyle}>
-                      {item?.subscription_title || ''}
-                    </Text>
-                    <Text style={styles.timeTxtStyle}>
-                      {moment(item?.created_at).fromNow()}
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.valTxtStyle}>${item?.price}</Text>
+            return ( */}
+        {transactionHistory != 'false' || null || undefined ? (
+          <View style={styles.itemContainer}>
+            <View style={styles.row}>
+              <View style={styles.logoContainer}>
+                <Image source={appLogos.appLogo} style={styles.imgStyle} />
               </View>
-            );
+              <View>
+                <Text style={styles.txtStyle}>
+                  {transactionHistory?.subscription_title || ''}
+                </Text>
+                <Text style={styles.timeTxtStyle}>
+                  {moment(transactionHistory?.created_at, 'DD-MM-YYYY').format(
+                    'DD/MM/YYYY',
+                  ) || ''}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.valTxtStyle}>${transactionHistory?.price}</Text>
+          </View>
+        ) : null}
+        {/* );
           }}
           keyExtractor={item => item?.toString()}
-        />
+        /> */}
         <Spacer androidVal={WP('5.5')} iOSVal={WP('5.5')} />
       </KeyboardAwareScrollView>
       <View style={styles.bottomView}>

@@ -104,9 +104,11 @@ const Home = ({navigation}) => {
       const cbSuccess = res => {
         setmatchList(res);
         setLoading(false);
+        console.log('SUCCESS:  ', res);
       };
       const cbFailure = err => {
         setLoading(false);
+        console.log('ERROR:  ', err);
       };
       dispatch(getMyMatchListAction(cbSuccess, cbFailure));
     } catch (error) {

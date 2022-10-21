@@ -278,7 +278,7 @@ function* getMyMatchListSaga(params) {
       payload: null,
     });
     let msg = responseValidator(error?.response?.status, error?.response?.data);
-    params?.cbFailure(msg);
+    params?.cbFailure(error);
   }
 }
 // *********** update info social login
