@@ -178,17 +178,19 @@ export default SubscriptionPlan = ({navigation}) => {
                   <View style={styles.cardInnerView}>
                     <Text style={styles.cardTextTitle}>Start Date:</Text>
                     <Text style={styles.cardText}>
-                      {moment(subscribedPackage?.current_period_start).format(
-                        'DD/MM/YYYY',
-                      )}
+                      {moment(
+                        subscribedPackage?.current_period_start,
+                        'DD-MM-YYYY',
+                      ).format('DD/MM/YYYY') || ''}
                     </Text>
                   </View>
                   <View style={styles.cardInnerView}>
                     <Text style={styles.cardTextTitle}>End Date:</Text>
                     <Text style={styles.cardText}>
-                      {moment(subscribedPackage?.current_period_end).format(
-                        'DD/MM/YYYY',
-                      ) || ''}
+                      {moment(
+                        subscribedPackage?.current_period_end,
+                        'DD-MM-YYYY',
+                      ).format('DD/MM/YYYY') || ''}
                     </Text>
                   </View>
                 </View>
@@ -211,7 +213,9 @@ export default SubscriptionPlan = ({navigation}) => {
                   <SubscriptionButton
                     item={item}
                     index={index}
-                    onPress={() => handleOnPress(item)}
+                    onPress={() => {
+                      handleOnPress(item);
+                    }}
                   />
                 );
               })
@@ -220,7 +224,7 @@ export default SubscriptionPlan = ({navigation}) => {
         ) : (
           <View style={{justifyContent: 'center', flex: 0.6}}>
             <Text style={{alignSelf: 'center', color: 'black'}}>
-              There is an Subscription problem
+              There is an subscription problem
             </Text>
           </View>
         )}
