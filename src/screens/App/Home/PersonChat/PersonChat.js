@@ -435,7 +435,7 @@ const PersonChat = ({navigation, route}) => {
         )}
         {showModal && (
           <ChatModal
-            type={modalType}
+            type={modalType}  
             show={showModal}
             onPressHide={() => setShowModal(false)}
             onPress={() => handleModal()}
